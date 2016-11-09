@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2016 at 09:20 AM
+-- Generation Time: Nov 09, 2016 at 08:50 AM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS `applicants` (
   `subdivision` varchar(255) DEFAULT NULL,
   `cityMunicipality` varchar(255) DEFAULT NULL,
   `province` varchar(255) DEFAULT NULL,
-  `civilStatus` varchar(255) NOT NULL,
   `contactNum` varchar(255) DEFAULT NULL,
   `telNum` varchar(255) DEFAULT NULL,
   `-created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -79,20 +78,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `suffix` varchar(10) DEFAULT NULL,
   `gender` varchar(10) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `civilStatus` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `birthDate` varchar(255) NOT NULL,
   `-created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `-update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userId`, `role`, `firstName`, `lastName`, `middleName`, `suffix`, `gender`, `email`, `password`, `birthDate`, `-created_at`, `-update_at`) VALUES
-(1, 3, 'Renjo', 'Dolosa', 'Enriquez', '', 'Male', 'dolosa.renjo@yahoo.com', '$2y$11$J95wiSWnNvZgf8Ki6VHbK.05aBxeYTBjcaKO.BlvPOUjMYixUqXJe', '02/17/1995', '2016-10-26 15:20:53', '2016-11-01 02:19:00'),
-(2, 1, 'admin', 'admin', 'admin', '', 'Male', 'admin@yahoo.com', '$2y$11$J95wiSWnNvZgf8Ki6VHbK.05aBxeYTBjcaKO.BlvPOUjMYixUqXJe', '02/17/1995', '2016-10-26 15:20:53', '2016-11-01 02:19:00'),
-(4, 3, 'testing', 'testing', 'testing', '', 'Male', 'testing@testing.com', '$2y$11$H8PNwF02OmT/GPMfv4ndteNZBujgHqTjvtHlHJ./NJWxuGVNbR/4y', '02/17/1995', '2016-11-01 03:46:35', '2016-11-01 03:46:35');
+INSERT INTO `users` (`userId`, `role`, `firstName`, `lastName`, `middleName`, `suffix`, `gender`, `email`, `civilStatus`, `password`, `birthDate`, `-created_at`, `-update_at`) VALUES
+(1, 3, 'Renjo', 'Dolosa', 'Enriquez', '', 'Male', 'dolosa.renjo@yahoo.com', 'Single', '$2y$11$y8MnwVN/mw3eQFKWsbAb4OXIRQ.QGE0fF/mLkCWkn/TJ9OETXT5Au', '02/17/1995', '2016-11-09 06:07:23', '2016-11-09 06:07:23');
 
 --
 -- Indexes for dumped tables
@@ -136,23 +134,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `applicants`
---
-ALTER TABLE `applicants`
-  ADD CONSTRAINT `applicants_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION;
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role`) REFERENCES `roles` (`roleId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
+  MODIFY `userId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

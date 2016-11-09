@@ -7,7 +7,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-message">
-                      <!-- TESTING  MASTER-->
                         <h2>Welcome to</h2>
                         <h1>Business Permit Online System</h1>
                         <h3>Apply Business Permit Online. Anytime. Anywhere</h3>

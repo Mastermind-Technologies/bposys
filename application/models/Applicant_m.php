@@ -32,6 +32,17 @@ class Applicant_m extends CI_Model {
      return true;
   }
 
+  public function get_full_details($fields = null)
+  {
+    $this->db->select('*')->from($this->_table_name)->join($this->_table_users,'applicants.userId = users.userId')->where('applicants.userId',$fields['userId']);
+    $result = $this->db->get();
+    // echo "<pre>";
+    // print_r($result->result());
+    // echo "</pre>";
+    // exit();
+    return $result->result();
+  }
+
   public function update_applicant($user_fields = null, $applicant_fields = null)
   {
   // $this->db->select('*')->from($this->_table_name)->join($this->_table_users,'applicants.userId = users.userId');
@@ -50,11 +61,20 @@ class Applicant_m extends CI_Model {
   //   {
 
   //   }
-    $this->db->update($this->_table_users, $user_fields);
-    $this->db->where('userId', $this->session->userdata['userdata']['userId']);
 
+    $this->db->where('users.userId', $this->session->userdata['userdata']['userId']);
+    $this->db->update($this->_table_users, $user_fields);
+    // $this->db->update($this->_table_users, $user_fields);
+    // $this->db->where('userId', $this->session->userdata['userdata']['userId']);
+
+    $this->db->where('applicants.userId', $this->session->userdata['userdata']['userId']);
     $this->db->update($this->_table_name, $applicant_fields);
-    $this->db->where('userId', $this->session->userdata['userdata']['userId']);
+    // $this->db->update($this->_table_name, $applicant_fields);
+    // $this->db->where('userId', $this->session->userdata['userdata']['userId']);
+    // $this->db->set($user_fields);
+    // $this->db->where('applicants.userId', $this->session->userdata['userdata']['userId']);
+     // $this->db->where('users.userId',$this->session->userdata['userdata']['userId']);
+    // $this->db->update('applicants JOIN users ON applicants.userId= users.userId');
     return true;
     // $this->db->where('userId', $fields['userId']);
     

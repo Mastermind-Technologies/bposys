@@ -1,7 +1,7 @@
 <body>
   <?php if($this->session->flashdata('message')): ?>
     <script>
-    alert("<?= $this->session->flashdata('message'); ?>");
+      alert("<?= $this->session->flashdata('message'); ?>");
     </script>
   <?php endif; ?>
 
@@ -49,26 +49,32 @@
             </p>
           </div>
           <div class="col-sm-6 col-sm-offset-2">
-          <label for="">Birth date</label>
-          <div class="col-sm-12" style="padding:0;">
-            <div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="month" placeholder="MM" value=""></div>
-            <div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="day" placeholder="DD" value=""></div>
-            <div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="year" placeholder="YYYY" value=""></div>
+            <label for="">Birth date</label>
+            <div class="col-sm-12" style="padding:0;">
+              <div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="month" placeholder="MM" value=""></div>
+              <div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="day" placeholder="DD" value=""></div>
+              <div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="year" placeholder="YYYY" value=""></div>
+            </div>
           </div>
-            <!-- <label for="civil-staus">Civil Status</label>
-            <div class="form-group">
-              <select class="form-control" name="civil-status" id="civil-status">
-                <option selected disabled select>Civil Status</option>
-                <option value="Single">Single</option>
-                <option value="Married">Married</option>
-                <option value="Separated">Separated</option>
-                <option value="Widowed">Widowed</option>
-                <option value="Divorced">Divorced</option>
-                <option value="Annulled">Annulled</option>
-                <option value="Widower">Widower</option>
-                <option value="Single Parent">Single Parent</option>
-              </select>
-            </div> -->
+        </div>
+        <div class="row">
+        <div class="col-sm-6">
+            <div class="col-sm-12" style="padding:0">
+              <label for="civil-staus">Civil Status</label>
+              <div class="form-group">
+                <select class="form-control" name="civil-status" id="civil-status">
+                  <option selected disabled select>Civil Status</option>
+                  <option value="Single">Single</option>
+                  <option value="Married">Married</option>
+                  <option value="Separated">Separated</option>
+                  <option value="Widowed">Widowed</option>
+                  <option value="Divorced">Divorced</option>
+                  <option value="Annulled">Annulled</option>
+                  <option value="Widower">Widower</option>
+                  <option value="Single Parent">Single Parent</option>
+                </select>
+              </div>
+            </div>     
           </div>
         </div>
 
@@ -99,5 +105,5 @@
   </div>
 </div>
 
-  
+
 </body>

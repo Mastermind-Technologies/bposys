@@ -93,6 +93,7 @@ class Auth extends CI_Controller {
     $this->form_validation->set_rules('gender', 'Gender', 'required');
     $this->form_validation->set_rules('email', 'Email', 'required'); //'required|valid_email|is_unique[users.email]'
     $this->form_validation->set_rules('password', 'Password', 'required');
+    $this->form_validation->set_rules('civil-status', 'Civil Status', 'required');
     $this->form_validation->set_rules('confirm-password', 'Confirm Password', 'required|matches[password]');
 
     if($this->form_validation->run() == FALSE)
@@ -119,6 +120,7 @@ class Auth extends CI_Controller {
         'suffix' => ($this->input->post('suffix')!=null ? $this->input->post('suffix') : ''),
         'gender' => $this->input->post('gender'),
         'email' => $this->input->post('email'),
+        'civilStatus' => $this->input->post('civil-status'),
         'role' => '3',
         'password' => password_hash($raw_pw, PASSWORD_BCRYPT, $options),
         'birthDate' => $month . "/" . $day . "/" . $year

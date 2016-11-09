@@ -47,25 +47,10 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$this->_init();
-		//$objectId = $this->session->userdata['userdata']['userId'];
-
+		
 		$data['user'] = $this->User_m->get_user_details($this->session->userdata['userdata']);
-		$is_setup = $this->Applicant_m->check_applicant($this->session->userdata['userdata']);
-	
-		// echo "<pre>";
-		// print_r($data);
-		// echo "<pre>";
-		var_dump($this->session->userdata['userdata']['userId']);
-		exit();
 
-		if($is_setup)
-		{
-			$this->load->view('dashboard/applicant/index', $data);			
-		}
-		else
-		{
-			$this->load->view('dashboard/applicant/edit_info', $data);
-		}
+		$this->load->view('dashboard/applicant/index', $data);			
 	}
 
 	public function info_error()
@@ -81,9 +66,23 @@ class Dashboard extends CI_Controller {
 	public function edit_info()
 	{
 		$this->isLogin();
-		$this->_init();
+		//$this->_init();
 
-		$data['user'] = $this->User_m->get_user_details($this->session->userdata['userdata']);
+		$is_setup = $this->Applicant_m->check_applicant($this->session->userdata['userdata']);
+		if($is_setup)
+		{
+			$data['user'] = $this->Applicant_m->get_full_details($this->session->userdata['userdata']);
+		}
+		else
+		{
+			$data['user'] = $this->User_m->get_user_details($this->session->userdata['userdata']);
+		}
+
+		// echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
+		// exit();
+		
 		$this->load->view('dashboard/applicant/edit_info', $data);
 	}
 
@@ -98,89 +97,89 @@ class Dashboard extends CI_Controller {
 		$this->form_validation->set_rules('civil-status', 'Civil Status', 'required');
 
 
-	    if($this->form_validation->run() == FALSE)
-	    {
-	    	 $this->session->set_flashdata('error', validation_errors());
-	    	 redirect('dashboard/info_error');
-	    }
-	    else
-	    {
-	    	$month = $this->input->post('month');
-	    	$day = $this->input->post('day');
-	    	$year = $this->input->post('year');
+		if($this->form_validation->run() == FALSE)
+		{
+			$this->session->set_flashdata('error', validation_errors());
+			redirect('dashboard/info_error');
+		}
+		else
+		{
+			$month = $this->input->post('month');
+			$day = $this->input->post('day');
+			$year = $this->input->post('year');
 
-	    	$user_fields = array(
-	    		'firstName' => $this->input->post('fname'),
-	    		'lastName' => $this->input->post('lname'),
-	    		'middleName' => $this->input->post('mname'),
-	    		'suffix' => $this->input->post('suffix'),
-	    		'gender' => $this->input->post('gender'),
-	    		'birthDate' => $month . "/" . $day . "/" . $year,
-	    		);
+			$user_fields = array(
+				'firstName' => $this->input->post('fname'),
+				'lastName' => $this->input->post('lname'),
+				'middleName' => $this->input->post('mname'),
+				'suffix' => $this->input->post('suffix'),
+				'gender' => $this->input->post('gender'),
+				'birthDate' => $month . "/" . $day . "/" . $year,
+				);
 
-	    	$applicant_fields = array(
-	    		'userId' => $this->session->userdata['userdata']['userId'],
-	    		'civilStatus' => $this->input->post('civil-status'),
-	    		'houseBldgNo' => $this->input->post('house-bldg-no'),
-	    		'bldgName' => $this->input->post('bldg-name'),
-	    		'unitNum' => $this->input->post('unit-no'),
-	    		'street' => $this->input->post('street'),
-	    		'barangay' => $this->input->post('barangay'),
-	    		'subdivision' => $this->input->post('subdivision'),
-	    		'cityMunicipality' => $this->input->post('city-municipality'),
-	    		'province' => $this->input->post('province'),
-	    		'contactNum' => $this->input->post('contact-number'),
-	    		'telNum' => $this->input->post('telephone-number')
-	    		);
+			$applicant_fields = array(
+				'userId' => $this->session->userdata['userdata']['userId'],
+				'civilStatus' => $this->input->post('civil-status'),
+				'houseBldgNo' => $this->input->post('house-bldg-no'),
+				'bldgName' => $this->input->post('bldg-name'),
+				'unitNum' => $this->input->post('unit-no'),
+				'street' => $this->input->post('street'),
+				'barangay' => $this->input->post('barangay'),
+				'subdivision' => $this->input->post('subdivision'),
+				'cityMunicipality' => $this->input->post('city-municipality'),
+				'province' => $this->input->post('province'),
+				'contactNum' => $this->input->post('contact-number'),
+				'telNum' => $this->input->post('telephone-number')
+				);
 
 	    	// echo "<pre>";
 	    	// print_r($applicant_fields);
 	    	// echo "</pre>";
 	    	// exit();
 
-	    	$is_setup = $this->Applicant_m->check_applicant($this->session->userdata['userdata']);
+			$is_setup = $this->Applicant_m->check_applicant($this->session->userdata['userdata']);
 
 	    	//if applicant is already registered
-	    	if($is_setup)
-	    	{
-	    		$is_success = $this->Applicant_m->update_applicant($user_fields, $applicant_fields);
+			if($is_setup)
+			{
+				$is_success = $this->Applicant_m->update_applicant($user_fields, $applicant_fields);
 
-	    		if($is_success)
-	    		{
-	    			$this->session->set_flashdata('message', 'Update Successful!');
-	    		}
-	    		else
-	    		{
-	    			$this->session->set_flashdata('message', 'Update failed');
-	    		}
-	    	}
+				if($is_success)
+				{
+					$this->session->set_flashdata('message', 'Update Successful!');
+				}
+				else
+				{
+					$this->session->set_flashdata('message', 'Update failed');
+				}
+			}
 	    	//for first time set-up
 	    	//the system registers the applicant first before updating
-	    	else
-	    	{
-	    		$is_success = $this->Applicant_m->register_applicant($applicant_fields);
-	    		if($is_success)
-	    		{
-	    			$is_success = $this->Applicant_m->update_applicant($user_fields, $applicant_fields);
-	    			if($is_success)
-	    			{
-	    				$this->session->set_flashdata('message', 'Applicant Registered!');
-	    			}
-	    			else
-	    			{
-	    				$this->session->set_flashdata('message', 'Applicant Registration Failed');
-	    			}
-	    		}
-	    		else
-	    		{
-	    			$this->session->set_flashdata('message', 'Applicant Registration Failed');
-	    		}
-	    		
-	    	}
+			else
+			{
+				$is_success = $this->Applicant_m->register_applicant($applicant_fields);
+				if($is_success)
+				{
+					$is_success = $this->Applicant_m->update_applicant($user_fields, $applicant_fields);
+					if($is_success)
+					{
+						$this->session->set_flashdata('message', 'Applicant Registered!');
+					}
+					else
+					{
+						$this->session->set_flashdata('message', 'Applicant Registration Failed');
+					}
+				}
+				else
+				{
+					$this->session->set_flashdata('message', 'Applicant Registration Failed');
+				}
+
+			}
 
 	    	//$this->Applicant_m->update_applicant($this->session->userdata['userdata']);
 
-	    	redirect('dashboard');
-	    }
+			redirect('dashboard');
+		}
 	}
 }

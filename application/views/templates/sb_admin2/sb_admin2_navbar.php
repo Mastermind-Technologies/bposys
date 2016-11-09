@@ -7,7 +7,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">BPOSys</a>
+                <a class="navbar-brand" href="<?php echo base_url(); ?>dashboard">BPOSys</a>
             </div>
             <!-- /.navbar-header -->
 
