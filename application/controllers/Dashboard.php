@@ -7,26 +7,9 @@ class Dashboard extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('User_m');
+		$this->load->model('Owner_m');
 		$this->load->model('Applicant_m');
 		$this->load->library('form_validation');
-		// Load css and js
-		//$this->load->view('template/main');
-    	// parent::__construct();
-		//
-    	// // Load form helper library
-    	// $this->load->helper('form');
-		//
-    	// // Load form validation library
-    	// $this->load->library('form_validation');
-		//
-    	// // Load session library
-    	// //this is now autoloaded
-    	// //$this->load->library('session');
-		//
-    	// // Load database
-   	 	// $this->load->model('ticket');
-   		 // $this->load->model('exhibitor_m');
-   		 // $this->load->model('log_m');
 	}
 
 	public function _init()
@@ -47,10 +30,21 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$this->_init();
-		
-		$data['user'] = $this->User_m->get_user_details($this->session->userdata['userdata']);
+		$user_id = $this->session->userdata['userdata']['userId'];
 
-		$this->load->view('dashboard/applicant/index', $data);			
+		$is_registered = $this->Owner_m->check_owner($user_id);
+
+		if($is_registered)
+		{
+			$data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
+			$this->load->view('dashboard/applicant/index', $data);	
+		}
+		else
+		{
+			$data['user'] = $this->User_m->get_user_details($this->session->userdata['userdata']);
+			$this->load->view('dashboard/applicant/edit_info', $data);
+		}
+
 	}
 
 	public function info_error()
@@ -66,12 +60,13 @@ class Dashboard extends CI_Controller {
 	public function edit_info()
 	{
 		$this->isLogin();
+		$user_id = $this->session->userdata['userdata']['userId'];
 		//$this->_init();
 
-		$is_setup = $this->Applicant_m->check_applicant($this->session->userdata['userdata']);
-		if($is_setup)
+		$is_registered = $this->Owner_m->check_owner($user_id);
+		if($is_registered)
 		{
-			$data['user'] = $this->Applicant_m->get_full_details($this->session->userdata['userdata']);
+			$data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
 		}
 		else
 		{
@@ -90,6 +85,7 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$this->_init();
+		$user_id = $this->session->userdata['userdata']['userId'];
 
 		$this->form_validation->set_rules('fname', 'First Name', 'required');
 		$this->form_validation->set_rules('lname', 'Last Name', 'required');
@@ -115,11 +111,11 @@ class Dashboard extends CI_Controller {
 				'suffix' => $this->input->post('suffix'),
 				'gender' => $this->input->post('gender'),
 				'birthDate' => $month . "/" . $day . "/" . $year,
+				'civilStatus' => $this->input->post('civil-status'),
 				);
 
 			$applicant_fields = array(
-				'userId' => $this->session->userdata['userdata']['userId'],
-				'civilStatus' => $this->input->post('civil-status'),
+				'userId' => $this->session->userdata['userdata']['userId'],			
 				'houseBldgNo' => $this->input->post('house-bldg-no'),
 				'bldgName' => $this->input->post('bldg-name'),
 				'unitNum' => $this->input->post('unit-no'),
@@ -129,7 +125,9 @@ class Dashboard extends CI_Controller {
 				'cityMunicipality' => $this->input->post('city-municipality'),
 				'province' => $this->input->post('province'),
 				'contactNum' => $this->input->post('contact-number'),
-				'telNum' => $this->input->post('telephone-number')
+				'telNum' => $this->input->post('telephone-number'),
+				'businessArea' => $this->input->post('business-area'),
+				'numOfEmployeesLGU' => $this->input->post('num-of-employees')
 				);
 
 	    	// echo "<pre>";
@@ -137,12 +135,12 @@ class Dashboard extends CI_Controller {
 	    	// echo "</pre>";
 	    	// exit();
 
-			$is_setup = $this->Applicant_m->check_applicant($this->session->userdata['userdata']);
+			$is_setup = $this->Owner_m->check_owner($user_id);
 
 	    	//if applicant is already registered
 			if($is_setup)
 			{
-				$is_success = $this->Applicant_m->update_applicant($user_fields, $applicant_fields);
+				$is_success = $this->Owner_m->update_owner_details($user_fields, $applicant_fields);
 
 				if($is_success)
 				{
@@ -157,10 +155,10 @@ class Dashboard extends CI_Controller {
 	    	//the system registers the applicant first before updating
 			else
 			{
-				$is_success = $this->Applicant_m->register_applicant($applicant_fields);
+				$is_success = $this->Owner_m->register_owner($applicant_fields);
 				if($is_success)
 				{
-					$is_success = $this->Applicant_m->update_applicant($user_fields, $applicant_fields);
+					$is_success = $this->Owner_m->update_owner_details($user_fields, $applicant_fields);
 					if($is_success)
 					{
 						$this->session->set_flashdata('message', 'Applicant Registered!');
@@ -176,9 +174,6 @@ class Dashboard extends CI_Controller {
 				}
 
 			}
-
-	    	//$this->Applicant_m->update_applicant($this->session->userdata['userdata']);
-
 			redirect('dashboard');
 		}
 	}

@@ -34,7 +34,7 @@
 											<input type="text" class="form-control" name="lname" value="<?= $user[0]->lastName ?>">
 										</div>
 										<div class="col-sm-3">
-											<label for="lname">Suffix</label>
+											<label for="suffix">Suffix</label>
 											<input type="text" class="form-control" name="suffix" value="<?= $user[0]->suffix ?>">
 										</div>
 									</div>
@@ -79,77 +79,77 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<h3 class="page-header">Address</h3>
-									<?php if(isset($user[0]->applicantId)): ?>
+									<?php if(isset($user[0]->ownerId)): ?>
 										<div class="row">
 											<div class="col-sm-3">
-												<label for="fname">House No./Bldg No.</label>
+												<label for="house-bldg-no">House No./Bldg No.</label>
 												<input type="text" class="form-control" name="house-bldg-no" value="<?= $user[0]->houseBldgNo ?>">
 											</div>
 											<div class="col-sm-3">
-												<label for="mname">Building Name</label>
+												<label for="bldg-name">Building Name</label>
 												<input type="text" class="form-control" name="bldg-name" value="<?= $user[0]->bldgName ?>">
 											</div>
 											<div class="col-sm-3">
-												<label for="lname">Unit Number</label>
+												<label for="unit-no">Unit Number</label>
 												<input type="text" class="form-control" name="unit-no" value="<?= $user[0]->unitNum ?>">
 											</div>
 											<div class="col-sm-3">
-												<label for="lname">Street</label>
+												<label for="street">Street</label>
 												<input type="text" class="form-control" name="street" value="<?= $user[0]->street ?>">
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-sm-3">
-												<label for="fname">Barangay</label>
+												<label for="barangay">Barangay</label>
 												<input type="text" class="form-control" name="barangay" value="<?= $user[0]->barangay ?>">
 											</div>
 											<div class="col-sm-3">
-												<label for="mname">Subdivision</label>
+												<label for="subdivision">Subdivision</label>
 												<input type="text" class="form-control" name="subdivision" value="<?= $user[0]->subdivision ?>">
 											</div>
 											<div class="col-sm-3">
-												<label for="lname">City/Municipality</label>
+												<label for="city-municipality">City/Municipality</label>
 												<input type="text" class="form-control" name="city-municipality" value="<?= $user[0]->cityMunicipality ?>">
 											</div>
 											<div class="col-sm-3">
-												<label for="lname">Province</label>
+												<label for="province">Province</label>
 												<input type="text" class="form-control" name="province" value="<?= $user[0]->province ?>">
 											</div>
 										</div>
 									<?php else: ?>
 										<div class="row">
 											<div class="col-sm-3">
-												<label for="fname">House No./Bldg No.</label>
+												<label for="house-bldg-no">House No./Bldg No.</label>
 												<input type="text" class="form-control" name="house-bldg-no" value="">
 											</div>
 											<div class="col-sm-3">
-												<label for="mname">Building Name</label>
+												<label for="bldg-name">Building Name</label>
 												<input type="text" class="form-control" name="bldg-name" value="">
 											</div>
 											<div class="col-sm-3">
-												<label for="lname">Unit Number</label>
+												<label for="unit-no">Unit Number</label>
 												<input type="text" class="form-control" name="unit-no" value="">
 											</div>
 											<div class="col-sm-3">
-												<label for="lname">Street</label>
+												<label for="street">Street</label>
 												<input type="text" class="form-control" name="street" value="">
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-sm-3">
-												<label for="fname">Barangay</label>
+												<label for="barangay">Barangay</label>
 												<input type="text" class="form-control" name="barangay" value="">
 											</div>
 											<div class="col-sm-3">
-												<label for="mname">Subdivision</label>
+												<label for="subdivision">Subdivision</label>
 												<input type="text" class="form-control" name="subdivision" value="">
 											</div>
 											<div class="col-sm-3">
-												<label for="lname">City/Municipality</label>
+												<label for="city-municipality">City/Municipality</label>
 												<input type="text" class="form-control" name="city-municipality" value="">
 											</div>
 											<div class="col-sm-3">
-												<label for="lname">Province</label>
+												<label for="province">Province</label>
 												<input type="text" class="form-control" name="province" value="">
 											</div>
 										</div>
@@ -159,29 +159,53 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<h3 class="page-header">Contact Details</h3>
-									<?php if(isset($user[0]->applicantId)): ?>
+									<?php if(isset($user[0]->ownerId)): ?>
 										<div class="row">
 											<div class="col-sm-3">
-												<label for="lname">Contact Number</label>
+												<label for="contact-number">Contact Number</label>
 												<input type="text" class="form-control" name="contact-number" value="<?= $user[0]->contactNum ?>">
 											</div>
 											<div class="col-sm-3">
-												<label for="lname">Telephone Number (Landline)</label>
+												<label for="telephone-number">Telephone Number (Landline)</label>
 												<input type="text" class="form-control" name="telephone-number" value="<?= $user[0]->telNum ?>">
 											</div>
 										</div>
 									<?php else: ?>
 										<div class="row">
 											<div class="col-sm-3">
-												<label for="lname">Contact Number</label>
+												<label for="contact-number">Contact Number</label>
 												<input type="text" class="form-control" name="contact-number" value="">
 											</div>
 											<div class="col-sm-3">
-												<label for="lname">Telephone Number (Landline)</label>
+												<label for="telephone-number">Telephone Number (Landline)</label>
 												<input type="text" class="form-control" name="telephone-number" value="">
 											</div>
 										</div>
 									<?php endif; ?>
+									<h3 class="page-header">Others</h3>
+									<?php if(isset($user[0]->ownerId)): ?>
+										<div class="row">
+											<div class="col-sm-3">
+												<label for="business-area">Business Area (in sq. m.)</label>
+												<input type="text" class="form-control" name="business-area" value="<?= $user[0]->businessArea ?>">
+											</div>
+											<div class="col-sm-3">
+												<label for="num-of-employees">Number of Employees Residing</label>
+												<input type="text" class="form-control" name="num-of-employees" value="<?= $user[0]->numOfEmployeesLGU ?>">
+											</div>
+										</div>
+									<?php 	else: ?>
+										<div class="row">
+											<div class="col-sm-3">
+												<label for="business-area">Business Area (in sq. m.)</label>
+												<input type="text" class="form-control" name="business-area" value="">
+											</div>
+											<div class="col-sm-3">
+												<label for="num-of-employees">Number of Employees Residing</label>
+												<input type="text" class="form-control" name="num-of-employees" value="">
+											</div>
+										</div>
+									<?php 	endif; ?>
 									<hr>
 									<div class="row">
 										<div class="col-sm-3 col-sm-offset-3">
@@ -196,12 +220,12 @@
 						</form>
 					</div>
 					<!-- /.panel-body -->
-					</div>
 				</div>
-				<!-- /.col-lg-12 -->
 			</div>
-			<!-- /.row -->
+			<!-- /.col-lg-12 -->
 		</div>
-		<!-- /.container-fluid -->
+		<!-- /.row -->
 	</div>
+	<!-- /.container-fluid -->
+</div>
 <!-- </body> -->
