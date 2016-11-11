@@ -14,18 +14,18 @@
 							<div class="panel-body">
 								<h1>Testing</h1>
 								<a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Task 1</strong>
-                                        <span class="pull-right text-muted">40% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
+									<div>
+										<p>
+											<strong>Task 1</strong>
+											<span class="pull-right text-muted">40% Complete</span>
+										</p>
+										<div class="progress progress-striped active">
+											<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+												<span class="sr-only">40% Complete (success)</span>
+											</div>
+										</div>
+									</div>
+								</a>
 							</div>
 							<!-- /.panel-body -->
 						</div>
