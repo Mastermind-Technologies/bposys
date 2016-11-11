@@ -24,7 +24,11 @@
     <!-- Custom Fonts -->
     <link href="<?php echo base_url(); ?>assets/sb_admin2/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- Custom CSS -->
     <link href="<?php echo base_url(); ?>assets/css/custom.css" rel="stylesheet" type="text/css">
+
+    <!-- Parsley CSS -->
+    <link href="<?php echo base_url(); ?>assets/css/parsley.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -50,5 +54,6 @@
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo base_url(); ?>assets/sb_admin2/dist/js/sb-admin-2.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/dashboard.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/parsley.min.js"></script>
 
 </head>
