@@ -44,6 +44,12 @@ class Dashboard extends CI_Controller {
 			$data['user'] = $this->User_m->get_user_details($this->session->userdata['userdata']);
 			$this->load->view('dashboard/applicant/edit_info', $data);
 		}
+	}
 
+	public function new_application()
+	{
+		$user_id = $this->session->userdata['userdata']['userId'];
+
+		$this->load->view('dashboard/applicant/new_application');
 	}
 }

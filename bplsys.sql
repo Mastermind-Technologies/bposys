@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2016 at 01:59 AM
+-- Generation Time: Nov 11, 2016 at 05:00 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `applications` (
+  `applicationId` int(255) NOT NULL,
   `referenceNum` varchar(255) NOT NULL,
   `userId` int(5) NOT NULL,
   `taxYear` int(4) DEFAULT NULL,
@@ -93,7 +94,6 @@ CREATE TABLE IF NOT EXISTS `lessors` (
   `email` varchar(255) DEFAULT NULL,
   `emergencyContactPerson` varchar(255) DEFAULT NULL,
   `emergencyTelNum` int(255) DEFAULT NULL,
-  `emergencyCelNum` int(255) DEFAULT NULL,
   `emergencyEmail` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -116,18 +116,19 @@ CREATE TABLE IF NOT EXISTS `owners` (
   `province` varchar(255) DEFAULT NULL,
   `contactNum` varchar(255) DEFAULT NULL,
   `telNum` varchar(255) DEFAULT NULL,
-  `businessArea` int(255) DEFAULT NULL,
-  `numOfEmployeesLGU` int(255) DEFAULT NULL,
+  `businessArea` varchar(255) DEFAULT NULL,
+  `numOfEmployeesLGU` varchar(255) DEFAULT NULL,
   `-created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `-updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `owners`
 --
 
 INSERT INTO `owners` (`ownerId`, `userId`, `houseBldgNo`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `contactNum`, `telNum`, `businessArea`, `numOfEmployeesLGU`, `-created_at`, `-updated_at`) VALUES
-(1, 1, '21', 'Mercury', '21', 'aslkdj', 'asdlkj', 'asdl', 'kjasd', 'lkja', '123123', '123123', 123123, 123123, '2016-11-10 10:15:40', '2016-11-10 10:15:40');
+(1, 1, '21', 'Mercury', '21', 'Dumaguete', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '321', '321', '321321', '321321', '2016-11-10 10:15:40', '2016-11-11 13:21:34'),
+(2, 2, '', '', '', '', '', '', '', '', '', '', '0', '0', '2016-11-11 12:33:36', '2016-11-11 12:33:36');
 
 -- --------------------------------------------------------
 
@@ -169,14 +170,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `birthDate` varchar(255) NOT NULL,
   `-created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `-update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`userId`, `role`, `firstName`, `lastName`, `middleName`, `suffix`, `gender`, `email`, `civilStatus`, `password`, `birthDate`, `-created_at`, `-update_at`) VALUES
-(1, 3, 'Renjo', 'Dolosa', 'Enriquez', '', 'Male', 'dolosa.renjo@yahoo.com', 'Single', '$2y$11$y8MnwVN/mw3eQFKWsbAb4OXIRQ.QGE0fF/mLkCWkn/TJ9OETXT5Au', '02/17/1995', '2016-11-09 06:07:23', '2016-11-09 06:07:23');
+(1, 3, 'Renjo', 'Dolosa', 'Enriquez', '', 'Male', 'dolosa.renjo@yahoo.com', 'Single', '$2y$11$y8MnwVN/mw3eQFKWsbAb4OXIRQ.QGE0fF/mLkCWkn/TJ9OETXT5Au', '02/17/1995', '2016-11-09 06:07:23', '2016-11-09 06:07:23'),
+(2, 3, 'Ida Julienne', 'Peñaflor', 'Mangaliman', '', 'Female', 'penaflor.ida@yahoo.com', 'Single', '$2y$11$XCoBa0mgM.aLyI56iqXiF.XMsfOHWpYCAaFA7gHPYzIXYbOn1jEmW', '12/12/1212', '2016-11-11 12:33:22', '2016-11-11 12:33:22');
 
 --
 -- Indexes for dumped tables
@@ -186,8 +188,9 @@ INSERT INTO `users` (`userId`, `role`, `firstName`, `lastName`, `middleName`, `s
 -- Indexes for table `applications`
 --
 ALTER TABLE `applications`
-  ADD PRIMARY KEY (`referenceNum`),
-  ADD KEY `userId` (`userId`);
+  ADD PRIMARY KEY (`applicationId`),
+  ADD KEY `userId` (`userId`),
+  ADD KEY `referenceNum` (`referenceNum`);
 
 --
 -- Indexes for table `business_activities`
@@ -228,6 +231,11 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `applications`
+--
+ALTER TABLE `applications`
+  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `business_activities`
 --
 ALTER TABLE `business_activities`
@@ -241,7 +249,7 @@ ALTER TABLE `lessors`
 -- AUTO_INCREMENT for table `owners`
 --
 ALTER TABLE `owners`
-  MODIFY `ownerId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `ownerId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `roles`
 --
@@ -251,7 +259,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `userId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
