@@ -73,12 +73,17 @@
 										<hr>
 										<div class="row">
 											<div class="col-sm-12">
-												<input type="checkbox" name="tax-incentive">
-												<label for="tax-incentive">Are you enjoying tax incentive from any Government Entity?</label>
+												<div class="form-group">
+												<input type="checkbox" id="tax-incentive" name="tax-incentive">
+													<label for="tax-incentive">Are you enjoying tax incentive from any Government Entity?</label>
+												</div>
+
 											</div>
 											<div class="col-sm-4">
-												<label for="entity">Specify Entity</label>
-												<input type="text" disabled name="entity" class="form-control">
+												<div class="form-group">
+													<label for="entity">Specify Entity</label>
+													<input type="text" disabled id="entity" name="entity" class="form-control">
+												</div>
 											</div>
 										</div>
 										<hr>
@@ -133,43 +138,70 @@
 											</div>
 										</div>
 										<hr>
+										<div class="form-group">
+											
+										</div>
 										<div class="row">
 											<div class="col-sm-12">
 												<h4>Business Address</h4>
 											</div>
-
+											
 											<div class="col-sm-3">
-												<label for="house-bldg-no">House No./Bldg No.</label>
-												<input type="text" name="house-bldg-no" class="form-control">
+												<div class="form-group">
+													<label for="house-bldg-no">House No./Bldg No.</label>
+													<input type="text" name="house-bldg-no" class="form-control">
+												</div>
 											</div>
+											
+											
 											<div class="col-sm-3">
-												<label for="bldg-name">Building Name</label>
-												<input type="text" name="bldg-name" class="form-control">
+												<div class="form-group">
+													<label for="bldg-name">Building Name</label>
+													<input type="text" name="bldg-name" class="form-control">
+												</div>
 											</div>
+											
+											
 											<div class="col-sm-3">
-												<label for="unit-no">Unit Number</label>
-												<input type="text" name="unit-no" class="form-control">
+												<div class="form-group">
+													<label for="unit-no">Unit Number</label>
+													<input type="text" name="unit-no" class="form-control">
+												</div>
 											</div>
+											
 											<div class="col-sm-3">
-												<label for="street">Street</label>
-												<input type="text" name="street" class="form-control">
+												<div class="form-group">
+													<label for="street">Street</label>
+													<input type="text" name="street" class="form-control">
+												</div>
 											</div>
-
+											
 											<div class="col-sm-3">
-												<label for="barangay">Barangay</label>
-												<input type="text" name="barangay" class="form-control">
+												<div class="form-group">
+													<label for="barangay">Barangay</label>
+													<input type="text" name="barangay" class="form-control">
+												</div>
 											</div>
+											
 											<div class="col-sm-3">
-												<label for="subdivision">Subdivision</label>
-												<input type="text" name="subdivision" class="form-control">
+												<div class="form-group">
+													<label for="subdivision">Subdivision</label>
+													<input type="text" name="subdivision" class="form-control">
+												</div>
 											</div>
+											
 											<div class="col-sm-3">
-												<label for="city-municipality">City/Municipality</label>
-												<input type="text" name="city-municipality" class="form-control">
+												<div class="form-group">
+													<label for="city-municipality">City/Municipality</label>
+													<input type="text" name="city-municipality" class="form-control">
+												</div>
 											</div>
+											
 											<div class="col-sm-3">
-												<label for="province">Province</label>
-												<input type="text" name="province" class="form-control">
+												<div class="form-group">
+													<label for="province">Province</label>
+													<input type="text" name="province" class="form-control">
+												</div>
 											</div>
 										</div>
 										<hr>
@@ -203,9 +235,10 @@
 											</div>
 										</div>
 										<hr>
-										<div class="row">
+										<div class="lessor-controls">
+											<div class="row">
 											<div class="col-sm-12">
-												<input type="checkbox" name='rented' data-toggle="tooltip" title="Please identify lessor's information below if yes">
+												<input type="checkbox" name='rented' id='rented' data-toggle="tooltip" title="Please identify lessor's information below if yes">
 												<label for="rented">Is the business place rented?</label>
 											</div>
 											<div class="col-sm-4">
@@ -273,6 +306,7 @@
 												<label for="emergency-email">Email Address</label>
 												<input type="text" disabled name="emergency-email" class="form-control">
 											</div>
+										</div>
 										</div>
 										<hr>
 										<div class="row">

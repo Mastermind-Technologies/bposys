@@ -39,4 +39,32 @@ $(document).ready(function()
     });
   });
 
+  $('#tax-incentive').click(function() {
+    if($('#tax-incentive').is(':checked'))
+    {
+      $("#entity").prop('disabled', false);
+    }
+    else
+    {
+      $("#entity").prop('disabled', true);
+    }    
+  });
+
+  $('#rented').click(function() {
+    if($('#rented').is(':checked'))
+    {
+      $('.lessor-controls input[type=text], textarea').each(function() {
+        $(this).prop('disabled', false);
+      });
+    }
+    else
+    {
+      $('.lessor-controls input[type=text], textarea').each(function() {
+        $(this).prop('disabled', true);
+      });
+    }    
+  });
+
+
+
 });
