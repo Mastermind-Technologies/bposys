@@ -8,6 +8,9 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
+		$this->load->model('Application_m');
+		$this->load->model('Lessor_m');
+		$this->load->model('Business_Activity_m');
 		$this->load->library('form_validation');
 	}
 
@@ -50,9 +53,16 @@ class Dashboard extends CI_Controller {
 		//$this->load->js('templates/sb_admin2/sb_admin2_includes');
 		echo script_tag('assets/js/dashboard.js');
 		echo script_tag('assets/js/parsley.min.js');
-		$user_id = $this->session->userdata['userdata']['userId'];
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$this->load->view('dashboard/applicant/new_application');
+	}
 
+		public function new_application_validate()
+	{
+		$this->isLogin();
+		$this->_init();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$this->load->view('dashboard/applicant/new_application');
 	}
 
 	public function submit_application()
@@ -110,9 +120,95 @@ class Dashboard extends CI_Controller {
 			$this->form_validation->set_rules('emergency-tel-cel-no', "Lessor's Address", 'required');
 			$this->form_validation->set_rules('emergency-email', "Lessor's Address", 'required');
 		}
+
+		if($this->form_validation->run() == false)
+		{
+			$this->session->set_flashdata('error', validation_errors());
+			redirect('dashboard/new_application_validate');
+		}
 		else
 		{
 
+			if($this->input->post('tax-incentive'))
+			{
+				$entity = $this->input->post('entity');
+			}
+			else
+			{
+				$entity = "NA";
+			}
+
+			$tax_payer_name = $this->input->post('tax-first-name') . " " . $this->input->post('tax-middle-name') . ", " . $this->input->post('tax-last-name');
+			$president_treasurer_name = $this->input->post('pt-first-name') . " " . $this->input->post('pt-middle-name') . ", " . $this->input->post('pt-last-name');
+
+			$data['application_fields'] = array(
+				'referenceNum' => 'Processing_'.$user_id,
+				'userId' => $user_id,
+				'taxYear' => $this->input->post('tax-year'),
+				'applicationDate' => $this->input->post('application-date'),
+				'DTISECCDA_RegNum' => $this->input->post('DTISECCDA_RegNum'),
+				'DTISECCDA_Date' => $this->input->post('DTISECCDA_Date'),
+				'typeOfOrganization' => $this->input->post('organization-type'),
+				'CTCNum' => $this->input->post('ctc-number'),
+				'TIN' => $this->input->post('tin'),
+				'entityName' => $entity,
+				'taxPayerName' => $tax_payer_name,
+				'businessName' => $this->input->post('business-name'),
+				'tradeName' => $this->input->post('trade-name'),
+				'presidentTreasurerName' => $president_treasurer_name,
+				'houseBldgNum' => $this->input->post('house-bldg-no'),
+				'bldgName' => $this->input->post('bldg-name'),
+				'unitNum' => $this->input->post('unit-no'),
+				'street' => $this->input->post('street'),
+				'barangay' => $this->input->post('barangay'),
+				'subdivision' => $this->input->post('subdivision'),
+				'cityMunicipality' => $this->input->post('city-municipality'),
+				'province' => $this->input->post('province'),
+				'telNum' => $this->input->post('tel-num'),
+				'email' => $this->input->post('email'),
+				'PIN' => $this->input->post('pin'),
+				'numOfEmployees' => $this->input->post('total-employee-num')
+				);
+
+			$this->Application_m->insert_application($data['application_fields']);
+
+			$referenceNum = $this->Application_m->update_application_reference_number($user_id);
+
+			if($this->input->post('rented'))
+			{
+				$data['lessor_fields'] = array(
+					'referenceNum' => $referenceNum,
+					'firstName' => $this->input->post('lessor-first-name'),
+					'middleName' => $this->input->post('lessor-middle-name')==''?'NA':$this->input->post('lessor-middle-name'),
+					'lastName' => $this->input->post('lessor-last-name'),
+					'address' => $this->input->post('lessor-address'),
+					'subdivision' => $this->input->post('lessor-address'),
+					'barangay' => $this->input->post('lessor-barangay'),
+					'cityMunicipality' => $this->input->post('lessor-city-municipality'),
+					'province' => $this->input->post('lessor-province'),
+					'monthlyRental' => $this->input->post('lessor-monthly-rental'),
+					'telNum' => $this->input->post('lessor-tel-cel-no'),
+					'email' => $this->input->post('lessor-email'),
+					'emergencyContactPerson' => $this->input->post('emergency-contact-name'),
+					'emergencyTelNum' => $this->input->post('emergency-tel-cel-no'),
+					'emergencyEmail' => $this->input->post('emergency-email')
+					);
+
+				$this->Lessor_m->insert_lessor($data['lessor_fields']);
+			}
+
+			// $display['application'] = $this->Application_m->get_application_details($referenceNum);
+			// $display['lessor'] = $this->Lessor_m->get_lessor_details($referenceNum);
+			// echo "<pre>";
+			// print_r($display);
+			// echo "</pre>";
+			// exit();
+			//redirect('dashboard');
 		}
+	}//END OF SUBMIT_APPLICATION
+
+	public function store_business_activity()
+	{
+		
 	}
-}
+}//END OF CLASS

@@ -1,4 +1,4 @@
-<!-- <body class="content-container"> -->
+<body class="content-container"> -->
 <!-- Page Content -->
 <div style="padding-top:45px;" id="page-wrapper">
 	<div class="container-fluid">
@@ -16,20 +16,20 @@
 						New Application
 					</div>
 					<div class="panel-body">
-						<form method="post" data-parsley-validate="">
+						<form action="<?php echo base_url() ?>dashboard/submit_application" method="post" data-parsley-validate="">
 							<div class="row">
 								<div class="col-sm-12">
-									<h3 class="panel-header text-center">Unified Application Form for Business Permit</h3>
+									<h3 class="panel-header">Unified Application Form for Business Permit</h3>
 
-										<h4 class="text-center">Tax Year: <?= date('Y') ?></h4>
+										<h4><b>Tax Year:</b> <?= date('Y') ?></h4>
 										<input type="hidden" name="tax-year" id="tax-year" value="<?= date('Y') ?>">
 										<div class="row">
-											<div class="col-sm-4 col-sm-offset-2">
+<!-- 											<div class="col-sm-4 col-sm-offset-2">
 												<label for="reference-number">Reference Number</label>
 												<p>Reference Number Here</p>
 												<input type="hidden" name="reference-number" value="XXXXXX">
-											</div>
-											<div class="col-sm-4 col-sm-offset-2">
+											</div> -->
+											<div class="col-sm-4">
 												<label for="application-date">Date of Application</label>
 												<p><?= date('F j, Y') ?></p>
 												<input type="hidden" id="application-date" name="application-date" value="<?= date('F j, Y') ?>">
@@ -99,7 +99,7 @@
 												<input required type="text" name="tax-first-name" class="form-control">
 											</div>
 											<div class="col-sm-4">
-												<label for="tax-first-name">Middle Name*</label>
+												<label for="tax-first-name">Middle Name</label>
 												<input type="text" name="tax-middle-name" class="form-control">
 											</div>
 											<div class="col-sm-4">
@@ -129,11 +129,11 @@
 												<input required type="text" name="pt-first-name" class="form-control">
 											</div>
 											<div class="col-sm-4">
-												<label for="pt-first-name">Middle Name</label>
+												<label for="pt-middle-name">Middle Name</label>
 												<input type="text" name="pt-middle-name" class="form-control">
 											</div>
 											<div class="col-sm-4">
-												<label for="pt-first-name">Last Name*</label>
+												<label for="pt-last-name">Last Name*</label>
 												<input required type="text" name="pt-last-name" class="form-control">
 											</div>
 										</div>
@@ -342,39 +342,30 @@
 												<h4>Business Activity</h4>
 											</div>
 											<table id='bus-activity' class="table table-bordered">
-												<th>No.</th>
 												<th>Code</th>
 												<th>Line of Business</th>
 												<th>No. of Units</th>
 												<th>Capitalization</th>
-												<tbody>
+												<!-- <th></th> -->
+												<tbody class="table-body">
 													<tr class="data">
-														<td>1</td>
-														<td><input type="text" class=form-control></td>
-														<td><input type="text" class=form-control></td>
-														<td><input type="text" class=form-control></td>
-														<td><input type="text" class=form-control></td>
-													</tr>
-													<tr class="data">
-														<td>2</td>
-														<td><input type="text" class=form-control></td>
-														<td><input type="text" class=form-control></td>
-														<td><input type="text" class=form-control></td>
-														<td><input type="text" class=form-control></td>
-													</tr>
-													<tr class="data">
-														<td>3</td>
-														<td><input type="text" class=form-control></td>
-														<td><input type="text" class=form-control></td>
-														<td><input type="text" class=form-control></td>
-														<td><input type="text" class=form-control></td>
+														<td><input type="text" required class=form-control></td>
+														<td><input type="text" required class=form-control></td>
+														<td><input type="text" required class=form-control></td>
+														<td><input type="text" required class=form-control></td>
+														<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
 													</tr>
 												</tbody>
 											</table>
 										</div>
 										<div class="row">
 											<div class="col-sm-4 col-sm-offset-4">
-												<a id="btn-add-bus-activity" class="btn btn-primary btn-block">Add Bussiness Activity</a>
+												<a id="btn-add-bus-activity" class="btn btn-primary btn-block">Add Row</a>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 col-sm-offset-4">
+												<a id="btn-remove-bus-activity" class="btn btn-primary btn-block">Delete Row</a>
 											</div>
 										</div>
 										<div class="row">
@@ -408,4 +399,4 @@
 </div>
 <!-- /.container-fluid -->
 </div>
-<!-- </body> -->
+<!-- </body>

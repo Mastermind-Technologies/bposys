@@ -69,12 +69,36 @@ $(document).ready(function()
     }    
   });
 
-  var rowCount = 3;
-
+  var rowCount = 1;
   $('#btn-add-bus-activity').click(function(){
+      // $("#bus-activity tbody.table-body tr:first").clone(true).find("input").each(function() {
+      //   $(this).val('').attr({
+      //     'id': function(_, id) {return id + rowCount },
+      //     'name': function(_, name) { return name + rowCount },
+      //     'value': ''               
+      //   });
+      // }).end().appendTo("table");
+      // rowCount++;
+    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td></tr>");
     rowCount++;
-    $('#bus-activity > tbody:last-child').append("<tr class='data'><td>"+rowCount+"</td><td><input type='text' class=form-control></td><td><input type='text' class=form-control></td><td><input type='text' class=form-control></td><td><input type='text' class=form-control></td></tr>");
+    //removed:
+    //<td>"+rowCount+"</td>
+    //<td><button type='button' id='btn-delete' class='btn btn-danger btn-block'>Delete</button></td>
   });
+
+ //  $('#btn-delete').click(function(){
+ //    var count = $('#bus-activity tr').length;
+ //    console.log(count);
+ //    if(count == 2)
+ //    {
+ //      //do nothing
+ //    }
+ //    else
+ //    {
+ //     $(this).closest('tr.data').remove();
+ //     return false;
+ //    }
+ // });
 
   $('#btn-table-test').click(function(){
     var count = 1;
@@ -82,10 +106,10 @@ $(document).ready(function()
 
       console.log('row:' + count);
       count++;
+      console.log($(this).find("td:nth-child(1) input").val());
       console.log($(this).find("td:nth-child(2) input").val());
       console.log($(this).find("td:nth-child(3) input").val());
       console.log($(this).find("td:nth-child(4) input").val());
-      console.log($(this).find("td:nth-child(5) input").val());
     });
   });
 
