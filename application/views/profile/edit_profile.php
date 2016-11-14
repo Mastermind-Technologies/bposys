@@ -16,7 +16,7 @@
 						Edit Information
 					</div>
 					<div class="panel-body">
-						<form action="<?php echo base_url(); ?>dashboard/save_edit_info" method="post" data-parsley-validate="">
+						<form action="<?php echo base_url(); ?>profile/save_edit_info" method="post" data-parsley-validate="">
 							<div class="row">
 								<div class="col-sm-12">
 									<h3 class="panel-header">Basic Information</h3>

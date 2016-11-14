@@ -6,11 +6,7 @@ class Auth extends CI_Controller {
   public function __construct()
   {
     parent::__construct();
-    // Load css and js
-    //$this->load->view('template/main');
     $this->load->library('form_validation');
-    $this->load->library('encryption');
-
     $this->load->model('User_m');
   }
 
@@ -56,14 +52,23 @@ class Auth extends CI_Controller {
         // echo "</pre>";
         // exit();
         $session_data = array(
-          'userId' => $data['user'][0]->userId,
+          'userId' => $this->encryption->encrypt($data['user'][0]->userId),
           'firstName' => $data['user'][0]->firstName,
           'lastName' => $data['user'][0]->lastName,
           'middleName' => $data['user'][0]->middleName,
-          'email' => $data['user'][0]->email
+          'email' => $this->encryption->encrypt($data['user'][0]->email)
           );
           // Add user data in session
         $this->session->set_userdata('userdata', $session_data);
+
+        // echo "<pre>";
+        // print_r($this->session->userdata['userdata']['userId']);
+        // $user_id = $this->session->userdata['userdata']['userId'];
+        // echo"<br>";
+        // print_r($this->encryption->decrypt($user_id));
+        // echo "</pre>";
+        // exit();
+
         redirect("dashboard");
       }
       else

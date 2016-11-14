@@ -8,7 +8,6 @@ class Profile extends CI_Controller {
 		parent::__construct();
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
-		$this->load->model('Applicant_m');
 		$this->load->library('form_validation');
 	}
 
@@ -34,7 +33,7 @@ class Profile extends CI_Controller {
 	public function edit()
 	{
 		$this->isLogin();
-		$user_id = $this->session->userdata['userdata']['userId'];
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$this->_init();
 
 		$is_registered = $this->Owner_m->check_owner($user_id);
@@ -59,7 +58,7 @@ class Profile extends CI_Controller {
 	{
 		$this->isLogin();
 		$this->_init();
-		$user_id = $this->session->userdata['userdata']['userId'];
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
 		$this->form_validation->set_rules('fname', 'First Name', 'required');
 		$this->form_validation->set_rules('lname', 'Last Name', 'required');
@@ -99,7 +98,7 @@ class Profile extends CI_Controller {
 				);
 
 			$applicant_fields = array(
-				'userId' => $this->session->userdata['userdata']['userId'],			
+				'userId' => $user_id,			
 				'houseBldgNo' => $this->input->post('house-bldg-no'),
 				'bldgName' => $this->input->post('bldg-name'),
 				'unitNum' => $this->input->post('unit-no'),
