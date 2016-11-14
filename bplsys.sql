@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2016 at 02:33 AM
+-- Generation Time: Nov 14, 2016 at 04:52 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `numOfEmployees` int(255) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -97,7 +97,6 @@ CREATE TABLE IF NOT EXISTS `lessors` (
   `email` varchar(255) DEFAULT NULL,
   `emergencyContactPerson` varchar(255) DEFAULT NULL,
   `emergencyTelNum` int(255) DEFAULT NULL,
-  `emergencyCelNum` int(255) DEFAULT NULL,
   `emergencyEmail` varchar(255) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
@@ -133,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `owners` (
 --
 
 INSERT INTO `owners` (`ownerId`, `userId`, `houseBldgNo`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `contactNum`, `telNum`, `businessArea`, `numOfEmployeesLGU`, `createdAt`, `updatedAt`) VALUES
-(1, 1, '21', 'Mercury', '21', 'aslkdj', 'asdlkj', 'asdl', 'kjasd', 'lkja', '123123', '123123', 123123, 123123, '2016-11-10 10:15:40', '2016-11-10 10:15:40');
+(1, 1, '21', 'Mercury', '21', 'Dumaguete', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '09175138277', '8393939', 22, 33, '2016-11-10 10:15:40', '2016-11-14 11:54:43');
 
 -- --------------------------------------------------------
 
@@ -242,7 +241,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `business_activities`
 --
