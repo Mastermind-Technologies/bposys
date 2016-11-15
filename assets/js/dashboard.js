@@ -2,9 +2,7 @@ $(document).ready(function()
 {
   var base_url = 'http://localhost/bposys/';
 
-
   $('[data-toggle="tooltip"]').tooltip();
-
 
   $('#btn-male').click(function(event)
   {
@@ -141,10 +139,7 @@ $(document).ready(function()
         },2000);
       }
     });
-
-
-    
   }
 
 
-});
+}); //End of Jquery

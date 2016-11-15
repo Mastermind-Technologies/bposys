@@ -57,7 +57,7 @@ class User_m extends CI_Model {
 
   public function get_user_details($fields = null)
   {
-    $this->db->select('*')->from($this->_table_name)->where(['email' => $fields['email']])->limit(1);
+    $this->db->select('*')->from($this->_table_name)->where(['userId' => $this->encryption->decrypt($fields['userId'])])->limit(1);
     $result = $this->db->get();
     return $result->result();
   }

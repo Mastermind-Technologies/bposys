@@ -55,7 +55,8 @@
 									</tbody>
 								</table>
 							<?php else: ?>
-								<h1 class="text-center text-muted">Nothing to display at the moment. :)</h1>
+								<h2 class="text-center text-muted"><i class="fa fa-hand-spock-o fa-5x" aria-hidden="true"></i></h2>
+								<h2 class="text-center text-muted">Nothing to display at the moment.</h2>
 							<?php endif; ?>
 							</div>
 							<!-- /.panel-body -->

@@ -39,13 +39,13 @@ class Dashboard extends CI_Controller {
 		if($is_registered)
 		{
 			$data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
-			$data['application'] = $this->Application_m->get_all_applications();
+			$data['application'] = $this->Application_m->get_all_applications($user_id);
 			$this->load->view('dashboard/applicant/index', $data);	
 		}
 		else
 		{
 			$data['user'] = $this->User_m->get_user_details($this->session->userdata['userdata']);
-			$this->load->view('dashboard/applicant/edit_info', $data);
+			redirect('profile/edit');
 		}
 	}
 
