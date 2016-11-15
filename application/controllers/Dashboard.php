@@ -39,6 +39,7 @@ class Dashboard extends CI_Controller {
 		if($is_registered)
 		{
 			$data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
+			$data['application'] = $this->Application_m->get_all_applications();
 			$this->load->view('dashboard/applicant/index', $data);	
 		}
 		else
@@ -121,10 +122,17 @@ class Dashboard extends CI_Controller {
 			$this->form_validation->set_rules('emergency-email', "Lessor's Address", 'required');
 		}
 
+		$this->form_validation->set_rules('code', 'Code', 'required');
+		$this->form_validation->set_rules('line-of-business', 'Line of Business', 'required');
+		$this->form_validation->set_rules('num-of-units', 'Number of Units', 'required');
+		$this->form_validation->set_rules('capitalization', 'Capitalization', 'required');
+
 		if($this->form_validation->run() == false)
 		{
-			$this->session->set_flashdata('error', validation_errors());
-			redirect('dashboard/new_application_validate');
+			$data['error'] = "Error: Please fill out all the fields";
+			echo json_encode($data);
+			// $this->session->set_flashdata('error', validation_errors());
+			// redirect('dashboard/new_application_validate');
 		}
 		else
 		{
@@ -167,7 +175,8 @@ class Dashboard extends CI_Controller {
 				'telNum' => $this->input->post('tel-num'),
 				'email' => $this->input->post('email'),
 				'PIN' => $this->input->post('pin'),
-				'numOfEmployees' => $this->input->post('total-employee-num')
+				'numOfEmployees' => $this->input->post('total-employee-num'),
+				'status' => 'Pending'
 				);
 
 			$this->Application_m->insert_application($data['application_fields']);
@@ -182,7 +191,7 @@ class Dashboard extends CI_Controller {
 					'middleName' => $this->input->post('lessor-middle-name')==''?'NA':$this->input->post('lessor-middle-name'),
 					'lastName' => $this->input->post('lessor-last-name'),
 					'address' => $this->input->post('lessor-address'),
-					'subdivision' => $this->input->post('lessor-address'),
+					'subdivision' => $this->input->post('lessor-subdivision'),
 					'barangay' => $this->input->post('lessor-barangay'),
 					'cityMunicipality' => $this->input->post('lessor-city-municipality'),
 					'province' => $this->input->post('lessor-province'),
@@ -204,11 +213,21 @@ class Dashboard extends CI_Controller {
 			// echo "</pre>";
 			// exit();
 			//redirect('dashboard');
+			$data['referenceNum'] = $referenceNum;
+			echo json_encode($data);
 		}
 	}//END OF SUBMIT_APPLICATION
 
 	public function store_business_activity()
 	{
-		
+		$fields = array(
+			'referenceNum' => $this->input->post('referenceNum'), 
+			'code' => $this->input->post('code'),
+			'lineOfBusiness' => $this->input->post('lineOfBusiness'),
+			'numOfUnits' => $this->input->post('numOfUnits'),
+			'capitalization' => $this->input->post('capitalization'),
+			);
+
+		$this->Business_Activity_m->insert_business_activity($fields);
 	}
 }//END OF CLASS

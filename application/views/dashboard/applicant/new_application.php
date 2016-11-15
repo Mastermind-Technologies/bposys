@@ -16,7 +16,8 @@
 						New Application
 					</div>
 					<div class="panel-body">
-						<form action="<?php echo base_url() ?>dashboard/submit_application" method="post" data-parsley-validate="">
+						<!-- action="<?php echo base_url() ?>dashboard/submit_application" -->
+						<form id="new_application_form" method="post" data-parsley-validate="">
 							<div class="row">
 								<div class="col-sm-12">
 									<h3 class="panel-header">Unified Application Form for Business Permit</h3>
@@ -39,7 +40,7 @@
 										<div class="row">
 											<div class="col-sm-4">
 												<label for="DTISECCDA_RegNum">DTI/SEC/CDA Registration Number*</label>
-												<input type="text" required name="DTISECCDA_RegNum" class="form-control">
+												<input type="text" required name="DTISECCDA_RegNum" data-parsley-type="digits" class="form-control">
 											</div>
 											<div class="col-sm-4">
 												<label for="DTISECCDA_Date">DTI/SEC/CDA Date of Registration*</label>
@@ -63,7 +64,7 @@
 										<div class="row">
 											<div class="col-sm-4">
 												<label for="ctc-number">CTC Number*</label>
-												<input required type="text" name="ctc-number" class="form-control">
+												<input required type="text" name="ctc-number" data-parsley-type="digits" class="form-control">
 											</div>
 											<div class="col-sm-4">
 												<label for="tin">TIN*</label>
@@ -165,7 +166,7 @@
 											<div class="col-sm-3">
 												<div class="form-group">
 													<label for="unit-no">Unit Number*</label>
-													<input required type="text" name="unit-no" class="form-control">
+													<input required type="text" name="unit-no" data-parsley-type="digits" class="form-control">
 												</div>
 											</div>
 											
@@ -212,11 +213,11 @@
 
 											<div class="col-sm-4">
 												<label for="tel-num">Telephone Number*</label>
-												<input required type="text" class="form-control" name="tel-num">
+												<input required type="text" class="form-control" data-parsley-type="digits" name="tel-num">
 											</div>
 											<div class="col-sm-4">
 												<label for="email">Email Address*</label>
-												<input required type="text" class="form-control" name="email">
+												<input required type="email" class="form-control" name="email">
 											</div>
 										</div>
 										<hr>
@@ -231,7 +232,7 @@
 											</div>
 											<div class="col-sm-4">
 												<label for="">Number of Employees in Establishment*</label>
-												<input required type="text" class="form-control" name="total-employee-num">
+												<input required type="text" class="form-control" data-parsley-type="digits" name="total-employee-num">
 											</div>
 										</div>
 										<hr>
@@ -296,19 +297,19 @@
 												<div class="col-sm-3">
 													<div class="form-group">
 														<label for="lessor-monthly-rental">Monthly Rental*</label>
-														<input type="text" disabled class="form-control" name="lessor-monthly-rental">
+														<input type="text" disabled class="form-control" data-parsley-type="digits" name="lessor-monthly-rental">
 													</div>
 												</div>
 												<div class="col-sm-3">
 													<div class="form-group">
 														<label for="lessor-tel-cel-no">Tel No./Cel No.*</label>
-														<input type="text" disabled class="form-control" name="lessor-tel-cel-no">
+														<input type="text" disabled class="form-control" data-parsley-type="digits" name="lessor-tel-cel-no">
 													</div>
 												</div>
 												<div class="col-sm-3">
 													<div class="form-group">
 														<label for="">Email Address*</label>
-														<input type="text" disabled class="form-control" name="lessor-email">
+														<input type="email" disabled class="form-control" name="lessor-email">
 													</div>
 												</div>
 											</div>
@@ -325,13 +326,13 @@
 												<div class="col-sm-4">
 													<div class="form-group">
 														<label for="emergency-tel-cel-no">Tel No./Cel No.*</label>
-														<input type="text" disabled name="emergency-tel-cel-no" class="form-control">
+														<input type="text" disabled name="emergency-tel-cel-no" data-parsley-type="digits" class="form-control">
 													</div>
 												</div>
 												<div class="col-sm-4">
 													<div class="form-group">
 														<label for="emergency-email">Email Address*</label>
-														<input type="text" disabled name="emergency-email" class="form-control">
+														<input type="email" disabled name="emergency-email" class="form-control">
 													</div>
 												</div>
 											</div>
@@ -349,10 +350,10 @@
 												<!-- <th></th> -->
 												<tbody class="table-body">
 													<tr class="data">
-														<td><input type="text" required class=form-control></td>
-														<td><input type="text" required class=form-control></td>
-														<td><input type="text" required class=form-control></td>
-														<td><input type="text" required class=form-control></td>
+														<td><input id="code" name="code" type="text" required class=form-control></td>
+														<td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td>
+														<td><input id="num-of-units" name="num-of-units" type="text" required class=form-control></td>
+														<td><input id="capitalization" name="capitalization" type="text" required class=form-control></td>
 														<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
 													</tr>
 												</tbody>
@@ -360,17 +361,7 @@
 										</div>
 										<div class="row">
 											<div class="col-sm-4 col-sm-offset-4">
-												<a id="btn-add-bus-activity" class="btn btn-primary btn-block">Add Row</a>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-4 col-sm-offset-4">
-												<a id="btn-remove-bus-activity" class="btn btn-primary btn-block">Delete Row</a>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-4 col-sm-offset-4">
-												<a id="btn-table-test" class="btn btn-primary btn-block">Test</a>
+												<a id="btn-add-bus-activity" class="btn btn-primary btn-block"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
 											</div>
 										</div>
 
@@ -380,10 +371,10 @@
 								<hr>
 								<div class="row">
 									<div class="col-sm-3 col-sm-offset-3">
-										<input type="submit" value="Save" class="btn btn-success btn-block" >
+									<button type="submit" id="btn-submit" class="btn btn-success btn-block"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Save</button>
 									</div>
 									<div class="col-sm-3">
-										<a href="<?php echo base_url() ?>dashboard" class="btn btn-danger btn-block">Cancel</a>
+										<a href="<?php echo base_url() ?>dashboard" class="btn btn-danger btn-block"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
 									</div>
 								</div>
 							</div>

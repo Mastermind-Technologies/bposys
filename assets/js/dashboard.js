@@ -55,63 +55,96 @@ $(document).ready(function()
   $('#rented').click(function() {
     if($('#rented').is(':checked'))
     {
-      $('.lessor-controls input[type=text], textarea').each(function() {
+      $('.lessor-controls input[type=text], textarea, input[type=email]').each(function() {
         $(this).prop('disabled', false);
         $(this).prop('required', true);
       });
     }
     else
     {
-      $('.lessor-controls input[type=text], textarea').each(function() {
+      $('.lessor-controls input[type=text], textarea, input[type=email]').each(function() {
         $(this).prop('disabled', true);
         $(this).prop('required', false);
       });
     }    
   });
 
-  var rowCount = 1;
+  var rowCount = 0;
   $('#btn-add-bus-activity').click(function(){
-      // $("#bus-activity tbody.table-body tr:first").clone(true).find("input").each(function() {
-      //   $(this).val('').attr({
-      //     'id': function(_, id) {return id + rowCount },
-      //     'name': function(_, name) { return name + rowCount },
-      //     'value': ''               
-      //   });
-      // }).end().appendTo("table");
-      // rowCount++;
-    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td></tr>");
     rowCount++;
-    //removed:
-    //<td>"+rowCount+"</td>
-    //<td><button type='button' id='btn-delete' class='btn btn-danger btn-block'>Delete</button></td>
+    console.log(rowCount);
+    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td></tr>");
+
   });
 
- //  $('#btn-delete').click(function(){
- //    var count = $('#bus-activity tr').length;
- //    console.log(count);
- //    if(count == 2)
- //    {
- //      //do nothing
- //    }
- //    else
- //    {
- //     $(this).closest('tr.data').remove();
- //     return false;
- //    }
- // });
-
-  $('#btn-table-test').click(function(){
-    var count = 1;
-    $("#bus-activity tbody .data").each(function() {
-
-      console.log('row:' + count);
-      count++;
-      console.log($(this).find("td:nth-child(1) input").val());
-      console.log($(this).find("td:nth-child(2) input").val());
-      console.log($(this).find("td:nth-child(3) input").val());
-      console.log($(this).find("td:nth-child(4) input").val());
+  $('#new_application_form').submit(function(e){
+    $("#btn-submit").prop('disabled', true);
+    $("#btn-add-bus-activity").prop('disabled', true);
+    $("#fa-submit").removeClass('fa-check');
+    $("#fa-submit").addClass('fa-circle-o-notch fa-spin');
+    e.preventDefault();
+    jQuery.ajax({
+      type:"POST",
+      dataType:'json',
+      url:base_url+"dashboard/submit_application",
+      data:$('form#new_application_form').serialize(),
+      success: function(data) {
+        if(data.error)
+        {
+          console.log(data.error);
+          $("#btn-submit").prop('disabled', false);
+          $("#btn-add-bus-activity").prop('disabled', false);
+          $("#fa-submit").removeClass('fa-circle-o-notch fa-spin');
+          $("#fa-submit").addClass('fa-check');
+        }
+        else
+        {
+          process_business_activity(data.referenceNum);
+        }
+        
+      }
     });
+    return false;
   });
+
+  function process_business_activity(reference_number)
+  {
+    var ctr = 0;
+    $("#bus-activity tbody .data").each(function() {
+      ctr++;
+      var code = $(this).find("td:nth-child(1) input").val();
+      var lineOfBusiness = $(this).find("td:nth-child(2) input").val();
+      var numOfUnits = $(this).find("td:nth-child(3) input").val();
+      var capitalization = $(this).find("td:nth-child(4) input").val();
+
+      if(code == '' || lineOfBusiness == '' || numOfUnits == '' || capitalization == '')
+      {
+        //do nothing
+      }
+      else
+      {
+        $.ajax({
+          type:"POST",
+          url:base_url+"dashboard/store_business_activity",
+          data:{code:code, lineOfBusiness:lineOfBusiness, numOfUnits:numOfUnits, capitalization:capitalization, referenceNum:reference_number},
+          success: function(o){
+            console.log('Row '+ ctr +' okay!');
+          }
+        });
+      }
+      console.log(ctr);
+      if(ctr == rowCount)
+      {
+        console.log("Redirecting...");
+        window.setTimeout(function() { 
+          window.location = base_url+"dashboard"; 
+        },2000);
+      }
+    });
+
+
+    
+  }
 
 
 });

@@ -22,9 +22,12 @@ class Application_m extends CI_Model {
   	return $result->result();
   }
 
-  public function get_all_application()
+  public function get_all_applications()
   {
-  	
+  	$this->db->select('*')->from($this->_table_name);
+    $result = $this->db->get();
+
+    return $result->result();
   }
 
   public function update_application_reference_number($user_id = null)
@@ -42,7 +45,7 @@ class Application_m extends CI_Model {
   	$encrypted_reference = $this->encryption->encrypt($raw_reference);
 
   	//get first 8 characters of encrpyted reference
-  	$reference_number = strtoupper(substr($encrypted_reference, 0, 8));
+  	$reference_number = strtoupper(substr($encrypted_reference, 0, 10));
 
   	//update reference number of application
   	$this->db->where(['applicationId' => $applicationId]);

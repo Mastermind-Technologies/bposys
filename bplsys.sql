@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2016 at 04:52 PM
+-- Generation Time: Nov 15, 2016 at 03:46 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -54,9 +54,17 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `email` varchar(255) DEFAULT NULL,
   `PIN` varchar(255) DEFAULT NULL,
   `numOfEmployees` int(255) DEFAULT NULL,
+  `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `applications`
+--
+
+INSERT INTO `applications` (`applicationId`, `referenceNum`, `userId`, `taxYear`, `applicationDate`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `typeOfOrganization`, `CTCNum`, `TIN`, `entityName`, `taxPayerName`, `businessName`, `tradeName`, `presidentTreasurerName`, `houseBldgNum`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `telNum`, `email`, `PIN`, `numOfEmployees`, `status`, `createdAt`, `updatedAt`) VALUES
+(19, 'CC23E14941', 1, 2016, 'November 15, 2016', '123456', '123456', 'Single', '123456', '123456', 'Entity', 'Renjo Enriquez, Dolosa', 'Mastermind', 'Trade Name Daw', 'Ida Julienne Mangaliman, Peñaflor', 'Blk 29 Lot 19', 'Mercury', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '1234566', 'dolosa.renjo@yahoo.com', '123456', 50, 'Pending', '2016-11-15 14:38:10', '2016-11-15 14:38:10');
 
 -- --------------------------------------------------------
 
@@ -71,9 +79,18 @@ CREATE TABLE IF NOT EXISTS `business_activities` (
   `lineOfBusiness` varchar(255) DEFAULT NULL,
   `numOfUnits` int(255) DEFAULT NULL,
   `capitalization` varchar(255) DEFAULT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `business_activities`
+--
+
+INSERT INTO `business_activities` (`activityId`, `referenceNum`, `code`, `lineOfBusiness`, `numOfUnits`, `capitalization`, `createdAt`, `updatedAt`) VALUES
+(35, 'CC23E14941', '1', '1', 1, '1', '2016-11-15 14:38:10', '2016-11-15 14:38:10'),
+(36, 'CC23E14941', '3', '3', 3, '3', '2016-11-15 14:38:10', '2016-11-15 14:38:10'),
+(37, 'CC23E14941', '2', '2', 2, '2', '2016-11-15 14:38:10', '2016-11-15 14:38:10');
 
 -- --------------------------------------------------------
 
@@ -98,9 +115,16 @@ CREATE TABLE IF NOT EXISTS `lessors` (
   `emergencyContactPerson` varchar(255) DEFAULT NULL,
   `emergencyTelNum` int(255) DEFAULT NULL,
   `emergencyEmail` varchar(255) DEFAULT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `lessors`
+--
+
+INSERT INTO `lessors` (`lessorId`, `referenceNum`, `firstName`, `middleName`, `lastName`, `address`, `subdivision`, `barangay`, `cityMunicipality`, `province`, `monthlyRental`, `telNum`, `email`, `emergencyContactPerson`, `emergencyTelNum`, `emergencyEmail`, `createdAt`, `updatedAt`) VALUES
+(7, 'CC23E14941', 'Billy James', 'Santos', 'Labay', 'Address', 'South City Homes', 'Santo Tomas', 'Biñan City', 'Laguna', 24000, 123456, 'billy@yahoo.com', 'Jason Hernandez', 123456, 'jason@yahoo.com', '2016-11-15 14:38:10', '2016-11-15 14:38:10');
 
 -- --------------------------------------------------------
 
@@ -144,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `roleId` int(5) NOT NULL,
   `name` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
@@ -241,17 +265,17 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `business_activities`
 --
 ALTER TABLE `business_activities`
-  MODIFY `activityId` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `activityId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `lessors`
 --
 ALTER TABLE `lessors`
-  MODIFY `lessorId` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `lessorId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `owners`
 --

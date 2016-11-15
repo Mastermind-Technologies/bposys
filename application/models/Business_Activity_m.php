@@ -9,7 +9,7 @@ class Business_Activity_m extends CI_Model {
     $this->_table_name = 'business_activities';
   }
 
-  public function insert_business_activity()
+  public function insert_business_activity($fields = null)
   {
   	$this->db->insert($this->_table_name, $fields);
   }
