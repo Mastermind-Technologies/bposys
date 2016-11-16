@@ -43,7 +43,7 @@ class Profile extends CI_Controller {
 		}
 		else
 		{
-			$data['user'] = $this->User_m->get_user_details($this->session->userdata['userdata']);
+			$data['user'] = $this->User_m->get_user_details($user_id);
 		}
 
 		// echo "<pre>";

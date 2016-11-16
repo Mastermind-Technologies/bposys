@@ -44,7 +44,8 @@ class Auth extends CI_Controller {
         );
       $check = $this->User_m->process_login($fields);
 
-      $fields['userId'] = $this->encryption->encrypt($check[0]->userId);
+      // $fields['userId'] = $this->encryption->encrypt($check[0]->userId);
+      $user_id = $check[0]->userId;
 
       // echo "<pre>";
       // print_r($check[0]->userId);
@@ -53,7 +54,8 @@ class Auth extends CI_Controller {
 
       if($check)
       {
-        $data['user'] = $this->User_m->get_user_details($fields);
+        $data['user'] = $this->User_m->get_user_details($user_id);
+        $data['role'] = $this->User_m->check_user_role($data['user'][0]->role);
         // echo "<pre>";
         // print_r($data);
         // echo "</pre>";
@@ -63,16 +65,17 @@ class Auth extends CI_Controller {
           'firstName' => $data['user'][0]->firstName,
           'lastName' => $data['user'][0]->lastName,
           'middleName' => $data['user'][0]->middleName,
-          'email' => $this->encryption->encrypt($data['user'][0]->email)
+          'email' => $this->encryption->encrypt($data['user'][0]->email),
+          'role' => $this->encryption->encrypt($data['role'][0]->name)
           );
           // Add user data in session
         $this->session->set_userdata('userdata', $session_data);
 
         // echo "<pre>";
-        // print_r($this->session->userdata['userdata']['userId']);
+        // print_r($this->session->userdata['userdata']['role']);
         // $user_id = $this->session->userdata['userdata']['userId'];
         // echo"<br>";
-        // print_r($this->encryption->decrypt($user_id));
+        // print_r($this->encryption->decrypt($this->session->userdata['userdata']['role']));
         // echo "</pre>";
         // exit();
 

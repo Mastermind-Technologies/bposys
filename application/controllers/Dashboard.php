@@ -20,6 +20,12 @@ class Dashboard extends CI_Controller {
 		$this->load->view('templates/sb_admin2/sb_admin2_navbar');
 	}
 
+	public function _init_matrix()
+	{
+		$this->load->view('templates/matrix/matrix_includes');
+		$this->load->view('templates/matrix/matrix_navbar');
+	}
+
 	public function isLogin()
 	{
 		if(!isset($this->session->userdata['userdata']))
@@ -31,21 +37,30 @@ class Dashboard extends CI_Controller {
 	public function index()
 	{
 		$this->isLogin();
-		$this->_init();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 
-		$is_registered = $this->Owner_m->check_owner($user_id);
-
-		if($is_registered)
+		if($role == 'Applicant')
 		{
-			$data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
-			$data['applications'] = $this->Application_m->get_all_applications($user_id);
-			$this->load->view('dashboard/applicant/index', $data);	
+			$this->_init();
+			$is_registered = $this->Owner_m->check_owner($user_id);
+			if($is_registered)
+			{
+				$data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
+				$data['applications'] = $this->Application_m->get_all_applications($user_id);
+				$this->load->view('dashboard/applicant/index', $data);	
+			}
+			else
+			{
+				$data['user'] = $this->User_m->get_user_details($user_id);
+				redirect('profile/edit');
+			}
 		}
-		else
+		else if($role == 'BPLO')
 		{
-			$data['user'] = $this->User_m->get_user_details($this->session->userdata['userdata']);
-			redirect('profile/edit');
+			$this->_init_matrix();
+			$data['user'] = $this->User_m->get_user_details($user_id);
+			$this->load->view('dashboard/bplo/index');
 		}
 	}
 
