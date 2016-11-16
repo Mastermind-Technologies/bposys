@@ -12,23 +12,24 @@
 								<button class="btn btn-success" id="btn-edit-info"><i class="fa fa-plus-circle" aria-hidden="true"></i> New</button>
 							</div>
 							<div class="panel-body">
-							<?php if(sizeof($application)>0): ?>
+							<?php if(sizeof($applications)>0): ?>
 								<table class="table table-bordered">
 									<th class="text-center">Reference Number</th>
 									<th class="text-center">Details</th>
 									<th class="text-center">Actions</th>
 									<tbody>
+									<?php foreach ($applications as $application): ?>
 										<tr>
-											<td style="width:30%;"><p class="lead text-center text-danger"><?= $application[0]->referenceNum ?></p></td>
+											<td style="width:30%;"><p class="lead text-center text-danger"><?= $application->referenceNum ?></p></td>
 											<td style="width:45%;" class='text-center'>
 												<div class="row">
 													<div class="col-sm-12">
-														<span>Status: <strong><?= $application[0]->status ?></strong></span>
+														<span>Status: <strong><?= $application->status ?></strong></span>
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-sm-12">
-														<span>Business Name: <strong><?= $application[0]->businessName?></strong></span>
+														<span>Business Name: <strong><?= $application->businessName?></strong></span>
 													</div>
 												</div>
 												<div class="row">
@@ -52,6 +53,7 @@
 
 											</td>
 										</tr>
+									<?php endforeach; ?>
 									</tbody>
 								</table>
 							<?php else: ?>

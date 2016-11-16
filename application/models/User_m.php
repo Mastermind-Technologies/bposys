@@ -39,7 +39,7 @@ class User_m extends CI_Model {
       $password = $this->process_password($fields);
       if(password_verify($fields['password'], $password[0]->password))
       {
-        return true;
+        return $result->result();
       }
       else
       {

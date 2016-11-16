@@ -44,6 +44,13 @@ class Auth extends CI_Controller {
         );
       $check = $this->User_m->process_login($fields);
 
+      $fields['userId'] = $this->encryption->encrypt($check[0]->userId);
+
+      // echo "<pre>";
+      // print_r($check[0]->userId);
+      // echo "</pre>";
+      // exit();
+
       if($check)
       {
         $data['user'] = $this->User_m->get_user_details($fields);

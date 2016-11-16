@@ -6,24 +6,16 @@ $(document).ready(function()
 
   $('#btn-male').click(function(event)
   {
-    jQuery.ajax({
-      success: function(o) {
-        $('#btn-male').addClass('active');
-        $('#btn-female').removeClass('active');
-        $("#hidden-gender").val("Male");
-      }
-    });
+    $('#btn-male').addClass('active');
+    $('#btn-female').removeClass('active');
+    $("#hidden-gender").val("Male");
   });
 
   $('#btn-female').click(function(event)
   {
-    jQuery.ajax({
-      success: function(o) {
-        $('#btn-female').addClass('active');
-        $("#btn-male").removeClass('active');
-        $("#hidden-gender").val("Female");
-      }
-    });
+    $('#btn-female').addClass('active');
+    $("#btn-male").removeClass('active');
+    $("#hidden-gender").val("Female");
   });
 
   $('#btn-edit-info').click(function(event)
@@ -67,7 +59,7 @@ $(document).ready(function()
     }    
   });
 
-  var rowCount = 0;
+  var rowCount = 1;
   $('#btn-add-bus-activity').click(function(){
     rowCount++;
     console.log(rowCount);
@@ -108,6 +100,7 @@ $(document).ready(function()
   function process_business_activity(reference_number)
   {
     var ctr = 0;
+    var total_rows = count_business_activities();
     $("#bus-activity tbody .data").each(function() {
       ctr++;
       var code = $(this).find("td:nth-child(1) input").val();
@@ -124,21 +117,39 @@ $(document).ready(function()
         $.ajax({
           type:"POST",
           url:base_url+"dashboard/store_business_activity",
-          data:{code:code, lineOfBusiness:lineOfBusiness, numOfUnits:numOfUnits, capitalization:capitalization, referenceNum:reference_number},
+          dataType:'json',
+          data:{ctr:ctr, total_rows:total_rows, code:code, lineOfBusiness:lineOfBusiness, numOfUnits:numOfUnits, capitalization:capitalization, referenceNum:reference_number},
           success: function(o){
-            console.log('Row '+ ctr +' okay!');
+            if(o == "success")
+            {
+              console.log("Success!");
+              console.log("Redirecting...");
+              window.setTimeout(function() { 
+                window.location = base_url+"dashboard"; 
+              },2000);
+            }
+            else
+            {
+              console.log(o);
+            }
           }
         });
       }
-      console.log(ctr);
-      if(ctr == rowCount)
-      {
-        console.log("Redirecting...");
-        window.setTimeout(function() { 
-          window.location = base_url+"dashboard"; 
-        },2000);
-      }
+      // console.log(ctr);
+      // if(ctr == rowCount)
+      // {
+
+      // }
     });
+  }
+
+  function count_business_activities()
+  {
+    var total_rows = 0;
+    $("#bus-activity tbody .data").each(function() {
+      total_rows++;
+    });
+    return total_rows;
   }
 
 

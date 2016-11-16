@@ -39,7 +39,7 @@ class Dashboard extends CI_Controller {
 		if($is_registered)
 		{
 			$data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
-			$data['application'] = $this->Application_m->get_all_applications($user_id);
+			$data['applications'] = $this->Application_m->get_all_applications($user_id);
 			$this->load->view('dashboard/applicant/index', $data);	
 		}
 		else
@@ -71,10 +71,10 @@ class Dashboard extends CI_Controller {
 		$this->isLogin();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		$this->form_validation->set_rules('DTISECCDA_RegNum', 'DTI/SEC/CDA Registration Number', 'required');
+		$this->form_validation->set_rules('DTISECCDA_RegNum', 'DTI/SEC/CDA Registration Number', 'required|numeric');
 		$this->form_validation->set_rules('DTISECCDA_Date', 'DTI/SEC/CDA Date', 'required');
 		$this->form_validation->set_rules('organization-type', 'Organization Type', 'required');
-		$this->form_validation->set_rules('ctc-number', 'CTC Number', 'required');
+		$this->form_validation->set_rules('ctc-number', 'CTC Number', 'required|numeric');
 		$this->form_validation->set_rules('tin', 'TIN', 'required');
 
 		if($this->input->post('tax-incentive'))
@@ -92,17 +92,17 @@ class Dashboard extends CI_Controller {
 
 		$this->form_validation->set_rules('house-bldg-no', 'House No./Building No.', 'required');
 		$this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
-		$this->form_validation->set_rules('unit-no', 'Unit Number', 'required');
+		$this->form_validation->set_rules('unit-no', 'Unit Number', 'required|numeric');
 		$this->form_validation->set_rules('street', 'Street', 'required');
 		$this->form_validation->set_rules('barangay', 'Barangay', 'required');
 		$this->form_validation->set_rules('subdivision', 'Subdivision', 'required');
 		$this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
 		$this->form_validation->set_rules('province', 'Province', 'required');
 
-		$this->form_validation->set_rules('tel-num', 'Telephone Number', 'required');
-		$this->form_validation->set_rules('email', 'email', 'required');
+		$this->form_validation->set_rules('tel-num', 'Telephone Number', 'required|numeric');
+		$this->form_validation->set_rules('email', 'email', 'required|valid_email');
 		$this->form_validation->set_rules('pin', 'Property Index Number (PIN)', 'required');
-		$this->form_validation->set_rules('total-employee-num', 'Total Number of Employees', 'required');
+		$this->form_validation->set_rules('total-employee-num', 'Total Number of Employees', 'required|numeric');
 
 		if($this->input->post('rented'))
 		{
@@ -114,11 +114,11 @@ class Dashboard extends CI_Controller {
 			$this->form_validation->set_rules('lessor-city-municipality', "Lessor's City/Municipality", 'required');
 			$this->form_validation->set_rules('lessor-province', "Lessor's Province", 'required');
 			$this->form_validation->set_rules('lessor-monthly-rental', "Lessor's Monthly Rental", 'required');
-			$this->form_validation->set_rules('lessor-tel-cel-no', "Lessor's Telephone/Cellphone Number", 'required');
-			$this->form_validation->set_rules('lessor-email', "Lessor's Email", 'required');
+			$this->form_validation->set_rules('lessor-tel-cel-no', "Lessor's Telephone/Cellphone Number", 'required|numeric');
+			$this->form_validation->set_rules('lessor-email', "Lessor's Email", 'required|valid_email');
 			$this->form_validation->set_rules('lessor-address', "Lessor's Address", 'required');
 			$this->form_validation->set_rules('emergency-contact-name', "Lessor's Address", 'required');
-			$this->form_validation->set_rules('emergency-tel-cel-no', "Lessor's Address", 'required');
+			$this->form_validation->set_rules('emergency-tel-cel-no', "Lessor's Address", 'required|numeric');
 			$this->form_validation->set_rules('emergency-email', "Lessor's Address", 'required');
 		}
 
@@ -129,7 +129,7 @@ class Dashboard extends CI_Controller {
 
 		if($this->form_validation->run() == false)
 		{
-			$data['error'] = "Error: Please fill out all the fields";
+			$data['error'] = "Error: Please resolve invalid inputs.";
 			echo json_encode($data);
 			// $this->session->set_flashdata('error', validation_errors());
 			// redirect('dashboard/new_application_validate');
@@ -229,5 +229,15 @@ class Dashboard extends CI_Controller {
 			);
 
 		$this->Business_Activity_m->insert_business_activity($fields);
+		$ctr = $this->input->post('ctr');
+		$total = $this->input->post('total_rows');
+		if($ctr == $total)
+		{
+			echo json_encode("success");
+		}
+		else
+		{
+			echo json_encode($ctr." out of ".$total);
+		}
 	}
 }//END OF CLASS
