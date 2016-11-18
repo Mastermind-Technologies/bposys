@@ -33,7 +33,10 @@ hr{ border-top-color:#dadada;}
 .label-important, .badge-important{ background:#f74d4d;}
 
 /*Metro Background color class*/
-.bg_lb{ background:#27a9e3;}
+.bg_a{ background:#EABB2C;}
+.bg_b{ background:#E53333;}
+.bg_c{ background:#28b779;}
+.bg_lb{ background:#28b779;}
 .bg_db{ background:#2295c9;}
 .bg_lg{ background:#28b779;}
 .bg_dg{ background:#28b779;}
@@ -53,7 +56,7 @@ hr{ border-top-color:#dadada;}
 	z-index: -9;
 }
 #header h1 {
-	background: url(http://localhost/bposys/assets/matrix/img/logo.png) no-repeat scroll 0 0 transparent;
+	background: url(../img/logo.png) no-repeat scroll 0 0 transparent;
 	height: 31px;
 	left: 20px;
 	line-height: 600px;
@@ -298,12 +301,12 @@ hr{ border-top-color:#dadada;}
 	width:100%;
 	text-align:center; position:relative;
 	float:left;
-	margin-top:10px;
+	/*margin-top:10px;*/
 }
 .stat-boxes, .quick-actions, .quick-actions-horizontal, .stats-plain {
 	display: block;
 	list-style: none outside none;
-	margin: 15px 0;
+	margin: 0px 0;
 	text-align: center;
 }
 .stat-boxes2 {
