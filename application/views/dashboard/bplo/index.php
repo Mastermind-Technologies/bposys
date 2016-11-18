@@ -7,7 +7,11 @@
 
 <!--Action boxes-->
   <div class="container-fluid">
-    <h1>Hello World!</h1>
+    <h1 class='text-center'>Hello World!</h1>
+    <div class="block center-block">
+    	<label for="">Test Noty</label>
+    	<button class="btn btn-primary" id="btn-test-noty">Noty</button>
+    </div>
   </div>
 </div>
 

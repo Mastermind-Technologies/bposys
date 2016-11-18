@@ -37,8 +37,11 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-        <!-- jQuery -->
+    <!-- jQuery -->
     <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/jquery/jquery.min.js"></script>
+
+    <!-- noty -->
+    <script src="<?php echo base_url(); ?>assets/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/bootstrap/js/bootstrap.min.js"></script>
