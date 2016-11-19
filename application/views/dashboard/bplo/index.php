@@ -1,23 +1,23 @@
 <div id="content">
   <!--breadcrumbs-->
   <div id="content-header">
-    <!-- <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div> -->
+    <div id="breadcrumb"> <a class="tip-bottom"><i class="icon-home"></i> Dashboard</a></div>
   </div>
   <!--End-breadcrumbs-->
 
   <!--Action boxes-->
   <div class="container-fluid">
-    <h1>Staff Name</h1>
+    <h1><?= "(".$user[0]->middleName.") ". $user[0]->lastName . ", " . $user[0]->firstName ?></h1>
     <hr>
-    <h3>Department</h3>
+    <h3>Department: <?= $this->encryption->decrypt($this->session->userdata['userdata']['role']) ?></h3>
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
         <li class="bg_ly"> <a href="#"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
- <span class="label label-important">5</span><br><span>Pending</span> </a> </li>
-        <li class="bg_db"> <a href="#"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
- <span class="label label-success">16</span><br>Incoming </a> </li>
+ <span class="label label-important"><?= $pending ?></span><br><span>Pending</span> </a> </li>
+        <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
+ <span class="label label-success"><?= $incoming ?></span><br>Incoming </a> </li>
         <li class="bg_c"> <a href="#"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
- <span class="label label-info">239</span><br>Issued this month </a> </li>
+ <span class="label label-info"><?= $issued ?></span><br>Issued this month </a> </li>
         <!-- <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li>
         <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li> -->
        <!--  <li class="bg_lg span3"> <a href="charts.html"> <i class="icon-signal"></i> Charts</a> </li>
@@ -160,8 +160,8 @@
 
 <!--Footer-part-->
 
-<div class="row-fluid">
+<!-- <div class="row-fluid">
   <div id="footer" class="span12"> 2013 &copy; Matrix Admin. Brought to you by <a href="http://themedesigner.in">Themedesigner.in</a> </div>
-</div>
+</div> -->
 
 <!--end-Footer-part-->

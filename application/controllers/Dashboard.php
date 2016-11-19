@@ -48,6 +48,7 @@ class Dashboard extends CI_Controller {
 			{
 				$data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
 				$data['applications'] = $this->Application_m->get_all_applications($user_id);
+				$data['user'][0]->password = '';
 				$this->load->view('dashboard/applicant/index', $data);	
 			}
 			else
@@ -59,8 +60,12 @@ class Dashboard extends CI_Controller {
 		else if($role == 'BPLO')
 		{
 			$this->_init_matrix();
+			$data['incoming'] = sizeof($this->Application_m->get_waiting_applications());
+			$data['issued'] = sizeof([]);
+			$data['pending'] =sizeof([]);
 			$data['user'] = $this->User_m->get_user_details($user_id);
-			$this->load->view('dashboard/bplo/index');
+			$data['user'][0]->password = '';
+			$this->load->view('dashboard/bplo/index', $data);
 		}
 	}
 
@@ -191,7 +196,7 @@ class Dashboard extends CI_Controller {
 				'email' => $this->input->post('email'),
 				'PIN' => $this->input->post('pin'),
 				'numOfEmployees' => $this->input->post('total-employee-num'),
-				'status' => 'Pending'
+				'status' => 'Waiting'
 				);
 
 			$this->Application_m->insert_application($data['application_fields']);
@@ -254,5 +259,15 @@ class Dashboard extends CI_Controller {
 		{
 			echo json_encode($ctr." out of ".$total);
 		}
+	}
+
+	public function incoming_applications()
+	{
+		$this->isLogin();
+		$this->_init_matrix();
+
+		$data['incoming'] = $this->Application_m->get_waiting_applications();
+		$this->load->view('dashboard/bplo/incoming',$data);
+
 	}
 }//END OF CLASS
