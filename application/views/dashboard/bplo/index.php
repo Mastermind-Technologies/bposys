@@ -1,23 +1,27 @@
 <div id="content">
   <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> <a class="tip-bottom"><i class="icon-home"></i> Dashboard</a></div>
+    <div id="breadcrumb"> 
+      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
+    </div>
+    <!--End-breadcrumbs-->
   </div>
-  <!--End-breadcrumbs-->
 
-  <!--Action boxes-->
+
+
   <div class="container-fluid">
     <h1><?= "(".$user[0]->middleName.") ". $user[0]->lastName . ", " . $user[0]->firstName ?></h1>
     <hr>
     <h3>Department: <?= $this->encryption->decrypt($this->session->userdata['userdata']['role']) ?></h3>
+    <!--Action boxes-->
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
         <li class="bg_ly"> <a href="#"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
- <span class="label label-important"><?= $pending ?></span><br><span>Pending</span> </a> </li>
-        <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
- <span class="label label-success"><?= $incoming ?></span><br>Incoming </a> </li>
-        <li class="bg_c"> <a href="#"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
- <span class="label label-info"><?= $issued ?></span><br>Issued this month </a> </li>
+         <span class="label label-important"><?= $pending ?></span><br><span>Pending</span> </a> </li>
+         <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
+           <span class="label label-success"><?= $incoming ?></span><br>Incoming </a> </li>
+           <li class="bg_c"> <a href="#"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
+             <span class="label label-info"><?= $issued ?></span><br>Issued this month </a> </li>
         <!-- <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li>
         <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li> -->
        <!--  <li class="bg_lg span3"> <a href="charts.html"> <i class="icon-signal"></i> Charts</a> </li>
@@ -35,7 +39,7 @@
       <div class="span4">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-eye-open"></i> </span>
-          <h5>Browser statistics</h5>
+            <h5>Browser statistics</h5>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered">
@@ -156,9 +160,8 @@
     	<button class="btn btn-primary" id="btn-test-noty">Noty</button>
     </div> -->
   </div>
-</div>
 
-<!--Footer-part-->
+  <!--Footer-part-->
 
 <!-- <div class="row-fluid">
   <div id="footer" class="span12"> 2013 &copy; Matrix Admin. Brought to you by <a href="http://themedesigner.in">Themedesigner.in</a> </div>

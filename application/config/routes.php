@@ -57,3 +57,4 @@ $route['home'] = 'home';
 $route['login'] = 'auth/login';
 $route['register'] = 'auth/register';
 $route['dashboard'] = "dashboard/index";
+$route['dashboard/incoming_applications/view/(:any)'] = 'dashboard/incoming_view/$1';

@@ -158,7 +158,7 @@ $config['composer_autoload'] = FALSE;
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-=+';
 
 /*
 |--------------------------------------------------------------------------
@@ -315,7 +315,8 @@ $config['cache_query_string'] = FALSE;
 |
 */
 //$key = bin2hex($this->encryption->create_key(16));
-$config['encryption_key'] = '�si��ŕ9��1ѽ�P';
+$config['encryption_key'] = hex2bin('442b5d94ebe4946154b763097d277f34');
+//�si��ŕ9��1ѽ�P
 
 /*
 |--------------------------------------------------------------------------

@@ -16,7 +16,7 @@ class Application_m extends CI_Model {
 
   public function get_application_details($reference_number = null)
   {
-  	$this->db->select('*')->from($this->_table_name)->where(['referenceNum' => $reference_number])->limit(1);
+  	$this->db->select('*')->from($this->_table_name)->where(['referenceNum' => $reference_number])->or_where(['applicationId' => $reference_number])->limit(1);
   	$result = $this->db->get();
 
   	return $result->result();
@@ -52,7 +52,7 @@ class Application_m extends CI_Model {
   	//encrypt raw reference
   	$encrypted_reference = $this->encryption->encrypt($raw_reference);
 
-  	//get first 8 characters of encrpyted reference
+  	//get first 10 characters of encrpyted reference
   	$reference_number = strtoupper(substr($encrypted_reference, 0, 10));
 
   	//update reference number of application
