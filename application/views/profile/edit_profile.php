@@ -51,16 +51,28 @@
 										</div>
 										<div class="col-sm-3">
 											<label for="">Birth date</label>
-											<div class="col-sm-12" style="padding:0;">
-												<div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="month" placeholder="MM" value="<?= substr($user[0]->birthDate,0,2) ?>"></div>
-												<div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="day" placeholder="DD" value="<?= substr($user[0]->birthDate,3,2) ?>"></div>
-												<div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="year" placeholder="YYYY" value="<?= substr($user[0]->birthDate,6,4) ?>"></div>
+											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group">
+														<div class="input-group date">
+														<input type="text" required id="datetimepicker1" name="birth-date" class="form-control" data="DateTimePicker" value="<?= $user[0]->birthDate ?>" />  <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+														</div>
+													</div>
+												</div>
 											</div>
+											<script>
+												$(document).ready(function(){
+													$('#datetimepicker1').datetimepicker({
+														format: 'MM/DD/YYYY',
+														viewMode: 'years'
+													});
+												});
+											</script>
 										</div>
 										<div class="col-sm-3">
 											<label for="civil-staus">Civil Status</label>
 											<div class="form-group">
-												<select class="form-control" name="civil-status" id="civil-status">
+												<select class="form-control" required name="civil-status" id="civil-status">
 													<option <?= $user[0]->civilStatus=="" ? 'selected' : '' ?> disabled select>Civil Status</option>
 													<option <?= $user[0]->civilStatus=="Single" ? 'selected' : '' ?> value="Single">Single</option>
 													<option <?= $user[0]->civilStatus=="Married" ? 'selected' : '' ?> value="Married">Married</option>

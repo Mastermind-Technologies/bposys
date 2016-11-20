@@ -14,11 +14,11 @@
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/landing-page/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Bootstrap Datetimepicker CSS -->
+    <link href="<?php echo base_url(); ?>assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="<?php echo base_url(); ?>assets/landing-page/css/landing-page.css" rel="stylesheet">
-
-    <!-- Datepicker -->
-    <link href="<?php echo base_url(); ?>assets/css/datepicker.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="<?php echo base_url(); ?>assets/landing-page/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -28,13 +28,17 @@
     <script src="<?php echo base_url(); ?>assets/landing-page/js/jquery.js"></script>
     <!-- <script src="<?php echo base_url(); ?>assets/matrix/js/jquery.min.js"></script>  -->
 
+    <!-- Moment -->
+    <script src="<?php echo base_url(); ?>assets/js/moment.min.js"></script>
+
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo base_url(); ?>assets/landing-page/js/bootstrap.min.js"></script>
 
+    <!-- Custom JS -->
     <script src="<?php echo base_url(); ?>assets/js/register.js"></script>
 
     <!-- Datepicker -->
-    <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

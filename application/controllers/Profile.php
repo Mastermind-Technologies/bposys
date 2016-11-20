@@ -62,6 +62,7 @@ class Profile extends CI_Controller {
 
 		$this->form_validation->set_rules('fname', 'First Name', 'required');
 		$this->form_validation->set_rules('lname', 'Last Name', 'required');
+		$this->form_validation->set_rules('birth-date', 'Birth Date', 'required');
 		$this->form_validation->set_rules('gender', 'Gender', 'required');
 		$this->form_validation->set_rules('house-bldg-no', 'Civil Status', 'required');
 		$this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
@@ -83,9 +84,9 @@ class Profile extends CI_Controller {
 		}
 		else
 		{
-			$month = $this->input->post('month');
-			$day = $this->input->post('day');
-			$year = $this->input->post('year');
+			// $month = $this->input->post('month');
+			// $day = $this->input->post('day');
+			// $year = $this->input->post('year');
 
 			$user_fields = array(
 				'firstName' => $this->input->post('fname'),
@@ -93,7 +94,7 @@ class Profile extends CI_Controller {
 				'middleName' => $this->input->post('mname'),
 				'suffix' => $this->input->post('suffix'),
 				'gender' => $this->input->post('gender'),
-				'birthDate' => $month . "/" . $day . "/" . $year,
+				'birthDate' => $this->input->post('birth-date'),
 				'civilStatus' => $this->input->post('civil-status'),
 				);
 

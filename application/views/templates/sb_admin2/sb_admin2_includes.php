@@ -12,6 +12,9 @@
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/sb_admin2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Bootstrap Datetimepicker CSS -->
+    <link href="<?php echo base_url(); ?>assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
     <!-- MetisMenu CSS -->
     <link href="<?php echo base_url(); ?>assets/sb_admin2/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
@@ -40,6 +43,9 @@
     <!-- jQuery -->
     <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/jquery/jquery.min.js"></script>
 
+    <!-- Moment -->
+    <script src="<?php echo base_url(); ?>assets/js/moment.min.js"></script>
+
     <!-- noty -->
     <script src="<?php echo base_url(); ?>assets/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 
@@ -48,6 +54,9 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Datepicker -->
+    <script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.min.js"></script>
 
     <!-- Morris Charts JavaScript -->
     <!-- <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/raphael/raphael.min.js"></script>

@@ -50,59 +50,71 @@
           </div>
           <div class="col-sm-6 col-sm-offset-2">
             <label for="">Birth date</label>
-            <div class="col-sm-12" style="padding:0;">
-              <div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="month" placeholder="MM" value=""></div>
-              <div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="day" placeholder="DD" value=""></div>
-              <div class="col-sm-4" style="padding:0;"><input type="text" class="form-control" name="year" placeholder="YYYY" value=""></div>
+            <div class="row">
+              <div class="col-md-12">
+               <div class="form-group">
+                 <div class="input-group date">
+                 <input type="text" id="datetimepicker1" name="birth-date" class="form-control" data="DateTimePicker" />  <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+                </div>
+              </div>
             </div>
           </div>
+          <script>
+            $(document).ready(function(){
+              $('#datetimepicker1').datetimepicker({
+                format: 'MM/DD/YYYY',
+                viewMode: 'years'
+              });
+            });
+          </script>
         </div>
-        <div class="row">
+      </div>
+      <div class="row">
         <div class="col-sm-6">
-            <div class="col-sm-12" style="padding:0">
-              <label for="civil-staus">Civil Status</label>
-              <div class="form-group">
-                <select class="form-control" name="civil-status" id="civil-status">
-                  <option selected disabled select>Civil Status</option>
-                  <option value="Single">Single</option>
-                  <option value="Married">Married</option>
-                  <option value="Separated">Separated</option>
-                  <option value="Widowed">Widowed</option>
-                  <option value="Divorced">Divorced</option>
-                  <option value="Annulled">Annulled</option>
-                  <option value="Widower">Widower</option>
-                  <option value="Single Parent">Single Parent</option>
-                </select>
-              </div>
-            </div>     
-          </div>
+          <div class="col-sm-12" style="padding:0">
+            <label for="civil-staus">Civil Status</label>
+            <div class="form-group">
+              <select class="form-control" name="civil-status" id="civil-status">
+                <option selected disabled select>Civil Status</option>
+                <option value="Single">Single</option>
+                <option value="Married">Married</option>
+                <option value="Separated">Separated</option>
+                <option value="Widowed">Widowed</option>
+                <option value="Divorced">Divorced</option>
+                <option value="Annulled">Annulled</option>
+                <option value="Widower">Widower</option>
+                <option value="Single Parent">Single Parent</option>
+              </select>
+            </div>
+          </div>     
         </div>
+      </div>
 
-        <div class="row">
-          <div class="col-sm-6">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" name="email" value="">
-          </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" name="email" value="">
         </div>
+      </div>
 
-        <div class="row">
-          <div class="col-sm-6">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" name="password" value="">
-          </div>
-          <div class="col-sm-6">
-            <label for="confirm-password">Confirm Password</label>
-            <input type="password" class="form-control" name="confirm-password" value="">
-          </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" name="password" value="">
         </div>
+        <div class="col-sm-6">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" class="form-control" name="confirm-password" value="">
+        </div>
+      </div>
 
-        <hr>
-        <div class="col-sm-6 col-sm-offset-3">
-          <input type="submit" class="btn btn-primary btn-block" name="name" value="Submit">
-        </div>
-      </form>
-    </div>
+      <hr>
+      <div class="col-sm-6 col-sm-offset-3">
+        <input type="submit" class="btn btn-primary btn-block" name="name" value="Submit">
+      </div>
+    </form>
   </div>
+</div>
 </div>
 
 
