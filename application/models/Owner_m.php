@@ -32,9 +32,12 @@ class Owner_m extends CI_Model {
     return true;
   }
 
-  public function get_owner_details($fields = null)
+  public function get_all_owner($query = null)
   {
+    $this->db->select('*')->from($this->_table_name)->where($query);
+    $result = $this->db->get();
 
+    return $result->result();
   }
 
   public function get_full_details($fields = null)

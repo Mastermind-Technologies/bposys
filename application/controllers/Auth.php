@@ -54,7 +54,11 @@ class Auth extends CI_Controller {
 
       if($check)
       {
-        $data['user'] = $this->User_m->get_user_details($user_id);
+        $query = array(
+          'userId' => $user_id
+          );
+        $data['user'] = $this->User_m->get_all_users($query);
+
         $data['role'] = $this->User_m->check_user_role($data['user'][0]->role);
         // echo "<pre>";
         // print_r($data);

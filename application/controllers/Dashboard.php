@@ -47,23 +47,37 @@ class Dashboard extends CI_Controller {
 			if($is_registered)
 			{
 				$data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
-				$data['applications'] = $this->Application_m->get_all_applications($user_id);
+
+				$query = array(
+					'userId' => $user_id
+					);
+				$data['applications'] = $this->Application_m->get_all_applications($query);
+
 				$data['user'][0]->password = '';
 				$this->load->view('dashboard/applicant/index', $data);	
 			}
 			else
 			{
-				$data['user'] = $this->User_m->get_user_details($user_id);
+				$query = array(
+					'userId' => $user_id
+					);
+				$data['user'] = $this->User_m->get_all_users($query);
 				redirect('profile/edit');
 			}
 		}
 		else if($role == 'BPLO')
 		{
 			$this->_init_matrix();
-			$data['incoming'] = sizeof($this->Application_m->get_waiting_applications());
+			$query = array(
+				'status' => 'Waiting'
+				);
+			$data['incoming'] = sizeof($this->Application_m->get_all_applications($query));
 			$data['issued'] = sizeof([]);
 			$data['pending'] =sizeof([]);
-			$data['user'] = $this->User_m->get_user_details($user_id);
+			$query = array(
+					'userId' => $user_id
+					);
+			$data['user'] = $this->User_m->get_all_users($query);
 			$data['user'][0]->password = '';
 			$this->load->view('dashboard/bplo/index', $data);
 		}
@@ -266,13 +280,16 @@ class Dashboard extends CI_Controller {
 		$this->isLogin();
 		$this->_init_matrix();
 
-		$data['incoming'] = $this->Application_m->get_waiting_applications();
+		$query = array(
+			'status' => 'Waiting'
+			);
+		$data['incoming'] = $this->Application_m->get_all_applications($query);
 
 		// $encrypted = $this->encryption->encrypt(
 		// 	'hehe',
 		// 	array(
-		// 		'cipher' => 'aes-128',
-		// 		'mode' => 'ofb',
+		// 		'cipher' => 'blowfish',
+		// 		'mode' => 'ecb',
 		// 		'key' => $this->config->item('encryption_key'),
 		// 		'hmac' => false
 		// 		)
@@ -288,7 +305,12 @@ class Dashboard extends CI_Controller {
 		// echo "<pre>";
 		// print_r($data['custom_encrypt']);
 		// echo "</pre>";
-		// var_dump(bin2hex($encrypted));
+		// var_dump($this->encryption->decrypt($encrypted, array(
+		// 		'cipher' => 'blowfish',
+		// 		'mode' => 'ecb',
+		// 		'key' => $this->config->item('encryption_key'),
+		// 		'hmac' => false
+		// 		)));
 		// exit();
 
 
@@ -300,12 +322,28 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$this->_init_matrix();
-		$application_id = $this->encryption->decrypt($application_id);
+
+		$decrypt_credentials = array(
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
+		$application_id = $this->encryption->decrypt(hex2bin($application_id), $decrypt_credentials);
+
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		$data['application'] = $this->Application_m->get_application_details($application_id);
+		// var_dump($application_id);
+		// exit();
+
+		$query = array(
+			'applicationId' => $application_id
+			);
+
+		$data['application'] = $this->Application_m->get_all_applications($query);
 		$param['userId'] = $this->encryption->encrypt($data['application'][0]->userId);
 		$data['owner'] = $this->Owner_m->get_full_details($param);
+		$data['owner'][0]->password = 'HIDDEN';
 
 		$this->load->view('dashboard/bplo/view',$data);
 	}

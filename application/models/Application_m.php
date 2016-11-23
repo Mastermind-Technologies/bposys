@@ -14,29 +14,29 @@ class Application_m extends CI_Model {
   	$this->db->insert($this->_table_name, $fields);
   }
 
-  public function get_application_details($reference_number = null)
-  {
-  	$this->db->select('*')->from($this->_table_name)->where(['referenceNum' => $reference_number])->or_where(['applicationId' => $reference_number])->limit(1);
-  	$result = $this->db->get();
+  // public function get_application_details($reference_number = null)
+  // {
+  // 	$this->db->select('*')->from($this->_table_name)->where(['referenceNum' => $reference_number])->or_where(['applicationId' => $reference_number])->limit(1);
+  // 	$result = $this->db->get();
 
-  	return $result->result();
-  }
+  // 	return $result->result();
+  // }
 
-  public function get_all_applications($user_id = null)
+  public function get_all_applications($query = null)
   {
-  	$this->db->select('*')->from($this->_table_name)->where(['userId' => $user_id]);
+  	$this->db->select('*')->from($this->_table_name)->where($query);
     $result = $this->db->get();
 
     return $result->result();
   }
 
-  public function get_waiting_applications()
-  {
-    $this->db->select('*')->from($this->_table_name)->where(['status' => 'Waiting']);
-    $result = $this->db->get();
+  // public function get_waiting_applications()
+  // {
+  //   $this->db->select('*')->from($this->_table_name)->where(['status' => 'Waiting']);
+  //   $result = $this->db->get();
 
-    return $result->result();
-  }
+  //   return $result->result();
+  // }
 
   public function update_application_reference_number($user_id = null)
   {

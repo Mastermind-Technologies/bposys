@@ -56,12 +56,19 @@ class User_m extends CI_Model {
     return $result->result();
   }
 
-  public function get_user_details($user_id = null)
+  public function get_all_users($query = null)
   {
-    $this->db->select('*')->from($this->_table_name)->where(['userId' => $user_id])->limit(1);
+    $this->db->select('*')->from($this->_table_name)->where($query);
     $result = $this->db->get();
     return $result->result();
   }
+
+  // public function get_user_details($user_id = null)
+  // {
+  //   $this->db->select('*')->from($this->_table_name)->where(['userId' => $user_id])->limit(1);
+  //   $result = $this->db->get();
+  //   return $result->result();
+  // }
 
   public function check_user_role($role_id = null)
   {
