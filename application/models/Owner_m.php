@@ -34,7 +34,11 @@ class Owner_m extends CI_Model {
 
   public function get_all_owner($query = null)
   {
-    $this->db->select('*')->from($this->_table_name)->where($query);
+    if($query != null)
+    {
+      $this->db->where($query);
+    }
+    $this->db->select('*')->from($this->_table_name)->join($this->_table_users,'owners.userId = users.userId');
     $result = $this->db->get();
 
     return $result->result();

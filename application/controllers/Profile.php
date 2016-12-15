@@ -9,6 +9,10 @@ class Profile extends CI_Controller {
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
 		$this->load->library('form_validation');
+
+		//object classes
+		// $this->load->library('User');
+		// $this->load->library('Owner');
 	}
 
 	public function _init()
@@ -39,14 +43,13 @@ class Profile extends CI_Controller {
 		$is_registered = $this->Owner_m->check_owner($user_id);
 		if($is_registered)
 		{
-			$data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
+			$owner = new Owner($user_id);
+			$data['user'] = $owner;
 		}
 		else
 		{
-			$query = array(
-				'userId' => $user_id
-				);
-			$data['user'] = $this->User_m->get_all_users($query);
+			$user = new User($user_id);
+			$data['user'] = $user;
 		}
 
 		// echo "<pre>";
@@ -87,10 +90,6 @@ class Profile extends CI_Controller {
 		}
 		else
 		{
-			// $month = $this->input->post('month');
-			// $day = $this->input->post('day');
-			// $year = $this->input->post('year');
-
 			$user_fields = array(
 				'firstName' => $this->input->post('fname'),
 				'lastName' => $this->input->post('lname'),

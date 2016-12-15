@@ -7,6 +7,8 @@ class Application_m extends CI_Model {
   {
     parent::__construct();
     $this->_table_name = 'applications';
+    $this->_lessor_table = 'lessors';
+    $this->_business_activity_table = 'business_activities';
   }
 
   public function insert_application($fields = null)
@@ -22,9 +24,19 @@ class Application_m extends CI_Model {
   // 	return $result->result();
   // }
 
+  public function get_all_applications_full($query = null)
+  {
+    $this->db->select('*')->from($this->_table_name)->join($this->_lessor_table, 'applications.referenceNum = lessors.referenceNum')->join($this->_business_activity_table, 'applications.referenceNum = business_activities.referenceNum');
+    $result = $this->db->get();
+
+    return $result->result();
+  }
+
   public function get_all_applications($query = null)
   {
-  	$this->db->select('*')->from($this->_table_name)->where($query);
+    if($query != null)
+      $this->db->where($query);
+  	$this->db->select('*')->from($this->_table_name);
     $result = $this->db->get();
 
     return $result->result();

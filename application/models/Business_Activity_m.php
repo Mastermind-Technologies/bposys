@@ -16,7 +16,9 @@ class Business_Activity_m extends CI_Model {
 
   public function get_all_business_activity($query = null)
   {
-    $this->db->select('*')->from($this->_table_name)->where($query);
+    if($query != null)
+        $this->db->where($query);
+    $this->db->select('*')->from($this->_table_name);
     $result = $this->db->get();
 
     return $result->result();

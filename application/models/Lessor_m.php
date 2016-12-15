@@ -16,7 +16,10 @@ class Lessor_m extends CI_Model {
 
   public function get_all_lessor($query = null)
   {
-    $this->db->select('*')->from($this->_table_name)->where($query);
+    if($query != null)
+      $this->db->where($query);
+
+    $this->db->select('*')->from($this->_table_name);
     $result = $this->db->get();
     return $result->result();
   }

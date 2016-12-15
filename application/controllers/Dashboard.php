@@ -12,6 +12,12 @@ class Dashboard extends CI_Controller {
 		$this->load->model('Lessor_m');
 		$this->load->model('Business_Activity_m');
 		$this->load->library('form_validation');
+
+		//interfaces
+		// $this->load->library('Person');
+
+		//object classes
+		// $this->load->library('User');
 	}
 
 	public function _init()
@@ -40,13 +46,29 @@ class Dashboard extends CI_Controller {
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 
+		// $user = new User();
+		// $user->get_information($user_id);
+
+		// $result = $this->Application_m->get_all_applications();
+		// $result = $this->User_m->get_all_users();
+		// foreach ($result as $key => $a) {
+		// 	$application[$key] = new Application();
+		// 	$application[$key]->map_application_non_array($a);
+		// }
+		// echo "<pre>";
+		// print_r($user->get_firstName()." "."POGI!");
+		// echo "<pre>";
+		// exit();
+
 		if($role == 'Applicant')
 		{
 			$this->_init();
 			$is_registered = $this->Owner_m->check_owner($user_id);
 			if($is_registered)
 			{
-				$data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
+				// $data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
+				$user = new Owner();
+				$data['user'] = $user
 
 				$query = array(
 					'userId' => $user_id
@@ -58,10 +80,6 @@ class Dashboard extends CI_Controller {
 			}
 			else
 			{
-				$query = array(
-					'userId' => $user_id
-					);
-				$data['user'] = $this->User_m->get_all_users($query);
 				redirect('profile/edit');
 			}
 		}
@@ -75,8 +93,8 @@ class Dashboard extends CI_Controller {
 			$data['issued'] = sizeof([]);
 			$data['pending'] =sizeof([]);
 			$query = array(
-					'userId' => $user_id
-					);
+				'userId' => $user_id
+				);
 			$data['user'] = $this->User_m->get_all_users($query);
 			$data['user'][0]->password = '';
 			$this->load->view('dashboard/bplo/index', $data);
@@ -92,7 +110,7 @@ class Dashboard extends CI_Controller {
 		$this->load->view('dashboard/applicant/new_application');
 	}
 
-		public function new_application_validate()
+	public function new_application_validate()
 	{
 		$this->isLogin();
 		$this->_init();

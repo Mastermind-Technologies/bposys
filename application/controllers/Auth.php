@@ -8,6 +8,9 @@ class Auth extends CI_Controller {
     parent::__construct();
     $this->load->library('form_validation');
     $this->load->model('User_m');
+
+    //object
+    $this->load->library('User');
   }
 
   public function _init($title = null, $selected = null)
@@ -123,9 +126,6 @@ class Auth extends CI_Controller {
     }
     else
     {
-      // $month = $this->input->post('month');
-      // $day = $this->input->post('day');
-      // $year = $this->input->post('year');
       $raw_pw = $this->input->post('password');
 
       $options = [
@@ -146,9 +146,7 @@ class Auth extends CI_Controller {
         'birthDate' => $this->input->post('birth-date')
         );
 
-      $result = $this->User_m->register_user($fields);
-
-      if($result)
+      if($this->User_m->register_user($fields))
       {
         $this->session->set_flashdata('success','Registration Successful!');
         redirect('home');
