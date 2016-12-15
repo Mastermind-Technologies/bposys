@@ -28,9 +28,9 @@
           <tbody>
             <?php foreach ($incoming as $application): ?>
               <tr>
-                <td><?= $application->referenceNum ?></td>
-                <td><?= $application->businessName ?></td>
-                <td><a href="<?php echo base_url(); ?>dashboard/incoming_applications/view/<?= bin2hex($this->encryption->encrypt($application->applicationId, $custom_encrypt)) ?>" class="btn btn-info btn-block">Show Details</a></td>
+                <td><?= $this->encryption->decrypt($application->get_referenceNum()) ?></td>
+                <td><?= $application->get_businessName() ?></td>
+                <td><a href="<?php echo base_url(); ?>dashboard/incoming_applications/view/<?= bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt)) ?>" class="btn btn-info btn-block">Show Details</a></td>
               </tr>
             <?php endforeach; ?>
           </tbody>

@@ -5,6 +5,7 @@ class Dashboard extends CI_Controller {
 
 	public function __construct()
 	{
+		//object classes are autoloaded from config/autoload.php
 		parent::__construct();
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
@@ -12,12 +13,6 @@ class Dashboard extends CI_Controller {
 		$this->load->model('Lessor_m');
 		$this->load->model('Business_Activity_m');
 		$this->load->library('form_validation');
-
-		//interfaces
-		// $this->load->library('Person');
-
-		//object classes
-		// $this->load->library('User');
 	}
 
 	public function _init()
@@ -46,40 +41,24 @@ class Dashboard extends CI_Controller {
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 
-		// $user = new User();
-		// $user->get_information($user_id);
-
-		// $result = $this->Application_m->get_all_applications();
-		// $result = $this->User_m->get_all_users();
-		// foreach ($result as $key => $a) {
-		// 	$application[$key] = new Application();
-		// 	$application[$key]->map_application_non_array($a);
-		// }
-		// echo "<pre>";
-		// print_r($user->get_firstName()." "."POGI!");
-		// echo "<pre>";
-		// exit();
-
 		if($role == 'Applicant')
 		{
 			$this->_init();
 			$is_registered = $this->Owner_m->check_owner($user_id);
 			if($is_registered)
 			{
-				// $data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
-				$user = new Owner();
-				$data['user'] = $user;
+				$data['user'] = new Owner($user_id);
+				// echo "<pre>";
+				// print_r($data);
+				// echo "</pre>";
+				// exit();
 
-				$query = array(
-					'userId' => $user_id
-					);
+				$query['userId'] = $user_id;
 				$data['applications'] = $this->Application_m->get_all_applications($query);
 				foreach ($data['applications'] as $key => $value) {
-					$Application[$key] = new Application($value->referenceNum);
+					$data['applications'][$key] = new Application($value->referenceNum);
 				}
-				$data['applications'] = $Application;
 
-				// $data['user'][0]->password = '';
 				$this->load->view('dashboard/applicant/index', $data);
 			}
 			else
@@ -90,17 +69,13 @@ class Dashboard extends CI_Controller {
 		else if($role == 'BPLO')
 		{
 			$this->_init_matrix();
-			$query = array(
-				'status' => 'Waiting'
-				);
+
+			$query['status'] = 'Waiting';
 			$data['incoming'] = sizeof($this->Application_m->get_all_applications($query));
 			$data['issued'] = sizeof([]);
 			$data['pending'] =sizeof([]);
-			$query = array(
-				'userId' => $user_id
-				);
-			$data['user'] = $this->User_m->get_all_users($query);
-			$data['user'][0]->password = '';
+
+			$data['user'] = new User($user_id);
 			$this->load->view('dashboard/bplo/index', $data);
 		}
 	}
@@ -262,13 +237,6 @@ class Dashboard extends CI_Controller {
 				$this->Lessor_m->insert_lessor($data['lessor_fields']);
 			}
 
-			// $display['application'] = $this->Application_m->get_application_details($referenceNum);
-			// $display['lessor'] = $this->Lessor_m->get_lessor_details($referenceNum);
-			// echo "<pre>";
-			// print_r($display);
-			// echo "</pre>";
-			// exit();
-			//redirect('dashboard');
 			$data['referenceNum'] = $referenceNum;
 			echo json_encode($data);
 		}
@@ -297,44 +265,40 @@ class Dashboard extends CI_Controller {
 		}
 	}
 
+	public function check_application_status()
+	{
+		$this->isLogin();
+		$user_id = $this->encryption->decrypt($this->input->post('user_id'));
+		$query['userId'] = $user_id;
+		$applications = $this->Application_m->get_all_applications($query);
+		foreach ($applications as $key => $value) {
+			$data['applications'][$key] = new Application($value->referenceNum);
+		}
+
+		$this->load->view('dashboard/applicant/application-table-body',$data);
+	}
+
 	public function incoming_applications()
 	{
 		$this->isLogin();
 		$this->_init_matrix();
 
-		$query = array(
-			'status' => 'Waiting'
-			);
-		$data['incoming'] = $this->Application_m->get_all_applications($query);
+		$query['status'] = 'Waiting';
+		$applications = $this->Application_m->get_all_applications($query);
 
-		// $encrypted = $this->encryption->encrypt(
-		// 	'hehe',
-		// 	array(
-		// 		'cipher' => 'blowfish',
-		// 		'mode' => 'ecb',
-		// 		'key' => $this->config->item('encryption_key'),
-		// 		'hmac' => false
-		// 		)
-		// 	);
+		foreach ($applications as $key => $value) {
+			$data['incoming'][$key] = new Application($value->referenceNum);
+			//decrypting appId property for custom encryption
+			$data['incoming'][$key]->set_applicationId($this->encryption->decrypt($data['incoming'][$key]->get_applicationId()));
+		}
 
+		//custom encryption credentials for URL encryption
 		$data['custom_encrypt'] = array(
 			'cipher' => 'blowfish',
 			'mode' => 'ecb',
 			'key' => $this->config->item('encryption_key'),
 			'hmac' => false
 			);
-
-		// echo "<pre>";
-		// print_r($data['custom_encrypt']);
-		// echo "</pre>";
-		// var_dump($this->encryption->decrypt($encrypted, array(
-		// 		'cipher' => 'blowfish',
-		// 		'mode' => 'ecb',
-		// 		'key' => $this->config->item('encryption_key'),
-		// 		'hmac' => false
-		// 		)));
-		// exit();
-
 
 		$this->load->view('dashboard/bplo/incoming',$data);
 
@@ -345,6 +309,7 @@ class Dashboard extends CI_Controller {
 		$this->isLogin();
 		$this->_init_matrix();
 
+		//custom encryption credentials for decrypting appId
 		$decrypt_credentials = array(
 			'cipher' => 'blowfish',
 			'mode' => 'ecb',
@@ -355,17 +320,15 @@ class Dashboard extends CI_Controller {
 
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		// var_dump($application_id);
-		// exit();
-
-		$query = array(
-			'applicationId' => $application_id
-			);
-
+		//get application using model then map to application object
+		$query['applicationId'] = $application_id;
 		$data['application'] = $this->Application_m->get_all_applications($query);
-		$param['userId'] = $this->encryption->encrypt($data['application'][0]->userId);
-		$data['owner'] = $this->Owner_m->get_full_details($param);
-		$data['owner'][0]->password = 'HIDDEN';
+		//map to application object
+		$application = new Application();
+		$data['application'] = $application->set_application_all($data['application'][0]);
+
+		//instantiate Owner of this application
+		$data['owner'] = new Owner($this->encryption->decrypt($application->get_userId()));
 
 		$this->load->view('dashboard/bplo/view',$data);
 	}

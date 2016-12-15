@@ -7,7 +7,7 @@
       <a href="#" class="current">View</a>
     </div>
     <!--End-breadcrumbs-->
-    <h1><?= $application[0]->businessName ?></h1>
+    <h1><?= $application->get_businessName() ?></h1>
     <hr>
   </div>
 

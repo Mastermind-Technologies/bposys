@@ -10,7 +10,7 @@
 
 
   <div class="container-fluid">
-    <h1><?= "(".$user[0]->middleName.") ". $user[0]->lastName . ", " . $user[0]->firstName ?></h1>
+    <h1><?= "(".$user->get_middleName().") ". $user->get_lastName() . ", " . $user->get_firstName() ?></h1>
     <hr>
     <h3>Department: <?= $this->encryption->decrypt($this->session->userdata['userdata']['role']) ?></h3>
     <!--Action boxes-->

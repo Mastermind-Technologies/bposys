@@ -365,7 +365,7 @@ class Application {
 
 		$this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
 		$this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
-		$this->userId = $param->userId;
+		$this->userId = $this->CI->encryption->encrypt($param->userId);
 		$this->taxYear = $param->taxYear;
 		$this->applicationDate = $param->applicationDate;
 		$this->DTISECCDA_RegNum = $param->DTISECCDA_RegNum;
@@ -394,6 +394,7 @@ class Application {
 		$this->lessors = $lessors;
 
 		$this->unset_CI();
+		return $this;
 	}
 
 	protected function unset_CI()

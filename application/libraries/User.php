@@ -166,6 +166,7 @@ class User {
 		$this->birthDate = $param->birthDate;
 
 		$this->unset_CI();
+		return $this;
 	}
 
 	protected function unset_CI()

@@ -92,10 +92,6 @@ class Owner extends User {
 	}
 
 	//GETTER
-	public function get_userId()
-	{
-		return $this->userId;
-	}
 
 	public function get_ownerId()
 	{
@@ -192,5 +188,6 @@ class Owner extends User {
 		$this->numOfEmployeesLGU = $param->numOfEmployeesLGU;
 
 		$this->unset_CI();
+		return $this;
 	}
 }

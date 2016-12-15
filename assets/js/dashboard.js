@@ -152,5 +152,19 @@ $(document).ready(function()
     return total_rows;
   }
 
+  window.setInterval(check_application_status, 3000);
+
+  function check_application_status()
+  {
+    $.ajax({
+      type:'POST',
+      url:base_url+'dashboard/check_application_status',
+      data:{user_id:$('#user-id').val()},
+      success:function(data){
+        $('#application-table-body').html(data);
+      }
+    });
+  }
+
 
 }); //End of Jquery
