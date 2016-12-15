@@ -11,3 +11,12 @@
 .no-padding-bot{
 	padding-bottom :0 ;
 }
+
+.view-application-thumbnail{
+  text-align: center;
+  color: white;
+  background-color: #337ab7;
+  height: 150px;
+  margin: 1% 5% 1% 5%;
+  width: 90%;
+}

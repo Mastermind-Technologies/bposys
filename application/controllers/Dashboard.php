@@ -68,15 +68,19 @@ class Dashboard extends CI_Controller {
 			{
 				// $data['user'] = $this->Owner_m->get_full_details($this->session->userdata['userdata']);
 				$user = new Owner();
-				$data['user'] = $user
+				$data['user'] = $user;
 
 				$query = array(
 					'userId' => $user_id
 					);
 				$data['applications'] = $this->Application_m->get_all_applications($query);
+				foreach ($data['applications'] as $key => $value) {
+					$Application[$key] = new Application($value->referenceNum);
+				}
+				$data['applications'] = $Application;
 
-				$data['user'][0]->password = '';
-				$this->load->view('dashboard/applicant/index', $data);	
+				// $data['user'][0]->password = '';
+				$this->load->view('dashboard/applicant/index', $data);
 			}
 			else
 			{
@@ -273,7 +277,7 @@ class Dashboard extends CI_Controller {
 	public function store_business_activity()
 	{
 		$fields = array(
-			'referenceNum' => $this->input->post('referenceNum'), 
+			'referenceNum' => $this->input->post('referenceNum'),
 			'code' => $this->input->post('code'),
 			'lineOfBusiness' => $this->input->post('lineOfBusiness'),
 			'numOfUnits' => $this->input->post('numOfUnits'),
@@ -365,4 +369,18 @@ class Dashboard extends CI_Controller {
 
 		$this->load->view('dashboard/bplo/view',$data);
 	}
+
+	//BILLY 12-15-2016 3:45PM
+
+	public function view_application()
+	{
+		$this->_init();
+		//$this->load->js('templates/sb_admin2/sb_admin2_includes');
+		echo script_tag('assets/js/dashboard.js');
+		echo script_tag('assets/js/parsley.min.js');
+		$this->load->view('dashboard/applicant/view_application');
+	}
+
+
+
 }//END OF CLASS,
