@@ -31,6 +31,7 @@ class Dashboard extends CI_Controller {
 	{
 		if(!isset($this->session->userdata['userdata']))
 		{
+			$this->session->set_flashdata('failed', 'You are not logged in!');
 			redirect('home');
 		}
 	}
@@ -70,7 +71,7 @@ class Dashboard extends CI_Controller {
 		{
 			$this->_init_matrix();
 
-			$query['status'] = 'Waiting';
+			$query['status'] = 'For validation...';
 			$data['incoming'] = sizeof($this->Application_m->get_all_applications($query));
 			$data['issued'] = sizeof([]);
 			$data['pending'] =sizeof([]);
@@ -207,7 +208,7 @@ class Dashboard extends CI_Controller {
 				'email' => $this->input->post('email'),
 				'PIN' => $this->input->post('pin'),
 				'numOfEmployees' => $this->input->post('total-employee-num'),
-				'status' => 'Waiting'
+				'status' => 'For validation...'
 				);
 
 			$this->Application_m->insert_application($data['application_fields']);
@@ -283,7 +284,7 @@ class Dashboard extends CI_Controller {
 		$this->isLogin();
 		$this->_init_matrix();
 
-		$query['status'] = 'Waiting';
+		$query['status'] = 'For validation...';
 		$applications = $this->Application_m->get_all_applications($query);
 
 		foreach ($applications as $key => $value) {
@@ -326,11 +327,41 @@ class Dashboard extends CI_Controller {
 		//map to application object
 		$application = new Application();
 		$data['application'] = $application->set_application_all($data['application'][0]);
+		$application->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()));
+		// echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
+		// exit();
+
 
 		//instantiate Owner of this application
 		$data['owner'] = new Owner($this->encryption->decrypt($application->get_userId()));
 
 		$this->load->view('dashboard/bplo/view',$data);
+	}
+
+	public function validate_application($referenceNum = null)
+	{
+		$this->isLogin();
+		// var_dump($referenceNum);
+		$referenceNum = str_replace(['-','_','='], ['/','+','='], $referenceNum);
+		// var_dump($referenceNum);
+		$referenceNum = $this->encryption->decrypt($referenceNum);
+		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		// var_dump($referenceNum);
+		// exit();
+
+		$query = array(
+			'referenceNum' => $referenceNum,
+			'status' => 'For applicant visit'
+			);
+		$this->Application_m->update_application($query);
+		//approvals
+		//notifications
+		$this->session->set_flashdata('message', 'Application validated successfully!');
+		redirect('dashboard/incoming_applications');
+
 	}
 
 	//BILLY 12-15-2016 3:45PM

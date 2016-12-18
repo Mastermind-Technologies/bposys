@@ -17,6 +17,11 @@
       <?php print_r($application); ?>
       <?php print_r($owner); ?>
     </pre>
+    <div class="row text-center">
+    <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
+    <a href="#" class="btn btn-danger btn-lg">Reject</a>
+    </div>
+    
 
     <!-- End Container Fluid -->
   </div>

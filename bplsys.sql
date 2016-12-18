@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2016 at 06:12 AM
+-- Generation Time: Dec 18, 2016 at 04:57 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -57,15 +57,45 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `applications`
 --
 
 INSERT INTO `applications` (`applicationId`, `referenceNum`, `userId`, `taxYear`, `applicationDate`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `typeOfOrganization`, `CTCNum`, `TIN`, `entityName`, `taxPayerName`, `businessName`, `tradeName`, `presidentTreasurerName`, `houseBldgNum`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `telNum`, `email`, `PIN`, `numOfEmployees`, `status`, `createdAt`, `updatedAt`) VALUES
-(19, 'CC23E14941', 1, 2016, 'November 15, 2016', '123456', '123456', 'Single', '123456', '123456', 'Entity', 'Renjo Enriquez, Dolosa', 'Mastermind', 'Trade Name Daw', 'Ida Julienne Mangaliman, Peñaflor', 'Blk 29 Lot 19', 'Mercury', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '1234566', 'dolosa.renjo@yahoo.com', '123456', 50, 'Waiting', '2016-11-15 14:38:10', '2016-11-18 13:30:55'),
-(20, 'B8F9C44A2E', 1, 2016, 'November 19, 2016', '123', '123', 'Single', '123', '123', 'asdasd', 'asd asd, asd', 'asd', 'asd', '123 123, 123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 'asd@yahoo.com', '123', 123, 'Waiting', '2016-11-19 01:16:33', '2016-11-19 01:16:33');
+(19, 'CC23E14941', 1, 2016, 'November 15, 2016', '123456', '123456', 'Single', '123456', '123456', 'Entity', 'Renjo Enriquez, Dolosa', 'Mastermind', 'Trade Name Daw', 'Ida Julienne Mangaliman, Peñaflor', 'Blk 29 Lot 19', 'Mercury', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '1234566', 'dolosa.renjo@yahoo.com', '123456', 50, 'For validation...', '2016-11-15 14:38:10', '2016-12-18 14:52:29'),
+(20, 'B8F9C44A2E', 1, 2016, 'November 19, 2016', '123', '123', 'Single', '123', '123', 'asdasd', 'asd asd, asd', 'asd', 'asd', '123 123, 123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 'asd@yahoo.com', '123', 123, 'For validation...', '2016-11-19 01:16:33', '2016-12-18 14:52:34'),
+(21, 'B1FE9724A8', 6, 2016, 'November 23, 2016', '123', '123', 'Single', '123', '123', '123213', '123 123, 123', '123', '123', '123 123, 123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 'asd@yahoo.com', '123', 123, 'For validation...', '2016-11-23 13:39:27', '2016-12-18 14:52:38'),
+(22, '32B149239C', 1, 2016, 'December 15, 2016', '1026', '12/15/2016', 'Single', '1212', '1212', 'NA', 'Renjo Enriquez, Dolosa', 'TestBusiness', 'TestFranchise', 'Renjo Enriquez, Dolosa', '12', '12', '12', '12', '12', '12', '12', '12', '12312322', 'dolosa.renjo@yahoo.com', '1212', 1212, 'For applicant visit', '2016-12-15 13:52:05', '2016-12-18 15:51:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `approvals`
+--
+
+CREATE TABLE IF NOT EXISTS `approvals` (
+  `approvalId` int(10) NOT NULL,
+  `referenceNum` varchar(255) NOT NULL,
+  `role` int(5) NOT NULL,
+  `approvedBy` varchar(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assessments`
+--
+
+CREATE TABLE IF NOT EXISTS `assessments` (
+  `assessmentId` int(10) NOT NULL,
+  `referenceNum` varchar(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -82,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `business_activities` (
   `capitalization` varchar(255) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `business_activities`
@@ -93,7 +123,29 @@ INSERT INTO `business_activities` (`activityId`, `referenceNum`, `code`, `lineOf
 (36, 'CC23E14941', '3', '3', 3, '3', '2016-11-15 14:38:10', '2016-11-15 14:38:10'),
 (37, 'CC23E14941', '2', '2', 2, '2', '2016-11-15 14:38:10', '2016-11-15 14:38:10'),
 (38, 'B8F9C44A2E', '234', '345', 456, '567', '2016-11-19 01:16:36', '2016-11-19 01:16:36'),
-(39, 'B8F9C44A2E', '123', '234', 345, '456', '2016-11-19 01:16:37', '2016-11-19 01:16:37');
+(39, 'B8F9C44A2E', '123', '234', 345, '456', '2016-11-19 01:16:37', '2016-11-19 01:16:37'),
+(40, 'B1FE9724A8', '123', '123', 123, '123', '2016-11-23 13:39:29', '2016-11-23 13:39:29'),
+(41, 'B1FE9724A8', '234', '234', 234, '234', '2016-11-23 13:39:29', '2016-11-23 13:39:29'),
+(42, 'B1FE9724A8', '345', '345', 345, '345', '2016-11-23 13:39:29', '2016-11-23 13:39:29'),
+(43, 'B1FE9724A8', '456', '456', 456, '456', '2016-11-23 13:39:29', '2016-11-23 13:39:29'),
+(44, '32B149239C', '111', '111', 111, '111', '2016-12-15 13:52:06', '2016-12-15 13:52:06'),
+(45, '32B149239C', '12', '121', 2, '12', '2016-12-15 13:52:06', '2016-12-15 13:52:06'),
+(46, '32B149239C', '3', '3', 3, '3', '2016-12-15 13:52:06', '2016-12-15 13:52:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `charges`
+--
+
+CREATE TABLE IF NOT EXISTS `charges` (
+  `chargeId` int(10) NOT NULL,
+  `referenceNum` varchar(255) NOT NULL,
+  `amount` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -120,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `lessors` (
   `emergencyEmail` varchar(255) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `lessors`
@@ -128,7 +180,23 @@ CREATE TABLE IF NOT EXISTS `lessors` (
 
 INSERT INTO `lessors` (`lessorId`, `referenceNum`, `firstName`, `middleName`, `lastName`, `address`, `subdivision`, `barangay`, `cityMunicipality`, `province`, `monthlyRental`, `telNum`, `email`, `emergencyContactPerson`, `emergencyTelNum`, `emergencyEmail`, `createdAt`, `updatedAt`) VALUES
 (7, 'CC23E14941', 'Billy James', 'Santos', 'Labay', 'Address', 'South City Homes', 'Santo Tomas', 'Biñan City', 'Laguna', 24000, 123456, 'billy@yahoo.com', 'Jason Hernandez', 123456, 'jason@yahoo.com', '2016-11-15 14:38:10', '2016-11-15 14:38:10'),
-(8, 'B8F9C44A2E', '123', '123', '123', 'asd', '123', '123', '123', '123', 123, 123, 'asd@yahoo.com', '123', 123, 'sdf@yahoo.com', '2016-11-19 01:16:34', '2016-11-19 01:16:34');
+(8, 'B8F9C44A2E', '123', '123', '123', 'asd', '123', '123', '123', '123', 123, 123, 'asd@yahoo.com', '123', 123, 'sdf@yahoo.com', '2016-11-19 01:16:34', '2016-11-19 01:16:34'),
+(9, 'B1FE9724A8', '123', '123', '123', 'asdasd', 'asdas', 'asdsa', 'asdas', 'asdas', 123, 12, 'asd@yahoo.com', 'asd', 123, 'asdsa@yahoo.com', '2016-11-23 13:39:28', '2016-11-23 13:39:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE IF NOT EXISTS `notifications` (
+  `notificationId` int(10) NOT NULL,
+  `referenceNum` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `role` int(5) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -153,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `owners` (
   `numOfEmployeesLGU` int(255) DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `owners`
@@ -161,7 +229,10 @@ CREATE TABLE IF NOT EXISTS `owners` (
 
 INSERT INTO `owners` (`ownerId`, `userId`, `houseBldgNo`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `contactNum`, `telNum`, `businessArea`, `numOfEmployeesLGU`, `createdAt`, `updatedAt`) VALUES
 (1, 1, '21', 'Mercury', '21', 'Dumaguete', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '09175138277', '8393939', 22, 33, '2016-11-10 10:15:40', '2016-11-14 11:54:43'),
-(2, 5, '123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 123, 123, '2016-11-20 08:26:26', '2016-11-20 08:26:26');
+(2, 5, '123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 123, 123, '2016-11-20 08:26:26', '2016-11-20 08:26:26'),
+(3, 6, '123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 123, 123, '2016-11-23 13:37:54', '2016-11-23 13:37:54'),
+(4, 7, '1', '1', '1', '1', '1', '1', '1', '1', '123', '123', 23, 23, '2016-12-14 13:28:38', '2016-12-14 13:28:38'),
+(6, 8, '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 1, 1, '2016-12-15 05:59:39', '2016-12-15 05:59:39');
 
 -- --------------------------------------------------------
 
@@ -206,7 +277,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `birthDate` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -217,7 +288,10 @@ INSERT INTO `users` (`userId`, `role`, `firstName`, `lastName`, `middleName`, `s
 (2, 3, 'Billy Jaes', 'Labay', 'Santos', '', 'Male', 'billy@yahoo.com', 'Single', '$2y$11$ofeUI9/c9kSS.od76L06DeXwgBmf50hJwcV.n6V/wfBYvMgI4PgS2', '12/12/1212', '2016-11-11 08:35:43', '2016-11-11 08:35:43'),
 (3, 3, 'asd', 'asd', 'asd', '', 'Male', 'asd@asd.com', 'Single', '$2y$15$iAdvfqJQb2XDBdCb86umpeTzFxzNjuU/GepCZ.lAJnrxHLuTepACa', '12/12/1212', '2016-11-11 08:38:33', '2016-11-11 08:38:33'),
 (4, 4, 'Rene', 'Manabat', '.', '', 'Male', 'manabat.rene@yahoo.com', 'Single', '$2y$11$FfTE9sN4Mwg0FgK95lguOu7tsU/nsARLUXM83PC3MdVh9sLK//5Cu', '12/12/12', '2016-11-18 00:54:07', '2016-11-18 00:54:33'),
-(5, 3, 'sdf', 'sdf', 'sdf', '', 'Male', 'sdf@yahoo.com', 'Single', '$2y$11$Wd1xV3fjN4bJ2f1LDeBZTOwedmOlHFUaBUrAgNULuhragiOZOQI0C', '02/17/1995', '2016-11-20 08:19:26', '2016-11-20 08:19:26');
+(5, 3, 'sdf', 'sdf', 'sdf', '', 'Male', 'sdf@yahoo.com', 'Single', '$2y$11$Wd1xV3fjN4bJ2f1LDeBZTOwedmOlHFUaBUrAgNULuhragiOZOQI0C', '02/17/1995', '2016-11-20 08:19:26', '2016-11-20 08:19:26'),
+(6, 3, 'test', 'test', 'test', '', 'Male', 'test@test.com', 'Single', '$2y$11$EjJREm5UHY7JnKVoxYQ6buL4YGNKRqQQgI4KuGLv55IJ/B14lMcrC', '02/17/1995', '2016-11-23 13:35:14', '2016-11-23 13:35:14'),
+(7, 3, 'Object', 'Object', 'Testing', '', 'Male', 'testing.object@yahoo.com', 'Single', '$2y$11$8SN0uxhwhnhkXH5xBLt.1u3BQsDQFSDANC5N55JQlWUzZE18PVUyi', '02/17/1995', '2016-12-14 12:33:22', '2016-12-14 14:03:00'),
+(8, 3, 'test new', 'test new', 'test new', '', 'Male', 'test.new@yahoo.com', 'Single', '$2y$11$TCj.RfYiv.6t7J8afUO1fObe2gVqL/SD5RJu1GVl.oolAraTXRIdO', '12/15/2016', '2016-12-15 05:18:24', '2016-12-15 05:18:24');
 
 --
 -- Indexes for dumped tables
@@ -232,10 +306,33 @@ ALTER TABLE `applications`
   ADD KEY `userId` (`userId`);
 
 --
+-- Indexes for table `approvals`
+--
+ALTER TABLE `approvals`
+  ADD PRIMARY KEY (`approvalId`),
+  ADD KEY `referenceNum` (`referenceNum`),
+  ADD KEY `role` (`role`),
+  ADD KEY `role_2` (`role`);
+
+--
+-- Indexes for table `assessments`
+--
+ALTER TABLE `assessments`
+  ADD PRIMARY KEY (`assessmentId`),
+  ADD KEY `referenceNum` (`referenceNum`);
+
+--
 -- Indexes for table `business_activities`
 --
 ALTER TABLE `business_activities`
   ADD PRIMARY KEY (`activityId`),
+  ADD KEY `referenceNum` (`referenceNum`);
+
+--
+-- Indexes for table `charges`
+--
+ALTER TABLE `charges`
+  ADD PRIMARY KEY (`chargeId`),
   ADD KEY `referenceNum` (`referenceNum`);
 
 --
@@ -244,6 +341,14 @@ ALTER TABLE `business_activities`
 ALTER TABLE `lessors`
   ADD PRIMARY KEY (`lessorId`),
   ADD KEY `referenceNum` (`referenceNum`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`notificationId`),
+  ADD KEY `referenceNum` (`referenceNum`),
+  ADD KEY `role` (`role`);
 
 --
 -- Indexes for table `owners`
@@ -273,22 +378,42 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
+--
+-- AUTO_INCREMENT for table `approvals`
+--
+ALTER TABLE `approvals`
+  MODIFY `approvalId` int(10) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `assessments`
+--
+ALTER TABLE `assessments`
+  MODIFY `assessmentId` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `business_activities`
 --
 ALTER TABLE `business_activities`
-  MODIFY `activityId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
+  MODIFY `activityId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=47;
+--
+-- AUTO_INCREMENT for table `charges`
+--
+ALTER TABLE `charges`
+  MODIFY `chargeId` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `lessors`
 --
 ALTER TABLE `lessors`
-  MODIFY `lessorId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `lessorId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `notificationId` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `owners`
 --
 ALTER TABLE `owners`
-  MODIFY `ownerId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `ownerId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `roles`
 --
@@ -298,7 +423,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `userId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- Constraints for dumped tables
 --
@@ -310,16 +435,42 @@ ALTER TABLE `applications`
   ADD CONSTRAINT `applications_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `approvals`
+--
+ALTER TABLE `approvals`
+  ADD CONSTRAINT `approvals_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `applications` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `approvals_ibfk_2` FOREIGN KEY (`role`) REFERENCES `roles` (`roleId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `assessments`
+--
+ALTER TABLE `assessments`
+  ADD CONSTRAINT `assessments_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `applications` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `business_activities`
 --
 ALTER TABLE `business_activities`
   ADD CONSTRAINT `business_activities_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `applications` (`referenceNum`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `charges`
+--
+ALTER TABLE `charges`
+  ADD CONSTRAINT `charges_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `applications` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `lessors`
 --
 ALTER TABLE `lessors`
   ADD CONSTRAINT `lessors_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `applications` (`referenceNum`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`role`) REFERENCES `roles` (`roleId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`referenceNum`) REFERENCES `applications` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `owners`

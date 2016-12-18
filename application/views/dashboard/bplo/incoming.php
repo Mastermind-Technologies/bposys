@@ -43,6 +43,11 @@
     	<button class="btn btn-primary" id="btn-test-noty">Noty</button>
     </div> -->
   </div>
+  <?php if ($this->session->flashdata('message')): ?>
+    <script>
+      alert('<?= $this->session->flashdata('message') ?>');
+    </script>
+  <?php endif ?>
 
   <!--Footer-part-->
 

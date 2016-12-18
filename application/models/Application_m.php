@@ -42,14 +42,6 @@ class Application_m extends CI_Model {
     return $result->result();
   }
 
-  // public function get_waiting_applications()
-  // {
-  //   $this->db->select('*')->from($this->_table_name)->where(['status' => 'Waiting']);
-  //   $result = $this->db->get();
-
-  //   return $result->result();
-  // }
-
   public function update_application_reference_number($user_id = null)
   {
   	$this->db->select('applicationId')->from($this->_table_name)->where(['userId' => $user_id, 'referenceNum' => 'Processing_'.$user_id])->limit(1);
@@ -74,9 +66,10 @@ class Application_m extends CI_Model {
   	return $reference_number;
   }
 
-  public function update_application()
+  public function update_application($query = null)
   {
-
+    $this->db->where(['referenceNum' => $query['referenceNum']]);
+    $this->db->update($this->_table_name, $query);
   }
 
 

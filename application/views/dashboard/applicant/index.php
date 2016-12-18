@@ -7,7 +7,7 @@
 						<input type="hidden" value="<?= $user->get_userId() ?>" id="user-id">
 						<h1 class="page-header"><?= $user->get_lastName() . ", " . $user->get_firstName() . " (".$user->get_middleName().")" ?></h1>
 
-						<div class="panel panel-default">
+						<div class="panel panel-primary">
 							<div class="panel-heading">
 								Application Form
 								<button class="btn btn-success" id="btn-edit-info"><i class="fa fa-plus-circle" aria-hidden="true"></i> New</button>
