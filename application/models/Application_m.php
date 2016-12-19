@@ -69,7 +69,7 @@ class Application_m extends CI_Model {
   public function update_application($query = null)
   {
     $this->db->where(['referenceNum' => $query['referenceNum']]);
-    $this->db->update($this->_table_name, $query);
+    $this->db->update($this->_table_name, $querys);
   }
 
 
