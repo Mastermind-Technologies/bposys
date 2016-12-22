@@ -71,10 +71,13 @@ class Dashboard extends CI_Controller {
 		{
 			$this->_init_matrix();
 
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof($this->Application_m->get_all_applications($query));
+
 			$query['status'] = 'For validation...';
 			$data['incoming'] = sizeof($this->Application_m->get_all_applications($query));
-			$data['issued'] = sizeof([]);
-			$data['pending'] =sizeof([]);
+
+			$data['issued'] =sizeof([]);
 
 			$data['user'] = new User($user_id);
 			$this->load->view('dashboard/bplo/index', $data);
@@ -302,10 +305,34 @@ class Dashboard extends CI_Controller {
 			);
 
 		$this->load->view('dashboard/bplo/incoming',$data);
-
 	}
 
-	public function incoming_view($application_id)
+	public function pending_applications()
+	{
+		$this->isLogin();
+		$this->_init_matrix();
+
+		$query['status'] = 'For applicant visit';
+		$applications = $this->Application_m->get_all_applications($query);
+
+		foreach ($applications as $key => $value) {
+			$data['incoming'][$key] = new Application($value->referenceNum);
+			//decrypting appId property for custom encryption
+			$data['incoming'][$key]->set_applicationId($this->encryption->decrypt($data['incoming'][$key]->get_applicationId()));
+		}
+
+		//custom encryption credentials for URL encryption
+		$data['custom_encrypt'] = array(
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
+
+		$this->load->view('dashboard/bplo/pending',$data);
+	}
+
+	public function view_application($application_id)
 	{
 		$this->isLogin();
 		$this->_init_matrix();
@@ -366,14 +393,14 @@ class Dashboard extends CI_Controller {
 
 	//BILLY 12-15-2016 3:45PM
 
-	public function view_application()
-	{
-		$this->_init();
-		//$this->load->js('templates/sb_admin2/sb_admin2_includes');
-		echo script_tag('assets/js/dashboard.js');
-		echo script_tag('assets/js/parsley.min.js');
-		$this->load->view('dashboard/applicant/view_application');
-	}
+	// public function view_application()
+	// {
+	// 	$this->_init();
+	// 	//$this->load->js('templates/sb_admin2/sb_admin2_includes');
+	// 	echo script_tag('assets/js/dashboard.js');
+	// 	echo script_tag('assets/js/parsley.min.js');
+	// 	$this->load->view('dashboard/applicant/view_application');
+	// }
 
 
 

@@ -16,7 +16,7 @@
     <!--Action boxes-->
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
-        <li class="bg_ly"> <a href="#"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
+        <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/pending_applications"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
          <span class="label label-important"><?= $pending ?></span><br><span>Pending</span> </a> </li>
          <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
            <span class="label label-success"><?= $incoming ?></span><br>Incoming </a> </li>
