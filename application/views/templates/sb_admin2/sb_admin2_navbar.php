@@ -1,4 +1,4 @@
-<title>BPOSys | Dashboard</title>
+ <title>BPOSys | Dashboard</title>
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -15,7 +15,11 @@
         <!-- /.dropdown -->
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                <i class="fa fa-bell fa-fw">
+                <?php if (isset($notifications)): ?>
+                    <span class="notif-count"><?php echo sizeof($notifications); ?></span>
+                <?php endif ?>
+                </i><i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-alerts">
                 <li>

@@ -9,16 +9,26 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
+		$this->load->model('Role_m');
 		$this->load->model('Application_m');
 		$this->load->model('Lessor_m');
 		$this->load->model('Business_Activity_m');
+		$this->load->model('Approval_m');
+		$this->load->model('Notification_m');
 		$this->load->library('form_validation');
 	}
 
-	public function _init()
+	public function _init($data = null)
 	{
+		// echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
+		// exit();
+		if($data != null)
+			$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
+		else
+			$this->load->view('templates/sb_admin2/sb_admin2_navbar');
 		$this->load->view('templates/sb_admin2/sb_admin2_includes');
-		$this->load->view('templates/sb_admin2/sb_admin2_navbar');
 	}
 
 	public function _init_matrix()
@@ -44,15 +54,11 @@ class Dashboard extends CI_Controller {
 
 		if($role == 'Applicant')
 		{
-			$this->_init();
+			
 			$is_registered = $this->Owner_m->check_owner($user_id);
 			if($is_registered)
 			{
 				$data['user'] = new Owner($user_id);
-				// echo "<pre>";
-				// print_r($data);
-				// echo "</pre>";
-				// exit();
 
 				$query['userId'] = $user_id;
 				$data['applications'] = $this->Application_m->get_all_applications($query);
@@ -60,6 +66,24 @@ class Dashboard extends CI_Controller {
 					$data['applications'][$key] = new Application($value->referenceNum);
 				}
 
+				foreach($data['applications'] as $application)
+				{
+					$query = array(
+						'referenceNum' => $this->encryption->decrypt($application->get_referenceNum()),
+						);
+					$notification = $this->Notification_m->get_all($query);
+					if($notification != null)
+					{
+						foreach ($notification as $value) {
+							$nav_data['notifications'][] = $value;
+						}
+					}
+				}
+				// echo "<pre>";
+				// print_r($data);
+				// echo "</pre>";
+				// exit();
+				$this->_init($nav_data);
 				$this->load->view('dashboard/applicant/index', $data);
 			}
 			else
@@ -379,28 +403,42 @@ class Dashboard extends CI_Controller {
 		// var_dump($referenceNum);
 		// exit();
 
+		//notifications
+		$role_Id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+
+		$query = array(
+			'referenceNum' => $referenceNum,
+			'role' => $role_Id->roleId,
+			'approvedBy' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
+			);
+		$this->Approval_m->insert($query);
+
+		//validate
 		$query = array(
 			'referenceNum' => $referenceNum,
 			'status' => 'For applicant visit'
 			);
 		$this->Application_m->update_application($query);
+
 		//approvals
-		//notifications
+		$query = array(
+			'referenceNum' => $referenceNum,
+			'status' => 'Unread',
+			'role' => '1',
+			);
+		$this->Notification_m->insert($query);
+
 		$this->session->set_flashdata('message', 'Application validated successfully!');
 		redirect('dashboard/incoming_applications');
-
 	}
 
 	//BILLY 12-15-2016 3:45PM
 
-	// public function view_application()
-	// {
-	// 	$this->_init();
-	// 	//$this->load->js('templates/sb_admin2/sb_admin2_includes');
-	// 	echo script_tag('assets/js/dashboard.js');
-	// 	echo script_tag('assets/js/parsley.min.js');
-	// 	$this->load->view('dashboard/applicant/view_application');
-	// }
+	public function my_application()
+	{
+		$this->_init();
+		$this->load->view('dashboard/applicant/view_application');
+	}
 
 
 

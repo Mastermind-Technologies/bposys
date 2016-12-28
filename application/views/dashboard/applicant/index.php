@@ -48,7 +48,7 @@
 													</td>
 													<td style="width:25%;">
 														<div class="block text-center">
-															<a href="<?php echo base_url('dashboard/view_application'); ?>"  id="btn-view-details" class="btn btn-primary">View Details</a>
+															<a href="<?php echo base_url('dashboard/my_application'); ?>"  id="btn-view-details" class="btn btn-primary">View Details</a>
 															<a href="#" class="btn btn-danger">Delete</a>
 														</div>
 
