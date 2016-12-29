@@ -11,6 +11,7 @@
 
   <div class="container-fluid">
     <h1><?= "(".$user->get_middleName().") ". $user->get_lastName() . ", " . $user->get_firstName() ?></h1>
+    <input type="hidden" id="notif-count" value="<?= sizeof($notifications) ?>">
     <hr>
     <h3>Department: <?= $this->encryption->decrypt($this->session->userdata['userdata']['role']) ?></h3>
     <!--Action boxes-->
@@ -155,13 +156,9 @@
       </div>
     </div>
   </div>
-<!--     <div class="block center-block">
-    	<label for="">Test Noty</label>
-    	<button class="btn btn-primary" id="btn-test-noty">Noty</button>
-    </div> -->
-  </div>
+</div>
 
-  <!--Footer-part-->
+<!--Footer-part-->
 
 <!-- <div class="row-fluid">
   <div id="footer" class="span12"> 2013 &copy; Matrix Admin. Brought to you by <a href="http://themedesigner.in">Themedesigner.in</a> </div>

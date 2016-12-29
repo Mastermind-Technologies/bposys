@@ -1,9 +1,19 @@
 $(document).ready(function(){
 
-	$('#btn-test-noty').click(function(){
+	if($('#notif-count').val() > 0)
+	{
+		if($('#notif-count').val() > 1)
+		{
+			var message = "You have "+ $('#notif-count').val() + " new incoming applications";
+		}
+		else
+		{
+			var message = "You have "+ $('#notif-count').val() + " new incoming application";
+		}
+	// $('#btn-test-noty').click(function(){
 		var n = noty({
 			layout: 'topRight',
-			text: ' You have 1 new message!',
+			text: message,
 			type: 'information',
 			animation: {
 		        open: 'animated bounceInRight', // jQuery animate function property object
@@ -13,8 +23,27 @@ $(document).ready(function(){
 		    },
 		    timeout: false,
 		    theme: 'relax',
-		    template: '<div class="noty_message"><img src="http://localhost/bposys/assets/matrix/img/demo/envelope.png"/><span class="noty_text"></span><div class="noty_close"></div></div>',
+		    template: '<div class="noty_message"><img src="http://localhost/bposys/assets/matrix/img/demo/envelope.png"/> <span class="noty_text"></span><div class="noty_close"></div></div>',
+		    callback: {
+		    	// onShow: function() {},
+		    	// afterShow: function() {},
+		    	// onClose: function() {},
+		    	// afterClose: function() {},
+		    	onCloseClick: function() {
+		    		//ajax
+		    		$.ajax({
+		    			type:'POST',
+		    			url:'dashboard/update_notif',
+		    			success: function(data)
+		    			{
+		    				window.location = "dashboard/incoming_applications";
+		    			}
+		    		});
+		    	},
+		    },
 		});
-	});
+	// });
+}
+
 
 });//End of Jquery

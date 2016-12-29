@@ -70,6 +70,8 @@ class Dashboard extends CI_Controller {
 				{
 					$query = array(
 						'referenceNum' => $this->encryption->decrypt($application->get_referenceNum()),
+						'status' => "Unread",
+						'role' => 3,
 						);
 					$notification = $this->Notification_m->get_all($query);
 					if($notification != null)
@@ -83,7 +85,7 @@ class Dashboard extends CI_Controller {
 				// print_r($data);
 				// echo "</pre>";
 				// exit();
-				$this->_init($nav_data);
+				$this->_init(isset($nav_data)? $nav_data : "");
 				$this->load->view('dashboard/applicant/index', $data);
 			}
 			else
@@ -94,6 +96,13 @@ class Dashboard extends CI_Controller {
 		else if($role == 'BPLO')
 		{
 			$this->_init_matrix();
+
+			$query = array(
+				'status' => "Unread",
+				'role' => 4,
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
 
 			$query['status'] = 'For applicant visit';
 			$data['pending'] = sizeof($this->Application_m->get_all_applications($query));
@@ -265,6 +274,13 @@ class Dashboard extends CI_Controller {
 				$this->Lessor_m->insert_lessor($data['lessor_fields']);
 			}
 
+			$query = array(
+				'referenceNum' => $referenceNum,
+				'status' => "Unread",
+				'role' => 4
+				);
+
+			$this->Notification_m->insert($query);
 			$data['referenceNum'] = $referenceNum;
 			echo json_encode($data);
 		}
@@ -310,6 +326,8 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$this->_init_matrix();
+
+		$this->update_notif();
 
 		$query['status'] = 'For validation...';
 		$applications = $this->Application_m->get_all_applications($query);
@@ -432,11 +450,31 @@ class Dashboard extends CI_Controller {
 		redirect('dashboard/incoming_applications');
 	}
 
+	public function update_notif()
+	{
+		$this->isLogin();
+		$role_id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+
+		$query = array(
+			'role' => $role_id->roleId,
+			'status' => 'Unread'
+			);
+		$notifications = $this->Notification_m->get_all($query);
+
+		if(sizeof($notifications) > 0)
+		{
+			$set['status'] = "Read";
+			$this->Notification_m->update($query, $set);
+		}
+	}
+
 	//BILLY 12-15-2016 3:45PM
 
-	public function my_application()
+	public function view($application_id = null)
 	{
 		$this->_init();
+		//decrypt application_Id
+		//...
 		$this->load->view('dashboard/applicant/view_application');
 	}
 

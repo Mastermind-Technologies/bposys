@@ -166,5 +166,16 @@ $(document).ready(function()
     });
   }
 
+  $('#btn-notif').click(function(){
+    $('.fa-bell').html("");
+    $.ajax({
+      type:'POST',
+      url:'dashboard/update_notif',
+      success: function(data){
+        //success body
+      }
+    });
+  });
+
 
 }); //End of Jquery

@@ -66,11 +66,11 @@ class Notification_m extends CI_Model {
   // 	return $reference_number;
   // }
 
-  // public function update_application($query = null)
-  // {
-  //   $this->db->where(['referenceNum' => $query['referenceNum']]);
-  //   $this->db->update($this->_table_name, $query);
-  // }
+  public function update($query = null, $set = null)
+  {
+    $this->db->where($query);
+    $this->db->update($this->_table_name, $set);
+  }
 
 
 }//END OF CLASS
