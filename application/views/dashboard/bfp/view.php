@@ -27,7 +27,7 @@
         <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
         <a href="#" class="btn btn-danger btn-lg">Reject</a>
       <?php elseif ($application->get_status() == "For applicant visit"): ?>
-        <a href="<?php echo base_url(); ?>/dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
+        <a href="#" class="btn btn-success">Approve</a>
         <a href="#" class="btn btn-warning btn-lg">Edit information</a>
       <?php endif ?>
     </div>

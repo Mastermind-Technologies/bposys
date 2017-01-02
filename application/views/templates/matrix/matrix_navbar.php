@@ -1,7 +1,7 @@
-<title>BPOSys | BPLO Dashboard</title>
+<title>BPOSys | <?= $title ?></title>
 <!--Header-part-->
 <div id="header">
-  <h1><a href="#">BPOSys | BPLO Dashboard</a></h1>
+  <h1><a href="#"></a></h1>
 </div>
 <!--close-Header-part--> 
 

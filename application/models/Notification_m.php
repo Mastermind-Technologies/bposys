@@ -7,6 +7,7 @@ class Notification_m extends CI_Model {
   {
     parent::__construct();
     $this->_table_name = 'notifications';
+    $this->_application_table = 'applications';
     // $this->_lessor_table = 'lessors';
     // $this->_business_activity_table = 'business_activities';
   }
@@ -37,6 +38,15 @@ class Notification_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
     $this->db->select('*')->from($this->_table_name);
+    $result = $this->db->get();
+
+    return $result->result();
+  }
+
+  public function get_applicant_notif($roleId = null, $userId = null)
+  {
+    $this->db->where(['notifications.role' => $roleId, 'applications.userId' => $userId]);
+    $this->db->select('notifications.referenceNum, applications.businessName')->from($this->_table_name)->join($this->_application_table, 'applications.referenceNum = notifications.referenceNum')->limit(10)->order_by("notifications.createdAt", "desc");
     $result = $this->db->get();
 
     return $result->result();

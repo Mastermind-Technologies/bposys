@@ -31,10 +31,10 @@ class Dashboard extends CI_Controller {
 		$this->load->view('templates/sb_admin2/sb_admin2_includes');
 	}
 
-	public function _init_matrix()
+	public function _init_matrix($data = null)
 	{
 		$this->load->view('templates/matrix/matrix_includes');
-		$this->load->view('templates/matrix/matrix_navbar');
+		$this->load->view('templates/matrix/matrix_navbar', $data);
 	}
 
 	public function isLogin()
@@ -95,7 +95,8 @@ class Dashboard extends CI_Controller {
 		}
 		else if($role == 'BPLO')
 		{
-			$this->_init_matrix();
+			$navdata['title'] = 'BPLO Dashboard';
+			$this->_init_matrix($navdata);
 
 			$query = array(
 				'status' => "Unread",
@@ -114,6 +115,138 @@ class Dashboard extends CI_Controller {
 
 			$data['user'] = new User($user_id);
 			$this->load->view('dashboard/bplo/index', $data);
+		}
+		else if($role == "BFP")
+		{
+			$navdata['title'] = 'BFP Dashboard';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 5
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/bfp/index', $data);
+		}
+		else if($role == "Assessor")
+		{
+			$navdata['title'] = 'Assessor Dashboard';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 6
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/assessors/index', $data);
+		}
+		else if($role == "CENRO")
+		{
+			$navdata['title'] = 'CENRO Dashboard';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 7
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/cenro/index', $data);
+		}
+		else if($role == "Zoning")
+		{
+			$navdata['title'] = 'Zoning Dashboard(not final)';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 8
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/zoning/index', $data);
+		}
+		else if($role == "Engineering")
+		{
+			$navdata['title'] = 'Engineering Dashboard';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 9
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/engineering/index', $data);
+		}
+		else if($role == "CHO")
+		{
+			$navdata['title'] = 'CHO Dashboard';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 10
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/cho/index', $data);
 		}
 	}
 
@@ -325,7 +458,8 @@ class Dashboard extends CI_Controller {
 	public function incoming_applications()
 	{
 		$this->isLogin();
-		$this->_init_matrix();
+		$navdata['title'] = 'Incoming Applications';
+		$this->_init_matrix($navdata);
 
 		$this->update_notif();
 
@@ -352,7 +486,8 @@ class Dashboard extends CI_Controller {
 	public function pending_applications()
 	{
 		$this->isLogin();
-		$this->_init_matrix();
+		$navdata['title'] = "Pending Applications";
+		$this->_init_matrix($navdata);
 
 		$query['status'] = 'For applicant visit';
 		$applications = $this->Application_m->get_all_applications($query);
@@ -377,7 +512,8 @@ class Dashboard extends CI_Controller {
 	public function view_application($application_id)
 	{
 		$this->isLogin();
-		$this->_init_matrix();
+		$navdata['title'] = "View Application";
+		$this->_init_matrix($navdata);
 
 		//custom encryption credentials for decrypting appId
 		$decrypt_credentials = array(
@@ -421,13 +557,15 @@ class Dashboard extends CI_Controller {
 		// var_dump($referenceNum);
 		// exit();
 
-		//notifications
+		
+		//approvals
 		$role_Id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
 
 		$query = array(
 			'referenceNum' => $referenceNum,
 			'role' => $role_Id->roleId,
-			'approvedBy' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
+			'type' => "Validate",
+			'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
 			);
 		$this->Approval_m->insert($query);
 
@@ -438,11 +576,11 @@ class Dashboard extends CI_Controller {
 			);
 		$this->Application_m->update_application($query);
 
-		//approvals
+		//notifications
 		$query = array(
 			'referenceNum' => $referenceNum,
 			'status' => 'Unread',
-			'role' => '1',
+			'role' => '3',
 			);
 		$this->Notification_m->insert($query);
 
@@ -450,22 +588,110 @@ class Dashboard extends CI_Controller {
 		redirect('dashboard/incoming_applications');
 	}
 
+	public function approve_application($referenceNum = null)
+	{
+		$this->isLogin();
+		$referenceNum = str_replace(['-','_','='], ['/','+','='], $referenceNum);
+		$referenceNum = $this->encryption->decrypt($referenceNum);
+		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		//validate if application is legitimately validated
+		$query = array(
+			'referenceNum' => $referenceNum,
+			'type' => "Validate",
+			);
+		$result = $this->Approval_m->get_all($query);
+
+		if(sizeof($result) > 0)
+		{
+			//approvals
+			$role_Id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+
+			$query = array(
+				'referenceNum' => $referenceNum,
+				'role' => $role_Id->roleId,
+				'type' => "Approve",
+				'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
+				);
+			$this->Approval_m->insert($query);
+
+					//validate
+			$query = array(
+				'referenceNum' => $referenceNum,
+				'status' => 'On process'
+				);
+			$this->Application_m->update_application($query);
+
+		//notifications
+		//notify applicant
+			$query = array(
+				'referenceNum' => $referenceNum,
+				'status' => 'Unread',
+				'role' => '3',
+				);
+			$this->Notification_m->insert($query);
+
+		//notify all departments
+			for ($i=5; $i <= 10 ; $i++) { 
+				$query = array(
+					'referenceNum' => $referenceNum,
+					'status' => 'Unread',
+					'role' => $i,
+					);
+				$this->Notification_m->insert($query);
+			}
+
+			$this->session->set_flashdata('message', 'Application approved!');
+			redirect('dashboard/pending_applications');
+		}
+		else
+		{
+			$this->session->set_flashdata('message', 'ERROR: Invalid action!');
+			redirect('dashboard/pending_applications');
+		}	
+	}
+
 	public function update_notif()
 	{
 		$this->isLogin();
 		$role_id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		$query = array(
-			'role' => $role_id->roleId,
-			'status' => 'Unread'
-			);
-		$notifications = $this->Notification_m->get_all($query);
-
-		if(sizeof($notifications) > 0)
+		if($role_id->roleId == '3')
 		{
-			$set['status'] = "Read";
-			$this->Notification_m->update($query, $set);
+
+			$notifications = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);
+			// echo "<pre>";
+			// print_r($notifications);
+			// echo "</pre>";
+			// exit();
+
+			foreach ($notifications as $notification) {
+				$query = array(
+					'role' => $role_id->roleId,
+					'referenceNum' => $notification->referenceNum
+					);
+				$set['status'] = "Read";
+				$this->Notification_m->update($query,$set);
+			}
+			$data['notifications'] = $notifications;
+			$this->load->view('dashboard/applicant/notif-view', $data);
 		}
+		else
+		{
+			$query = array(
+				'role' => $role_id->roleId,
+				'status' => 'Unread'
+				);
+			$notifications = $this->Notification_m->get_all($query);
+
+			if(sizeof($notifications) > 0)
+			{
+				$set['status'] = "Read";
+				$this->Notification_m->update($query, $set);
+			}
+		}
+
 	}
 
 	//BILLY 12-15-2016 3:45PM

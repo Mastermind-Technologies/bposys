@@ -172,7 +172,7 @@ $(document).ready(function()
       type:'POST',
       url:'dashboard/update_notif',
       success: function(data){
-        //success body
+        $('#notif-section').html(data);
       }
     });
   });

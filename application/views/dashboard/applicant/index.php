@@ -25,12 +25,12 @@
 													<td style="width:45%;" class='text-center'>
 														<div class="row">
 															<div class="col-sm-12">
-																<span>Status: <strong><?= $application->get_status() ?></strong></span>
+																<span>Business Name: <strong><?= $application->get_businessName()?></strong></span>
 															</div>
 														</div>
 														<div class="row">
 															<div class="col-sm-12">
-																<span>Business Name: <strong><?= $application->get_businessName()?></strong></span>
+																<span>Status: <strong><?= $application->get_status() ?></strong></span>
 															</div>
 														</div>
 														<div class="row">
