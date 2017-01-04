@@ -410,7 +410,8 @@ class Dashboard extends CI_Controller {
 			$query = array(
 				'referenceNum' => $referenceNum,
 				'status' => "Unread",
-				'role' => 4
+				'role' => 4,
+				'notifMessage' => "New business permit application"
 				);
 
 			$this->Notification_m->insert($query);
@@ -445,12 +446,30 @@ class Dashboard extends CI_Controller {
 	public function check_application_status()
 	{
 		$this->isLogin();
-		$user_id = $this->encryption->decrypt($this->input->post('user_id'));
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$query['userId'] = $user_id;
 		$applications = $this->Application_m->get_all_applications($query);
 		foreach ($applications as $key => $value) {
 			$data['applications'][$key] = new Application($value->referenceNum);
 		}
+
+		foreach($data['applications'] as $application)
+		{
+			$query = array(
+				'referenceNum' => $this->encryption->decrypt($application->get_referenceNum()),
+				'status' => "Unread",
+				'role' => 3,
+				);
+			$notification = $this->Notification_m->get_all($query);
+			if($notification != null)
+			{
+				foreach ($notification as $value) {
+					$data['notifications'][] = $value;
+				}
+			}
+		}
+		if(isset($data['notifications']))
+			$data['notifications'] = sizeof($data['notifications']);
 
 		$this->load->view('dashboard/applicant/application-table-body',$data);
 	}
@@ -553,8 +572,11 @@ class Dashboard extends CI_Controller {
 		// var_dump($referenceNum);
 		$referenceNum = $this->encryption->decrypt($referenceNum);
 		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-
-		// var_dump($referenceNum);
+		$application = new Application($referenceNum);
+		
+		// echo "<pre>";
+		// print_r($application);
+		// echo "</pre>";
 		// exit();
 
 		
@@ -581,6 +603,7 @@ class Dashboard extends CI_Controller {
 			'referenceNum' => $referenceNum,
 			'status' => 'Unread',
 			'role' => '3',
+			'notifMessage' => $application->get_businessName() . " has been validated by BPLO. Please check application status.",
 			);
 		$this->Notification_m->insert($query);
 
@@ -594,6 +617,7 @@ class Dashboard extends CI_Controller {
 		$referenceNum = str_replace(['-','_','='], ['/','+','='], $referenceNum);
 		$referenceNum = $this->encryption->decrypt($referenceNum);
 		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$application = new Application($referenceNum);
 
 		//validate if application is legitimately validated
 		$query = array(
@@ -628,6 +652,7 @@ class Dashboard extends CI_Controller {
 				'referenceNum' => $referenceNum,
 				'status' => 'Unread',
 				'role' => '3',
+				'notifMessage' => $application->get_businessName() . " has been approved by BPLO. You can now go to other required offices to process your application.",
 				);
 			$this->Notification_m->insert($query);
 
@@ -637,6 +662,7 @@ class Dashboard extends CI_Controller {
 					'referenceNum' => $referenceNum,
 					'status' => 'Unread',
 					'role' => $i,
+					'notifMessage' => 'You have new incoming application.',
 					);
 				$this->Notification_m->insert($query);
 			}
@@ -692,6 +718,18 @@ class Dashboard extends CI_Controller {
 			}
 		}
 
+	}
+
+	public function check_notif()
+	{
+		$this->isLogin();
+		$role_id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+		$query = array(
+			'status' => "Unread",
+			'role' => $role_id->roleId,
+			);
+		$data['notifications'] = $this->Notification_m->get_all($query);
+		echo sizeof($data['notifications']);
 	}
 
 	//BILLY 12-15-2016 3:45PM

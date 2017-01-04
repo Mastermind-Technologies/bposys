@@ -10,7 +10,30 @@ $(document).ready(function(){
 		{
 			var message = "You have "+ $('#notif-count').val() + " new incoming application";
 		}
-	// $('#btn-test-noty').click(function(){
+		notify(message);
+	}
+
+	window.setInterval(notif_check, 3000);
+
+	function notif_check()
+	{
+		$.ajax({
+			type:'POST',
+			dataType:'JSON',
+			url:'dashboard/check_notif',
+			success:function(data){
+				if(data > 0 && data != $('#notif-count').val())
+				{
+					var message = 'You have '+data+' new incoming application';
+					$('#notif-count').val(data);
+					notify(message);
+				}
+			}
+		});
+	}
+
+	function notify(message)
+	{
 		var n = noty({
 			layout: 'topRight',
 			text: message,
@@ -42,8 +65,7 @@ $(document).ready(function(){
 		    	},
 		    },
 		});
-	// });
-}
+	}
 
 
 });//End of Jquery

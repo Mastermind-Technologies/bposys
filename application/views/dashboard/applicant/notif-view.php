@@ -1,14 +1,24 @@
-<?php foreach ($notifications as $notification): ?>
+<?php if (sizeof($notifications) > 0): ?>
+    <?php foreach ($notifications as $notification): ?>
+        <li>
+            <a href="#">
+                <div>
+                    <i class="fa fa-comment fa-fw"></i> <?= $notification->notifMessage ?>
+                    <br>
+                    <span class="pull-left text-muted small">4 minutes ago</span>
+                </div>
+            </a>
+        </li>
+        <br>
+        <li class="divider"></li>
+    <?php endforeach ?>
+<?php else: ?>
     <li>
-        <a href="#">
-            <div>
-                <i class="fa fa-comment fa-fw"></i> Application for <?= $notification->businessName ?> has been validated
-                <span class="pull-right text-muted small">4 minutes ago</span>
-            </div>
-        </a>
+        <h5 class="text-center text-muted">You have no notifications yet.</h5>
+        <li class="divider"></li>
     </li>
-    <li class="divider"></li>
-<?php endforeach ?>
+<?php endif ?>
+
 <li>
     <a class="text-center" href="#">
         <strong>See All Alerts</strong>

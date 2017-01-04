@@ -35,3 +35,13 @@
 		</td>
 	</tr>
 <?php endforeach; ?>
+<input type="hidden" id="hidden-notif-count" value="<?= isset($notifications) ? $notifications : "" ?>">
+<!-- <script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script> -->
+<script>
+	$(document).ready(function(){
+		if($("#hidden-notif-count").val() != "")
+		{
+			$(".fa-bell").html("<span class=notif-count>"+$("#hidden-notif-count").val()+"</span>");
+		}
+	});
+</script>
