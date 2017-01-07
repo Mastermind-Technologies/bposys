@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+	var interval = window.setInterval(notif_check, 3000);
+	var base_url = "http://localhost/bposys/";
+
 	if($('#notif-count').val() > 0)
 	{
 		if($('#notif-count').val() > 1)
@@ -13,19 +16,21 @@ $(document).ready(function(){
 		notify(message);
 	}
 
-	window.setInterval(notif_check, 3000);
-
 	function notif_check()
 	{
 		$.ajax({
 			type:'POST',
 			dataType:'JSON',
-			url:'dashboard/check_notif',
+			url:base_url+'dashboard/check_notif',
 			success:function(data){
+				// console.log(data.notifications);
 				if(data > 0 && data != $('#notif-count').val())
 				{
-					var message = 'You have '+data+' new incoming application';
-					$('#notif-count').val(data);
+					var message = 'You have '+data.notifications+' new incoming application';
+					$('#notif-count').val(data.notifications);
+					$('.badge-incoming').html(data.incoming);
+					$('.badge-pending').html(data.pending);
+					// $('.badge-issued').html();
 					notify(message);
 				}
 			}
@@ -56,7 +61,7 @@ $(document).ready(function(){
 		    		//ajax
 		    		$.ajax({
 		    			type:'POST',
-		    			url:'dashboard/update_notif',
+		    			url:base_url+'dashboard/update_notif',
 		    			success: function(data)
 		    			{
 		    				window.location = "dashboard/incoming_applications";

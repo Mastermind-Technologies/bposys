@@ -23,7 +23,28 @@ class Profile extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('profile/index');
+		$this->isLogin();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$this->_init();
+
+		$is_registered = $this->Owner_m->check_owner($user_id);
+		if($is_registered)
+		{
+			$owner = new Owner($user_id);
+			$data['user'] = $owner;
+		}
+		else
+		{
+			$user = new User($user_id);
+			$data['user'] = $user;
+		}
+
+		// echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
+		// exit();
+		
+		$this->load->view('profile/index', $data);
 	}
 
 	public function isLogin()

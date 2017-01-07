@@ -14,7 +14,7 @@
 							</div>
 							<div class="panel-body">
 								<?php if(sizeof($applications)>0): ?>
-									<table class="table table-bordered">
+									<table id="application-table" class="table table-bordered">
 										<th class="text-center">Reference Number</th>
 										<th class="text-center">Details</th>
 										<th class="text-center">Actions</th>
@@ -48,7 +48,7 @@
 													</td>
 													<td style="width:25%;">
 														<div class="block text-center">
-															<a href="<?php echo base_url('dashboard/my_application'); ?>"  id="btn-view-details" class="btn btn-primary">View Details</a>
+															<a href="<?php echo base_url('dashboard/view/'.bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt))); ?>"  id="btn-view-details" class="btn btn-primary">View Details</a>
 															<a href="#" class="btn btn-danger">Delete</a>
 														</div>
 
