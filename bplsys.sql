@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2017 at 04:23 PM
+-- Generation Time: Jan 10, 2017 at 11:53 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -64,11 +64,11 @@ CREATE TABLE IF NOT EXISTS `applications` (
 --
 
 INSERT INTO `applications` (`applicationId`, `referenceNum`, `userId`, `taxYear`, `applicationDate`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `typeOfOrganization`, `CTCNum`, `TIN`, `entityName`, `taxPayerName`, `businessName`, `tradeName`, `presidentTreasurerName`, `houseBldgNum`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `telNum`, `email`, `PIN`, `numOfEmployees`, `status`, `createdAt`, `updatedAt`) VALUES
-(19, 'CC23E14941', 1, 2016, 'November 15, 2016', '123456', '123456', 'Single', '123456', '123456', 'Entity', 'Renjo Enriquez, Dolosa', 'Mastermind', 'Trade Name Daw', 'Ida Julienne Mangaliman, Peñaflor', 'Blk 29 Lot 19', 'Mercury', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '1234566', 'dolosa.renjo@yahoo.com', '123456', 50, 'For applicant visit', '2016-11-15 14:38:10', '2016-12-28 10:53:59'),
+(19, 'CC23E14941', 1, 2016, 'November 15, 2016', '123456', '123456', 'Single', '123456', '123456', 'Entity', 'Renjo Enriquez, Dolosa', 'Mastermind', 'Trade Name Daw', 'Ida Julienne Mangaliman, Peñaflor', 'Blk 29 Lot 19', 'Mercury', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '1234566', 'dolosa.renjo@yahoo.com', '123456', 50, 'For applicant visit', '2016-11-15 14:38:10', '2017-01-07 14:19:18'),
 (20, 'B8F9C44A2E', 1, 2016, 'November 19, 2016', '123', '123', 'Single', '123', '123', 'asdasd', 'asd asd, asd', 'asd', 'asd', '123 123, 123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 'asd@yahoo.com', '123', 123, 'For validation...', '2016-11-19 01:16:33', '2016-12-18 14:52:34'),
 (21, 'B1FE9724A8', 6, 2016, 'November 23, 2016', '123', '123', 'Single', '123', '123', '123213', '123 123, 123', '123', '123', '123 123, 123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 'asd@yahoo.com', '123', 123, 'For validation...', '2016-11-23 13:39:27', '2016-12-18 14:52:38'),
-(22, '32B149239C', 1, 2016, 'December 15, 2016', '1026', '12/15/2016', 'Single', '1212', '1212', 'NA', 'Renjo Enriquez, Dolosa', 'TestBusiness', 'TestFranchise', 'Renjo Enriquez, Dolosa', '12', '12', '12', '12', '12', '12', '12', '12', '12312322', 'dolosa.renjo@yahoo.com', '1212', 1212, 'On process', '2016-12-15 13:52:05', '2017-01-02 13:52:23'),
-(25, '92527EC7C2', 1, 2016, 'December 29, 2016', '123', '123', 'Single', '123', '13', 'NA', '123 123, 123', 'My New Business', '123', '123 123, 123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 'qweqwe@yahoo.com', '123', 123, 'For applicant visit', '2016-12-29 00:23:33', '2017-01-01 14:51:06');
+(22, '32B149239C', 1, 2016, 'December 15, 2016', '1026', '12/15/2016', 'Single', '1212', '1212', 'NA', 'Renjo Enriquez, Dolosa', 'TestBusiness', 'TestFranchise', 'Renjo Enriquez, Dolosa', '12', '12', '12', '12', '12', '12', '12', '12', '12312322', 'dolosa.renjo@yahoo.com', '1212', 1212, 'For applicant visit', '2016-12-15 13:52:05', '2017-01-04 02:54:32'),
+(25, '92527EC7C2', 1, 2016, 'December 29, 2016', '123', '123', 'Single', '123', '13', 'NA', '123 123, 123', 'My New Business', '123', '123 123, 123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 'qweqwe@yahoo.com', '123', 123, 'For validation...', '2016-12-29 00:23:33', '2017-01-04 02:53:08');
 
 -- --------------------------------------------------------
 
@@ -84,17 +84,15 @@ CREATE TABLE IF NOT EXISTS `approvals` (
   `staff` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `approvals`
 --
 
 INSERT INTO `approvals` (`approvalId`, `referenceNum`, `role`, `type`, `staff`, `createdAt`, `updatedAt`) VALUES
-(2, '32B149239C', 4, 'Validate', 'Rene Manabat', '2016-12-28 10:02:31', '2017-01-02 12:57:08'),
-(5, 'CC23E14941', 4, 'Validate', 'Rene Manabat', '2016-12-28 10:53:59', '2017-01-02 12:57:11'),
-(6, '92527EC7C2', 4, 'Validate', 'Rene Manabat', '2017-01-01 14:51:06', '2017-01-02 12:57:15'),
-(8, '32B149239C', 4, 'Approve', 'Rene Manabat', '2017-01-02 13:52:23', '2017-01-02 13:52:23');
+(9, '32B149239C', 4, 'Validate', 'Rene Manabat', '2017-01-04 02:54:32', '2017-01-04 02:54:32'),
+(10, 'CC23E14941', 4, 'Validate', 'Rene Manabat', '2017-01-07 14:19:18', '2017-01-07 14:19:18');
 
 -- --------------------------------------------------------
 
@@ -207,26 +205,19 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `referenceNum` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
   `role` int(5) NOT NULL,
+  `notifMessage` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `notifications`
 --
 
-INSERT INTO `notifications` (`notificationId`, `referenceNum`, `status`, `role`, `createdAt`, `updatedAt`) VALUES
-(2, '32B149239C', 'Read', 3, '2016-12-28 10:04:05', '2016-12-29 10:59:19'),
-(3, 'CC23E14941', 'Read', 3, '2016-12-28 10:53:59', '2016-12-29 10:57:57'),
-(4, '92527EC7C2', 'Read', 4, '2016-12-29 00:23:34', '2016-12-29 04:01:25'),
-(5, '92527EC7C2', 'Read', 3, '2017-01-01 14:51:06', '2017-01-01 14:53:14'),
-(13, '32B149239C', 'Read', 3, '2017-01-02 13:52:23', '2017-01-02 14:01:03'),
-(14, '32B149239C', 'Unread', 5, '2017-01-02 13:52:23', '2017-01-02 13:52:23'),
-(15, '32B149239C', 'Unread', 6, '2017-01-02 13:52:23', '2017-01-02 13:52:23'),
-(16, '32B149239C', 'Unread', 7, '2017-01-02 13:52:23', '2017-01-02 13:52:23'),
-(17, '32B149239C', 'Unread', 8, '2017-01-02 13:52:23', '2017-01-02 13:52:23'),
-(18, '32B149239C', 'Unread', 9, '2017-01-02 13:52:23', '2017-01-02 13:52:23'),
-(19, '32B149239C', 'Unread', 10, '2017-01-02 13:52:23', '2017-01-02 13:52:23');
+INSERT INTO `notifications` (`notificationId`, `referenceNum`, `status`, `role`, `notifMessage`, `createdAt`, `updatedAt`) VALUES
+(4, '92527EC7C2', 'Read', 4, 'New business permit application', '2016-12-29 00:23:34', '2017-01-04 13:59:39'),
+(20, '32B149239C', 'Read', 3, 'TestBusiness has been validated by BPLO. Please check application status.', '2017-01-04 02:54:32', '2017-01-04 03:56:12'),
+(21, 'CC23E14941', 'Unread', 3, 'Mastermind has been validated by BPLO. Please check application status.', '2017-01-07 14:19:18', '2017-01-07 14:19:18');
 
 -- --------------------------------------------------------
 
@@ -425,7 +416,7 @@ ALTER TABLE `applications`
 -- AUTO_INCREMENT for table `approvals`
 --
 ALTER TABLE `approvals`
-  MODIFY `approvalId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `approvalId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `assessments`
 --
@@ -450,7 +441,7 @@ ALTER TABLE `lessors`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `notificationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+  MODIFY `notificationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `owners`
 --
