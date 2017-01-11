@@ -18,11 +18,11 @@
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
         <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/pending_applications"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
-         <span class="label label-important badge-pending"><?= $pending ?></span><br><span>Pending</span> </a> </li>
+         <span class="label label-important"><?= $pending ?></span><br><span>Pending</span> </a> </li>
          <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
-           <span class="label label-success badge-incoming"><?= $incoming ?></span><br>Incoming </a> </li>
+           <span class="label label-success"><?= $incoming ?></span><br>Incoming </a> </li>
            <li class="bg_c"> <a href="#"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
-             <span class="label label-info badge-issued"><?= $issued ?></span><br>Issued this month </a> </li>
+             <span class="label label-info"><?= $issued ?></span><br>Issued this month </a> </li>
         <!-- <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li>
         <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li> -->
        <!--  <li class="bg_lg span3"> <a href="charts.html"> <i class="icon-signal"></i> Charts</a> </li>
@@ -40,35 +40,35 @@
       <div class="span4">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-eye-open"></i> </span>
-            <h5>Statistics</h5>
+            <h5>Browser statistics</h5>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>#</th>
+                  <th>Browser</th>
+                  <th>Visits</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Total issued applications</td>
+                  <td>Chrome</td>
                   <td>8850</td>
                 </tr>
                 <tr>
-                  <td>Applications this month</td>
+                  <td>Firefox</td>
                   <td>5670</td>
                 </tr>
                 <tr>
-                  <td>Issued applications this month</td>
+                  <td>Internet Explorer</td>
                   <td>4130</td>
                 </tr>
                 <tr>
-                  <td>IDK</td>
+                  <td>Opera</td>
                   <td>1574</td>
                 </tr>
                 <tr>
-                  <td>IDK</td>
+                  <td>Safari</td>
                   <td>1044</td>
                 </tr>
               </tbody>
@@ -79,36 +79,36 @@
       <div class="span4">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-arrow-right"></i> </span>
-            <h5>Latest Incoming Applications</h5>
+            <h5>Website statistics</h5>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th>Business Name</th>
-                  <!-- <th>Visits</th> -->
+                  <th>Site</th>
+                  <th>Visits</th>
                 </tr>
               </thead>
-              <tbody class="">
+              <tbody>
                 <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <!-- <td>12444</td> -->
+                  <td><a href="#">Themeforest.com</a></td>
+                  <td>12444</td>
                 </tr>
                 <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <!-- <td>10455</td> -->
+                  <td><a href="#">Themedesigner.in</a></td>
+                  <td>10455</td>
                 </tr>
                 <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <!-- <td>8455</td> -->
+                  <td><a href="#">Themedesigner.in</a></td>
+                  <td>8455</td>
                 </tr>
                 <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <!-- <td>4456</td> -->
+                  <td><a href="#">Themedesigner.in</a></td>
+                  <td>4456</td>
                 </tr>
                 <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <!-- <td>2210</td> -->
+                  <td><a href="#">Themedesigner.in</a></td>
+                  <td>2210</td>
                 </tr>
               </tbody>
             </table>
@@ -118,36 +118,36 @@
       <div class="span4">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-file"></i> </span>
-            <h5>Latest Issued Applications</h5>
+            <h5>Visited Pages</h5>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th>Business Name</th>
-                  <th>Issued</th>
+                  <th>Page</th>
+                  <th>Visits</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <td>DATE</td>
+                  <td><a href="#">Freebies</a></td>
+                  <td>8550</td>
                 </tr>
                 <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <td>DATE</td>
+                  <td><a href="#">Blog</a></td>
+                  <td>7550</td>
                 </tr>
                 <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <td>DATE</td>
+                  <td><a href="#">Work</a></td>
+                  <td>5247</td>
                 </tr>
                 <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <td>DATE</td>
+                  <td><a href="#">site template</a></td>
+                  <td>4880</td>
                 </tr>
                 <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <td>DATE</td>
+                  <td><a href="#">All categories</a></td>
+                  <td>4801</td>
                 </tr>
               </tbody>
             </table>

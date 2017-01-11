@@ -1,6 +1,18 @@
 $(document).ready(function()
 {
   var base_url = 'http://localhost/bposys/';
+  var interval = window.setInterval(check_application_status, 3000);
+
+  $('#btn-notif').click(function(){
+    $('.fa-bell').html("");
+    $.ajax({
+      type:'POST',
+      url:base_url+'dashboard/update_notif',
+      success: function(data){
+        $('#notif-section').html(data);
+      }
+    });
+  });
 
   $('[data-toggle="tooltip"]').tooltip();
 
@@ -152,19 +164,27 @@ $(document).ready(function()
     return total_rows;
   }
 
-  window.setInterval(check_application_status, 3000);
-
   function check_application_status()
   {
-    $.ajax({
-      type:'POST',
-      url:base_url+'dashboard/check_application_status',
-      data:{user_id:$('#user-id').val()},
-      success:function(data){
-        $('#application-table-body').html(data);
-      }
-    });
+    if($('#application-table').length != 0)
+    {
+      $.ajax({
+        type:'POST',
+        url:base_url+'dashboard/check_application_status',
+        data:{user_id:$('#user-id').val()},
+        success:function(data){
+          $('#application-table-body').html(data);
+        },
+        error:function()
+        {
+          clearInterval(interval);
+        }
+      });
+    }
+    else
+    {
+      clearInterval(interval);
+    }
   }
-
 
 }); //End of Jquery

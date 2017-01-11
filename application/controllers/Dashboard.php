@@ -9,22 +9,32 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
+		$this->load->model('Role_m');
 		$this->load->model('Application_m');
 		$this->load->model('Lessor_m');
 		$this->load->model('Business_Activity_m');
+		$this->load->model('Approval_m');
+		$this->load->model('Notification_m');
 		$this->load->library('form_validation');
 	}
 
-	public function _init()
+	public function _init($data = null)
 	{
+		// echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
+		// exit();
+		if($data != null)
+			$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
+		else
+			$this->load->view('templates/sb_admin2/sb_admin2_navbar');
 		$this->load->view('templates/sb_admin2/sb_admin2_includes');
-		$this->load->view('templates/sb_admin2/sb_admin2_navbar');
 	}
 
-	public function _init_matrix()
+	public function _init_matrix($data = null)
 	{
 		$this->load->view('templates/matrix/matrix_includes');
-		$this->load->view('templates/matrix/matrix_navbar');
+		$this->load->view('templates/matrix/matrix_navbar', $data);
 	}
 
 	public function isLogin()
@@ -44,22 +54,47 @@ class Dashboard extends CI_Controller {
 
 		if($role == 'Applicant')
 		{
-			$this->_init();
+			
 			$is_registered = $this->Owner_m->check_owner($user_id);
 			if($is_registered)
 			{
 				$data['user'] = new Owner($user_id);
-				// echo "<pre>";
-				// print_r($data);
-				// echo "</pre>";
-				// exit();
 
 				$query['userId'] = $user_id;
 				$data['applications'] = $this->Application_m->get_all_applications($query);
 				foreach ($data['applications'] as $key => $value) {
 					$data['applications'][$key] = new Application($value->referenceNum);
+					$data['applications'][$key]->set_applicationId($this->encryption->decrypt($data['applications'][$key]->get_applicationId()));
 				}
 
+				foreach($data['applications'] as $application)
+				{
+					$query = array(
+						'referenceNum' => $this->encryption->decrypt($application->get_referenceNum()),
+						'status' => "Unread",
+						'role' => 3,
+						);
+					$notification = $this->Notification_m->get_all($query);
+					if($notification != null)
+					{
+						foreach ($notification as $value) {
+							$nav_data['notifications'][] = $value;
+						}
+					}
+				}
+				// echo "<pre>";
+				// print_r($data['applications']);
+				// echo "</pre>";
+				// exit();
+				
+				//custom encryption credentials for URL encryption
+				$data['custom_encrypt'] = array(
+					'cipher' => 'blowfish',
+					'mode' => 'ecb',
+					'key' => $this->config->item('encryption_key'),
+					'hmac' => false
+					);
+				$this->_init(isset($nav_data)? $nav_data : "");
 				$this->load->view('dashboard/applicant/index', $data);
 			}
 			else
@@ -69,15 +104,158 @@ class Dashboard extends CI_Controller {
 		}
 		else if($role == 'BPLO')
 		{
-			$this->_init_matrix();
+			$navdata['title'] = 'BPLO Dashboard';
+			$this->_init_matrix($navdata);
+
+			$query = array(
+				'status' => "Unread",
+				'role' => 4,
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof($this->Application_m->get_all_applications($query));
 
 			$query['status'] = 'For validation...';
 			$data['incoming'] = sizeof($this->Application_m->get_all_applications($query));
-			$data['issued'] = sizeof([]);
-			$data['pending'] =sizeof([]);
+
+			$data['issued'] =sizeof([]);
 
 			$data['user'] = new User($user_id);
 			$this->load->view('dashboard/bplo/index', $data);
+		}
+		else if($role == "BFP")
+		{
+			$navdata['title'] = 'BFP Dashboard';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 5
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/bfp/index', $data);
+		}
+		else if($role == "Assessor")
+		{
+			$navdata['title'] = 'Assessor Dashboard';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 6
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/assessors/index', $data);
+		}
+		else if($role == "CENRO")
+		{
+			$navdata['title'] = 'CENRO Dashboard';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 7
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/cenro/index', $data);
+		}
+		else if($role == "Zoning")
+		{
+			$navdata['title'] = 'Zoning Dashboard(not final)';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 8
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/zoning/index', $data);
+		}
+		else if($role == "Engineering")
+		{
+			$navdata['title'] = 'Engineering Dashboard';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 9
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/engineering/index', $data);
+		}
+		else if($role == "CHO")
+		{
+			$navdata['title'] = 'CHO Dashboard';
+			$this->_init_matrix($navdata);
+			$query = array(
+				'status' => "Unread",
+				'role' => 10
+				);
+			$data['notifications'] = $this->Notification_m->get_all($query);
+			unset($query);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = sizeof([]);
+
+			$data['issued'] =sizeof([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/cho/index', $data);
 		}
 	}
 
@@ -238,6 +416,14 @@ class Dashboard extends CI_Controller {
 				$this->Lessor_m->insert_lessor($data['lessor_fields']);
 			}
 
+			$query = array(
+				'referenceNum' => $referenceNum,
+				'status' => "Unread",
+				'role' => 4,
+				'notifMessage' => "New business permit application"
+				);
+
+			$this->Notification_m->insert($query);
 			$data['referenceNum'] = $referenceNum;
 			echo json_encode($data);
 		}
@@ -269,12 +455,39 @@ class Dashboard extends CI_Controller {
 	public function check_application_status()
 	{
 		$this->isLogin();
-		$user_id = $this->encryption->decrypt($this->input->post('user_id'));
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$query['userId'] = $user_id;
 		$applications = $this->Application_m->get_all_applications($query);
 		foreach ($applications as $key => $value) {
 			$data['applications'][$key] = new Application($value->referenceNum);
+			$data['applications'][$key]->set_applicationId($this->encryption->decrypt($data['applications'][$key]->get_applicationId()));
 		}
+
+		foreach($data['applications'] as $application)
+		{
+			$query = array(
+				'referenceNum' => $this->encryption->decrypt($application->get_referenceNum()),
+				'status' => "Unread",
+				'role' => 3,
+				);
+			$notification = $this->Notification_m->get_all($query);
+			if($notification != null)
+			{
+				foreach ($notification as $value) {
+					$data['notifications'][] = $value;
+				}
+			}
+		}
+		if(isset($data['notifications']))
+			$data['notifications'] = sizeof($data['notifications']);
+
+
+		$data['custom_encrypt'] = array(
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
 
 		$this->load->view('dashboard/applicant/application-table-body',$data);
 	}
@@ -282,7 +495,10 @@ class Dashboard extends CI_Controller {
 	public function incoming_applications()
 	{
 		$this->isLogin();
-		$this->_init_matrix();
+		$navdata['title'] = 'Incoming Applications';
+		$this->_init_matrix($navdata);
+
+		$this->update_notif();
 
 		$query['status'] = 'For validation...';
 		$applications = $this->Application_m->get_all_applications($query);
@@ -302,13 +518,39 @@ class Dashboard extends CI_Controller {
 			);
 
 		$this->load->view('dashboard/bplo/incoming',$data);
-
 	}
 
-	public function incoming_view($application_id)
+	public function pending_applications()
 	{
 		$this->isLogin();
-		$this->_init_matrix();
+		$navdata['title'] = "Pending Applications";
+		$this->_init_matrix($navdata);
+
+		$query['status'] = 'For applicant visit';
+		$applications = $this->Application_m->get_all_applications($query);
+
+		foreach ($applications as $key => $value) {
+			$data['incoming'][$key] = new Application($value->referenceNum);
+			//decrypting appId property for custom encryption
+			$data['incoming'][$key]->set_applicationId($this->encryption->decrypt($data['incoming'][$key]->get_applicationId()));
+		}
+
+		//custom encryption credentials for URL encryption
+		$data['custom_encrypt'] = array(
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
+
+		$this->load->view('dashboard/bplo/pending',$data);
+	}
+
+	public function view_application($application_id)
+	{
+		$this->isLogin();
+		$navdata['title'] = "View Application";
+		$this->_init_matrix($navdata);
 
 		//custom encryption credentials for decrypting appId
 		$decrypt_credentials = array(
@@ -348,31 +590,192 @@ class Dashboard extends CI_Controller {
 		// var_dump($referenceNum);
 		$referenceNum = $this->encryption->decrypt($referenceNum);
 		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-
-		// var_dump($referenceNum);
+		$application = new Application($referenceNum);
+		
+		// echo "<pre>";
+		// print_r($application);
+		// echo "</pre>";
 		// exit();
 
+		
+		//approvals
+		$role_Id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+
+		$query = array(
+			'referenceNum' => $referenceNum,
+			'role' => $role_Id->roleId,
+			'type' => "Validate",
+			'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
+			);
+		$this->Approval_m->insert($query);
+
+		//validate
 		$query = array(
 			'referenceNum' => $referenceNum,
 			'status' => 'For applicant visit'
 			);
 		$this->Application_m->update_application($query);
-		//approvals
+
 		//notifications
+		$query = array(
+			'referenceNum' => $referenceNum,
+			'status' => 'Unread',
+			'role' => '3',
+			'notifMessage' => $application->get_businessName() . " has been validated by BPLO. Please check application status.",
+			);
+		$this->Notification_m->insert($query);
+
 		$this->session->set_flashdata('message', 'Application validated successfully!');
 		redirect('dashboard/incoming_applications');
+	}
 
+	public function approve_application($referenceNum = null)
+	{
+		$this->isLogin();
+		$referenceNum = str_replace(['-','_','='], ['/','+','='], $referenceNum);
+		$referenceNum = $this->encryption->decrypt($referenceNum);
+		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$application = new Application($referenceNum);
+
+		//validate if application is legitimately validated
+		$query = array(
+			'referenceNum' => $referenceNum,
+			'type' => "Validate",
+			);
+		$result = $this->Approval_m->get_all($query);
+
+		if(sizeof($result) > 0)
+		{
+			//approvals
+			$role_Id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+
+			$query = array(
+				'referenceNum' => $referenceNum,
+				'role' => $role_Id->roleId,
+				'type' => "Approve",
+				'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
+				);
+			$this->Approval_m->insert($query);
+
+					//validate
+			$query = array(
+				'referenceNum' => $referenceNum,
+				'status' => 'On process'
+				);
+			$this->Application_m->update_application($query);
+
+		//notifications
+		//notify applicant
+			$query = array(
+				'referenceNum' => $referenceNum,
+				'status' => 'Unread',
+				'role' => '3',
+				'notifMessage' => $application->get_businessName() . " has been approved by BPLO. You can now go to other required offices to process your application.",
+				);
+			$this->Notification_m->insert($query);
+
+		//notify all departments
+			for ($i=5; $i <= 10 ; $i++) { 
+				$query = array(
+					'referenceNum' => $referenceNum,
+					'status' => 'Unread',
+					'role' => $i,
+					'notifMessage' => 'You have new incoming application.',
+					);
+				$this->Notification_m->insert($query);
+			}
+
+			$this->session->set_flashdata('message', 'Application approved!');
+			redirect('dashboard/pending_applications');
+		}
+		else
+		{
+			$this->session->set_flashdata('message', 'ERROR: Invalid action!');
+			redirect('dashboard/pending_applications');
+		}	
+	}
+
+	public function update_notif()
+	{
+		$this->isLogin();
+		$role_id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		if($role_id->roleId == '3')
+		{
+
+			$notifications = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);
+			// echo "<pre>";
+			// print_r($notifications);
+			// echo "</pre>";
+			// exit();
+
+			foreach ($notifications as $notification) {
+				$query = array(
+					'role' => $role_id->roleId,
+					'referenceNum' => $notification->referenceNum
+					);
+				$set['status'] = "Read";
+				$this->Notification_m->update($query,$set);
+			}
+			$data['notifications'] = $notifications;
+			$this->load->view('dashboard/applicant/notif-view', $data);
+		}
+		else
+		{
+			$query = array(
+				'role' => $role_id->roleId,
+				'status' => 'Unread'
+				);
+			$notifications = $this->Notification_m->get_all($query);
+
+			if(sizeof($notifications) > 0)
+			{
+				$set['status'] = "Read";
+				$this->Notification_m->update($query, $set);
+			}
+		}
+
+	}
+
+	public function check_notif()
+	{
+		$this->isLogin();
+		$role_id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+		$query = array(
+			'status' => "Unread",
+			'role' => $role_id->roleId,
+			);
+		$data['notifications'] = sizeof($this->Notification_m->get_all($query));
+		unset($query);
+
+		$query['status'] = 'For applicant visit';
+		$data['pending'] = sizeof($this->Application_m->get_all_applications($query));
+
+		$query['status'] = 'For validation...';
+		$data['incoming'] = sizeof($this->Application_m->get_all_applications($query));
+
+		echo json_encode($data);
 	}
 
 	//BILLY 12-15-2016 3:45PM
 
-	public function view_application()
+	public function view($application_Id = null)
 	{
 		$this->_init();
-		//$this->load->js('templates/sb_admin2/sb_admin2_includes');
-		echo script_tag('assets/js/dashboard.js');
-		echo script_tag('assets/js/parsley.min.js');
+		$user_Id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		//decrypt application_Id
+		//...
+		$custom_decrypt = array(
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
+		$application_Id = $this->encryption->decrypt(hex2bin($application_Id), $custom_decrypt);
 		$this->load->view('dashboard/applicant/view_application');
+
+
 	}
 
 
