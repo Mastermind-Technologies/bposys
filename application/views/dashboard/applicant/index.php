@@ -30,7 +30,16 @@
 														</div>
 														<div class="row">
 															<div class="col-sm-12">
-																<span>Status: <strong><?= $application->get_status() ?></strong></span>
+																<span>Status: <?php $status = $application->get_status();
+																	if($status == "Expired")
+																	{
+																		echo "<strong style='color:red'>".$status."</strong>";
+																	}
+																	else
+																	{
+																		echo "<strong>".$status."</strong>";
+																	} ?>
+																</span>
 															</div>
 														</div>
 														<div class="row">

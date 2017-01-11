@@ -20,10 +20,6 @@ class Dashboard extends CI_Controller {
 
 	public function _init($data = null)
 	{
-		// echo "<pre>";
-		// print_r($data);
-		// echo "</pre>";
-		// exit();
 		if($data != null)
 			$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
 		else
@@ -65,8 +61,10 @@ class Dashboard extends CI_Controller {
 				foreach ($data['applications'] as $key => $value) {
 					$data['applications'][$key] = new Application($value->referenceNum);
 					$data['applications'][$key]->set_applicationId($this->encryption->decrypt($data['applications'][$key]->get_applicationId()));
+					$data['applications'][$key]->check_expiry();
 				}
 
+				//get applicant notifications
 				foreach($data['applications'] as $application)
 				{
 					$query = array(
@@ -82,10 +80,6 @@ class Dashboard extends CI_Controller {
 						}
 					}
 				}
-				// echo "<pre>";
-				// print_r($data['applications']);
-				// echo "</pre>";
-				// exit();
 				
 				//custom encryption credentials for URL encryption
 				$data['custom_encrypt'] = array(
@@ -97,6 +91,7 @@ class Dashboard extends CI_Controller {
 				$this->_init(isset($nav_data)? $nav_data : "");
 				$this->load->view('dashboard/applicant/index', $data);
 			}
+			//if applicant is still not a registered owner, force register.
 			else
 			{
 				redirect('profile/edit');
@@ -104,6 +99,15 @@ class Dashboard extends CI_Controller {
 		}
 		else if($role == 'BPLO')
 		{
+			$applications = $this->Application_m->get_all_applications();
+			if(sizeof($applications) > 0)
+			{	
+				foreach ($applications as $application) {
+					$application_obj = new Application($application->referenceNum);
+					$application_obj->check_expiry();
+				}
+			}
+
 			$navdata['title'] = 'BPLO Dashboard';
 			$this->_init_matrix($navdata);
 
@@ -341,8 +345,6 @@ class Dashboard extends CI_Controller {
 		{
 			$data['error'] = "Error: Please resolve invalid inputs.";
 			echo json_encode($data);
-			// $this->session->set_flashdata('error', validation_errors());
-			// redirect('dashboard/new_application_validate');
 		}
 		else
 		{
@@ -570,11 +572,6 @@ class Dashboard extends CI_Controller {
 		$application = new Application();
 		$data['application'] = $application->set_application_all($data['application'][0]);
 		$application->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()));
-		// echo "<pre>";
-		// print_r($data);
-		// echo "</pre>";
-		// exit();
-
 
 		//instantiate Owner of this application
 		$data['owner'] = new Owner($this->encryption->decrypt($application->get_userId()));
@@ -592,12 +589,6 @@ class Dashboard extends CI_Controller {
 		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$application = new Application($referenceNum);
 		
-		// echo "<pre>";
-		// print_r($application);
-		// echo "</pre>";
-		// exit();
-
-		
 		//approvals
 		$role_Id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
 
@@ -610,11 +601,12 @@ class Dashboard extends CI_Controller {
 		$this->Approval_m->insert($query);
 
 		//validate
-		$query = array(
-			'referenceNum' => $referenceNum,
-			'status' => 'For applicant visit'
-			);
-		$this->Application_m->update_application($query);
+		// $query = array(
+		// 	'referenceNum' => $referenceNum,
+		// 	'status' => 'For applicant visit'
+		// 	);
+		// $this->Application_m->update_application($query);
+		$application->change_status($referenceNum, 'For applicant visit');
 
 		//notifications
 		$query = array(
@@ -657,12 +649,13 @@ class Dashboard extends CI_Controller {
 				);
 			$this->Approval_m->insert($query);
 
-					//validate
-			$query = array(
-				'referenceNum' => $referenceNum,
-				'status' => 'On process'
-				);
-			$this->Application_m->update_application($query);
+			//approve - update application status
+			// $query = array(
+			// 	'referenceNum' => $referenceNum,
+			// 	'status' => 'On process'
+			// 	);
+			// $this->Application_m->update_application($query);
+			$application->change_status($referenceNum, 'On process');
 
 		//notifications
 		//notify applicant
@@ -705,10 +698,6 @@ class Dashboard extends CI_Controller {
 		{
 
 			$notifications = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);
-			// echo "<pre>";
-			// print_r($notifications);
-			// echo "</pre>";
-			// exit();
 
 			foreach ($notifications as $notification) {
 				$query = array(
@@ -774,10 +763,6 @@ class Dashboard extends CI_Controller {
 			);
 		$application_Id = $this->encryption->decrypt(hex2bin($application_Id), $custom_decrypt);
 		$this->load->view('dashboard/applicant/view_application');
-
-
 	}
-
-
 
 }//END OF CLASS,

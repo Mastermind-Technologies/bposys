@@ -344,6 +344,34 @@ class Application {
 		return $this;
 	}
 
+	public function change_status($referenceNum = null, $status = null)
+	{
+		$this->CI =& get_instance();
+		$query = array(
+			'referenceNum' => $referenceNum,
+			'status' => $status,
+			);
+		$this->CI->Application_m->update_application($query);
+		$this->status = $status;
+		$this->unset_CI();
+	}
+
+	public function check_expiry()
+	{
+		$this->CI =& get_instance();
+		//check if status is active
+		if($this->status == 'Active')
+		{
+			//if this year is greater than application date, expire application
+			if(date('Y') > date('Y', strtotime($this->applicationDate)))
+			{
+				$this->change_status($this->CI->encryption->decrypt($this->referenceNum), 'Expired');
+				$this->status = 'Expired';
+			}
+		}
+		$this->unset_CI();
+	}
+
 	public function set_application_all($param = null)
 	{
 		if(!isset($this->CI))

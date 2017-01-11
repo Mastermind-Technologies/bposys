@@ -9,10 +9,6 @@ class Profile extends CI_Controller {
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
 		$this->load->library('form_validation');
-
-		//object classes
-		// $this->load->library('User');
-		// $this->load->library('Owner');
 	}
 
 	public function _init()
