@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2017 at 11:53 PM
+-- Generation Time: Jan 13, 2017 at 12:07 AM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -65,9 +65,9 @@ CREATE TABLE IF NOT EXISTS `applications` (
 
 INSERT INTO `applications` (`applicationId`, `referenceNum`, `userId`, `taxYear`, `applicationDate`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `typeOfOrganization`, `CTCNum`, `TIN`, `entityName`, `taxPayerName`, `businessName`, `tradeName`, `presidentTreasurerName`, `houseBldgNum`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `telNum`, `email`, `PIN`, `numOfEmployees`, `status`, `createdAt`, `updatedAt`) VALUES
 (19, 'CC23E14941', 1, 2016, 'November 15, 2016', '123456', '123456', 'Single', '123456', '123456', 'Entity', 'Renjo Enriquez, Dolosa', 'Mastermind', 'Trade Name Daw', 'Ida Julienne Mangaliman, Peñaflor', 'Blk 29 Lot 19', 'Mercury', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '1234566', 'dolosa.renjo@yahoo.com', '123456', 50, 'For applicant visit', '2016-11-15 14:38:10', '2017-01-07 14:19:18'),
-(20, 'B8F9C44A2E', 1, 2016, 'November 19, 2016', '123', '123', 'Single', '123', '123', 'asdasd', 'asd asd, asd', 'asd', 'asd', '123 123, 123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 'asd@yahoo.com', '123', 123, 'For validation...', '2016-11-19 01:16:33', '2016-12-18 14:52:34'),
+(20, 'B8F9C44A2E', 1, 2016, 'November 19, 2016', '123', '123', 'Single', '123', '123', 'asdasd', 'asd asd, asd', 'Expired application sample', 'asd', '123 123, 123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 'asd@yahoo.com', '123', 123, 'Expired', '2016-11-19 01:16:33', '2017-01-12 09:59:44'),
 (21, 'B1FE9724A8', 6, 2016, 'November 23, 2016', '123', '123', 'Single', '123', '123', '123213', '123 123, 123', '123', '123', '123 123, 123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 'asd@yahoo.com', '123', 123, 'For validation...', '2016-11-23 13:39:27', '2016-12-18 14:52:38'),
-(22, '32B149239C', 1, 2016, 'December 15, 2016', '1026', '12/15/2016', 'Single', '1212', '1212', 'NA', 'Renjo Enriquez, Dolosa', 'TestBusiness', 'TestFranchise', 'Renjo Enriquez, Dolosa', '12', '12', '12', '12', '12', '12', '12', '12', '12312322', 'dolosa.renjo@yahoo.com', '1212', 1212, 'For applicant visit', '2016-12-15 13:52:05', '2017-01-04 02:54:32'),
+(22, '32B149239C', 1, 2016, 'December 15, 2016', '1026', '12/15/2016', 'Single', '1212', '1212', 'NA', 'Renjo Enriquez, Dolosa', 'Application w/o Lessor sample', 'TestFranchise', 'Renjo Enriquez, Dolosa', '12', '12', '12', '12', '12', '12', '12', '12', '12312322', 'dolosa.renjo@yahoo.com', '1212', 1212, 'Expired', '2016-12-15 13:52:05', '2017-01-12 11:25:44'),
 (25, '92527EC7C2', 1, 2016, 'December 29, 2016', '123', '123', 'Single', '123', '13', 'NA', '123 123, 123', 'My New Business', '123', '123 123, 123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 'qweqwe@yahoo.com', '123', 123, 'For validation...', '2016-12-29 00:23:33', '2017-01-04 02:53:08');
 
 -- --------------------------------------------------------
@@ -103,6 +103,8 @@ INSERT INTO `approvals` (`approvalId`, `referenceNum`, `role`, `type`, `staff`, 
 CREATE TABLE IF NOT EXISTS `assessments` (
   `assessmentId` int(10) NOT NULL,
   `referenceNum` varchar(255) NOT NULL,
+  `amount` int(255) NOT NULL,
+  `status` text NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -215,9 +217,9 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 --
 
 INSERT INTO `notifications` (`notificationId`, `referenceNum`, `status`, `role`, `notifMessage`, `createdAt`, `updatedAt`) VALUES
-(4, '92527EC7C2', 'Read', 4, 'New business permit application', '2016-12-29 00:23:34', '2017-01-04 13:59:39'),
-(20, '32B149239C', 'Read', 3, 'TestBusiness has been validated by BPLO. Please check application status.', '2017-01-04 02:54:32', '2017-01-04 03:56:12'),
-(21, 'CC23E14941', 'Unread', 3, 'Mastermind has been validated by BPLO. Please check application status.', '2017-01-07 14:19:18', '2017-01-07 14:19:18');
+(4, '92527EC7C2', 'Read', 4, 'New business permit application', '2016-12-29 00:23:34', '2017-01-12 09:50:08'),
+(20, '32B149239C', 'Read', 3, 'TestBusiness has been validated by BPLO. Please check application status.', '2017-01-04 02:54:32', '2017-01-12 09:57:46'),
+(21, 'CC23E14941', 'Read', 3, 'Mastermind has been validated by BPLO. Please check application status.', '2017-01-07 14:19:18', '2017-01-12 06:49:58');
 
 -- --------------------------------------------------------
 
@@ -228,6 +230,7 @@ INSERT INTO `notifications` (`notificationId`, `referenceNum`, `status`, `role`,
 CREATE TABLE IF NOT EXISTS `owners` (
   `ownerId` int(10) NOT NULL,
   `userId` int(10) NOT NULL,
+  `position` varchar(255) DEFAULT NULL,
   `houseBldgNo` varchar(255) DEFAULT NULL,
   `bldgName` varchar(255) DEFAULT NULL,
   `unitNum` varchar(255) DEFAULT NULL,
@@ -248,12 +251,12 @@ CREATE TABLE IF NOT EXISTS `owners` (
 -- Dumping data for table `owners`
 --
 
-INSERT INTO `owners` (`ownerId`, `userId`, `houseBldgNo`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `contactNum`, `telNum`, `businessArea`, `numOfEmployeesLGU`, `createdAt`, `updatedAt`) VALUES
-(1, 1, '21', 'Mercury', '21', 'Dumaguete', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '09175138277', '8393939', 22, 33, '2016-11-10 10:15:40', '2016-11-14 11:54:43'),
-(2, 5, '123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 123, 123, '2016-11-20 08:26:26', '2016-11-20 08:26:26'),
-(3, 6, '123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 123, 123, '2016-11-23 13:37:54', '2016-11-23 13:37:54'),
-(4, 7, '1', '1', '1', '1', '1', '1', '1', '1', '123', '123', 23, 23, '2016-12-14 13:28:38', '2016-12-14 13:28:38'),
-(6, 8, '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 1, 1, '2016-12-15 05:59:39', '2016-12-15 05:59:39');
+INSERT INTO `owners` (`ownerId`, `userId`, `position`, `houseBldgNo`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `contactNum`, `telNum`, `businessArea`, `numOfEmployeesLGU`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 'Supervisor', '21', 'Mercury', '21', 'Dumaguete', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '09175138277', '8393939', 22, 33, '2016-11-10 10:15:40', '2017-01-12 12:30:44'),
+(2, 5, '0', '123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 123, 123, '2016-11-20 08:26:26', '2016-11-20 08:26:26'),
+(3, 6, '0', '123', '123', '123', '123', '123', '123', '123', '123', '123', '123', 123, 123, '2016-11-23 13:37:54', '2016-11-23 13:37:54'),
+(4, 7, '0', '1', '1', '1', '1', '1', '1', '1', '1', '123', '123', 23, 23, '2016-12-14 13:28:38', '2016-12-14 13:28:38'),
+(6, 8, '0', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 1, 1, '2016-12-15 05:59:39', '2016-12-15 05:59:39');
 
 -- --------------------------------------------------------
 
