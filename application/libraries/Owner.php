@@ -16,6 +16,7 @@ class Owner extends User {
 	private $telNum = null;
 	private $businessArea = null;
 	private $numOfEmployeesLGU = null;
+	private $position = null;
 
 	public function __construct($id = null)
 	{
@@ -91,6 +92,11 @@ class Owner extends User {
 		$this->numOfEmployeesLGU = $param;	
 	}
 
+	public function set_position($param = null)
+	{
+		$this->position = $param;
+	}
+
 	//GETTER
 
 	public function get_ownerId()
@@ -158,6 +164,11 @@ class Owner extends User {
 		return $this->numOfEmployeesLGU;	
 	}
 
+	public function get_position()
+	{
+		return $this->position;
+	}
+
 	public function get_information($id = null)
 	{
 		$query['users.userId'] = $id;
@@ -186,6 +197,7 @@ class Owner extends User {
 		$this->telNum = $param->telNum;
 		$this->businessArea = $param->businessArea;
 		$this->numOfEmployeesLGU = $param->numOfEmployeesLGU;
+		$this->position = $param->position;
 
 		$this->unset_CI();
 		return $this;

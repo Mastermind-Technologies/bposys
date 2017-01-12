@@ -64,7 +64,7 @@
                   <td>4130</td>
                 </tr>
                 <tr>
-                  <td>IDK</td>
+                  <td>Unrenewed Applications this year</td>
                   <td>1574</td>
                 </tr>
                 <tr>

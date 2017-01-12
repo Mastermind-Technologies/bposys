@@ -57,7 +57,7 @@
 													</td>
 													<td style="width:25%;">
 														<div class="block text-center">
-															<a href="<?php echo base_url('dashboard/view/'.bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt))); ?>"  id="btn-view-details" class="btn btn-primary">View Details</a>
+															<a href="<?php echo base_url('form/view/'.bin2hex($this->encryption->encrypt($application->get_applicationId().'|'.$this->encryption->decrypt($application->get_referenceNum()), $custom_encrypt))); ?>"  id="btn-view-details" class="btn btn-primary">View Details</a>
 															<a href="#" class="btn btn-danger">Delete</a>
 														</div>
 

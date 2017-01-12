@@ -67,6 +67,10 @@
 										<label for="civil-staus">Civil Status</label>
 										<h5><?= $user->get_civilStatus() ?></h5>
 									</div>
+									<div class="col-sm-3">
+										<label for="position">Position</label>
+										<h5><?= $user->get_position() ?></h5>
+									</div>
 								</div>
 							</div>
 						</div>

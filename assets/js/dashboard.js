@@ -187,4 +187,9 @@ $(document).ready(function()
     }
   }
 
+  function check_notifications()
+  {
+    //
+  }
+
 }); //End of Jquery

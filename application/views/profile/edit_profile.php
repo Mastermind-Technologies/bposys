@@ -100,6 +100,13 @@
 												</select>
 											</div>
 										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label for="position">Position</label>
+												<input type="text" name="position" required id="position" class="form-control" value="<?= $user->get_position() ?>">
+											</div>
+
+										</div>
 									</div>
 								</div>
 							</div>

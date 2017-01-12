@@ -24,15 +24,15 @@ $(document).ready(function(){
 			url:base_url+'dashboard/check_notif',
 			success:function(data){
 				// console.log(data.notifications);
-				if(data > 0 && data != $('#notif-count').val())
+				if(data.notifications > 0 && data.notifications != $('#notif-count').val())
 				{
 					var message = 'You have '+data.notifications+' new incoming application';
 					$('#notif-count').val(data.notifications);
-					$('.badge-incoming').html(data.incoming);
-					$('.badge-pending').html(data.pending);
 					// $('.badge-issued').html();
 					notify(message);
 				}
+				$('.badge-incoming').html(data.incoming);
+				$('.badge-pending').html(data.pending);
 			}
 		});
 	}

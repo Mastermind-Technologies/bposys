@@ -133,6 +133,55 @@ class User {
 		return $this;
 	}
 
+	public static function get_notifications()
+	{
+		$var = get_instance();
+		//optional:
+		//role
+		//userId
+		$role = $var->encryption->decrypt($var->session->userdata['userdata']['role']);
+
+		$role_id = $var->Role_m->get_roleId($role);
+		$role_id = $role_id->roleId;
+
+		if($role_id == 3)
+		{
+			$query = array(
+				'userId' => $var->encryption->decrypt($var->session->userdata['userdata']['userId']),
+				);
+			$applications = $var->Application_m->get_all_applications($query);
+			//get applicant notifications
+			foreach($applications as $application)
+			{
+				$query = array(
+					'referenceNum' => $application->referenceNum,
+					'status' => "Unread",
+					'role' => 3,
+					);
+				$notification = $var->Notification_m->get_all($query);
+				if($notification != null)
+				{
+					foreach ($notification as $value) {
+						$nav_data[] = $value;
+					}
+				}
+			}
+
+			unset($var);
+			return isset($nav_data) ? $nav_data : "";
+		}
+		else
+		{
+			$query = array(
+				'status' => "Unread",
+				'role' => $role_id,
+				);
+			$data = $var->Notification_m->get_all($query);
+			return $data;
+		}
+
+	}
+
 	// public function register($query = null)
 	// {
 	// 	$response = $this->CI->User_m->register_user($query);
@@ -172,6 +221,6 @@ class User {
 	protected function unset_CI()
 	{
 		if(isset($this->CI))
-		unset($this->CI);
+			unset($this->CI);
 	}
 }

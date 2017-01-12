@@ -31,7 +31,8 @@ class Application {
 	private $status = null;
 	private $businessActivities = null;
 	private $lessors = null;
-
+	private $dateStarted = null;
+	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
 		$this->CI->load->model('Application_m');
@@ -187,6 +188,11 @@ class Application {
 		$this->lessors = $param;
 	}
 
+	public function set_dateStarted($param = null)
+	{
+		$this->dateStarted = $param;
+	}
+
 	//GETTERS
 	public function get_applicationId()
 	{
@@ -333,6 +339,11 @@ class Application {
 		return $this->lessors;
 	}
 
+	public function get_dateStarted()
+	{
+		return $this->dateStarted;
+	}
+
 	public function get_application($reference_num = null)
 	{
 		$query['referenceNum'] = $reference_num;
@@ -374,6 +385,11 @@ class Application {
 
 	public function set_application_all($param = null)
 	{
+		// echo "<pre>";
+		// print_r($param);
+		// echo "</pre>";
+		// exit();
+
 		if(!isset($this->CI))
 			$this->CI =& get_instance();
 
@@ -419,7 +435,12 @@ class Application {
 		$this->numOfEmployees = $param->numOfEmployees;
 		$this->status = $param->status;
 		$this->businessActivities = $business_activities;
-		$this->lessors = $lessors;
+		$this->dateStarted = $param->createdAt;
+		if($lessors != null)
+			$this->lessors = $lessors[0];
+		else
+			unset($this->lessors);
+		
 
 		$this->unset_CI();
 		return $this;

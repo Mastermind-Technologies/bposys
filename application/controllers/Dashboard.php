@@ -41,6 +41,13 @@ class Dashboard extends CI_Controller {
 			redirect('home');
 		}
 	}
+	public function test()
+	{
+		echo "<pre>";
+		print_r($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+		echo "</pre>";
+		exit();
+	}
 
 	public function index()
 	{
@@ -65,21 +72,23 @@ class Dashboard extends CI_Controller {
 				}
 
 				//get applicant notifications
-				foreach($data['applications'] as $application)
-				{
-					$query = array(
-						'referenceNum' => $this->encryption->decrypt($application->get_referenceNum()),
-						'status' => "Unread",
-						'role' => 3,
-						);
-					$notification = $this->Notification_m->get_all($query);
-					if($notification != null)
-					{
-						foreach ($notification as $value) {
-							$nav_data['notifications'][] = $value;
-						}
-					}
-				}
+				$nav_data['notifications'] = User::get_notifications();
+
+				// foreach($data['applications'] as $application)
+				// {
+				// 	$query = array(
+				// 		'referenceNum' => $this->encryption->decrypt($application->get_referenceNum()),
+				// 		'status' => "Unread",
+				// 		'role' => 3,
+				// 		);
+				// 	$notification = $this->Notification_m->get_all($query);
+				// 	if($notification != null)
+				// 	{
+				// 		foreach ($notification as $value) {
+				// 			$nav_data['notifications'][] = $value;
+				// 		}
+				// 	}
+				// }
 				
 				//custom encryption credentials for URL encryption
 				$data['custom_encrypt'] = array(
@@ -88,7 +97,11 @@ class Dashboard extends CI_Controller {
 					'key' => $this->config->item('encryption_key'),
 					'hmac' => false
 					);
-				$this->_init(isset($nav_data)? $nav_data : "");
+				if($nav_data['notifications'] == "")
+					$this->_init();
+				else
+					$this->_init($nav_data);
+
 				$this->load->view('dashboard/applicant/index', $data);
 			}
 			//if applicant is still not a registered owner, force register.
@@ -111,12 +124,14 @@ class Dashboard extends CI_Controller {
 			$navdata['title'] = 'BPLO Dashboard';
 			$this->_init_matrix($navdata);
 
-			$query = array(
-				'status' => "Unread",
-				'role' => 4,
-				);
-			$data['notifications'] = $this->Notification_m->get_all($query);
-			unset($query);
+			//get notifications
+			$data['notifications'] = User::get_notifications();
+			// $query = array(
+			// 	'status' => "Unread",
+			// 	'role' => 4,
+			// 	);
+			// $data['notifications'] = $this->Notification_m->get_all($query);
+			// unset($query);
 
 			$query['status'] = 'For applicant visit';
 			$data['pending'] = sizeof($this->Application_m->get_all_applications($query));
@@ -465,22 +480,32 @@ class Dashboard extends CI_Controller {
 			$data['applications'][$key]->set_applicationId($this->encryption->decrypt($data['applications'][$key]->get_applicationId()));
 		}
 
-		foreach($data['applications'] as $application)
-		{
-			$query = array(
-				'referenceNum' => $this->encryption->decrypt($application->get_referenceNum()),
-				'status' => "Unread",
-				'role' => 3,
-				);
-			$notification = $this->Notification_m->get_all($query);
-			if($notification != null)
-			{
-				foreach ($notification as $value) {
-					$data['notifications'][] = $value;
-				}
-			}
-		}
-		if(isset($data['notifications']))
+		//get notifications
+		$data['notifications'] = User::get_notifications();
+		// echo "<pre>";
+		// print_r($data['notifications']);
+		// echo "</pre>";
+		// exit();
+		// foreach($data['applications'] as $application)
+		// {
+		// 	$query = array(
+		// 		'referenceNum' => $this->encryption->decrypt($application->get_referenceNum()),
+		// 		'status' => "Unread",
+		// 		'role' => 3,
+		// 		);
+		// 	$notification = $this->Notification_m->get_all($query);
+		// 	if($notification != null)
+		// 	{
+		// 		foreach ($notification as $value) {
+		// 			$data['notifications'][] = $value;
+		// 		}
+		// 	}
+		// }
+		
+
+		if($data['notifications'] == "")
+			unset($data['notifications']);
+		else
 			$data['notifications'] = sizeof($data['notifications']);
 
 
@@ -745,24 +770,6 @@ class Dashboard extends CI_Controller {
 		$data['incoming'] = sizeof($this->Application_m->get_all_applications($query));
 
 		echo json_encode($data);
-	}
-
-	//BILLY 12-15-2016 3:45PM
-
-	public function view($application_Id = null)
-	{
-		$this->_init();
-		$user_Id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-		//decrypt application_Id
-		//...
-		$custom_decrypt = array(
-			'cipher' => 'blowfish',
-			'mode' => 'ecb',
-			'key' => $this->config->item('encryption_key'),
-			'hmac' => false
-			);
-		$application_Id = $this->encryption->decrypt(hex2bin($application_Id), $custom_decrypt);
-		$this->load->view('dashboard/applicant/view_application');
 	}
 
 }//END OF CLASS,

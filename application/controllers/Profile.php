@@ -87,6 +87,7 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('lname', 'Last Name', 'required');
 		$this->form_validation->set_rules('birth-date', 'Birth Date', 'required');
 		$this->form_validation->set_rules('gender', 'Gender', 'required');
+		$this->form_validation->set_rules('position', 'Position', 'required');
 		$this->form_validation->set_rules('house-bldg-no', 'Civil Status', 'required');
 		$this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
 		$this->form_validation->set_rules('unit-no', 'Unit Number', 'required');
@@ -130,7 +131,8 @@ class Profile extends CI_Controller {
 				'contactNum' => $this->input->post('contact-number'),
 				'telNum' => $this->input->post('telephone-number'),
 				'businessArea' => $this->input->post('business-area'),
-				'numOfEmployeesLGU' => $this->input->post('num-of-employees')
+				'numOfEmployeesLGU' => $this->input->post('num-of-employees'),
+				'position' => $this->input->post('position'),
 				);
 
 	    	// echo "<pre>";
