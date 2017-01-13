@@ -1,7 +1,9 @@
 $(document).ready(function(){
 
-	var interval = window.setInterval(notif_check, 3000);
 	var base_url = "http://localhost/bposys/";
+	if($('#notif-count').val() != "-")
+		var interval = window.setInterval(notif_check, 3000);
+	
 
 	if($('#notif-count').val() > 0)
 	{
@@ -64,7 +66,7 @@ $(document).ready(function(){
 		    			url:base_url+'dashboard/update_notif',
 		    			success: function(data)
 		    			{
-		    				window.location = "dashboard/incoming_applications";
+		    				window.location = base_url+"dashboard/incoming_applications";
 		    			}
 		    		});
 		    	},

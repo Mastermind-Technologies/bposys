@@ -187,6 +187,14 @@ $(document).ready(function()
     }
   }
 
+  $('.btn-cancel').click(function(){
+    var r = confirm('Are you sure you want to cancel this application?');
+    if(r==true)
+      window.location = this.id;
+    else
+      return false;
+  });
+
   function check_notifications()
   {
     //
