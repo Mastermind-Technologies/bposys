@@ -31,3 +31,25 @@
     font-size:12px;
     -moz-border-radius: 50px; -webkit-border-radius: 50px; border-radius: 50px;
 }
+
+.tab-content {
+  width: 100%;
+  height: auto;
+  background-color: white;
+  padding: 1%;
+}
+
+.application-form-table {
+  padding: 2%;
+  width: 100%;
+  border: 2px solid #212121;
+}
+
+.application-form-table tr {
+}
+
+.application-form-table td {
+  width: 50%;
+  border: 2px solid #212121;
+  padding: 1%;
+}
