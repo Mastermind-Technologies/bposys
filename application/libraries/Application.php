@@ -38,6 +38,7 @@ class Application {
 		$this->CI->load->model('Application_m');
 		$this->CI->load->model('Business_Activity_m');
 		$this->CI->load->model('Lessor_m');
+		$this->CI->load->model('Notification_m');
 		if(isset($reference_num))
 			return $this->get_application($reference_num);
 	}
@@ -369,15 +370,26 @@ class Application {
 
 	public function check_expiry()
 	{
-		$this->CI =& get_instance();
+		if(!isset($this->CI))
+			$this->CI =& get_instance();
 		//check if status is active
 		if($this->status == 'Active')
 		{
 			//if this year is greater than application date, expire application
 			if(date('Y') > date('Y', strtotime($this->applicationDate)))
 			{
-				$this->change_status($this->CI->encryption->decrypt($this->referenceNum), 'Expired');
+				$reference_num = $this->CI->encryption->decrypt($this->referenceNum);
+				$this->change_status($reference_num, 'Expired');
 				$this->status = 'Expired';
+				$query = array(
+					'referenceNum' => $reference_num,
+					'status' => 'Unread',
+					'role' => '3',
+					'notifMessage' => $this->businessName . " application has expired, please check application details for renewal request.",
+					);
+				$var = get_instance();
+				$var->Notification_m->insert($query);
+				unset($var);
 			}
 		}
 		$this->unset_CI();

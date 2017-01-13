@@ -57,7 +57,6 @@ class Dashboard extends CI_Controller {
 
 		if($role == 'Applicant')
 		{
-			
 			$is_registered = $this->Owner_m->check_owner($user_id);
 			if($is_registered)
 			{
@@ -122,10 +121,12 @@ class Dashboard extends CI_Controller {
 			}
 
 			$navdata['title'] = 'BPLO Dashboard';
+			//get notifications
+			$navdata['notifications'] = User::get_notifications();
 			$this->_init_matrix($navdata);
 
 			//get notifications
-			$data['notifications'] = User::get_notifications();
+			// $data['notifications'] = User::get_notifications();
 			// $query = array(
 			// 	'status' => "Unread",
 			// 	'role' => 4,
@@ -469,6 +470,28 @@ class Dashboard extends CI_Controller {
 		}
 	}
 
+	public function cancel_application($reference_num = null)
+	{
+		$this->isLogin();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$decrypt_credentials = array(
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
+		$reference_num = $this->encryption->decrypt(hex2bin($reference_num), $decrypt_credentials);
+
+		$application = new Application($reference_num);
+		// echo "<pre>";
+		// print_r($application);
+		// echo "</pre>";
+		// exit();
+		$application->change_status($reference_num, 'Cancelled');
+		redirect('dashboard');
+	}
+
 	public function check_application_status()
 	{
 		$this->isLogin();
@@ -523,6 +546,7 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$navdata['title'] = 'Incoming Applications';
+		$navdata['notifications'] = User::get_notifications();
 		$this->_init_matrix($navdata);
 
 		$this->update_notif();
@@ -551,6 +575,7 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$navdata['title'] = "Pending Applications";
+		$navdata['notifications'] = User::get_notifications();
 		$this->_init_matrix($navdata);
 
 		$query['status'] = 'For applicant visit';
@@ -577,6 +602,7 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$navdata['title'] = "View Application";
+		$navdata['notifications'] = User::get_notifications();
 		$this->_init_matrix($navdata);
 
 		//custom encryption credentials for decrypting appId
@@ -614,9 +640,10 @@ class Dashboard extends CI_Controller {
 		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$application = new Application($referenceNum);
 		
-		//approvals
+		
 		$role_Id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
 
+		//approvals
 		$query = array(
 			'referenceNum' => $referenceNum,
 			'role' => $role_Id->roleId,
