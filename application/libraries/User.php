@@ -179,8 +179,60 @@ class User {
 			$data = $var->Notification_m->get_all($query);
 			return $data;
 		}
-
 	}
+
+	public function send_mail($param = null)
+	{
+		if(!isset($param['body']))
+		{
+			return false;
+		}
+		else
+		{
+			if(!isset($this->CI))
+				$this->CI =& get_instance();
+
+			$this->CI->load->view('library/phpmailer/PHPMailerAutoload');
+			$mail = new PHPMailer;
+
+			$mail->isSMTP();                            // Set mailer to use SMTP
+			$mail->Host = 'smtp.gmail.com';             // Specify main and backup SMTP servers
+			$mail->SMTPAuth = true;                     // Enable SMTP authentication
+			$mail->Username = 'dotraze2@gmail.com';          // SMTP username
+			$mail->Password = '0seventeen'; // SMTP password
+			$mail->SMTPSecure = 'tls';                  // Enable TLS encryption, `ssl` also accepted
+			$mail->Port = 587;                          // TCP port to connect to
+
+			$mail->setFrom('dotraze2@gmail.com', 'TestMailer');
+			$mail->addReplyTo('dotraze2@gmail.com', 'TestMailer');
+			$mail->addAddress($this->email);   // Add a recipient
+			// $mail->addCC('cc@example.com');
+			// $mail->addBCC('bcc@example.com');
+
+			$mail->isHTML(true);  // Set email format to HTML
+
+			$body_email = $param['body'];
+
+			// $body_email = "Welcome to shoplocal this is your account<br/><br/><br/><br/>";
+			// $body_email .= "Username: ".$username." <br/>";
+			// $body_email .= "Password: ".$password." <br/>";
+			
+			$mail->Subject = "Business Permit Online System";
+			$mail->Body    = $body_email;
+
+			$this->unset_CI();
+			if(!$mail->send()) 
+			{
+				return false;
+			} 
+			else 
+			{
+				return true;
+			    //echo 'Message has been sent';
+			}
+		}
+
+}
 
 	// public function register($query = null)
 	// {
@@ -190,37 +242,37 @@ class User {
 	// 	return $response;
 	// }
 
-	protected function set_user_all($param = null)
+protected function set_user_all($param = null)
+{
+	if(!isset($this->CI))
+		$this->CI =& get_instance();
+	$role = "";
+	switch($param->role)
 	{
-		if(!isset($this->CI))
-			$this->CI =& get_instance();
-		$role = "";
-		switch($param->role)
-		{
-			case 1: $role = "Master Admin"; break;
-			case 2: $role = "User Admin"; break;
-			case 3: $role = "Applicant"; break;
-			case 4: $role = "BPLO"; break;
-		}
-
-		$this->userId = $this->CI->encryption->encrypt($param->userId);
-		$this->firstName = $param->firstName;
-		$this->middleName = $param->middleName;
-		$this->lastName = $param->lastName;
-		$this->role = $role;
-		$this->suffix = $param->suffix;
-		$this->gender = $param->gender;
-		$this->civilStatus = $param->civilStatus;
-		$this->email = $param->email;
-		$this->birthDate = $param->birthDate;
-
-		$this->unset_CI();
-		return $this;
+		case 1: $role = "Master Admin"; break;
+		case 2: $role = "User Admin"; break;
+		case 3: $role = "Applicant"; break;
+		case 4: $role = "BPLO"; break;
 	}
 
-	protected function unset_CI()
-	{
-		if(isset($this->CI))
-			unset($this->CI);
-	}
+	$this->userId = $this->CI->encryption->encrypt($param->userId);
+	$this->firstName = $param->firstName;
+	$this->middleName = $param->middleName;
+	$this->lastName = $param->lastName;
+	$this->role = $role;
+	$this->suffix = $param->suffix;
+	$this->gender = $param->gender;
+	$this->civilStatus = $param->civilStatus;
+	$this->email = $param->email;
+	$this->birthDate = $param->birthDate;
+
+	$this->unset_CI();
+	return $this;
+}
+
+protected function unset_CI()
+{
+	if(isset($this->CI))
+		unset($this->CI);
+}
 }

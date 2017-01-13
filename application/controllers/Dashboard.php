@@ -41,13 +41,14 @@ class Dashboard extends CI_Controller {
 			redirect('home');
 		}
 	}
-	public function test()
-	{
-		echo "<pre>";
-		print_r($this->encryption->decrypt($this->session->userdata['userdata']['role']));
-		echo "</pre>";
-		exit();
-	}
+
+	// public function test()
+	// {
+	// 	$param['body'] = "HEHEZ";
+	// 	//email is sent to user object's email property
+	// 	$user = new User($this->encryption->decrypt($this->session->userdata['userdata']['userId']));
+	// 	$user->send_mail($param);
+	// }
 
 	public function index()
 	{
