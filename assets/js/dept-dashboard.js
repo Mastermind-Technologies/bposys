@@ -33,8 +33,9 @@ $(document).ready(function(){
 					// $('.badge-issued').html();
 					notify(message);
 				}
-				$('.badge-incoming').html(data.incoming);
-				$('.badge-pending').html(data.pending);
+				$('.badge-incoming').html(data.incoming>0 ? data.incoming : "");
+				$('.badge-pending').html(data.pending>0 ? data.pending : "");
+				$('.badge-process').html(data.process>0 ? data.process : "");
 			}
 		});
 	}

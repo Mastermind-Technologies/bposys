@@ -134,13 +134,16 @@ class Dashboard extends CI_Controller {
 			// $data['notifications'] = $this->Notification_m->get_all($query);
 			// unset($query);
 
-			$query['status'] = 'For applicant visit';
-			$data['pending'] = sizeof($this->Application_m->get_all_applications($query));
-
 			$query['status'] = 'For validation...';
 			$data['incoming'] = sizeof($this->Application_m->get_all_applications($query));
 
-			$data['issued'] =sizeof([]);
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = sizeof($this->Application_m->get_all_applications($query));
+
+			$query['status'] = 'On Process';
+			$data['process'] = sizeof($this->Application_m->get_all_applications($query));
+		
+			$data['issued'] = sizeof([]);
 
 			$data['user'] = new User($user_id);
 			$this->load->view('dashboard/bplo/index', $data);
@@ -795,6 +798,9 @@ class Dashboard extends CI_Controller {
 
 		$query['status'] = 'For validation...';
 		$data['incoming'] = sizeof($this->Application_m->get_all_applications($query));
+
+		$query['status'] = 'On Process';
+		$data['process'] = sizeof($this->Application_m->get_all_applications($query));
 
 		echo json_encode($data);
 	}

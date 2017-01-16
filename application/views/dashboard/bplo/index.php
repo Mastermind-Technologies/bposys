@@ -16,12 +16,14 @@
     <!--Action boxes-->
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
-        <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/pending_applications"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
-         <span class="label label-important badge-pending"><?= $pending ?></span><br><span>Pending</span> </a> </li>
-         <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
-           <span class="label label-success badge-incoming"><?= $incoming ?></span><br>Incoming </a> </li>
+       <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
+         <span class="label label-success badge-incoming"><?= $incoming > 0 ? $incoming : "" ?></span><br>Incoming </a> </li>
+         <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/pending_applications"> <i class="fa fa-hourglass fa-2x" aria-hidden="true"></i>
+           <span class="label label-important badge-pending"><?= $pending > 0 ? $pending : "" ?></span><br><span>Pending</span> </a> </li>
+           <li class="bg_lo"> <a href="#"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
+         <span class="label label-important badge-process"><?= $process > 0 ? $process : "" ?></span><br><span>On Process</span> </a> </li>
            <li class="bg_c"> <a href="#"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
-             <span class="label label-info badge-issued"><?= $issued ?></span><br>Issued this month </a> </li>
+           <span class="label label-info badge-issued"><?= $issued > 0 ? $process : "" ?></span><br>Issued</a> </li>
         <!-- <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li>
         <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li> -->
        <!--  <li class="bg_lg span3"> <a href="charts.html"> <i class="icon-signal"></i> Charts</a> </li>
