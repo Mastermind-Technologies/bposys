@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2017 at 12:17 AM
+-- Generation Time: Jan 19, 2017 at 10:02 AM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -73,6 +73,128 @@ INSERT INTO `applications` (`applicationId`, `referenceNum`, `userId`, `taxYear`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `application_bplo`
+--
+
+CREATE TABLE IF NOT EXISTS `application_bplo` (
+  `applicationId` int(10) NOT NULL,
+  `referenceNum` varchar(255) NOT NULL,
+  `userId` int(5) NOT NULL,
+  `taxYear` int(4) DEFAULT NULL,
+  `applicationDate` varchar(255) DEFAULT NULL,
+  `DTISECCDA_RegNum` varchar(255) DEFAULT NULL,
+  `DTISECCDA_Date` varchar(255) DEFAULT NULL,
+  `typeOfOrganization` varchar(255) DEFAULT NULL,
+  `CTCNum` varchar(255) DEFAULT NULL,
+  `TIN` varchar(255) DEFAULT NULL,
+  `entityName` varchar(255) DEFAULT NULL,
+  `taxPayerName` varchar(255) DEFAULT NULL,
+  `businessName` varchar(255) DEFAULT NULL,
+  `tradeName` varchar(255) DEFAULT NULL,
+  `presidentTreasurerName` varchar(255) DEFAULT NULL,
+  `telNum` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `PIN` varchar(255) DEFAULT NULL,
+  `numOfEmployees` int(255) DEFAULT NULL,
+  `status` varchar(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `application_cenro`
+--
+
+CREATE TABLE IF NOT EXISTS `application_cenro` (
+  `applicationId` int(255) NOT NULL,
+  `userId` int(5) NOT NULL,
+  `referenceNum` varchar(255) DEFAULT NULL,
+  `companyName` varchar(255) NOT NULL,
+  `natureOfBusiness` varchar(255) NOT NULL,
+  `pollutionControlOfficer` varchar(255) NOT NULL,
+  `telNum` varchar(255) NOT NULL,
+  `CNC` varchar(255) NOT NULL,
+  `LLDAClearance` varchar(255) NOT NULL,
+  `dischargePermit` varchar(255) NOT NULL,
+  `productsAndByProducts` varchar(255) NOT NULL,
+  `smokeEmission` tinyint(1) NOT NULL,
+  `volatileCompound` tinyint(1) NOT NULL,
+  `fugitiveParticulates` varchar(255) NOT NULL,
+  `steamGenerator` varchar(255) NOT NULL,
+  `APCD` varchar(255) NOT NULL,
+  `stackHeight` varchar(255) NOT NULL,
+  `wastewaterTreamentFacility` varchar(255) NOT NULL,
+  `wastewaterTreatmentOperationAndProcess` tinyint(1) NOT NULL,
+  `pendingCaseWithLLDA` varchar(255) NOT NULL,
+  `typeOfSolidWastesGenerated` varchar(255) NOT NULL,
+  `qtyPerDay` int(255) NOT NULL,
+  `garbageCollectionMethod` varchar(255) NOT NULL,
+  `frequencyOfGarbageCollection` varchar(255) NOT NULL,
+  `wasteCollector` varchar(255) NOT NULL,
+  `collectorAddress` varchar(255) NOT NULL,
+  `garbageDisposalMethod` varchar(255) NOT NULL,
+  `wasteMinimizationMethod` varchar(255) NOT NULL,
+  `drainageSystem` tinyint(1) NOT NULL,
+  `drainageType` varchar(255) NOT NULL,
+  `drainageDischargeLocation` varchar(255) NOT NULL,
+  `sewerageSystem` tinyint(1) NOT NULL,
+  `septicTank` tinyint(1) NOT NULL,
+  `sewerageDischargeLocation` varchar(255) NOT NULL,
+  `waterSupply` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `application_sanitary`
+--
+
+CREATE TABLE IF NOT EXISTS `application_sanitary` (
+  `applicationId` int(255) NOT NULL,
+  `referenceNum` varchar(255) NOT NULL,
+  `userId` int(5) NOT NULL,
+  `businessName` varchar(255) NOT NULL,
+  `contactNum` int(255) NOT NULL,
+  `natureOfBusiness` varchar(255) NOT NULL,
+  `maleEmployees` int(255) NOT NULL,
+  `femaleEmployees` int(255) NOT NULL,
+  `pwdEmployees` int(255) NOT NULL,
+  `annualEmployeePhysicalExam` tinyint(1) NOT NULL,
+  `typeLevelOfWaterSource` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `application_zoning`
+--
+
+CREATE TABLE IF NOT EXISTS `application_zoning` (
+  `applicationId` int(255) NOT NULL,
+  `referenceNum` varchar(255) NOT NULL,
+  `userId` int(5) NOT NULL,
+  `businessName` varchar(255) NOT NULL,
+  `signageName` varchar(255) NOT NULL,
+  `corporationOrSingleProprietor` varchar(255) NOT NULL,
+  `capitalInvested` int(255) NOT NULL,
+  `dateOfOperation` varchar(255) NOT NULL,
+  `businessDesc` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `approvals`
 --
 
@@ -105,45 +227,6 @@ CREATE TABLE IF NOT EXISTS `assessments` (
   `referenceNum` varchar(255) NOT NULL,
   `amount` int(255) NOT NULL,
   `status` text NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `bplo_application`
---
-
-CREATE TABLE IF NOT EXISTS `bplo_application` (
-  `applicationId` int(10) NOT NULL,
-  `referenceNum` varchar(255) NOT NULL,
-  `userId` int(5) NOT NULL,
-  `taxYear` int(4) DEFAULT NULL,
-  `applicationDate` varchar(255) DEFAULT NULL,
-  `DTISECCDA_RegNum` varchar(255) DEFAULT NULL,
-  `DTISECCDA_Date` varchar(255) DEFAULT NULL,
-  `typeOfOrganization` varchar(255) DEFAULT NULL,
-  `CTCNum` varchar(255) DEFAULT NULL,
-  `TIN` varchar(255) DEFAULT NULL,
-  `entityName` varchar(255) DEFAULT NULL,
-  `taxPayerName` varchar(255) DEFAULT NULL,
-  `businessName` varchar(255) DEFAULT NULL,
-  `tradeName` varchar(255) DEFAULT NULL,
-  `presidentTreasurerName` varchar(255) DEFAULT NULL,
-  `houseBldgNum` varchar(255) DEFAULT NULL,
-  `bldgName` varchar(255) DEFAULT NULL,
-  `unitNum` varchar(255) DEFAULT NULL,
-  `street` varchar(255) DEFAULT NULL,
-  `barangay` varchar(255) DEFAULT NULL,
-  `subdivision` varchar(255) DEFAULT NULL,
-  `cityMunicipality` varchar(255) DEFAULT NULL,
-  `province` varchar(255) DEFAULT NULL,
-  `telNum` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `PIN` varchar(255) DEFAULT NULL,
-  `numOfEmployees` int(255) DEFAULT NULL,
-  `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -187,13 +270,14 @@ INSERT INTO `business_activities` (`activityId`, `referenceNum`, `code`, `lineOf
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cenro_application`
+-- Table structure for table `business_addresses`
 --
 
-CREATE TABLE IF NOT EXISTS `cenro_application` (
-  `applicationId` int(255) NOT NULL,
-  `referenceNum` varchar(255) DEFAULT NULL,
-  `companyName` varchar(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS `business_addresses` (
+  `addressId` int(5) NOT NULL,
+  `userId` int(5) NOT NULL,
+  `addressName` varchar(255) NOT NULL,
+  `bldgName` varchar(255) NOT NULL,
   `houseBldgNum` varchar(255) NOT NULL,
   `unitNum` varchar(255) NOT NULL,
   `street` varchar(255) NOT NULL,
@@ -201,38 +285,6 @@ CREATE TABLE IF NOT EXISTS `cenro_application` (
   `subdivision` varchar(255) NOT NULL,
   `cityMunicipality` varchar(255) NOT NULL,
   `province` varchar(255) NOT NULL,
-  `natureOfBusiness` varchar(255) NOT NULL,
-  `pollutionControlOfficer` varchar(255) NOT NULL,
-  `telNum` varchar(255) NOT NULL,
-  `CNC` varchar(255) NOT NULL,
-  `LLDAClearance` varchar(255) NOT NULL,
-  `dischargePermit` varchar(255) NOT NULL,
-  `productsAndByProducts` varchar(255) NOT NULL,
-  `smokeEmission` tinyint(1) NOT NULL,
-  `volatileCompound` tinyint(1) NOT NULL,
-  `fugitiveParticulates` varchar(255) NOT NULL,
-  `steamGenerator` varchar(255) NOT NULL,
-  `APCD` varchar(255) NOT NULL,
-  `stackHeight` varchar(255) NOT NULL,
-  `wastewaterTreamentFacility` varchar(255) NOT NULL,
-  `wastewaterTreatmentOperationAndProcess` tinyint(1) NOT NULL,
-  `pendingCaseWithLLDA` varchar(255) NOT NULL,
-  `typeOfSolidWastesGenerated` varchar(255) NOT NULL,
-  `qtyPerDay` int(255) NOT NULL,
-  `garbageCollectionMethod` varchar(255) NOT NULL,
-  `frequencyOfGarbageCollection` varchar(255) NOT NULL,
-  `wasteCollector` varchar(255) NOT NULL,
-  `collectorAddress` varchar(255) NOT NULL,
-  `garbageDisposalMethod` varchar(255) NOT NULL,
-  `wasteMinimizationMethod` varchar(255) NOT NULL,
-  `drainageSystem` tinyint(1) NOT NULL,
-  `drainageType` varchar(255) NOT NULL,
-  `drainageDischargeLocation` varchar(255) NOT NULL,
-  `sewerageSystem` tinyint(1) NOT NULL,
-  `septicTank` tinyint(1) NOT NULL,
-  `sewerageDischargeLocation` varchar(255) NOT NULL,
-  `waterSupply` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -382,35 +434,6 @@ INSERT INTO `roles` (`roleId`, `name`, `createdAt`, `updatedAt`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sanitary_application`
---
-
-CREATE TABLE IF NOT EXISTS `sanitary_application` (
-  `applicationId` int(255) NOT NULL,
-  `referenceNum` varchar(255) NOT NULL,
-  `businessName` varchar(255) NOT NULL,
-  `unitNo` varchar(255) NOT NULL,
-  `street` varchar(255) NOT NULL,
-  `bldgName` varchar(255) NOT NULL,
-  `barangay` varchar(255) NOT NULL,
-  `firstName` varchar(255) NOT NULL,
-  `middleName` varchar(255) NOT NULL,
-  `lastName` varchar(255) NOT NULL,
-  `contactNum` int(255) NOT NULL,
-  `natureOfBusiness` varchar(255) NOT NULL,
-  `maleEmployees` int(255) NOT NULL,
-  `femaleEmployees` int(255) NOT NULL,
-  `pwdEmployees` int(255) NOT NULL,
-  `annualEmployeePhysicalExam` tinyint(1) NOT NULL,
-  `typeLevelOfWaterSource` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -450,36 +473,6 @@ INSERT INTO `users` (`userId`, `role`, `firstName`, `lastName`, `middleName`, `s
 (13, 9, 'engineering', 'engineering', '.', '', 'Male', 'engineering@yahoo.com', 'Single', '$2y$11$wAKrrloLxR7hourGa.GHq.beV9UGMw0suKM0th8cWggsEs1mhAF4i', '01/02/2017', '2017-01-02 07:16:49', '2017-01-02 07:17:49'),
 (14, 10, 'cho', 'cho', '.', '', 'Male', 'cho@yahoo.com', 'Single', '$2y$11$dpHS5eOJM2Dh6J17s.0Xm.S7l57Y3mv10W2aJgG50eWTJBeBNG/SW', '01/02/2017', '2017-01-02 07:17:06', '2017-01-02 07:17:54');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `zoning_application`
---
-
-CREATE TABLE IF NOT EXISTS `zoning_application` (
-  `applicationId` int(255) NOT NULL,
-  `referenceNum` varchar(255) NOT NULL,
-  `firstName` varchar(255) NOT NULL,
-  `middleName` varchar(255) NOT NULL,
-  `lastName` varchar(255) NOT NULL,
-  `businessName` varchar(255) NOT NULL,
-  `signageName` varchar(255) NOT NULL,
-  `corporationOrSingleProprietor` varchar(255) NOT NULL,
-  `houseBldgNum` varchar(255) NOT NULL,
-  `unitNum` varchar(255) NOT NULL,
-  `street` varchar(255) NOT NULL,
-  `barangay` varchar(255) NOT NULL,
-  `subdivision` varchar(255) NOT NULL,
-  `cityMunicipality` varchar(255) NOT NULL,
-  `province` varchar(255) NOT NULL,
-  `capitalInvested` int(255) NOT NULL,
-  `dateOfOperation` varchar(255) NOT NULL,
-  `businessDesc` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 --
 -- Indexes for dumped tables
 --
@@ -488,6 +481,39 @@ CREATE TABLE IF NOT EXISTS `zoning_application` (
 -- Indexes for table `applications`
 --
 ALTER TABLE `applications`
+  ADD PRIMARY KEY (`applicationId`),
+  ADD UNIQUE KEY `referenceNum` (`referenceNum`),
+  ADD KEY `userId` (`userId`);
+
+--
+-- Indexes for table `application_bplo`
+--
+ALTER TABLE `application_bplo`
+  ADD PRIMARY KEY (`applicationId`),
+  ADD UNIQUE KEY `referenceNum` (`referenceNum`),
+  ADD KEY `userId` (`userId`);
+
+--
+-- Indexes for table `application_cenro`
+--
+ALTER TABLE `application_cenro`
+  ADD PRIMARY KEY (`applicationId`),
+  ADD UNIQUE KEY `independentReferenceNumber` (`referenceNum`),
+  ADD KEY `userId` (`userId`);
+
+--
+-- Indexes for table `application_sanitary`
+--
+ALTER TABLE `application_sanitary`
+  ADD PRIMARY KEY (`applicationId`),
+  ADD UNIQUE KEY `referenceNum_2` (`referenceNum`),
+  ADD KEY `referenceNum` (`referenceNum`),
+  ADD KEY `userId` (`userId`);
+
+--
+-- Indexes for table `application_zoning`
+--
+ALTER TABLE `application_zoning`
   ADD PRIMARY KEY (`applicationId`),
   ADD UNIQUE KEY `referenceNum` (`referenceNum`),
   ADD KEY `userId` (`userId`);
@@ -509,14 +535,6 @@ ALTER TABLE `assessments`
   ADD KEY `referenceNum` (`referenceNum`);
 
 --
--- Indexes for table `bplo_application`
---
-ALTER TABLE `bplo_application`
-  ADD PRIMARY KEY (`applicationId`),
-  ADD UNIQUE KEY `referenceNum` (`referenceNum`),
-  ADD KEY `userId` (`userId`);
-
---
 -- Indexes for table `business_activities`
 --
 ALTER TABLE `business_activities`
@@ -524,11 +542,11 @@ ALTER TABLE `business_activities`
   ADD KEY `referenceNum` (`referenceNum`);
 
 --
--- Indexes for table `cenro_application`
+-- Indexes for table `business_addresses`
 --
-ALTER TABLE `cenro_application`
-  ADD PRIMARY KEY (`applicationId`),
-  ADD UNIQUE KEY `independentReferenceNumber` (`referenceNum`);
+ALTER TABLE `business_addresses`
+  ADD PRIMARY KEY (`addressId`),
+  ADD KEY `userId` (`userId`);
 
 --
 -- Indexes for table `charges`
@@ -566,26 +584,11 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`roleId`);
 
 --
--- Indexes for table `sanitary_application`
---
-ALTER TABLE `sanitary_application`
-  ADD PRIMARY KEY (`applicationId`),
-  ADD UNIQUE KEY `referenceNum_2` (`referenceNum`),
-  ADD KEY `referenceNum` (`referenceNum`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`userId`),
   ADD KEY `role` (`role`);
-
---
--- Indexes for table `zoning_application`
---
-ALTER TABLE `zoning_application`
-  ADD PRIMARY KEY (`applicationId`),
-  ADD UNIQUE KEY `referenceNum` (`referenceNum`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -597,6 +600,26 @@ ALTER TABLE `zoning_application`
 ALTER TABLE `applications`
   MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
+-- AUTO_INCREMENT for table `application_bplo`
+--
+ALTER TABLE `application_bplo`
+  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `application_cenro`
+--
+ALTER TABLE `application_cenro`
+  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `application_sanitary`
+--
+ALTER TABLE `application_sanitary`
+  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `application_zoning`
+--
+ALTER TABLE `application_zoning`
+  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `approvals`
 --
 ALTER TABLE `approvals`
@@ -607,20 +630,15 @@ ALTER TABLE `approvals`
 ALTER TABLE `assessments`
   MODIFY `assessmentId` int(10) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `bplo_application`
---
-ALTER TABLE `bplo_application`
-  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `business_activities`
 --
 ALTER TABLE `business_activities`
   MODIFY `activityId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
 --
--- AUTO_INCREMENT for table `cenro_application`
+-- AUTO_INCREMENT for table `business_addresses`
 --
-ALTER TABLE `cenro_application`
-  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `business_addresses`
+  MODIFY `addressId` int(5) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `charges`
 --
@@ -647,20 +665,10 @@ ALTER TABLE `owners`
 ALTER TABLE `roles`
   MODIFY `roleId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
--- AUTO_INCREMENT for table `sanitary_application`
---
-ALTER TABLE `sanitary_application`
-  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `userId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
---
--- AUTO_INCREMENT for table `zoning_application`
---
-ALTER TABLE `zoning_application`
-  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
