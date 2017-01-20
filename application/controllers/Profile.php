@@ -8,6 +8,7 @@ class Profile extends CI_Controller {
 		parent::__construct();
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
+		$this->load->model('Business_Address_m');
 		$this->load->library('form_validation');
 	}
 
@@ -54,9 +55,9 @@ class Profile extends CI_Controller {
 	public function edit()
 	{
 		$this->isLogin();
-		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$this->_init();
-
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		
 		$is_registered = $this->Owner_m->check_owner($user_id);
 		if($is_registered)
 		{
@@ -80,7 +81,6 @@ class Profile extends CI_Controller {
 	public function save_edit_info($fields = null)
 	{
 		$this->isLogin();
-		$this->_init();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
 		$this->form_validation->set_rules('fname', 'First Name', 'required');
@@ -179,7 +179,73 @@ class Profile extends CI_Controller {
 				}
 
 			}
-			redirect('dashboard');
+			if($this->Business_Address_m->count_addresses > 0)
+			{
+				redirect('dashboard');
+			}
+			else
+			{
+				redirect('profile/manage_business_address');
+			}
 		}
 	}
-}
+
+	public function manage_business_address()
+	{
+		$this->isLogin();
+		$this->_init();
+		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$query['userId'] = $userId;
+		$data['business_addresses'] = $this->Business_Address_m->get_all_business_addresses($query);
+
+		$this->load->view('profile/manage_business_address', $data);
+	}
+
+	public function save_business_address()
+	{
+		$this->isLogin();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$this->form_validation->set_rules('business-address-name', 'Address Name', 'required');
+		$this->form_validation->set_rules('house-bldg-no', 'House No./Building No.', 'required');
+		$this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
+		$this->form_validation->set_rules('unit-no', 'Unit Number', 'required');
+		$this->form_validation->set_rules('street', 'Street', 'required');
+		$this->form_validation->set_rules('barangay', 'Barangay', 'required');
+		$this->form_validation->set_rules('subdivision', 'Subdivision', 'required');
+		$this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
+		$this->form_validation->set_rules('province', 'Province', 'required');
+
+		if($this->form_validation->run() == false)
+		{	
+			$this->session->set_flashdata('error', validation_errors());
+			redirect('profile/manage_business_address');
+		}
+		else
+		{
+			$fields = array(
+				'userId' => $user_id,
+				'addressName' => $this->input->post('business-address-name'),
+				'bldgName' => $this->input->post('bldg-name'),
+				'houseBldgNum' => $this->input->post('house-bldg-no'),
+				'unitNum' => $this->input->post('unit-no'),
+				'street' => $this->input->post('street'),
+				'barangay' => $this->input->post('barangay'),
+				'subdivision' => $this->input->post('subdivision'),
+				'cityMunicipality' => $this->input->post('city-municipality'),
+				'province' => $this->input->post('province'),
+				);
+			if($this->Business_Address_m->insert($fields))
+			{
+				redirect('profile/manage_business_address');
+			}
+			else
+			{
+				$this->session->set_flashdata('error', "Address Name already exists!");
+				redirect('profile/manage_business_address');
+			}
+			
+		}
+	}
+}//END OF CLASS

@@ -32,7 +32,7 @@ class Owner extends User {
 		$this->ownerId = $param;
 	}
 
-	public function set_houseBldgNo($param = null)
+	public function set_houseBldgNum($param = null)
 	{
 		$this->houseBldgNo = $param;
 	}
@@ -104,7 +104,7 @@ class Owner extends User {
 		return $this->ownerId;
 	}
 
-	public function get_houseBldgNo()
+	public function get_houseBldgNum()
 	{
 		return $this->houseBldgNo;
 	}

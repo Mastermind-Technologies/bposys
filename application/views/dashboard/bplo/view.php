@@ -12,29 +12,318 @@
       <a href="#" class="current">View</a>
     </div>
     <!--End-breadcrumbs-->
-    <h1><?= $application->get_businessName() ?></h1>
-    <hr>
   </div>
 
   <div class="container-fluid">
-
-    <pre>
-      <?php print_r($application); ?>
-      <?php print_r($owner); ?>
-    </pre>
-    <div class="row text-center">
-      <?php if ($application->get_status() == "For validation..."): ?>
-        <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
-        <a href="#" class="btn btn-danger btn-lg">Reject</a>
-      <?php elseif ($application->get_status() == "For applicant visit"): ?>
-        <a href="<?php echo base_url(); ?>/dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
-        <a href="#" class="btn btn-warning btn-lg">Edit information</a>
-      <?php endif ?>
-    </div>
-
-
-    <!-- End Container Fluid -->
+<!--     <div class="row">
+    <div class="col-sm-12">
+            <h4>Business Name</h4>
+      <h1><?= $application->get_businessName() ?></h1>
+      <hr>
+    </div> -->
   </div>
+  <div class="widget-box">
+    <div class="widget-title">
+      <h5>BPLO Form</h5>
+    </div>
+    <div class="widget-content">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td>
+              <label for="date_of_application">Date of Application</label>
+              <h5><?=$application->get_applicationDate() ?></h5>
+            </td>
+            <td>
+              <label for="dti_registration_number">DTI/SEC/CDA Registration No.</label>
+              <h5><?= $application->get_DTISECCDA_RegNum() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="reference_no">Reference No.</label>
+              <h5><?= $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='],  $application->get_referenceNum())) ?></h5>
+            </td>
+            <td>
+              <label for="dti_date_of_registration">DTI/SEC/CDA Date of Registration</label>
+              <h5><?= $application->get_DTISECCDA_Date() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <label for="type_of_organization">Type of Organization</label>
+              <h5><?= $application->get_typeOfOrganization() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="ctc_no">CTC No.</label>
+              <h5><?= $application->get_CTCNum() ?></h5>
+            </td>
+            <td>
+              <label for="tin">TIN</label>
+              <h5><?= $application->get_TIN() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="is_enjoying_tax_incentives">Tax incentive from any Government Entity?</label>
+              <h5><?= $application->get_entityName()=="NA" ? "No" : "Yes" ?></h5>
+            </td>
+            <td>
+              <label for="specified_entity">Specified Entity:</label>
+              <h5><?= $application->get_entityName() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <label for="name_of_tax_payer">Name of Tax Payer</label>
+              <h5><?= $application->get_taxPayerName() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <label for="business_name">Business Name</label>
+              <h5><?= $application->get_businessName() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <label for="trade_name_franchise">Trade Name/ Franchise</label>
+              <h5><?= $application->get_tradeName() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <label for="name_of_president_or_treasurer">Name of President/ Treasurer of Corporation</label>
+              <h5><?= $application->get_presidentTreasurerName() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align:center">
+              <h4 style="font-weight: bolder">Business Address</h4>
+            </td>
+            <td style="text-align:center">
+              <h4 style="font-weight: bolder">Owner's Address Address</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_house_no">House No. / Bldg. No.</label>
+              <h5><?= $application->get_houseBldgNum() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_house_no">House No. / Bldg. No.</label>
+              <h5><?= $owner->get_houseBldgNum() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_building_name">Building Name</label>
+              <h5><?= $application->get_bldgName() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_building_name">Building Name</label>
+              <h5><?= $owner->get_bldgName() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_unit_no">Unit No.</label>
+              <h5><?= $application->get_unitNum() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_unit_no">Unit No.</label>
+              <h5><?= $owner->get_unitNum() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_street">Street</label>
+              <h5><?= $application->get_street() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_street">Street</label>
+              <h5><?= $owner->get_street() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_brgy">Barangay</label>
+              <h5><?= $application->get_barangay() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_brgy">Barangay</label>
+              <h5><?= $owner->get_barangay() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_subdivision">Subdivision</label>
+              <h5><?= $application->get_subdivision() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_subdivision">Subdivision</label>
+              <h5><?= $owner->get_subdivision() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_city_municipality">City/ Municipality</label>
+              <h5><?= $application->get_cityMunicipality() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_city_municipality">City/ Municipality</label>
+              <h5><?= $owner->get_cityMunicipality() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_province">Province</label>
+              <h5><?= $application->get_province() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_city_province">Province</label>
+              <h5><?= $owner->get_province() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_tel_no">Tel No.</label>
+              <h5><?= $application->get_telNum() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_tel_no">Tel No.</label>
+              <h5><?= $owner->get_telNum() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_email_address">Email Address</label>
+              <h5><?= $application->get_email() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_email_address">Email Address</label>
+              <h5><?= $application->get_email() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_property_index_no">Property Index Number (PIN)</label>
+              <h5><?= $application->get_PIN() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_business_area">Business Area (in sq. m.)</label>
+              <h5><?= $owner->get_businessArea() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="business_address_no_of_employees_in_establishment">Property Index Number (PIN)</label>
+              <h5><?= $application->get_numOfEmployees() ?></h5>
+            </td>
+            <td>
+              <label for="owners_address_no_of_employees_residing_in_lgu">Business Area (in sq. m.)</label>
+              <h5><?= $owner->get_numOfEmployeesLGU() ?></h5>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <label for="lessors_name">Lessor's Name</label>
+              <h5><?= isset($application->lessors) ? 
+                $application->get_lessors()->lastName.", ".
+                $application->get_lessors()->firstName." (".
+                $application->get_lessors()->middleName.")" : "NA" ?></h5>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <label for="lessors_address">Lessor's Address</label>
+                <h5><?= isset($application->lessors) ? 
+                  $application->get_lessors()->address.", "
+                  .$application->get_lessors()->subdivision.", "
+                  .$application->get_lessors()->barangay.", "
+                  .$application->get_lessors()->cityMunicipality.", "
+                  .$application->get_lessors()->province : "NA" ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="lessor_monthly_rental">Monthly Rental</label>
+                  <h5><?= isset($application->lessors) ? $application->get_lessors()->monthlyRental : "NA" ?></h5>
+                </td>
+                <td>
+                  <label for="lessor_tel_cel_no">Tel No./ Cel.No.</label>
+                  <h5><?= isset($application->lessors) ? $application->get_lessors()->telNum : "NA" ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="lessor_email_address">Email Address</label>
+                  <h5><?= isset($application->lessors) ? $application->get_lessors()->email : "NA" ?></h5>
+                </td>
+                <td>
+                  <label for="lessor_in_case_of_emergency">In case of emergency (Contact Person | Tel No./Cel No. | Email)</label>
+                  <h5><?= isset($application->lessors) ? 
+                    $application->get_lessors()->emergencyContactPerson." | ".
+                    $application->get_lessors()->emergencyTelNum." | ".
+                    $application->get_lessors()->emergencyEmail : "NA" ?></h5>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <td colspan="5" style="text-align:center">
+                    <h4 class=text-center>Business Activities</h4>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="2" style="width: 15%">
+                    <label for="business_activity_code">Code</label>
+                  </td>
+                  <td rowspan="2" style="width: 30%">
+                    <label for="business_activity_line_of_business">Line of Business</label>
+                  </td>
+                  <td rowspan="2" style="width: 10%">
+                    <label for="business_activity_no_of_units">No. of Units</label>
+                  </td>
+                  <td rowspan="2" style="width: 20%">
+                    <label for="business_activity_capitalization">Capitalization</label>
+                  </td>
+                  <td colspan="2" style="width: 25%">
+                    <label for="business_activity_gross_sales_receipt">Gross Sales/ Receipts</label>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($application->get_businessActivities() as $activity): ?>
+                  <tr>
+                    <td><?= $activity->code ?></td>
+                    <td><?= $activity->lineOfBusiness ?></td>
+                    <td><?= $activity->numOfUnits ?></td>
+                    <td><?= $activity->capitalization ?></td>
+                    <td><?= "???" ?></td>
+                  </tr>
+                <?php endforeach ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row text-center">
+          <?php if ($application->get_status() == "For validation..."): ?>
+            <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
+            <a href="#" class="btn btn-danger btn-lg">Reject</a>
+          <?php elseif ($application->get_status() == "For applicant visit"): ?>
+            <a href="<?php echo base_url(); ?>/dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
+            <a href="#" class="btn btn-warning btn-lg">Edit information</a>
+          <?php endif ?>
+        </div>
 
 
-</div>
+        <!-- End Container Fluid -->
+      </div>
+
+
+    </div>

@@ -81,7 +81,7 @@
 									<div class="col-sm-3">
 										<div class="form-group">
 											<label for="house-bldg-no">House No./Bldg No.</label>
-											<h5><?= $user->get_houseBldgNo() ?></h5>
+											<h5><?= $user->get_houseBldgNum() ?></h5>
 										</div>
 
 									</div>

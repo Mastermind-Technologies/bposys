@@ -103,7 +103,7 @@
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="position">Position</label>
-												<input type="text" name="position" required id="position" class="form-control" value="<?= $user->get_position() ?>">
+												<input type="text" name="position" required id="position" class="form-control" value="<?= is_subclass_of($user, 'User') ? $user->get_position() : "" ?>">
 											</div>
 
 										</div>
@@ -118,7 +118,7 @@
 											<div class="col-sm-3">
 												<div class="form-group">
 													<label for="house-bldg-no">House No./Bldg No.</label>
-													<input type="text" required class="form-control" name="house-bldg-no" value="<?= $user->get_houseBldgNo() ?>">
+													<input type="text" required class="form-control" name="house-bldg-no" value="<?= $user->get_houseBldgNum() ?>">
 												</div>
 
 											</div>

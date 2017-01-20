@@ -146,11 +146,25 @@
 											<div class="col-sm-12">
 												<h4>Business Address</h4>
 											</div>
-											
+										</div>
+
+										<div class="row">
+											<div class="col-sm-6">
+											<label for="organization-type">Business Address Name*</label>
+												<select required name="business-address" id="business-address" class="form-control">
+												<option selected disabled>Select Business Address</option>
+													<?php foreach ($business_addresses as $address): ?>
+														<option value="<?= $address->addressId ?>"><?= $address->addressName ?></option>
+													<?php endforeach ?>
+												</select>
+											</div>
+										</div>
+
+										<div class="row">
 											<div class="col-sm-3">
 												<div class="form-group">
 													<label for="house-bldg-no">House No./Bldg No.*</label>
-													<input required type="text" name="house-bldg-no" class="form-control">
+													<input type="text" disabled name="house-bldg-no" class="form-control">
 												</div>
 											</div>
 											
@@ -158,7 +172,7 @@
 											<div class="col-sm-3">
 												<div class="form-group">
 													<label for="bldg-name">Building Name*</label>
-													<input required type="text" name="bldg-name" class="form-control">
+													<input type="text" disabled name="bldg-name" class="form-control">
 												</div>
 											</div>
 											
@@ -166,42 +180,42 @@
 											<div class="col-sm-3">
 												<div class="form-group">
 													<label for="unit-no">Unit Number*</label>
-													<input required type="text" name="unit-no" data-parsley-type="digits" class="form-control">
+													<input type="text" disabled name="unit-no" data-parsley-type="digits" class="form-control">
 												</div>
 											</div>
 											
 											<div class="col-sm-3">
 												<div class="form-group">
 													<label for="street">Street*</label>
-													<input required type="text" name="street" class="form-control">
+													<input type="text" disabled name="street" class="form-control">
 												</div>
 											</div>
 											
 											<div class="col-sm-3">
 												<div class="form-group">
 													<label for="barangay">Barangay*</label>
-													<input required type="text" name="barangay" class="form-control">
+													<input type="text" disabled name="barangay" class="form-control">
 												</div>
 											</div>
 											
 											<div class="col-sm-3">
 												<div class="form-group">
 													<label for="subdivision">Subdivision*</label>
-													<input required type="text" name="subdivision" class="form-control">
+													<input type="text" disabled name="subdivision" class="form-control">
 												</div>
 											</div>
 											
 											<div class="col-sm-3">
 												<div class="form-group">
 													<label for="city-municipality">City/Municipality*</label>
-													<input required type="text" name="city-municipality" class="form-control">
+													<input type="text" disabled name="city-municipality" class="form-control">
 												</div>
 											</div>
 											
 											<div class="col-sm-3">
 												<div class="form-group">
 													<label for="province">Province*</label>
-													<input required type="text" name="province" class="form-control">
+													<input type="text" disabled name="province" class="form-control">
 												</div>
 											</div>
 										</div>

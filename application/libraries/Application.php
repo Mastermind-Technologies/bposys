@@ -17,6 +17,7 @@ class Application {
 	private $businessName = null;
 	private $tradeName = null;
 	private $presidentTreasurerName = null;
+	private $bldgName = null;
 	private $houseBldgNum = null;
 	private $unitNum = null;
 	private $street = null;
@@ -39,6 +40,7 @@ class Application {
 		$this->CI->load->model('Business_Activity_m');
 		$this->CI->load->model('Lessor_m');
 		$this->CI->load->model('Notification_m');
+		$this->CI->load->model('Business_Address_m');
 		if(isset($reference_num))
 			return $this->get_application($reference_num);
 	}
@@ -117,6 +119,11 @@ class Application {
 	public function set_presidentTreasurerName($param = null)
 	{
 		$this->presidentTreasurerName = $param;
+	}
+
+	public function set_bldgName($param = null)
+	{
+		$this->bldgName = $param;
 	}
 
 	public function set_houseBldgNum($param = null)
@@ -270,6 +277,11 @@ class Application {
 		return $this->presidentTreasurerName;
 	}
 
+	public function get_bldgName()
+	{
+		return $this->bldgName;
+	}
+
 	public function get_houseBldgNum()
 	{
 		return $this->houseBldgNum;
@@ -356,14 +368,14 @@ class Application {
 		return $this;
 	}
 
-	public function change_status($referenceNum = null, $status = null)
+	public function change_status($referenceNum = null, $status = null, $application = null)
 	{
 		$this->CI =& get_instance();
 		$query = array(
 			'referenceNum' => $referenceNum,
 			'status' => $status,
 			);
-		$this->CI->Application_m->update_application($query);
+		$this->CI->Application_m->update_application($query, $application);
 		$this->status = $status;
 		$this->unset_CI();
 	}
@@ -405,9 +417,13 @@ class Application {
 		if(!isset($this->CI))
 			$this->CI =& get_instance();
 
-		$query['referenceNum'] = $param->referenceNum;
+		$query['bploId'] = $param->applicationId;
 		$lessors = $this->CI->Lessor_m->get_all_lessor($query);
 		$business_activities = $this->CI->Business_Activity_m->get_all_business_activity($query);
+
+		unset($query);
+		$query['addressId'] = $param->addressId;
+		$business_address = $this->CI->Business_Address_m->get_all_business_addresses($query);
 
 		foreach ($lessors as $lessor) {
 			$lessor->lessorId = $this->CI->encryption->encrypt($lessor->lessorId);
@@ -434,13 +450,14 @@ class Application {
 		$this->businessName = $param->businessName;
 		$this->tradeName = $param->tradeName;
 		$this->presidentTreasurerName = $param->presidentTreasurerName;
-		$this->houseBldgNum = $param->houseBldgNum;
-		$this->unitNum = $param->unitNum;
-		$this->street = $param->street;
-		$this->barangay = $param->barangay;
-		$this->subdivision = $param->subdivision;
-		$this->cityMunicipality = $param->cityMunicipality;
-		$this->province = $param->province;
+		$this->bldgName = $business_address[0]->bldgName;
+		$this->houseBldgNum = $business_address[0]->houseBldgNum;
+		$this->unitNum = $business_address[0]->unitNum;
+		$this->street = $business_address[0]->street;
+		$this->barangay = $business_address[0]->barangay;
+		$this->subdivision = $business_address[0]->subdivision;
+		$this->cityMunicipality = $business_address[0]->cityMunicipality;
+		$this->province = $business_address[0]->province;
 		$this->telNum = $param->telNum;
 		$this->email = $param->email;
 		$this->PIN = $param->PIN;

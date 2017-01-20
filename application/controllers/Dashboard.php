@@ -10,9 +10,11 @@ class Dashboard extends CI_Controller {
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
 		$this->load->model('Role_m');
+		$this->load->model('Reference_Number_m');
 		$this->load->model('Application_m');
 		$this->load->model('Lessor_m');
 		$this->load->model('Business_Activity_m');
+		$this->load->model('Business_Address_m');
 		$this->load->model('Approval_m');
 		$this->load->model('Notification_m');
 		$this->load->library('form_validation');
@@ -41,14 +43,6 @@ class Dashboard extends CI_Controller {
 			redirect('home');
 		}
 	}
-
-	// public function test()
-	// {
-	// 	$param['body'] = "HEHEZ";
-	// 	//email is sent to user object's email property
-	// 	$user = new User($this->encryption->decrypt($this->session->userdata['userdata']['userId']));
-	// 	$user->send_mail($param);
-	// }
 
 	public function index()
 	{
@@ -102,7 +96,10 @@ class Dashboard extends CI_Controller {
 				else
 					$this->_init($nav_data);
 
-				$this->load->view('dashboard/applicant/index', $data);
+				if($this->Business_Address_m->count_addresses() > 0)
+					$this->load->view('dashboard/applicant/index', $data);
+				else
+					redirect('profile/manage_business_address');
 			}
 			//if applicant is still not a registered owner, force register.
 			else
@@ -143,7 +140,7 @@ class Dashboard extends CI_Controller {
 
 			$query['status'] = 'On Process';
 			$data['process'] = sizeof($this->Application_m->get_all_applications($query));
-		
+
 			$data['issued'] = sizeof([]);
 
 			$data['user'] = new User($user_id);
@@ -289,7 +286,13 @@ class Dashboard extends CI_Controller {
 		echo script_tag('assets/js/dashboard.js');
 		echo script_tag('assets/js/parsley.min.js');
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-		$this->load->view('dashboard/applicant/new_application');
+
+		$query = array(
+			'userId' => $user_id,
+			);
+		$data['business_addresses'] = $this->Business_Address_m->get_all_business_addresses($query);;
+
+		$this->load->view('dashboard/applicant/new_application',$data);
 	}
 
 	public function new_application_validate()
@@ -324,14 +327,15 @@ class Dashboard extends CI_Controller {
 		$this->form_validation->set_rules('pt-first-name', 'First Name of President/Treasurer of Corporation', 'required');
 		$this->form_validation->set_rules('pt-last-name', 'Last Name of President/Treasurer of Corporation', 'required');
 
-		$this->form_validation->set_rules('house-bldg-no', 'House No./Building No.', 'required');
-		$this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
-		$this->form_validation->set_rules('unit-no', 'Unit Number', 'required|numeric');
-		$this->form_validation->set_rules('street', 'Street', 'required');
-		$this->form_validation->set_rules('barangay', 'Barangay', 'required');
-		$this->form_validation->set_rules('subdivision', 'Subdivision', 'required');
-		$this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
-		$this->form_validation->set_rules('province', 'Province', 'required');
+		$this->form_validation->set_rules('business-address', 'Business Address', 'required');
+		// $this->form_validation->set_rules('house-bldg-no', 'House No./Building No.', 'required');
+		// $this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
+		// $this->form_validation->set_rules('unit-no', 'Unit Number', 'required|numeric');
+		// $this->form_validation->set_rules('street', 'Street', 'required');
+		// $this->form_validation->set_rules('barangay', 'Barangay', 'required');
+		// $this->form_validation->set_rules('subdivision', 'Subdivision', 'required');
+		// $this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
+		// $this->form_validation->set_rules('province', 'Province', 'required');
 
 		$this->form_validation->set_rules('tel-num', 'Telephone Number', 'required|numeric');
 		$this->form_validation->set_rules('email', 'email', 'required|valid_email');
@@ -363,7 +367,8 @@ class Dashboard extends CI_Controller {
 
 		if($this->form_validation->run() == false)
 		{
-			$data['error'] = "Error: Please resolve invalid inputs.";
+			// $data['error'] = "Error: Please resolve invalid inputs.";
+			$data['error'] = validation_errors();
 			echo json_encode($data);
 		}
 		else
@@ -381,9 +386,12 @@ class Dashboard extends CI_Controller {
 			$tax_payer_name = $this->input->post('tax-first-name') . " " . $this->input->post('tax-middle-name') . ", " . $this->input->post('tax-last-name');
 			$president_treasurer_name = $this->input->post('pt-first-name') . " " . $this->input->post('pt-middle-name') . ", " . $this->input->post('pt-last-name');
 
+			$reference_num = $this->Reference_Number_m->generate_reference_number();
+
 			$data['application_fields'] = array(
-				'referenceNum' => 'Processing_'.$user_id,
+				'referenceNum' => $reference_num,
 				'userId' => $user_id,
+				'addressId' => $this->input->post('business-address'),
 				'taxYear' => $this->input->post('tax-year'),
 				'applicationDate' => $this->input->post('application-date'),
 				'DTISECCDA_RegNum' => $this->input->post('DTISECCDA_RegNum'),
@@ -396,14 +404,14 @@ class Dashboard extends CI_Controller {
 				'businessName' => $this->input->post('business-name'),
 				'tradeName' => $this->input->post('trade-name'),
 				'presidentTreasurerName' => $president_treasurer_name,
-				'houseBldgNum' => $this->input->post('house-bldg-no'),
-				'bldgName' => $this->input->post('bldg-name'),
-				'unitNum' => $this->input->post('unit-no'),
-				'street' => $this->input->post('street'),
-				'barangay' => $this->input->post('barangay'),
-				'subdivision' => $this->input->post('subdivision'),
-				'cityMunicipality' => $this->input->post('city-municipality'),
-				'province' => $this->input->post('province'),
+				// 'houseBldgNum' => $this->input->post('house-bldg-no'),
+				// 'bldgName' => $this->input->post('bldg-name'),
+				// 'unitNum' => $this->input->post('unit-no'),
+				// 'street' => $this->input->post('street'),
+				// 'barangay' => $this->input->post('barangay'),
+				// 'subdivision' => $this->input->post('subdivision'),
+				// 'cityMunicipality' => $this->input->post('city-municipality'),
+				// 'province' => $this->input->post('province'),
 				'telNum' => $this->input->post('tel-num'),
 				'email' => $this->input->post('email'),
 				'PIN' => $this->input->post('pin'),
@@ -411,14 +419,12 @@ class Dashboard extends CI_Controller {
 				'status' => 'For validation...'
 				);
 
-			$this->Application_m->insert_application($data['application_fields']);
-
-			$referenceNum = $this->Application_m->update_application_reference_number($user_id);
+			$bplo_id = $this->Application_m->insert_bplo($data['application_fields']);
 
 			if($this->input->post('rented'))
 			{
 				$data['lessor_fields'] = array(
-					'referenceNum' => $referenceNum,
+					'bploId' => $bplo_id,
 					'firstName' => $this->input->post('lessor-first-name'),
 					'middleName' => $this->input->post('lessor-middle-name')==''?'NA':$this->input->post('lessor-middle-name'),
 					'lastName' => $this->input->post('lessor-last-name'),
@@ -439,14 +445,14 @@ class Dashboard extends CI_Controller {
 			}
 
 			$query = array(
-				'referenceNum' => $referenceNum,
+				'referenceNum' => $reference_num,
 				'status' => "Unread",
 				'role' => 4,
 				'notifMessage' => "New business permit application"
 				);
 
 			$this->Notification_m->insert($query);
-			$data['referenceNum'] = $referenceNum;
+			$data['referenceNum'] = $bplo_id; //referenceNum changed to bploId
 			echo json_encode($data);
 		}
 	}//END OF SUBMIT_APPLICATION
@@ -454,7 +460,7 @@ class Dashboard extends CI_Controller {
 	public function store_business_activity()
 	{
 		$fields = array(
-			'referenceNum' => $this->input->post('referenceNum'),
+			'bploId' => $this->input->post('referenceNum'),
 			'code' => $this->input->post('code'),
 			'lineOfBusiness' => $this->input->post('lineOfBusiness'),
 			'numOfUnits' => $this->input->post('numOfUnits'),
@@ -624,12 +630,11 @@ class Dashboard extends CI_Controller {
 		$query['applicationId'] = $application_id;
 		$data['application'] = $this->Application_m->get_all_applications($query);
 		//map to application object
-		$application = new Application();
-		$data['application'] = $application->set_application_all($data['application'][0]);
-		$application->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()));
+		$data['application'] = new Application($data['application'][0]->referenceNum);
+		$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 
 		//instantiate Owner of this application
-		$data['owner'] = new Owner($this->encryption->decrypt($application->get_userId()));
+		$data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
 
 		$this->load->view('dashboard/bplo/view',$data);
 	}
@@ -662,7 +667,7 @@ class Dashboard extends CI_Controller {
 		// 	'status' => 'For applicant visit'
 		// 	);
 		// $this->Application_m->update_application($query);
-		$application->change_status($referenceNum, 'For applicant visit');
+		$application->change_status($referenceNum, 'For applicant visit', 'bplo');
 
 		//notifications
 		$query = array(
