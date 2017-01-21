@@ -38,7 +38,7 @@
 				<div class="row" style="margin:0">
 					<ul  class="nav nav-tabs">
 						<li class="active">
-							<a  href="#bploform" data-toggle="tab">BPLO</a>
+							<a  href="#bploform" class="testing" data-toggle="tab">BPLO</a>
 						</li>
 						<li><a href="#zoningform" data-toggle="tab">Zoning</a>
 						</li>

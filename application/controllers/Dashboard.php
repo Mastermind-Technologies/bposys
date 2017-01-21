@@ -310,7 +310,6 @@ class Dashboard extends CI_Controller {
 
 		$this->form_validation->set_rules('DTISECCDA_RegNum', 'DTI/SEC/CDA Registration Number', 'required|numeric');
 		$this->form_validation->set_rules('DTISECCDA_Date', 'DTI/SEC/CDA Date', 'required');
-		$this->form_validation->set_rules('organization-type', 'Organization Type', 'required');
 		$this->form_validation->set_rules('ctc-number', 'CTC Number', 'required|numeric');
 		$this->form_validation->set_rules('tin', 'TIN', 'required');
 
@@ -321,26 +320,27 @@ class Dashboard extends CI_Controller {
 
 		$this->form_validation->set_rules('tax-first-name', 'Tax Payer First Name', 'required');
 		$this->form_validation->set_rules('tax-last-name', 'Tax Payer Last Name', 'required');
-		$this->form_validation->set_rules('business-name', 'Business Name', 'required');
-		$this->form_validation->set_rules('trade-name', 'Franchise/Trade Name', 'required');
 
 		$this->form_validation->set_rules('pt-first-name', 'First Name of President/Treasurer of Corporation', 'required');
 		$this->form_validation->set_rules('pt-last-name', 'Last Name of President/Treasurer of Corporation', 'required');
 
+		$this->form_validation->set_rules('company-name', 'Company Name', 'required');
+		$this->form_validation->set_rules('business-name', 'Business Name', 'required');
+		$this->form_validation->set_rules('trade-name', 'Franchise/Trade Name', 'required');
+		$this->form_validation->set_rules('signage-name', 'Signage Name', 'required');
+		$this->form_validation->set_rules('nature-of-business', 'Nature of Business', 'required');
+		$this->form_validation->set_rules('capital-invested', 'Capital Invested', 'required');
+		$this->form_validation->set_rules('date-of-operation', 'Date of Operation', 'required');
+		$this->form_validation->set_rules('business-desc', 'Description of Business', 'required');
+		$this->form_validation->set_rules('organization-type', 'Organization Type', 'required');
+		if($this->input->post('organization-type') == "Corporation")
+			$this->form_validation->set_rules('corporation-name', 'Corporation Name', 'required');
 		$this->form_validation->set_rules('business-address', 'Business Address', 'required');
-		// $this->form_validation->set_rules('house-bldg-no', 'House No./Building No.', 'required');
-		// $this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
-		// $this->form_validation->set_rules('unit-no', 'Unit Number', 'required|numeric');
-		// $this->form_validation->set_rules('street', 'Street', 'required');
-		// $this->form_validation->set_rules('barangay', 'Barangay', 'required');
-		// $this->form_validation->set_rules('subdivision', 'Subdivision', 'required');
-		// $this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
-		// $this->form_validation->set_rules('province', 'Province', 'required');
-
 		$this->form_validation->set_rules('tel-num', 'Telephone Number', 'required|numeric');
 		$this->form_validation->set_rules('email', 'email', 'required|valid_email');
 		$this->form_validation->set_rules('pin', 'Property Index Number (PIN)', 'required');
 		$this->form_validation->set_rules('total-employee-num', 'Total Number of Employees', 'required|numeric');
+		$this->form_validation->set_rules('pollution-control-officer', 'Pollution Control Officer', 'required');
 
 		if($this->input->post('rented'))
 		{
@@ -365,9 +365,52 @@ class Dashboard extends CI_Controller {
 		$this->form_validation->set_rules('num-of-units', 'Number of Units', 'required');
 		$this->form_validation->set_rules('capitalization', 'Capitalization', 'required');
 
-		if($this->form_validation->run() == false)
+		if($this->input->post('cnc'))
+		{
+			$this->form_validation->set_rules('cnc-date-issued', 'CNC Date Issued', 'required');
+		}
+		if($this->input->post('llda'))
+		{
+			$this->form_validation->set_rules('llda-date-issued', 'LLDA Date Issued','required');
+		}
+		if($this->input->post('discharge-permit'))
+		{
+			$this->form_validation->set_rules('discharge-permit-date-issued','Discharge Permit Date Issued', 'required');
+		}
+		if($this->input->post('apsci'))
+		{
+			$this->form_validation->set_rules('apsci-date-issued','Permit to Operate/APSCI', 'required');
+		}
+		//dumped steam-generator-specify serverside validation
+
+		$this->form_validation->set_rules('air-pollution-control-devices','Air Pollution Control Devices Being Used', 'required');
+		$this->form_validation->set_rules('stack-height','Stack Height', 'required');
+
+		$this->form_validation->set_rules('wastewater-treatment-facility', 'Wastewater Treatment Facility', 'required');
+		if($this->input->post('pending-llda-case'))
+		{
+			$this->form_validation->set_rules('llda-case-no', 'LLDA Case Number', 'required');
+		}
+
+		$this->form_validation->set_rules('type-of-solid-wastes', 'Type of Solid Wastes', 'required');
+		$this->form_validation->set_rules('qty-per-day', 'Quantity per day', 'required');
+		$this->form_validation->set_rules('method-of-garbage-collection', 'required');
+
+		//dumpled garbage-collection-specify serverside validation
+
+		// if($this->input->post('garbage-collection-frequency') == "Others")
+		// {
+		// 	$this->form_validation->set_rules('garbage-collection-specify', 'Specified garbage collection frequency', 'required');
+		// }
+
+		$this->form_validation->set_rules('collector', 'Person / Company Collecting Solid Wastes', 'required');
+		$this->form_validation->set_rules('collector-address', 'Collector\'s Address', 'required');
+
+		if($this->form_validation->run() == false || !strtotime($this->input->post('date-of-operation')))
 		{
 			// $data['error'] = "Error: Please resolve invalid inputs.";
+
+			//test mode
 			$data['error'] = validation_errors();
 			echo json_encode($data);
 		}
@@ -388,6 +431,7 @@ class Dashboard extends CI_Controller {
 
 			$reference_num = $this->Reference_Number_m->generate_reference_number();
 
+			//START BPLO FORM
 			$data['application_fields'] = array(
 				'referenceNum' => $reference_num,
 				'userId' => $user_id,
@@ -404,14 +448,6 @@ class Dashboard extends CI_Controller {
 				'businessName' => $this->input->post('business-name'),
 				'tradeName' => $this->input->post('trade-name'),
 				'presidentTreasurerName' => $president_treasurer_name,
-				// 'houseBldgNum' => $this->input->post('house-bldg-no'),
-				// 'bldgName' => $this->input->post('bldg-name'),
-				// 'unitNum' => $this->input->post('unit-no'),
-				// 'street' => $this->input->post('street'),
-				// 'barangay' => $this->input->post('barangay'),
-				// 'subdivision' => $this->input->post('subdivision'),
-				// 'cityMunicipality' => $this->input->post('city-municipality'),
-				// 'province' => $this->input->post('province'),
 				'telNum' => $this->input->post('tel-num'),
 				'email' => $this->input->post('email'),
 				'PIN' => $this->input->post('pin'),
@@ -444,6 +480,115 @@ class Dashboard extends CI_Controller {
 				$this->Lessor_m->insert_lessor($data['lessor_fields']);
 			}
 
+			//END BPLO FORM
+
+			//START ZONING
+			$zoning_fields = array(
+				'userId' => $user_id,
+				'addressId' => $this->input->post('business-address'),
+				'referenceNum' => $reference_num,
+				'firstName' => $this->input->post('tax-first-name'),
+				'middleName' => $this->input->post('tax-middle-name'),
+				'lastName' => $this->input->post('tax-last-name'),
+				'businessName' => $this->input->post('business-name'),
+				'signageName' => $this->input->post('signage-name'),
+				'corporationOrSingleProprietor' => $this->input->post('organization-type')."|".$this->input->post('organization-type')=="Corporation" ? $this->input->post('corporation-name') : $tax_payer_name,
+				'capitalInvested' => $this->input->post('capital-invested'),
+				'dateOfOperation' => $this->input->post('date-of-operation'),
+				'businessDesc' => $this->input->post('business-desc'),
+				'status' => 'standby',
+				);
+			$this->Application_m->insert_zoning($zoning_fields);
+			//END ZONING
+
+			//START CENRO
+			if($this->input->post('fugitive-particulates'))
+			{
+				$fugitive_particulates = "";
+				$result = $this->input->post('fugitive-particulates');
+				foreach ($result as $r) {
+					$fugitive_particulates = $fugitive_particulates."|".$r;
+				}
+				$fugitive_particulates = substr($fugitive_particulates, 1);
+			}
+			else
+			{
+				$fugitive_particulates = "NA";
+			}
+
+			if($this->input->post('steam-generators'))
+			{
+				$steam_generator = "";
+				$result = $this->input->post('steam-generators');
+				foreach ($result as $r) {
+					$steam_generator = $steam_generator."|".$r;
+				}
+				$steam_generator = substr($steam_generator, 1);
+			}
+			else
+			{
+				$steam_generator = "NA";
+			}
+
+			if($this->input->post('waste-minimization'))
+			{
+				$waste_minimization = "";
+				$result = $this->input->post('waste-minimization');
+				foreach ($result as $r) {
+					$waste_minimization = $waste_minimization."|".$r;
+				}
+				$waste_minimization = substr($waste_minimization, 1);
+			}
+			else
+			{
+				$waste_minimization = "NA";
+			}
+
+			$cenro_fields = array(
+				'userId' => $user_id,
+				'addressId' => $this->input->post('business-address'),
+				'referenceNum' => $reference_num,
+				'firstName' => $this->input->post('tax-first-name'),
+				'middleName' => $this->input->post('tax-middle-name'),
+				'lastName' => $this->input->post('tax-last-name'),
+				'companyName' => $this->input->post('company-name'),
+				'natureOfBusiness' => $this->input->post('nature-of-business'),
+				'pollutionControlOfficer' => $this->input->post('pollution-control-officer'),
+				'telNum' => $this->input->post('tel-num'),
+				'CNC' => $this->input->post('cnc')==true ? $this->input->post('cnc-date-issued') : 'NA',
+				'LLDAClearance' => $this->input->post('llda')==true ? $this->input->post('llda-date-issued') : 'NA',
+				'dischargePermit' => $this->input->post('discharge-permit')==true ? $this->input->post('discharge-permit-date-issued') : 'NA',
+				'productsAndByProducts' => 'NA',
+				'smokeEmission' => $this->input->post('smoke-emission')==true ? 1 : 0,
+				'volatileCompound' => $this->input->post('volatile-compound')==true ? 1 : 0,
+				'fugitiveParticulates' => $fugitive_particulates,
+				'steamGenerator' => $steam_generator,
+				'APCD' => $this->input->post('air-pollution-control-devices'),
+				'stackHeight' => $this->input->post('stack-height'),
+				'wastewaterTreatmentFacility' => $this->input->post('wastewater-treatment-facility'),
+				'wastewaterTreatmentOperationAndProcess' => $this->input->post('wastewater-treatment-operation') == true ? 1 : 0,
+				'pendingCaseWithLLDA' => $this->input->post('pending-llda-case') ? $this->input->post('llda-case-no') : "NA",
+				'typeOfSolidWastesGenerated' => $this->input->post('type-of-solid-wastes'),
+				'qtyPerDay' => $this->input->post('qty-per-day'),
+				'garbageCollectionMethod' => $this->input->post('method-of-garbage-collection'),
+				'frequencyOfGarbageCollection' => $this->input->post('garbage-collection-frequency'),
+				'wasteCollector' => $this->input->post('collector'),
+				'collectorAddress' => $this->input->post('collector-address'),
+				'garbageDisposalMethod' => $this->input->post('garbage-disposal-method'),
+				'wasteMinimizationMethod' => $waste_minimization,
+				'drainageSystem' => $this->input->post('drainage-system')==true ? 1 : 0,
+				'drainageType' => $this->input->post('drainage-system')==true ? $this->input->post('drainage-system-type') : "NA",
+				'drainageDischargeLocation' => $this->input->post('drainage-system')==true ? $this->input->post('drainage-where-discharged') : "NA",
+				'sewerageSystem' => $this->input->post('sewerage-system')==true ? 1 : 0,
+				'septicTank' => $this->input->post('septic-tank')==true ? 1 : 0,
+				'sewerageDischargeLocation' => $this->input->post('septic-tank')==true ? $this->input->post('sewerage-where-discharged') : "NA",
+				'waterSupply' => $this->input->post('water-supply'),
+				'status' => 'standby',
+				);
+			$this->Application_m->insert_cenro($cenro_fields);
+			//END CENRO
+
+			//SEND NOTIFICATION TO BPLO
 			$query = array(
 				'referenceNum' => $reference_num,
 				'status' => "Unread",
@@ -498,7 +643,7 @@ class Dashboard extends CI_Controller {
 		// print_r($application);
 		// echo "</pre>";
 		// exit();
-		$application->change_status($reference_num, 'Cancelled');
+		$application->change_status($reference_num, 'Cancelled', 'bplo');
 		redirect('dashboard');
 	}
 
@@ -809,6 +954,15 @@ class Dashboard extends CI_Controller {
 		$data['process'] = sizeof($this->Application_m->get_all_applications($query));
 
 		echo json_encode($data);
+	}
+
+	public function display_address()
+	{
+		$this->isLogin();
+		$address_id = $this->input->get('id');
+		$query['addressId'] = $address_id;
+		$data['address'] = $this->Business_Address_m->get_all_business_addresses($query);
+		echo json_encode($data['address'][0]);
 	}
 
 }//END OF CLASS,
