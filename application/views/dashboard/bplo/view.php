@@ -14,6 +14,10 @@
     <!--End-breadcrumbs-->
   </div>
 
+<!--   <pre>
+    <?php print_r($application); ?>
+  </pre> -->
+
   <div class="container-fluid">
 <!--     <div class="row">
     <div class="col-sm-12">
@@ -36,7 +40,7 @@
             </td>
             <td>
               <label for="dti_registration_number">DTI/SEC/CDA Registration No.</label>
-              <h5><?= $application->get_DTISECCDA_RegNum() ?></h5>
+              <h5><?= $application->get_DTISECCDARegNum() ?></h5>
             </td>
           </tr>
           <tr>
@@ -46,13 +50,13 @@
             </td>
             <td>
               <label for="dti_date_of_registration">DTI/SEC/CDA Date of Registration</label>
-              <h5><?= $application->get_DTISECCDA_Date() ?></h5>
+              <h5><?= $application->get_DTISECCDADate() ?></h5>
             </td>
           </tr>
           <tr>
             <td colspan="2">
               <label for="type_of_organization">Type of Organization</label>
-              <h5><?= $application->get_typeOfOrganization() ?></h5>
+              <h5><?= $application->get_organizationType() ?></h5>
             </td>
           </tr>
           <tr>
@@ -78,7 +82,7 @@
           <tr>
             <td colspan="2">
               <label for="name_of_tax_payer">Name of Tax Payer</label>
-              <h5><?= $application->get_taxPayerName() ?></h5>
+              <h5><?= $application->get_LastName().", ".$application->get_FirstName()." (".$application->get_MiddleName().")" ?></h5>
             </td>
           </tr>
           <tr>
@@ -114,7 +118,7 @@
             </td>
             <td>
               <label for="owners_address_house_no">House No. / Bldg. No.</label>
-              <h5><?= $owner->get_houseBldgNum() ?></h5>
+              <h5><?= $application->get_houseBldgNum() ?></h5>
             </td>
           </tr>
           <tr>
@@ -124,7 +128,7 @@
             </td>
             <td>
               <label for="owners_address_building_name">Building Name</label>
-              <h5><?= $owner->get_bldgName() ?></h5>
+              <h5><?= $application->get_OwnerbldgName() ?></h5>
             </td>
           </tr>
           <tr>
@@ -134,7 +138,7 @@
             </td>
             <td>
               <label for="owners_address_unit_no">Unit No.</label>
-              <h5><?= $owner->get_unitNum() ?></h5>
+              <h5><?= $application->get_OwnerunitNum() ?></h5>
             </td>
           </tr>
           <tr>
@@ -144,7 +148,7 @@
             </td>
             <td>
               <label for="owners_address_street">Street</label>
-              <h5><?= $owner->get_street() ?></h5>
+              <h5><?= $application->get_Ownerstreet() ?></h5>
             </td>
           </tr>
           <tr>
@@ -154,17 +158,17 @@
             </td>
             <td>
               <label for="owners_address_brgy">Barangay</label>
-              <h5><?= $owner->get_barangay() ?></h5>
+              <h5><?= $application->get_Ownerbarangay() ?></h5>
             </td>
           </tr>
           <tr>
             <td>
               <label for="business_address_subdivision">Subdivision</label>
-              <h5><?= $application->get_subdivision() ?></h5>
+              <h5><?= $application->get_Subdivision() ?></h5>
             </td>
             <td>
               <label for="owners_address_subdivision">Subdivision</label>
-              <h5><?= $owner->get_subdivision() ?></h5>
+              <h5><?= $application->get_Ownersubdivision() ?></h5>
             </td>
           </tr>
           <tr>
@@ -174,7 +178,7 @@
             </td>
             <td>
               <label for="owners_address_city_municipality">City/ Municipality</label>
-              <h5><?= $owner->get_cityMunicipality() ?></h5>
+              <h5><?= $application->get_OwnercityMunicipality() ?></h5>
             </td>
           </tr>
           <tr>
@@ -184,7 +188,7 @@
             </td>
             <td>
               <label for="owners_address_city_province">Province</label>
-              <h5><?= $owner->get_province() ?></h5>
+              <h5><?= $application->get_Ownerprovince() ?></h5>
             </td>
           </tr>
           <tr>
@@ -194,7 +198,7 @@
             </td>
             <td>
               <label for="owners_address_tel_no">Tel No.</label>
-              <h5><?= $owner->get_telNum() ?></h5>
+              <h5><?= $application->get_OwnertelNum() ?></h5>
             </td>
           </tr>
           <tr>
@@ -214,17 +218,17 @@
             </td>
             <td>
               <label for="owners_address_business_area">Business Area (in sq. m.)</label>
-              <h5><?= $owner->get_businessArea() ?></h5>
+              <h5><?= $application->get_businessArea() ?></h5>
             </td>
           </tr>
           <tr>
             <td>
-              <label for="business_address_no_of_employees_in_establishment">Property Index Number (PIN)</label>
-              <h5><?= $application->get_numOfEmployees() ?></h5>
+              <label for="business_address_no_of_employees_in_establishment">Total No. of Employees in Establishment</label>
+              <h5>N/A</h5>
             </td>
             <td>
-              <label for="owners_address_no_of_employees_residing_in_lgu">Business Area (in sq. m.)</label>
-              <h5><?= $owner->get_numOfEmployeesLGU() ?></h5>
+              <label for="owners_address_no_of_employees_residing_in_lgu">No. of Employees Residing in LGU</label>
+              <h5>N/A</h5>
             </td>
           </tr>
           <tr>

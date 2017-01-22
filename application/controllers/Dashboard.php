@@ -14,10 +14,12 @@ class Dashboard extends CI_Controller {
 		$this->load->model('Application_m');
 		$this->load->model('Lessor_m');
 		$this->load->model('Business_Activity_m');
-		$this->load->model('Business_Address_m');
+		$this->load->model('Business_m');
 		$this->load->model('Approval_m');
 		$this->load->model('Notification_m');
 		$this->load->library('form_validation');
+
+		$this->load->model('Business_Address_m');
 	}
 
 	public function _init($data = null)
@@ -55,7 +57,7 @@ class Dashboard extends CI_Controller {
 			$is_registered = $this->Owner_m->check_owner($user_id);
 			if($is_registered)
 			{
-				$data['user'] = new Owner($user_id);
+				$data['user'] = new User($user_id);
 
 				$query['userId'] = $user_id;
 				$data['applications'] = $this->Application_m->get_all_applications($query);
@@ -64,6 +66,11 @@ class Dashboard extends CI_Controller {
 					$data['applications'][$key]->set_applicationId($this->encryption->decrypt($data['applications'][$key]->get_applicationId()));
 					$data['applications'][$key]->check_expiry();
 				}
+				// echo "<pre>";
+				// print_r($data['applications']);
+				// echo "</pre>";
+				// exit();
+
 
 				//get applicant notifications
 				$nav_data['notifications'] = User::get_notifications();
@@ -96,15 +103,15 @@ class Dashboard extends CI_Controller {
 				else
 					$this->_init($nav_data);
 
-				if($this->Business_Address_m->count_addresses() > 0)
+				if($this->Business_m->count_businesses() > 0)
 					$this->load->view('dashboard/applicant/index', $data);
 				else
-					redirect('profile/manage_business_address');
+					redirect('profile/manage_business_profiles?ft=1');
 			}
 			//if applicant is still not a registered owner, force register.
 			else
 			{
-				redirect('profile/edit');
+				redirect('profile/manage_owner_profiles?ft=1');
 			}
 		}
 		else if($role == 'BPLO')
@@ -287,10 +294,8 @@ class Dashboard extends CI_Controller {
 		echo script_tag('assets/js/parsley.min.js');
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		$query = array(
-			'userId' => $user_id,
-			);
-		$data['business_addresses'] = $this->Business_Address_m->get_all_business_addresses($query);;
+		$query['userId'] = $user_id;
+		$data['business'] = $this->Business_m->get_all_businesses($query);
 
 		$this->load->view('dashboard/applicant/new_application',$data);
 	}
@@ -300,6 +305,7 @@ class Dashboard extends CI_Controller {
 		$this->isLogin();
 		$this->_init();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
 		$this->load->view('dashboard/applicant/new_application');
 	}
 
@@ -312,35 +318,13 @@ class Dashboard extends CI_Controller {
 		$this->form_validation->set_rules('DTISECCDA_Date', 'DTI/SEC/CDA Date', 'required');
 		$this->form_validation->set_rules('ctc-number', 'CTC Number', 'required|numeric');
 		$this->form_validation->set_rules('tin', 'TIN', 'required');
+		$this->form_validation->set_rules('capital-invested', 'Capital Invested', 'required|numeric');
+		$this->form_validation->set_rules('business', 'Business Profile', 'required');
 
 		if($this->input->post('tax-incentive'))
 		{
 			$this->form_validation->set_rules('entity', 'Entity', 'required');
 		}
-
-		$this->form_validation->set_rules('tax-first-name', 'Tax Payer First Name', 'required');
-		$this->form_validation->set_rules('tax-last-name', 'Tax Payer Last Name', 'required');
-
-		$this->form_validation->set_rules('pt-first-name', 'First Name of President/Treasurer of Corporation', 'required');
-		$this->form_validation->set_rules('pt-last-name', 'Last Name of President/Treasurer of Corporation', 'required');
-
-		$this->form_validation->set_rules('company-name', 'Company Name', 'required');
-		$this->form_validation->set_rules('business-name', 'Business Name', 'required');
-		$this->form_validation->set_rules('trade-name', 'Franchise/Trade Name', 'required');
-		$this->form_validation->set_rules('signage-name', 'Signage Name', 'required');
-		$this->form_validation->set_rules('nature-of-business', 'Nature of Business', 'required');
-		$this->form_validation->set_rules('capital-invested', 'Capital Invested', 'required');
-		$this->form_validation->set_rules('date-of-operation', 'Date of Operation', 'required');
-		$this->form_validation->set_rules('business-desc', 'Description of Business', 'required');
-		$this->form_validation->set_rules('organization-type', 'Organization Type', 'required');
-		if($this->input->post('organization-type') == "Corporation")
-			$this->form_validation->set_rules('corporation-name', 'Corporation Name', 'required');
-		$this->form_validation->set_rules('business-address', 'Business Address', 'required');
-		$this->form_validation->set_rules('tel-num', 'Telephone Number', 'required|numeric');
-		$this->form_validation->set_rules('email', 'email', 'required|valid_email');
-		$this->form_validation->set_rules('pin', 'Property Index Number (PIN)', 'required');
-		$this->form_validation->set_rules('total-employee-num', 'Total Number of Employees', 'required|numeric');
-		$this->form_validation->set_rules('pollution-control-officer', 'Pollution Control Officer', 'required');
 
 		if($this->input->post('rented'))
 		{
@@ -398,15 +382,10 @@ class Dashboard extends CI_Controller {
 
 		//dumpled garbage-collection-specify serverside validation
 
-		// if($this->input->post('garbage-collection-frequency') == "Others")
-		// {
-		// 	$this->form_validation->set_rules('garbage-collection-specify', 'Specified garbage collection frequency', 'required');
-		// }
-
 		$this->form_validation->set_rules('collector', 'Person / Company Collecting Solid Wastes', 'required');
 		$this->form_validation->set_rules('collector-address', 'Collector\'s Address', 'required');
 
-		if($this->form_validation->run() == false || !strtotime($this->input->post('date-of-operation')))
+		if($this->form_validation->run() == false)
 		{
 			// $data['error'] = "Error: Please resolve invalid inputs.";
 
@@ -430,28 +409,20 @@ class Dashboard extends CI_Controller {
 			$president_treasurer_name = $this->input->post('pt-first-name') . " " . $this->input->post('pt-middle-name') . ", " . $this->input->post('pt-last-name');
 
 			$reference_num = $this->Reference_Number_m->generate_reference_number();
-
+			$business_id = $this->encryption->decrypt($this->input->post('business'));
+			
 			//START BPLO FORM
 			$data['application_fields'] = array(
 				'referenceNum' => $reference_num,
 				'userId' => $user_id,
-				'addressId' => $this->input->post('business-address'),
+				'businessId' => $business_id,
 				'taxYear' => $this->input->post('tax-year'),
 				'applicationDate' => $this->input->post('application-date'),
 				'DTISECCDA_RegNum' => $this->input->post('DTISECCDA_RegNum'),
 				'DTISECCDA_Date' => $this->input->post('DTISECCDA_Date'),
-				'typeOfOrganization' => $this->input->post('organization-type'),
 				'CTCNum' => $this->input->post('ctc-number'),
 				'TIN' => $this->input->post('tin'),
 				'entityName' => $entity,
-				'taxPayerName' => $tax_payer_name,
-				'businessName' => $this->input->post('business-name'),
-				'tradeName' => $this->input->post('trade-name'),
-				'presidentTreasurerName' => $president_treasurer_name,
-				'telNum' => $this->input->post('tel-num'),
-				'email' => $this->input->post('email'),
-				'PIN' => $this->input->post('pin'),
-				'numOfEmployees' => $this->input->post('total-employee-num'),
 				'status' => 'For validation...'
 				);
 
@@ -481,21 +452,13 @@ class Dashboard extends CI_Controller {
 			}
 
 			//END BPLO FORM
-
+				
 			//START ZONING
 			$zoning_fields = array(
 				'userId' => $user_id,
-				'addressId' => $this->input->post('business-address'),
 				'referenceNum' => $reference_num,
-				'firstName' => $this->input->post('tax-first-name'),
-				'middleName' => $this->input->post('tax-middle-name'),
-				'lastName' => $this->input->post('tax-last-name'),
-				'businessName' => $this->input->post('business-name'),
-				'signageName' => $this->input->post('signage-name'),
-				'corporationOrSingleProprietor' => $this->input->post('organization-type')."|".$this->input->post('organization-type')=="Corporation" ? $this->input->post('corporation-name') : $tax_payer_name,
+				'businessId' =>$business_id,
 				'capitalInvested' => $this->input->post('capital-invested'),
-				'dateOfOperation' => $this->input->post('date-of-operation'),
-				'businessDesc' => $this->input->post('business-desc'),
 				'status' => 'standby',
 				);
 			$this->Application_m->insert_zoning($zoning_fields);
@@ -546,15 +509,8 @@ class Dashboard extends CI_Controller {
 
 			$cenro_fields = array(
 				'userId' => $user_id,
-				'addressId' => $this->input->post('business-address'),
 				'referenceNum' => $reference_num,
-				'firstName' => $this->input->post('tax-first-name'),
-				'middleName' => $this->input->post('tax-middle-name'),
-				'lastName' => $this->input->post('tax-last-name'),
-				'companyName' => $this->input->post('company-name'),
-				'natureOfBusiness' => $this->input->post('nature-of-business'),
-				'pollutionControlOfficer' => $this->input->post('pollution-control-officer'),
-				'telNum' => $this->input->post('tel-num'),
+				'businessId' => $business_id,
 				'CNC' => $this->input->post('cnc')==true ? $this->input->post('cnc-date-issued') : 'NA',
 				'LLDAClearance' => $this->input->post('llda')==true ? $this->input->post('llda-date-issued') : 'NA',
 				'dischargePermit' => $this->input->post('discharge-permit')==true ? $this->input->post('discharge-permit-date-issued') : 'NA',
@@ -956,13 +912,13 @@ class Dashboard extends CI_Controller {
 		echo json_encode($data);
 	}
 
-	public function display_address()
+	public function get_business_profile()
 	{
 		$this->isLogin();
-		$address_id = $this->input->get('id');
-		$query['addressId'] = $address_id;
-		$data['address'] = $this->Business_Address_m->get_all_business_addresses($query);
-		echo json_encode($data['address'][0]);
+		$business_id = $this->encryption->decrypt($this->input->get('id'));
+		$query['businessId'] = $business_id;
+		$data = $this->Business_m->get_all_businesses($query);
+		echo json_encode($data[0]);
 	}
 
 }//END OF CLASS,

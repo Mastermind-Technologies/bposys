@@ -26,18 +26,20 @@
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($incoming as $application): ?>
+            <?php if (isset($incoming)): ?>
+             <?php foreach ($incoming as $application): ?>
               <tr>
                 <td><?= $this->encryption->decrypt($application->get_referenceNum()) ?></td>
                 <td><?= $application->get_businessName() ?></td>
                 <td><a href="<?php echo base_url(); ?>dashboard/view_application/<?= bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt)) ?>" class="btn btn-info btn-block">Show Details</a></td>
               </tr>
             <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
+          <?php endif ?>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
 <!--     <div class="block center-block">
     	<label for="">Test Noty</label>
     	<button class="btn btn-primary" id="btn-test-noty">Noty</button>

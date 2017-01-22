@@ -293,13 +293,6 @@ $(document).ready(function()
         {
           process_business_activity(data.referenceNum);
         }
-      },
-      error: function(data)
-      {
-        $("#btn-submit").prop('disabled', false);
-        $("#btn-add-bus-activity").prop('disabled', false);
-        $("#fa-submit").removeClass('fa-circle-o-notch fa-spin');
-        $("#fa-submit").addClass('fa-check');
       }
     });
     return false;
@@ -351,22 +344,41 @@ $(document).ready(function()
     });
   }
 
-  $('#business-address').change(function(event){
+  $('#business').change(function(event){
     $.ajax({
       type:"GET",
       dataType:"JSON",
-      url:base_url+"dashboard/display_address",
-      data:{id:$('#business-address').val()},
+      url:base_url+"dashboard/get_business_profile",
+      data:{id:$('#business').val()},
       success:function(data){
         // console.log(data);
-        $('#house-bldg-no').val(data.houseBldgNum);
-        $('#unit-no').val(data.unitNum);
-        $('#subdivision').val(data.subdivision);
-        $('#province').val(data.province);
-        $('#street').val(data.street);
-        $('#city-municipality').val(data.cityMunicipality);
-        $('#barangay').val(data.barangay);
-        $('#bldg-name').val(data.bldgName);
+        $('#tax-payer-name').html(data.taxPayerName);
+        $('#president-treasurer-name').html(data.presidentTreasurerName);
+        $('#pollution-control-officer').html(data.pollutionControlOfficer);
+        $('#male-employees').html(data.maleEmployees);
+        $('#female-employees').html(data.femaleEmployees);
+        $('#pwd-employees').html(data.PWDEmployees);
+        $('#company-name').html(data.companyName);
+        $('#business-name').html(data.businessName);
+        $('#trade-name').html(data.tradeName);
+        $('#signage-name').html(data.signageName);
+        $('#nature-of-business').html(data.natureOfBusiness);
+        $('#organization-type').html(data.organizationType);
+        $('#corporation-name').html(data.corporationName);
+        $('#pin').html(data.PIN);
+        $('#date-of-operation-text').html(data.dateOfOperation);
+        $('#business-desc').html(data.businessDesc);
+        $('#house-bldg-no').html(data.houseBldgNum);
+        $('#unit-no').html(data.unitNum);
+        $('#subdivision').html(data.subdivision);
+        $('#province').html(data.province);
+        $('#street').html(data.street);
+        $('#city-municipality').html(data.cityMunicipality);
+        $('#barangay').html(data.barangay);
+        $('#bldg-name').html(data.bldgName);
+        $('#business-area').html(data.businessArea);
+        $('#tel-num').html(data.telNum);
+        $('#email').html(data.email);
       }
     });
   });

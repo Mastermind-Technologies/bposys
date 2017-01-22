@@ -76,44 +76,62 @@
 											</div>
 										</div>
 										<hr>
+										<h4>Applying Business</h4>
 										<div class="row">
-											<div class="col-sm-12">
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label for="business">Select Business Profile</label>
+													<select name="business" required id="business" class="form-control">
+														<option disabled selected>Select Business</option>
+														<?php foreach ($business as $b): ?>
+															<option value="<?= $this->encryption->encrypt($b->businessId) ?>"><?= $b->businessName ?></option>
+														<?php endforeach ?>
+													</select>
+												</div>
 											</div>
-											<div class="col-sm-12">
-												<h4>Tax Payer Name</h4>
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label>Capital Invested</label>
+													<input type="text" name="capital-invested" required data-parsley-type="digits" id="capital-invested" class="form-control">
+												</div>
 											</div>
-
-											<div class="col-sm-4">
-												<label for="tax-first-name">First Name*</label>
-												<input required type="text" name="tax-first-name" class="form-control">
+										</div>
+										<div class="row">
+											<div class="col-sm-3">
+												<label>Tax Payer Name</label>
+												<br>
+												<span id="tax-payer-name">N/A</span>
 											</div>
-											<div class="col-sm-4">
-												<label for="tax-first-name">Middle Name</label>
-												<input type="text" name="tax-middle-name" class="form-control">
-											</div>
-											<div class="col-sm-4">
-												<label for="tax-first-name">Last Name*</label>
-												<input required type="text" name="tax-last-name" class="form-control">
+											<div class="col-sm-5">
+												<label>Name of President/Treasurer of Corporation</label>
+												<br>
+												<span id='president-treasurer-name'>N/A</span>
 											</div>
 										</div>
 										<hr>
-
 										<div class="row">
 											<div class="col-sm-12">
-												<h4>Name of President/Treasurer of Corporation</h4>
+												<h4>Employee Details</h4>
 											</div>
-
-											<div class="col-sm-4">
-												<label for="pt-first-name">First Name*</label>
-												<input required type="text" name="pt-first-name" class="form-control">
+											<div class="col-sm-3">
+												<label>Pollution Control Officer</label>
+												<br>
+												<span id="pollution-control-officer">N/A</span>
 											</div>
-											<div class="col-sm-4">
-												<label for="pt-middle-name">Middle Name</label>
-												<input type="text" name="pt-middle-name" class="form-control">
+											<div class="col-sm-3">
+												<label>Number of Male Employees</label>
+												<br>
+												<span id="male-employees">N/A</span>
 											</div>
-											<div class="col-sm-4">
-												<label for="pt-last-name">Last Name*</label>
-												<input required type="text" name="pt-last-name" class="form-control">
+											<div class="col-sm-3">
+												<label>Number of Female Employees</label>
+												<br>
+												<span id="female-employees">N/A</span>
+											</div>
+											<div class="col-sm-3">
+												<label>Number of PWD Employees</label>
+												<br>
+												<span id="pwd-employees">N/A</span>
 											</div>
 										</div>
 										<hr>
@@ -125,166 +143,148 @@
 										<div class="row">
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label for="company-name">Company Name* (!)</label>
-													<input type="text" required="" name="company-name" id="company-name" class="form-control">
+													<label>Company Name</label>
+													<br>
+													<span id="company-name">N/A</span>
 												</div>
 											</div>
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label for="business-name">Business Name*</label>
-													<input required type="text" name='business-name' class='form-control'>
+													<label>Business Name</label>
+													<br>
+													<span id="business-name">N/A</span>
 												</div>
 											</div>
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label for="trade-name">Trade Name/Franchise*</label>
-													<input required type="text" name='trade-name' class='form-control'>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label for="trade-name">Signage Name* (!)</label>
-													<input required type="text" name='signage-name' class='form-control'>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label for="nature-of-business">Nature of Business* (!)</label>
-													<input type="text" name="nature-of-business" id="nature-of-business" required="" class="form-control">
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label for="capital-invested">Capital Invested* (!)</label>
-													<input required type="text" name='capital-invested' class='form-control' data-parsley-type="digits">
+													<label>Trade Name/Franchise</label>
+													<br>
+													<span id='trade-name'>N/A</span>
 												</div>
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label for="organization-type">Organization Type*</label>
-													<select required name="organization-type" id="organization-type" class="form-control">
-														<option selected disabled>Select Organzation Type</option>
-														<option value="Single">Single</option>
-														<option value="Partnership">Partnership</option>
-														<option value="Corporation">Corporation</option>
-														<option value="Cooperative">Cooperative</option>
-													</select>
+													<label>Signage Name</label>
+													<br>
+													<span id='signage-name'>N/A</span>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label>Nature of Business</label>
+													<br>
+													<span id='nature-of-business'>N/A</span>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label>Organization Type</label>
+													<br>
+													<span id='organization-type'>N/A</span>
 												</div>
 
 											</div>
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label for="corporation-name">Corporation Name <small>(if corporation)</small> (!)</label>
-													<input type='text' disabled name="corporation-name" id="corporation-name" class="form-control">
+													<label>Corporation Name <small>(if corporation)</small></label>
+													<br>
+													<span id='corporation-name'>N/A</span>
 												</div>
+											</div>
+											<div class="col-sm-4">
+												<label>Property Index Number (PIN)</label>
+												<br>
+												<span id='pin'>N/A</span>
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label for="date-of-operation">Date of Operation* (!)</label>
-													<div class="row">
-														<div class="col-md-12">
-															<div class="form-group">
-																<div class="input-group date">
-																	<input type="text" id="date-of-operation" name="date-of-operation" class="form-control" data="DateTimePicker" />  <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
-																</div>
-															</div>
-														</div>
-													</div>
+													<label>Date of Operation</label>
+													<br>
+													<span id='date-of-operation-text'>N/A</span>
 												</div>
 											</div>
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label for="business-desc">Description of Business* (!)</label>
-													<textarea name="business-desc" id="business-desc" rows="1" class='form-control'></textarea>
+													<label>Description of Business</label>
+													<br>
+													<span id='business-desc'>N/A</span>
 												</div>
 											</div>
 										</div>
-
 										<hr>
 										<div class="row">
 											<div class="col-sm-12">
 												<h4>Business Address</h4>
 											</div>
 										</div>
-
-										<div class="row">
-											<div class="col-sm-6">
-												<div class="form-group">
-													<label for="organization-type">Business Address Name*</label>
-													<select required name="business-address" id="business-address" class="form-control">
-														<option selected disabled>Select Business Address</option>
-														<?php foreach ($business_addresses as $address): ?>
-															<option value="<?= $address->addressId ?>"><?= $address->addressName ?></option>
-														<?php endforeach ?>
-													</select>
-												</div>
-											</div>
-
-										</div>
-
-
 										<div class="row">
 											<div class="col-sm-3">
 												<div class="form-group">
-													<label for="house-bldg-no">House No./Bldg No.*</label>
-													<input type="text" disabled name="house-bldg-no" id="house-bldg-no" class="form-control">
+													<label>House No./Bldg No.</label>
+													<br>
+													<span id='house-bldg-no'>N/A</span>
 												</div>
 											</div>
-
-
 											<div class="col-sm-3">
 												<div class="form-group">
-													<label for="bldg-name">Building Name*</label>
-													<input type="text" disabled name="bldg-name" id="bldg-name" class="form-control">
+													<label>Building Name</label>
+													<br>
+													<span id='bldg-name'>N/A</span>
 												</div>
 											</div>
-
-
 											<div class="col-sm-3">
 												<div class="form-group">
-													<label for="unit-no">Unit Number*</label>
-													<input type="text" disabled name="unit-no" id="unit-no"  class="form-control">
+													<label>Unit Number</label>
+													<br>
+													<span id='unit-num'>N/A</span>
 												</div>
 											</div>
-
 											<div class="col-sm-3">
 												<div class="form-group">
-													<label for="street">Street*</label>
-													<input type="text" disabled name="street" id="street" class="form-control">
+													<label>Street</label>
+													<br>
+													<span id='street'>N/A</span>
 												</div>
 											</div>
-
 											<div class="col-sm-3">
 												<div class="form-group">
-													<label for="barangay">Barangay*</label>
-													<input type="text" disabled name="barangay" id="barangay" class="form-control">
+													<label>Barangay</label>
+													<br>
+													<span id='barangay'>N/A</span>
 												</div>
 											</div>
-
 											<div class="col-sm-3">
 												<div class="form-group">
-													<label for="subdivision">Subdivision*</label>
-													<input type="text" disabled name="subdivision" id="subdivision" class="form-control">
+													<label>Subdivision</label>
+													<br>
+													<span id='subdivision'>N/A</span>
 												</div>
 											</div>
-
 											<div class="col-sm-3">
 												<div class="form-group">
-													<label for="city-municipality">City/Municipality*</label>
-													<input type="text" disabled name="city-municipality" id="city-municipality" class="form-control">
+													<label>City/Municipality</label>
+													<br>
+													<span id='city-municipality'>N/A</span>
 												</div>
 											</div>
-
 											<div class="col-sm-3">
 												<div class="form-group">
-													<label for="province">Province*</label>
-													<input type="text" disabled name="province" id="province" class="form-control">
+													<label>Province</label>
+													<br>
+													<span id='province'>N/A</span>
+												</div>
+											</div>
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label>Business Area (in sq. m.)</label>
+													<br>
+													<span id='business-area'>N/A</span>
 												</div>
 											</div>
 										</div>
@@ -295,31 +295,14 @@
 											</div>
 
 											<div class="col-sm-4">
-												<label for="tel-num">Telephone Number*</label>
-												<input required type="text" class="form-control" data-parsley-type="digits" name="tel-num">
+												<label>Telephone Number</label>
+												<br>
+												<span id='tel-num'>N/A</span>
 											</div>
 											<div class="col-sm-4">
-												<label for="email">Email Address*</label>
-												<input required type="email" class="form-control" name="email">
-											</div>
-										</div>
-										<hr>
-										<div class="row">
-											<div class="col-sm-12">
-												<h4>Other Details</h4>
-											</div>
-
-											<div class="col-sm-4">
-												<label for="pin">Property Index Number (PIN)*</label>
-												<input required type="text" class="form-control" name="pin">
-											</div>
-											<div class="col-sm-4">
-												<label for="total-employee-num">Number of Employees in Establishment*</label>
-												<input required type="text" class="form-control" data-parsley-type="digits" name="total-employee-num">
-											</div>
-											<div class="col-sm-4">
-												<label for="pollution-control-officer">Pollution Control Officer (!)</label>
-												<input type="text" class="form-control" required name="pollution-control-officer">
+												<label>Email Address</label>
+												<br>
+												<span id='email'>N/A</span>
 											</div>
 										</div>
 										<hr>
@@ -431,7 +414,7 @@
 											</div>
 										</div>
 										<hr>
-										<h4>Issued Certificates/Permits (!)</h4>
+										<h4>Issued Certificates/Permits</h4>
 										<small>Click the checkbox if specific permit is issued.</small>
 										<div class="form-group">
 											<div class="row">
@@ -500,7 +483,7 @@
 										</div>
 										<!-- END CERTIFICATES -->
 										<hr>
-										<h4>Air Pollutants (!)</h4>
+										<h4>Air Pollutants</h4>
 										<div class="row">
 											<div class="col-sm-5">
 												<div class="checkbox">
@@ -554,7 +537,7 @@
 										</div>
 										<!-- END AIR POLLUTION -->
 										<hr>
-										<h4>Wastewater (!)</h4>
+										<h4>Wastewater</h4>
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="form-group well well-sm">
@@ -593,7 +576,7 @@
 										</div>
 										<!-- END OF WASTEWATER -->
 										<hr>
-										<h4>Solid Wastes (!)</h4>
+										<h4>Solid Wastes</h4>
 										<div class="row">
 											<div class="col-sm-4">
 												<div class="form-group">
@@ -683,7 +666,7 @@
 										</div>
 										<!-- END OF SOLID WASTES -->
 										<hr>
-										<h4>Drainage (!)</h4>
+										<h4>Drainage</h4>
 										<small>Check if available</small>
 										<div class="row">
 											<div class="col-sm-4">
@@ -729,7 +712,7 @@
 										</div>
 										<!-- END OF DRAINAGE -->
 										<hr>
-										<h4>Sewerage (!)</h4>
+										<h4>Sewerage</h4>
 										<small>Check if available</small>
 										<div class="row">
 											<div class="col-sm-4">
@@ -761,7 +744,7 @@
 											</div>
 											<!-- END OF SEWERAGE -->
 											<hr>
-											<h4>Water Supply/Source (!)</h4>
+											<h4>Water Supply/Source</h4>
 											<div class="row">
 												<div class="col-sm-3">
 													<div class="radio">
@@ -781,7 +764,7 @@
 											</div>
 											<!-- END OF WATER SUPPLY/SOURCE -->
 											<hr>
-											<h4>Hazardous Waste Treater/Transporter (!)</h4>
+											<h4>Hazardous Waste Treater/Transporter</h4>
 											???
 
 											<hr>

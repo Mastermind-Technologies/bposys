@@ -1,7 +1,8 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Application {
+class Application extends Business {
+
 	private $applicationId = null;
 	private $referenceNum = null;
 	private $userId = null;
@@ -9,26 +10,9 @@ class Application {
 	private $applicationDate = null;
 	private $DTISECCDA_RegNum = null;
 	private $DTISECCDA_Date = null;
-	private $typeOfOrganization = null;
 	private $CTCNum = null;
 	private $TIN = null;
 	private $entityName = null;
-	private $taxPayerName = null;
-	private $businessName = null;
-	private $tradeName = null;
-	private $presidentTreasurerName = null;
-	private $bldgName = null;
-	private $houseBldgNum = null;
-	private $unitNum = null;
-	private $street = null;
-	private $barangay = null;
-	private $subdivision = null;
-	private $cityMunicipality = null;
-	private $province = null;
-	private $telNum = null;
-	private $email = null;
-	private $PIN = null;
-	private $numOfEmployees = null;
 	private $status = null;
 	private $businessActivities = null;
 	private $lessors = null;
@@ -40,321 +24,8 @@ class Application {
 		$this->CI->load->model('Business_Activity_m');
 		$this->CI->load->model('Lessor_m');
 		$this->CI->load->model('Notification_m');
-		$this->CI->load->model('Business_Address_m');
 		if(isset($reference_num))
 			return $this->get_application($reference_num);
-	}
-
-	//SETTERS
-	public function set_applicationId($param = null)
-	{
-		$this->applicationId = $param;
-	}
-
-	public function set_referenceNum($param = null)
-	{
-		$this->referenceNum = $param;
-	}
-
-	public function set_userId($param = null)
-	{
-		$this->userId = $param;
-	}
-
-	public function set_taxYear($param = null)
-	{
-		$this->taxYear = $param;
-	}
-
-	public function set_applicationDate($param = null)
-	{
-		$this->applicationDate = $param;
-	}
-
-	public function set_DTISECCDA_RegNum($param = null)
-	{
-		$this->DTISECCDA_RegNum = $param;
-	}
-
-	public function set_DTISECCDA_Date($param = null)
-	{
-		$this->DTISECCDA_Date = $param;
-	}
-
-	public function set_typeOfOrganization($param = null)
-	{
-		$this->typeOfOrganization = $param;
-	}
-
-	public function set_CTCNum($param = null)
-	{
-		$this->CTCNum = $param;
-	}
-
-	public function set_TIN($param = null)
-	{
-		$this->TIN = $param;
-	}
-
-	public function set_entityName($param = null)
-	{
-		$this->entityName = $param;
-	}
-
-	public function set_taxPayerName($param = null)
-	{
-		$this->taxPayerName = $param;
-	}
-
-	public function set_businessName($param = null)
-	{
-		$this->businessName = $param;
-	}
-
-	public function set_tradeName($param = null)
-	{
-		$this->tradeName = $param;
-	}
-
-	public function set_presidentTreasurerName($param = null)
-	{
-		$this->presidentTreasurerName = $param;
-	}
-
-	public function set_bldgName($param = null)
-	{
-		$this->bldgName = $param;
-	}
-
-	public function set_houseBldgNum($param = null)
-	{
-		$this->houseBldgNum = $param;
-	}
-
-	public function set_unitNum($param = null)
-	{
-		$this->unitNum = $param;
-	}
-
-	public function set_street($param = null)
-	{
-		$this->street = $param;
-	}
-
-	public function set_barangay($param = null)
-	{
-		$this->barangay = $param;
-	}
-
-	public function set_subdivision($param = null)
-	{
-		$this->subdivision = $param;
-	}
-
-	public function set_cityMunicipality($param = null)
-	{
-		$this->cityMunicipality = $param;
-	}
-
-	public function set_province($param = null)
-	{
-		$this->province = $param;
-	}
-
-	public function set_telNum($param = null)
-	{
-		$this->telNum = $param;
-	}
-
-	public function set_email($param = null)
-	{
-		$this->email = $param;
-	}
-
-	public function set_PIN($param = null)
-	{
-		$this->PIN = $param;
-	}
-
-	public function set_numOfEmployees($param = null)
-	{
-		$this->numOfEmployees = $param;
-	}
-
-	public function set_status($param = null)
-	{
-		$this->status = $param;
-	}
-
-	public function set_businessActivities($param = null)
-	{
-		$this->businessActivities = $param;
-	}
-
-	public function set_lessors($param = null)
-	{
-		$this->lessors = $param;
-	}
-
-	public function set_dateStarted($param = null)
-	{
-		$this->dateStarted = $param;
-	}
-
-	//GETTERS
-	public function get_applicationId()
-	{
-		return $this->applicationId;
-	}
-
-	public function get_referenceNum()
-	{
-		return $this->referenceNum;
-	}
-
-	public function get_userId()
-	{
-		return $this->userId;
-	}
-
-	public function get_taxYear()
-	{
-		return $this->taxYear;
-	}
-
-	public function get_applicationDate()
-	{
-		return $this->applicationDate;
-	}
-
-	public function get_DTISECCDA_RegNum()
-	{
-		return $this->DTISECCDA_RegNum;
-	}
-
-	public function get_DTISECCDA_Date()
-	{
-		return $this->DTISECCDA_Date;
-	}
-
-	public function get_typeOfOrganization()
-	{
-		return $this->typeOfOrganization;
-	}
-
-	public function get_CTCNum()
-	{
-		return $this->CTCNum;
-	}
-
-	public function get_TIN()
-	{
-		return $this->TIN;
-	}
-
-	public function get_entityName()
-	{
-		return $this->entityName;
-	}
-
-	public function get_taxPayerName()
-	{
-		return $this->taxPayerName;
-	}
-
-	public function get_businessName()
-	{
-		return $this->businessName;
-	}
-
-	public function get_tradeName()
-	{
-		return $this->tradeName;
-	}
-
-	public function get_presidentTreasurerName()
-	{
-		return $this->presidentTreasurerName;
-	}
-
-	public function get_bldgName()
-	{
-		return $this->bldgName;
-	}
-
-	public function get_houseBldgNum()
-	{
-		return $this->houseBldgNum;
-	}
-
-	public function get_unitNum()
-	{
-		return $this->unitNum;
-	}
-
-	public function get_street()
-	{
-		return $this->street;
-	}
-
-	public function get_barangay()
-	{
-		return $this->barangay;
-	}
-
-	public function get_subdivision()
-	{
-		return $this->subdivision;
-	}
-
-	public function get_cityMunicipality()
-	{
-		return $this->cityMunicipality;
-	}
-
-	public function get_province()
-	{
-		return $this->province;
-	}
-
-	public function get_telNum()
-	{
-		return $this->telNum;
-	}
-
-	public function get_email()
-	{
-		return $this->email;
-	}
-
-	public function get_PIN()
-	{
-		return $this->PIN;
-	}
-
-	public function get_numOfEmployees()
-	{
-		return $this->numOfEmployees;
-	}
-
-	public function get_status()
-	{
-		return $this->status;
-	}
-
-	public function get_businessActivities()
-	{
-		return $this->businessActivities;
-	}
-
-	public function get_lessors()
-	{
-		return $this->lessors;
-	}
-
-	public function get_dateStarted()
-	{
-		return $this->dateStarted;
 	}
 
 	public function get_application($reference_num = null)
@@ -363,7 +34,7 @@ class Application {
 
 		$application = $this->CI->Application_m->get_all_applications($query);
 		$this->set_application_all($application[0]);
-
+		$this->get_business_information($application[0]->businessId);
 		$this->unset_CI();
 		return $this;
 	}
@@ -422,8 +93,6 @@ class Application {
 		$business_activities = $this->CI->Business_Activity_m->get_all_business_activity($query);
 
 		unset($query);
-		$query['addressId'] = $param->addressId;
-		$business_address = $this->CI->Business_Address_m->get_all_business_addresses($query);
 
 		foreach ($lessors as $lessor) {
 			$lessor->lessorId = $this->CI->encryption->encrypt($lessor->lessorId);
@@ -442,26 +111,10 @@ class Application {
 		$this->applicationDate = $param->applicationDate;
 		$this->DTISECCDA_RegNum = $param->DTISECCDA_RegNum;
 		$this->DTISECCDA_Date = $param->DTISECCDA_Date;
-		$this->typeOfOrganization = $param->typeOfOrganization;
+		// $this->typeOfOrganization = $param->typeOfOrganization;
 		$this->CTCNum = $param->CTCNum;
 		$this->TIN = $param->TIN;
 		$this->entityName = $param->entityName;
-		$this->taxPayerName = $param->taxPayerName;
-		$this->businessName = $param->businessName;
-		$this->tradeName = $param->tradeName;
-		$this->presidentTreasurerName = $param->presidentTreasurerName;
-		$this->bldgName = $business_address[0]->bldgName;
-		$this->houseBldgNum = $business_address[0]->houseBldgNum;
-		$this->unitNum = $business_address[0]->unitNum;
-		$this->street = $business_address[0]->street;
-		$this->barangay = $business_address[0]->barangay;
-		$this->subdivision = $business_address[0]->subdivision;
-		$this->cityMunicipality = $business_address[0]->cityMunicipality;
-		$this->province = $business_address[0]->province;
-		$this->telNum = $param->telNum;
-		$this->email = $param->email;
-		$this->PIN = $param->PIN;
-		$this->numOfEmployees = $param->numOfEmployees;
 		$this->status = $param->status;
 		$this->businessActivities = $business_activities;
 		$this->dateStarted = $param->createdAt;
@@ -469,15 +122,317 @@ class Application {
 			$this->lessors = $lessors[0];
 		else
 			unset($this->lessors);
-		
 
 		$this->unset_CI();
 		return $this;
 	}
+    
 
-	protected function unset_CI()
-	{
-		if(isset($this->CI))
-			unset($this->CI);
-	}
-}
+    /**
+     * Gets the value of applicationId.
+     *
+     * @return mixed
+     */
+    public function get_ApplicationId()
+    {
+        return $this->applicationId;
+    }
+
+    /**
+     * Sets the value of applicationId.
+     *
+     * @param mixed $applicationId the application id
+     *
+     * @return self
+     */
+    public function set_ApplicationId($applicationId)
+    {
+        $this->applicationId = $applicationId;
+    }
+
+    /**
+     * get_s the value of referenceNum.
+     *
+     * @return mixed
+     */
+    public function get_ReferenceNum()
+    {
+        return $this->referenceNum;
+    }
+
+    /**
+     * Sets the value of referenceNum.
+     *
+     * @param mixed $referenceNum the reference num
+     *
+     * @return self
+     */
+    public function set_ReferenceNum($referenceNum)
+    {
+        $this->referenceNum = $referenceNum;
+    }
+
+    /**
+     * get_s the value of userId.
+     *
+     * @return mixed
+     */
+    public function get_UserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Sets the value of userId.
+     *
+     * @param mixed $userId the user id
+     *
+     * @return self
+     */
+    public function set_UserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * get_s the value of taxYear.
+     *
+     * @return mixed
+     */
+    public function get_TaxYear()
+    {
+        return $this->taxYear;
+    }
+
+    /**
+     * Sets the value of taxYear.
+     *
+     * @param mixed $taxYear the tax year
+     *
+     * @return self
+     */
+    public function set_TaxYear($taxYear)
+    {
+        $this->taxYear = $taxYear;
+    }
+
+    /**
+     * get_s the value of applicationDate.
+     *
+     * @return mixed
+     */
+    public function get_ApplicationDate()
+    {
+        return $this->applicationDate;
+    }
+
+    /**
+     * Sets the value of applicationDate.
+     *
+     * @param mixed $applicationDate the application date
+     *
+     * @return self
+     */
+    public function set_ApplicationDate($applicationDate)
+    {
+        $this->applicationDate = $applicationDate;
+    }
+
+    /**
+     * get_s the value of DTISECCDA_RegNum.
+     *
+     * @return mixed
+     */
+    public function get_DTISECCDARegNum()
+    {
+        return $this->DTISECCDA_RegNum;
+    }
+
+    /**
+     * Sets the value of DTISECCDA_RegNum.
+     *
+     * @param mixed $DTISECCDA_RegNum the reg num
+     *
+     * @return self
+     */
+    public function set_DTISECCDARegNum($DTISECCDA_RegNum)
+    {
+        $this->DTISECCDA_RegNum = $DTISECCDA_RegNum;
+    }
+
+    /**
+     * get_s the value of DTISECCDA_Date.
+     *
+     * @return mixed
+     */
+    public function get_DTISECCDADate()
+    {
+        return $this->DTISECCDA_Date;
+    }
+
+    /**
+     * Sets the value of DTISECCDA_Date.
+     *
+     * @param mixed $DTISECCDA_Date the date
+     *
+     * @return self
+     */
+    public function set_DTISECCDADate($DTISECCDA_Date)
+    {
+        $this->DTISECCDA_Date = $DTISECCDA_Date;
+    }
+
+    /**
+     * get_s the value of CTCNum.
+     *
+     * @return mixed
+     */
+    public function get_CTCNum()
+    {
+        return $this->CTCNum;
+    }
+
+    /**
+     * Sets the value of CTCNum.
+     *
+     * @param mixed $CTCNum the cnum
+     *
+     * @return self
+     */
+    public function set_CTCNum($CTCNum)
+    {
+        $this->CTCNum = $CTCNum;
+    }
+
+    /**
+     * get_s the value of TIN.
+     *
+     * @return mixed
+     */
+    public function get_TIN()
+    {
+        return $this->TIN;
+    }
+
+    /**
+     * Sets the value of TIN.
+     *
+     * @param mixed $TIN the 
+     *
+     * @return self
+     */
+    public function set_TIN($TIN)
+    {
+        $this->TIN = $TIN;
+    }
+
+    /**
+     * get_s the value of entityName.
+     *
+     * @return mixed
+     */
+    public function get_EntityName()
+    {
+        return $this->entityName;
+    }
+
+    /**
+     * Sets the value of entityName.
+     *
+     * @param mixed $entityName the entity name
+     *
+     * @return self
+     */
+    public function set_EntityName($entityName)
+    {
+        $this->entityName = $entityName;
+    }
+
+    /**
+     * get_s the value of status.
+     *
+     * @return mixed
+     */
+    public function get_Status()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Sets the value of status.
+     *
+     * @param mixed $status the status
+     *
+     * @return self
+     */
+    public function set_Status($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * get_s the value of businessActivities.
+     *
+     * @return mixed
+     */
+    public function get_BusinessActivities()
+    {
+        return $this->businessActivities;
+    }
+
+    /**
+     * Sets the value of businessActivities.
+     *
+     * @param mixed $businessActivities the business activities
+     *
+     * @return self
+     */
+    public function set_BusinessActivities($businessActivities)
+    {
+        $this->businessActivities = $businessActivities;
+    }
+
+    /**
+     * get_s the value of lessors.
+     *
+     * @return mixed
+     */
+    public function get_Lessors()
+    {
+        return $this->lessors;
+    }
+
+    /**
+     * Sets the value of lessors.
+     *
+     * @param mixed $lessors the lessors
+     *
+     * @return self
+     */
+    public function set_Lessors($lessors)
+    {
+        $this->lessors = $lessors;
+    }
+
+    /**
+     * get_s the value of dateStarted.
+     *
+     * @return mixed
+     */
+    public function get_DateStarted()
+    {
+        return $this->dateStarted;
+    }
+
+    /**
+     * Sets the value of dateStarted.
+     *
+     * @param mixed $dateStarted the date started
+     *
+     * @return self
+     */
+    public function set_DateStarted($dateStarted)
+    {
+        $this->dateStarted = $dateStarted;
+    }
+}//END OF CLASS

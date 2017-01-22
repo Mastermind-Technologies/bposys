@@ -232,7 +232,7 @@ class User {
 			}
 		}
 
-}
+	}
 
 	// public function register($query = null)
 	// {
@@ -242,37 +242,37 @@ class User {
 	// 	return $response;
 	// }
 
-protected function set_user_all($param = null)
-{
-	if(!isset($this->CI))
-		$this->CI =& get_instance();
-	$role = "";
-	switch($param->role)
+	protected function set_user_all($param = null)
 	{
-		case 1: $role = "Master Admin"; break;
-		case 2: $role = "User Admin"; break;
-		case 3: $role = "Applicant"; break;
-		case 4: $role = "BPLO"; break;
+		if(!isset($this->CI))
+			$this->CI =& get_instance();
+		$role = "";
+		switch($param->role)
+		{
+			case 1: $role = "Master Admin"; break;
+			case 2: $role = "User Admin"; break;
+			case 3: $role = "Applicant"; break;
+			case 4: $role = "BPLO"; break;
+		}
+
+		$this->userId = $this->CI->encryption->encrypt($param->userId);
+		$this->firstName = $param->firstName;
+		$this->middleName = $param->middleName;
+		$this->lastName = $param->lastName;
+		$this->role = $role;
+		$this->suffix = $param->suffix;
+		$this->gender = $param->gender;
+		$this->civilStatus = $param->civilStatus;
+		$this->email = $param->email;
+		$this->birthDate = $param->birthDate;
+
+		$this->unset_CI();
+		return $this;
 	}
 
-	$this->userId = $this->CI->encryption->encrypt($param->userId);
-	$this->firstName = $param->firstName;
-	$this->middleName = $param->middleName;
-	$this->lastName = $param->lastName;
-	$this->role = $role;
-	$this->suffix = $param->suffix;
-	$this->gender = $param->gender;
-	$this->civilStatus = $param->civilStatus;
-	$this->email = $param->email;
-	$this->birthDate = $param->birthDate;
-
-	$this->unset_CI();
-	return $this;
-}
-
-protected function unset_CI()
-{
-	if(isset($this->CI))
-		unset($this->CI);
-}
+	protected function unset_CI()
+	{
+		if(isset($this->CI))
+			unset($this->CI);
+	}
 }
