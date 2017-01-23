@@ -133,10 +133,15 @@
 									<div class="row">
 										<div class="col-sm-3">
 											<div class="form-group">
+												<label for="email">Email</label>
+												<input type="text" class="form-control" name="email" value="">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
 												<label for="contact-number">Contact Number</label>
 												<input type="text" required class="form-control" name="contact-number" value="">
 											</div>
-
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">

@@ -11,16 +11,16 @@
 
   <div class="container-fluid">
     <h1><?= "(".$user->get_middleName().") ". $user->get_lastName() . ", " . $user->get_firstName() ?></h1>
-    <input type="hidden" id="notif-count" value="<?= sizeof($notifications) ?>">
+    <input type="hidden" id="notif-count" value="<?= count($notifications) ?>">
     <hr>
     <h3>Department: <?= $this->encryption->decrypt($this->session->userdata['userdata']['role']) ?></h3>
     <!--Action boxes-->
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
-        <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/pending_applications"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
-         <span class="label label-important"><?= $pending ?></span><br><span>Pending</span> </a> </li>
-         <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
-           <span class="label label-success"><?= $incoming ?></span><br>Incoming </a> </li>
+       <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
+         <span class="label label-success"><?= $incoming ?></span><br>Incoming </a> </li>
+         <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/on_process_applications"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
+         <span class="label label-important"><?= $on_process ?></span><br><span>On Process</span> </a> </li>
            <li class="bg_c"> <a href="#"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
              <span class="label label-info"><?= $issued ?></span><br>Issued this month </a> </li>
         <!-- <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li>

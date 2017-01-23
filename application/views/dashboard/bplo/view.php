@@ -7,6 +7,8 @@
         <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a> 
       <?php elseif ($application->get_status() == "For applicant visit"): ?>
         <a href="<?php echo base_url(); ?>dashboard/pending_applications">Pending Applications</a> 
+      <?php elseif ($application->get_status() == "On process"): ?>
+        <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a> 
       <?php endif ?>
       
       <a href="#" class="current">View</a>
@@ -208,7 +210,7 @@
             </td>
             <td>
               <label for="owners_address_email_address">Email Address</label>
-              <h5><?= $application->get_email() ?></h5>
+              <h5><?= $application->get_OwnerEmail() ?></h5>
             </td>
           </tr>
           <tr>
@@ -224,11 +226,11 @@
           <tr>
             <td>
               <label for="business_address_no_of_employees_in_establishment">Total No. of Employees in Establishment</label>
-              <h5>N/A</h5>
+              <h5><?= $application->get_MaleEmployees() + $application->get_FemaleEmployees() + $application->get_PWDEmployees() ?></h5>
             </td>
             <td>
               <label for="owners_address_no_of_employees_residing_in_lgu">No. of Employees Residing in LGU</label>
-              <h5>N/A</h5>
+              <h5><?= $application->get_LGUEmployees() ?></h5>
             </td>
           </tr>
           <tr>
@@ -315,16 +317,17 @@
             </table>
           </div>
         </div>
-        <div class="row text-center">
-          <?php if ($application->get_status() == "For validation..."): ?>
-            <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
-            <a href="#" class="btn btn-danger btn-lg">Reject</a>
-          <?php elseif ($application->get_status() == "For applicant visit"): ?>
-            <a href="<?php echo base_url(); ?>/dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
-            <a href="#" class="btn btn-warning btn-lg">Edit information</a>
-          <?php endif ?>
-        </div>
-
+        <?php if ($application->get_status() != "On Process"): ?>
+          <div class="row text-center">
+            <?php if ($application->get_status() == "For validation..."): ?>
+              <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
+              <a href="#" class="btn btn-danger btn-lg">Reject</a>
+            <?php elseif ($application->get_status() == "For applicant visit"): ?>
+              <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
+              <a href="#" class="btn btn-warning btn-lg">Edit information</a>
+            <?php endif ?>
+          </div>
+        <?php endif ?>
 
         <!-- End Container Fluid -->
       </div>

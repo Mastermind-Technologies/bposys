@@ -65,7 +65,7 @@ class Form extends CI_Controller {
 			redirect('dashboard');
 		}
 
-		$data['application'] = new Application($referenceNum);
+		$data['application'] = new BPLO_Application($referenceNum);
 
 		$this->load->view('dashboard/applicant/view_application', $data);
 	}
@@ -98,7 +98,7 @@ class Form extends CI_Controller {
 			redirect('dashboard');
 		}
 
-		$data['application'] = new Application($referenceNum);
+		$data['application'] = new BPLO_Application($referenceNum);
 		$data['owner'] = new Owner($user_id);
 		// echo "<pre>";
 		// print_r($data);

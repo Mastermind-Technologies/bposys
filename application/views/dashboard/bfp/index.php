@@ -11,7 +11,7 @@
 
   <div class="container-fluid">
     <h1><?= "(".$user->get_middleName().") ". $user->get_lastName() . ", " . $user->get_firstName() ?></h1>
-    <input type="hidden" id="notif-count" value="<?= sizeof($notifications) ?>">
+    <input type="hidden" id="notif-count" value="<?= count($notifications) ?>">
     <hr>
     <h3>Department: <?= $this->encryption->decrypt($this->session->userdata['userdata']['role']) ?></h3>
     <!--Action boxes-->

@@ -17,6 +17,7 @@ class Owner {
 	private $owner_province = null;
 	private $owner_contactNum = null;
 	private $owner_telNum = null;
+    private $owner_email = null;
 
 	public function __construct($owner_id = null)
 	{
@@ -54,6 +55,7 @@ class Owner {
 		$this->owner_province = $param->province;
 		$this->owner_contactNum = $param->contactNum;
 		$this->owner_telNum = $param->telNum;
+        $this->owner_email = $param->email;
 
 		$this->unset_CI();
 		return $this;
@@ -373,5 +375,22 @@ class Owner {
     private function set_OwnerTelNum($owner_telNum)
     {
         $this->owner_telNum = $owner_telNum;
+    }
+
+    public function get_OwnerEmail()
+    {
+        return $this->owner_email;
+    }
+
+    /**
+     * Sets the value of owner_email.
+     *
+     * @param mixed $owner_email the owner tel num
+     *
+     * @return self
+     */
+    private function set_OwnerEmail($owner_email)
+    {
+        $this->owner_email = $owner_email;
     }
 }//END OF CLASS

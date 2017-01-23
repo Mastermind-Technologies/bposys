@@ -1,12 +1,13 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Application extends Business {
+class BPLO_Application extends Business {
 
 	private $applicationId = null;
 	private $referenceNum = null;
 	private $userId = null;
 	private $taxYear = null;
+    private $businessId = null;
 	private $applicationDate = null;
 	private $DTISECCDA_RegNum = null;
 	private $DTISECCDA_Date = null;
@@ -32,24 +33,35 @@ class Application extends Business {
 	{
 		$query['referenceNum'] = $reference_num;
 
-		$application = $this->CI->Application_m->get_all_applications($query);
+		$application = $this->CI->Application_m->get_all_bplo_applications($query);
 		$this->set_application_all($application[0]);
 		$this->get_business_information($application[0]->businessId);
 		$this->unset_CI();
 		return $this;
 	}
 
-	public function change_status($referenceNum = null, $status = null, $application = null)
+	public function change_status($referenceNum = null, $status = null)
 	{
 		$this->CI =& get_instance();
 		$query = array(
 			'referenceNum' => $referenceNum,
 			'status' => $status,
 			);
-		$this->CI->Application_m->update_application($query, $application);
+		$this->CI->Application_m->update_application($query, 'bplo');
 		$this->status = $status;
 		$this->unset_CI();
 	}
+
+    public static function update_status($reference_num = null, $status = null)
+    {
+        $var = get_instance();
+        $query = array(
+            'referenceNum' => $referenceNum,
+            'status' => $status,
+            );
+        $var->Application_m->update_application($query, 'bplo');
+        unset($var);
+    }
 
 	public function check_expiry()
 	{
@@ -107,6 +119,7 @@ class Application extends Business {
 		$this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
 		$this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
 		$this->userId = $this->CI->encryption->encrypt($param->userId);
+        $this->businessId = $this->CI->encryption->encrypt($param->businessId);
 		$this->taxYear = $param->taxYear;
 		$this->applicationDate = $param->applicationDate;
 		$this->DTISECCDA_RegNum = $param->DTISECCDA_RegNum;
@@ -434,5 +447,21 @@ class Application extends Business {
     public function set_DateStarted($dateStarted)
     {
         $this->dateStarted = $dateStarted;
+    }
+    public function get_BusinessId()
+    {
+        return $this->businessId;
+    }
+
+    /**
+     * Sets the value of businessId.
+     *
+     * @param mixed $businessId the date started
+     *
+     * @return self
+     */
+    public function set_BusinessId($businessId)
+    {
+        $this->businessId = $businessId;
     }
 }//END OF CLASS

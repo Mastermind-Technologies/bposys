@@ -28,6 +28,7 @@ class Business extends Owner {
 	private $maleEmployees = null;
 	private $femaleEmployees = null;
 	private $PWDEmployees = null;
+    private $LGUEmployees = null;
 	private $businessArea = null;
 
 	public function __construct($business_id = null)
@@ -521,6 +522,22 @@ class Business extends Owner {
     {
     	$this->email = $email;
     }
+    public function get_LGUEmployees()
+    {
+        return $this->LGUEmployees;
+    }
+
+    /**
+     * Sets the value of LGUEmployees.
+     *
+     * @param mixed $LGUEmployees the LGUEmployees
+     *
+     * @return self
+     */
+    public function set_LGUEmployees($LGUEmployees)
+    {
+        $this->LGUEmployees = $LGUEmployees;
+    }
 
     /**
      * get_s the value of pollutionControlOfficer.
@@ -674,6 +691,7 @@ class Business extends Owner {
     	$this->maleEmployees = $param->maleEmployees;
     	$this->femaleEmployees = $param->femaleEmployees;
     	$this->PWDEmployees = $param->PWDEmployees;
+        $this->LGUEmployees = $param->LGUResidingEmployees;
     	$this->businessArea = $param->businessArea;
 
     	$this->unset_CI();

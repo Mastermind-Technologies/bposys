@@ -29,6 +29,14 @@ class Owner_m extends CI_Model {
     return $result->result();
   }
 
+  public function get_owner_name($id)
+  {
+    $this->db->select('firstName, middleName, lastName')->from($this->table)->where(['ownerId' => $id])->limit(1);
+    $result = $this->db->get();
+
+    return $result->result();
+  }
+
   public function count_owners()
   {
    $this->db->where(['userId' => $this->encryption->decrypt($this->session->userdata['userdata']['userId'])]);

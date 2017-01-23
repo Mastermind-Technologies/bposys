@@ -56,20 +56,28 @@
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
-												<label for="male-employees">Total Male Employees</label>
+												<label for="male-employees">No. of Male Employees</label>
 												<input type="text" class="form-control" data-parsley-type="digits" name="male-employees" required name="employee-male">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
-												<label for="female-employees">Total Female Employee</label>
+												<label for="female-employees">No. of Female Employee</label>
 												<input type="text" class="form-control" data-parsley-type="digits" name="female-employees" required name="employee-female">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
-												<label for="pwd-employees">Total PWD Employee</label>
+												<label for="pwd-employees">No. of PWD Employee</label>
 												<input type="text" class="form-control" data-parsley-type="digits" name="pwd-employees" required name="employee-pwd">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label for="lgu-employees">No. of Employees Residing in LGU</label>
+												<input type="text" id="lgu-employees" name='lgu-employees' required data-parsley-type='digits' class='form-control'>
 											</div>
 										</div>
 									</div>

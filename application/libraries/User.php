@@ -149,7 +149,7 @@ class User {
 			$query = array(
 				'userId' => $var->encryption->decrypt($var->session->userdata['userdata']['userId']),
 				);
-			$applications = $var->Application_m->get_all_applications($query);
+			$applications = $var->Application_m->get_all_bplo_applications($query);
 			//get applicant notifications
 			foreach($applications as $application)
 			{

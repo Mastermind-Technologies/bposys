@@ -3,9 +3,9 @@
   <div id="content-header">
     <div id="breadcrumb"> 
       <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
-      <a href="<?php echo base_url(); ?>dashboard/incoming_applications" class="current">Incoming Applications</a>
+      <a href="<?php echo base_url(); ?>dashboard/pending_applications" class="current">Pending Applications</a>
     </div>
-    <h1>Incoming Applications</h1>
+    <h1>Pending Applications</h1>
     <hr>
   </div>
   <!--End-breadcrumbs-->
@@ -26,13 +26,15 @@
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($incoming as $application): ?>
-              <tr>
-                <td><?= $this->encryption->decrypt($application->get_referenceNum()) ?></td>
-                <td><?= $application->get_businessName() ?></td>
-                <td><a href="<?php echo base_url(); ?>dashboard/view_application/<?= bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt)) ?>" class="btn btn-info btn-block">Show Details</a></td>
-              </tr>
-            <?php endforeach; ?>
+            <?php if (isset($pending)): ?>
+              <?php foreach ($pending as $application): ?>
+                <tr>
+                  <td><?= $this->encryption->decrypt($application->get_referenceNum()) ?></td>
+                  <td><?= $application->get_businessName() ?></td>
+                  <td><a href="<?php echo base_url(); ?>dashboard/view_application/<?= bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt)) ?>" class="btn btn-info btn-block">Show Details</a></td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif ?>
           </tbody>
         </table>
       </div>

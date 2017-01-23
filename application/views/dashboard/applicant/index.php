@@ -13,7 +13,7 @@
 								<button class="btn btn-success" id="btn-edit-info"><i class="fa fa-plus-circle" aria-hidden="true"></i> New</button>
 							</div>
 							<div class="panel-body">
-								<?php if(sizeof($applications)>0): ?>
+								<?php if(count($applications)>0): ?>
 									<table id="application-table" class="table table-bordered">
 										<th class="text-center">Reference Number</th>
 										<th class="text-center">Details</th>

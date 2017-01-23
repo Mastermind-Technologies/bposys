@@ -230,6 +230,7 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
 		$this->form_validation->set_rules('province', 'Province', 'required');
 		$this->form_validation->set_rules('contact-number', 'Contact Number', 'required');
+		$this->form_validation->set_rules('email','Email','required');
 
 		if($this->form_validation->run() == FALSE)
 		{
@@ -255,6 +256,7 @@ class Profile extends CI_Controller {
 				'province' => $this->input->post('province'),
 				'contactNum' => $this->input->post('contact-number'),
 				'telNum' => $this->input->post('telephone-number'),
+				'email' => $this->input->post('email'),
 				);
 
 			$this->Owner_m->insert($fields);
@@ -315,9 +317,10 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('email','Email','required');
 		$this->form_validation->set_rules('telephone-number','Telephone Number','required');
 		$this->form_validation->set_rules('pollution-control-officer','Pollution Control Officer','required');
-		$this->form_validation->set_rules('male-employees','Total Male Employees','required|numeric');
-		$this->form_validation->set_rules('female-employees','Total Female Employees','required|numeric');
-		$this->form_validation->set_rules('pwd-employees','Total PWD Employees','required|numeric');
+		$this->form_validation->set_rules('male-employees','No. of Male Employees','required|numeric');
+		$this->form_validation->set_rules('female-employees','No. of Female Employees','required|numeric');
+		$this->form_validation->set_rules('pwd-employees','No. of PWD Employees','required|numeric');
+		$this->form_validation->set_rules('lgu-employees', 'No. of Employees Residing in LGU', 'required|numeric');
 		$this->form_validation->set_rules('president-treasurer-name', 'Name of President/Treasurer of Corporation','required');
 
 		if($this->form_validation->run() == false)
@@ -353,6 +356,7 @@ class Profile extends CI_Controller {
 				'maleEmployees' => $this->input->post('male-employees'),
 				'femaleEmployees' => $this->input->post('female-employees'),
 				'PWDEmployees' => $this->input->post('pwd-employees'),
+				'LGUResidingEmployees' => $this->input->post('lgu-employees'),
 				'businessArea' => $this->input->post('business-area'),
 				'presidentTreasurerName' => $this->input->post('president-treasurer-name'),
 				);

@@ -254,7 +254,7 @@ $(document).ready(function()
     }
     else
     {
-      $('.lessor-controls input[type=text], textarea, input[type=email]').each(function() {
+      $('.lessor-controls input[type=text], textarea[name=lessor-address], input[type=email]').each(function() {
         $(this).prop('disabled', true);
         $(this).prop('required', false);
       });
@@ -352,7 +352,7 @@ $(document).ready(function()
       data:{id:$('#business').val()},
       success:function(data){
         // console.log(data);
-        $('#tax-payer-name').html(data.taxPayerName);
+        $('#tax-payer-name').html(data.lastName + ", " + data.firstName + " (" + data.middleName + ")");
         $('#president-treasurer-name').html(data.presidentTreasurerName);
         $('#pollution-control-officer').html(data.pollutionControlOfficer);
         $('#male-employees').html(data.maleEmployees);
@@ -379,6 +379,7 @@ $(document).ready(function()
         $('#business-area').html(data.businessArea);
         $('#tel-num').html(data.telNum);
         $('#email').html(data.email);
+        $('#lgu-employees').html(data.LGUResidingEmployees);
       }
     });
   });

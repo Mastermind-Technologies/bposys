@@ -22,17 +22,17 @@
       <?php print_r($application); ?>
       <?php print_r($owner); ?>
     </pre>
-    <div class="row text-center">
-      <?php if ($application->get_status() == "For validation..."): ?>
-        <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
-        <a href="#" class="btn btn-danger btn-lg">Reject</a>
-      <?php elseif ($application->get_status() == "For applicant visit"): ?>
-        <a href="#" class="btn btn-success">Approve</a>
-        <a href="#" class="btn btn-warning btn-lg">Edit information</a>
-      <?php endif ?>
-    </div>
-
-
+    <?php if ($application->get_status() != "Active"): ?>
+      <div class="row text-center">
+        <?php if ($application->get_status() == "For applicant visit"): ?>
+          <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
+          <!-- <a href="#" class="btn btn-danger btn-lg">Reject</a> -->
+        <?php elseif ($application->get_status() == "On process"): ?>
+          <a href="#" class="btn btn-success">Approve</a>
+          <a href="#" class="btn btn-warning btn-lg">Edit information</a>
+        <?php endif ?>
+      </div>
+    <?php endif ?>
     <!-- End Container Fluid -->
   </div>
 

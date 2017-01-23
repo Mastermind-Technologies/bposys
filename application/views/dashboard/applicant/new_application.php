@@ -114,24 +114,52 @@
 												<h4>Employee Details</h4>
 											</div>
 											<div class="col-sm-3">
-												<label>Pollution Control Officer</label>
-												<br>
-												<span id="pollution-control-officer">N/A</span>
+												<div class="form-group">
+													<label>Pollution Control Officer</label>
+													<br>
+													<span id="pollution-control-officer">N/A</span>
+												</div>
 											</div>
 											<div class="col-sm-3">
-												<label>Number of Male Employees</label>
-												<br>
-												<span id="male-employees">N/A</span>
+												<div class="form-group">
+													<label>Number of Male Employees</label>
+													<br>
+													<span id="male-employees">N/A</span>
+												</div>
 											</div>
 											<div class="col-sm-3">
-												<label>Number of Female Employees</label>
-												<br>
-												<span id="female-employees">N/A</span>
+												<div class="form-group">
+													<label>Number of Female Employees</label>
+													<br>
+													<span id="female-employees">N/A</span>
+												</div>
 											</div>
 											<div class="col-sm-3">
-												<label>Number of PWD Employees</label>
-												<br>
-												<span id="pwd-employees">N/A</span>
+												<div class="form-group">
+													<label>Number of PWD Employees</label>
+													<br>
+													<span id="pwd-employees">N/A</span>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label>Number of Employees Residing in LGU</label>
+													<br>
+													<span id="lgu-employees">N/A</span>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="">Annual Physical Exams for Employees</label>
+													<div class="radio">
+														<label><input type="radio" checked name="annual-exams" value="Yes">Yes</label>
+														<label><input type="radio" name="annual-exams" value="No">No</label>
+													</div>
+												</div>
 											</div>
 										</div>
 										<hr>
@@ -420,12 +448,12 @@
 											<div class="row">
 												<div class="col-sm-5">
 													<div class="checkbox">
-														<label><input type="checkbox" value="" id="cnc" name="cnc"><strong>Environmental Compliance Certificate/CNC</strong></label>
+														<label><input type="checkbox" id="cnc" name="cnc"><strong>Environmental Compliance Certificate/CNC</strong></label>
 													</div>
 												</div>
 												<div class="col-sm-5">
 													<div class="checkbox">
-														<label><input type="checkbox" value="" id="llda" name="llda"><strong>LLDA Clearance / Certificate of Exemption</strong></label>
+														<label><input type="checkbox" id="llda" name="llda"><strong>LLDA Clearance / Certificate of Exemption</strong></label>
 													</div>
 												</div>
 											</div>
@@ -448,12 +476,12 @@
 											<div class="row">
 												<div class="col-sm-5">
 													<div class="checkbox">
-														<label><input type="checkbox" value="" id="discharge-permit" name="discharge-permit"><strong>Discharge Permit</strong></label>
+														<label><input type="checkbox" id="discharge-permit" name="discharge-permit"><strong>Discharge Permit</strong></label>
 													</div>
 												</div>
 												<div class="col-sm-5">
 													<div class="checkbox">
-														<label><input type="checkbox" value="" id="apsci" name="apsci"><strong>Permit to Operate/APSCI</strong></label>
+														<label><input type="checkbox" id="apsci" name="apsci"><strong>Permit to Operate/APSCI</strong></label>
 													</div>
 												</div>
 											</div>
@@ -571,7 +599,7 @@
 										<div class="row">
 											<div class="col-sm-3">
 												<label for="case-no">Case No.</label>
-												<input type="text" disabled name="llda-case-no" id="llda-case-no" class="form-control">
+												<input type="text" disabled name="llda-case-no" data-parsley-type="digits" id="llda-case-no" class="form-control">
 											</div>
 										</div>
 										<!-- END OF WASTEWATER -->
@@ -587,7 +615,7 @@
 											<div class="col-sm-2">
 												<div class="form-group">
 													<label for="qty-per-day">Quantity per day</label>
-													<input required type="text" id="qty-per-day" name="qty-per-day" class="form-control">
+													<input required type="text" id="qty-per-day" data-parsley-type='digits' name="qty-per-day" class="form-control">
 												</div>
 											</div>
 											<div class="col-sm-4">
@@ -759,6 +787,14 @@
 												<div class="col-sm-3">
 													<div class="radio">
 														<label><input type="radio" name="water-supply" value="Surface Water"><strong>Surface Water</strong></input></label>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-3">
+													<div class="form-group">
+														<label for="water-supply-type">Type of Water Supply/Source</label>
+														<input type="text" name="water-supply-type" id="water-supply-type" class="form-control">
 													</div>
 												</div>
 											</div>

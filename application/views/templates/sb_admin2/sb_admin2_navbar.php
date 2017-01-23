@@ -17,7 +17,7 @@
             <a id="btn-notif" class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="fa fa-bell fa-fw">
                     <?php if (isset($notifications)): ?>
-                        <span class="notif-count"><?php echo sizeof($notifications); ?></span>
+                        <span class="notif-count"><?php echo count($notifications); ?></span>
                     <?php endif ?>
                 </i><i class="fa fa-caret-down"></i>
             </a>

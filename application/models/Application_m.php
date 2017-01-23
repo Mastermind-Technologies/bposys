@@ -37,12 +37,23 @@ class Application_m extends CI_Model {
     $this->db->insert($this->zoning,$fields);
   }
 
-   public function get_all_applications($query = null)
+  public function get_all_bplo_applications($query = null)
   {
     if($query != null)
       $this->db->where($query);
 
     $this->db->select('*')->from($this->bplo);
+    $result = $this->db->get();
+
+    return $result->result();
+  }
+
+  public function get_all_zoning_applications($query = null)
+  {
+    if($query != null)
+      $this->db->where($query);
+
+    $this->db->select('*')->from($this->zoning);
     $result = $this->db->get();
 
     return $result->result();
@@ -70,7 +81,7 @@ class Application_m extends CI_Model {
     return $result->result();
   }
 
-  // public function get_all_applications($query = null)
+  // public function get_all_bplo_applications($query = null)
   // {
   //   if($query != null)
   //     $this->db->where($query);
