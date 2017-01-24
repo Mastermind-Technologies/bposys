@@ -14,6 +14,7 @@ class Dashboard extends CI_Controller {
 		$this->load->model('Application_m');
 		$this->load->model('Lessor_m');
 		$this->load->model('Business_Activity_m');
+		$this->load->model('Issued_Application_m');
 		$this->load->model('Business_m');
 		$this->load->model('Approval_m');
 		$this->load->model('Notification_m');
@@ -33,6 +34,23 @@ class Dashboard extends CI_Controller {
 
 	public function _init_matrix($data = null)
 	{
+		$query['status'] = 'For validation...';
+		$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
+
+		$query['status'] = 'For applicant visit';
+		$data['pending'] = count($this->Application_m->get_all_bplo_applications($query));
+
+		$query['status'] = 'On Process';
+		$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
+
+		$query['status'] = 'Completed';
+		$data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
+
+		$query['status'] = 'Active';
+		$data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
+
+		$data['total'] = $data['incoming']+$data['pending']+$data['process']+$data['complete']+$data['complete']+$data['issued'];
+
 		$this->load->view('templates/matrix/matrix_includes');
 		$this->load->view('templates/matrix/matrix_navbar', $data);
 	}
@@ -105,8 +123,10 @@ class Dashboard extends CI_Controller {
 			}
 
 			$navdata['title'] = 'BPLO Dashboard';
+			$navdata['active'] = 'Dashboard';
 			//get notifications
 			$navdata['notifications'] = User::get_notifications();
+			$navdata['completed'] = User::get_complete_notifications();
 			$this->_init_matrix($navdata);
 
 			$query['status'] = 'For validation...';
@@ -118,21 +138,97 @@ class Dashboard extends CI_Controller {
 			$query['status'] = 'On Process';
 			$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
 
-			$data['issued'] = count([]);
+			$query['status'] = 'Completed';
+			$data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
+
+			$query['status'] = 'Active';
+			$data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
 
 			$data['user'] = new User($user_id);
 			$this->load->view('dashboard/bplo/index', $data);
 		}
+		else if($role == "CENRO")
+		{
+			$navdata['title'] = 'CENRO Dashboard';
+			$navdata['active'] = 'Dashboard';
+			$navdata['notifications'] = User::get_notifications();
+			$this->_init_matrix($navdata);
+
+			$query['status'] = 'For applicant visit';
+			$data['incoming'] = count($this->Application_m->get_all_cenro_applications($query));
+
+			$query['status'] = 'On process';
+			$data['on_process'] = count($this->Application_m->get_all_cenro_applications($query));
+
+			$query['status'] = 'Active';
+			$data['issued'] =count($this->Application_m->get_all_cenro_applications($query));
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/cenro/index', $data);
+		}
+		else if($role == "Zoning")
+		{
+			$navdata['title'] = 'Zoning Dashboard(not final)';
+			$navdata['active'] = 'Dashboard';
+			$navdata['notifications'] = User::get_notifications();
+			$this->_init_matrix($navdata);
+
+			$query['status'] = 'For applicant visit';
+			$data['incoming'] = count($this->Application_m->get_all_zoning_applications($query));
+
+			$query['status'] = 'On Process';
+			$data['on_process'] = count($this->Application_m->get_all_zoning_applications($query));
+
+			$query['status'] = 'Active';
+			$data['issued'] =count($this->Application_m->get_all_zoning_applications($query));
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/zoning/index', $data);
+		}
+		else if($role == "CHO")
+		{
+			$navdata['title'] = 'CHO Dashboard';
+			$navdata['active'] = 'Dashboard';
+			$navdata['notifications'] = User::get_notifications();
+			$this->_init_matrix($navdata);
+
+
+			$query['status'] = 'For applicant visit';
+			$data['incoming'] = count($this->Application_m->get_all_sanitary_applications($query));
+
+			$query['status'] = 'On Process';
+			$data['on_process'] = count($this->Application_m->get_all_sanitary_applications($query));
+
+			$query['status'] = 'Active';
+			$data['issued'] =count($this->Application_m->get_all_sanitary_applications($query));
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/cho/index', $data);
+		}
+		else if($role == "Engineering")
+		{
+			$navdata['title'] = 'Engineering Dashboard';
+			$navdata['active'] = 'Dashboard';
+			$navdata['notifications'] = User::get_notifications();
+			$this->_init_matrix($navdata);
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = count([]);
+
+			$query['status'] = 'For validation...';
+			$data['incoming'] = count([]);
+
+			$data['issued'] =count([]);
+
+			$data['user'] = new User($user_id);
+			$this->load->view('dashboard/engineering/index', $data);
+		}
 		else if($role == "BFP")
 		{
 			$navdata['title'] = 'BFP Dashboard';
+			$navdata['active'] = 'Dashboard';
+			$navdata['notifications'] = User::get_notifications();
 			$this->_init_matrix($navdata);
-			$query = array(
-				'status' => "Unread",
-				'role' => 5
-				);
-			$data['notifications'] = $this->Notification_m->get_all($query);
-			unset($query);
 
 			$query['status'] = 'For applicant visit';
 			$data['pending'] = count([]);
@@ -148,13 +244,9 @@ class Dashboard extends CI_Controller {
 		else if($role == "Assessor")
 		{
 			$navdata['title'] = 'Assessor Dashboard';
+			$navdata['active'] = 'Dashboard';
+			$navdata['notifications'] = User::get_notifications();
 			$this->_init_matrix($navdata);
-			$query = array(
-				'status' => "Unread",
-				'role' => 6
-				);
-			$data['notifications'] = $this->Notification_m->get_all($query);
-			unset($query);
 
 			$query['status'] = 'For applicant visit';
 			$data['pending'] = count([]);
@@ -166,85 +258,6 @@ class Dashboard extends CI_Controller {
 
 			$data['user'] = new User($user_id);
 			$this->load->view('dashboard/assessors/index', $data);
-		}
-		else if($role == "CENRO")
-		{
-			$navdata['title'] = 'CENRO Dashboard';
-			$this->_init_matrix($navdata);
-			$query = array(
-				'status' => "Unread",
-				'role' => 7
-				);
-			$data['notifications'] = $this->Notification_m->get_all($query);
-			unset($query);
-
-			$query['status'] = 'For applicant visit';
-			$data['pending'] = count([]);
-
-			$query['status'] = 'For validation...';
-			$data['incoming'] = count([]);
-
-			$data['issued'] =count([]);
-
-			$data['user'] = new User($user_id);
-			$this->load->view('dashboard/cenro/index', $data);
-		}
-		else if($role == "Zoning")
-		{
-			$navdata['title'] = 'Zoning Dashboard(not final)';
-			$navdata['notifications'] = User::get_notifications();
-			$this->_init_matrix($navdata);
-
-			$query['status'] = 'For applicant visit';
-			$data['incoming'] = count($this->Application_m->get_all_zoning_applications($query));
-
-			$query['status'] = 'On Process';
-			$data['on_process'] = count($this->Application_m->get_all_zoning_applications($query));
-
-			$query['status'] = 'Active';
-			$data['issued'] =count([]);
-
-			$data['user'] = new User($user_id);
-			$this->load->view('dashboard/zoning/index', $data);
-		}
-		else if($role == "Engineering")
-		{
-			$navdata['title'] = 'Engineering Dashboard';
-			$this->_init_matrix($navdata);
-			$query = array(
-				'status' => "Unread",
-				'role' => 9
-				);
-			$data['notifications'] = $this->Notification_m->get_all($query);
-			unset($query);
-
-			$query['status'] = 'For applicant visit';
-			$data['pending'] = count([]);
-
-			$query['status'] = 'For validation...';
-			$data['incoming'] = count([]);
-
-			$data['issued'] =count([]);
-
-			$data['user'] = new User($user_id);
-			$this->load->view('dashboard/engineering/index', $data);
-		}
-		else if($role == "CHO")
-		{
-			$navdata['title'] = 'CHO Dashboard';
-			$navdata['notifications'] = User::get_notifications();
-			$this->_init_matrix($navdata);
-
-			$query['status'] = 'For applicant visit';
-			$data['pending'] = count([]);
-
-			$query['status'] = 'For validation...';
-			$data['incoming'] = count([]);
-
-			$data['issued'] =count([]);
-
-			$data['user'] = new User($user_id);
-			$this->load->view('dashboard/cho/index', $data);
 		}
 	}
 
@@ -524,7 +537,7 @@ class Dashboard extends CI_Controller {
 				'referenceNum' => $reference_num,
 				'status' => "Unread",
 				'role' => 4,
-				'notifMessage' => "New business permit application"
+				'notifMessage' => "Incoming",
 				);
 
 			$this->Notification_m->insert($query);
@@ -560,6 +573,7 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$navdata['title'] = 'Incoming Applications';
+		$navdata['active'] = 'Applications';
 		$navdata['notifications'] = User::get_notifications();
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 		$this->_init_matrix($navdata);
@@ -591,6 +605,28 @@ class Dashboard extends CI_Controller {
 				$data['incoming'][$key]->set_applicationId($this->encryption->decrypt($data['incoming'][$key]->get_applicationId()));
 			}
 		}
+		else if ($role == "CENRO")
+		{
+			$query['status'] = 'For applicant visit';
+			$applications = $this->Application_m->get_all_cenro_applications($query);
+
+			foreach ($applications as $key => $value) {
+				$data['incoming'][$key] = new CENRO_Application($value->referenceNum);
+			//decrypting appId property for custom encryption
+				$data['incoming'][$key]->set_applicationId($this->encryption->decrypt($data['incoming'][$key]->get_applicationId()));
+			}
+		}
+		else if ($role == "CHO")
+		{
+			$query['status'] = 'For applicant visit';
+			$applications = $this->Application_m->get_all_sanitary_applications($query);
+
+			foreach ($applications as $key => $value) {
+				$data['incoming'][$key] = new Sanitary_Application($value->referenceNum);
+			//decrypting appId property for custom encryption
+				$data['incoming'][$key]->set_applicationId($this->encryption->decrypt($data['incoming'][$key]->get_applicationId()));
+			}
+		}
 		//custom encryption credentials for URL encryption
 		$data['custom_encrypt'] = array(
 			'cipher' => 'blowfish',
@@ -606,6 +642,7 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$navdata['title'] = "Pending Applications";
+		$navdata['active'] = 'Applications';
 		$navdata['notifications'] = User::get_notifications();
 		$this->_init_matrix($navdata);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
@@ -649,6 +686,7 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$navdata['title'] = "On Process Applications";
+		$navdata['active'] = 'Applications';
 		$navdata['notifications'] = User::get_notifications();
 		$this->_init_matrix($navdata);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
@@ -676,6 +714,28 @@ class Dashboard extends CI_Controller {
 				$data['on_process'][$key]->set_applicationId($this->encryption->decrypt($data['on_process'][$key]->get_applicationId()));
 			}
 		}
+		else if($role == "CENRO")
+		{
+			$query['status'] = 'On Process';
+			$applications = $this->Application_m->get_all_cenro_applications($query);
+
+			foreach ($applications as $key => $value) {
+				$data['on_process'][$key] = new CENRO_Application($value->referenceNum);
+			//decrypting appId property for custom encryption
+				$data['on_process'][$key]->set_applicationId($this->encryption->decrypt($data['on_process'][$key]->get_applicationId()));
+			}
+		}
+		else if($role == "CHO")
+		{
+			$query['status'] = 'On Process';
+			$applications = $this->Application_m->get_all_sanitary_applications($query);
+
+			foreach ($applications as $key => $value) {
+				$data['on_process'][$key] = new Sanitary_Application($value->referenceNum);
+			//decrypting appId property for custom encryption
+				$data['on_process'][$key]->set_applicationId($this->encryption->decrypt($data['on_process'][$key]->get_applicationId()));
+			}
+		}
 
 		//custom encryption credentials for URL encryption
 		$data['custom_encrypt'] = array(
@@ -686,6 +746,88 @@ class Dashboard extends CI_Controller {
 			);
 
 		$this->load->view('dashboard/on-process',$data);
+	}
+
+	public function completed_applications()
+	{
+		$this->isLogin();
+		$navdata['title'] = "Complete Requirements";
+		$navdata['active'] = 'Applications';
+		$navdata['notifications'] = User::get_notifications();
+		$navdata['completed'] = User::get_complete_notifications();
+		$this->_init_matrix($navdata);
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$query = array(
+			'status' => 'Completed',
+			);
+		$application = $this->Application_m->get_all_bplo_applications($query);
+
+		foreach ($application as $key => $app) {
+			$data['complete'][$key] = new BPLO_Application($app->referenceNum);
+			$data['complete'][$key]->set_applicationId($this->encryption->decrypt($data['complete'][$key]->get_applicationId()));
+		}
+
+		//custom encryption credentials for URL encryption
+		$data['custom_encrypt'] = array(
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
+
+		$this->load->view('dashboard/bplo/complete',$data);
+	}
+
+	public function issue_permit($reference_num = null)
+	{
+		$this->isLogin();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+		$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $reference_num));
+		
+		BPLO_Application::update_status($reference_num, 'Active');
+
+		$fields = array(
+			'referenceNum' => $reference_num,
+			'dept' => $role,
+			'type' => 'New',
+			);
+		$this->Issued_Application_m->insert($fields);
+
+		$this->session->set_flashdata('message','Permit issued! You can now print your applicant\'s Business Permit.');
+		redirect('dashboard');
+	}
+
+	public function issued_applications()
+	{
+		$this->isLogin();
+		$navdata['title'] = "Issued Applications";
+		$navdata['active'] = 'Applications';
+		$navdata['notifications'] = User::get_notifications();
+		$navdata['completed'] = User::get_complete_notifications();
+		$this->_init_matrix($navdata);
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$query = array(
+			'status' => 'Active',
+			);
+		$application = $this->Application_m->get_all_bplo_applications($query);
+
+		foreach ($application as $key => $app) {
+			$data['issued'][$key] = new BPLO_Application($app->referenceNum);
+			$data['issued'][$key]->set_applicationId($this->encryption->decrypt($data['issued'][$key]->get_applicationId()));
+		}
+
+		//custom encryption credentials for URL encryption
+		$data['custom_encrypt'] = array(
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
+
+		$this->load->view('dashboard/issued',$data);
 	}
 
 	public function validate_application($referenceNum = null)
@@ -712,6 +854,20 @@ class Dashboard extends CI_Controller {
 			//validate
 			$application->change_status($referenceNum, 'On process');
 			$notif_message = $application->get_businessName() . " has been validated by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of Zoning Department. Please check application status.";
+		}
+		else if ($role == "CENRO")
+		{
+			$application = new CENRO_Application($referenceNum);
+			//validate
+			$application->change_status($referenceNum, 'On process');
+			$notif_message = $application->get_businessName() . " has been validated by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of City Environment and Natural Resources. Please check application status.";
+		}
+		else if ($role == "CHO")
+		{
+			$application = new Sanitary_Application($referenceNum);
+			//validate
+			$application->change_status($referenceNum, 'On process');
+			$notif_message = $application->get_businessName() . " has been validated by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of City Health Office. Please check application status.";
 		}
 
 		//approvals
@@ -760,14 +916,19 @@ class Dashboard extends CI_Controller {
 				//update application status
 				$application->change_status($referenceNum, 'On process');
 				Zoning_Application::update_status($referenceNum, 'For applicant visit');
+				CENRO_Application::update_status($referenceNum, 'For applicant visit');
+				Sanitary_Application::update_status($referenceNum, 'For applicant visit');
+
 				$notif_message = $application->get_businessName() . " has been approved by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of BPLO. You can now go to other required offices to process your application.";
-							//notify all departments
+
+				//notify all departments
 				for ($i=5; $i <= 10 ; $i++) { 
 					$query = array(
 						'referenceNum' => $referenceNum,
 						'status' => 'Unread',
 						'role' => $i,
-						'notifMessage' => 'You have new incoming application.',
+						//herehere
+						'notifMessage' => 'Incoming',
 						);
 					$this->Notification_m->insert($query);
 				}
@@ -775,8 +936,30 @@ class Dashboard extends CI_Controller {
 			else if ($role == "Zoning")
 			{
 				$application = new Zoning_Application($referenceNum);
-				$application->change_status($referenceNum, 'On Process');
-				$notif_message = $application->get_businessName() . " has been approved by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of BPLO. You can now go to other required offices to process your application.";
+				$application->change_status($referenceNum, 'Active');
+				$notif_message = $application->get_businessName() . " has been approved by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of Zoning Department.";
+			}
+			else if ($role == "CENRO")
+			{
+				$application = new CENRO_Application($referenceNum);
+				$application->change_status($referenceNum, 'Active');
+				$notif_message = $application->get_businessName() . " has been approved by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of City Environment and Natural Resources.";
+			}
+			else if ($role == "CHO")
+			{
+				$application = new Sanitary_Application($referenceNum);
+				$application->change_status($referenceNum, 'Active');
+				$notif_message = $application->get_businessName() . " has been approved by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of City Health Office.";
+			}
+
+			if($role != "BPLO")
+			{
+				$fields = array(
+					'referenceNum' => $referenceNum,
+					'dept' => $role,
+					'type' => 'New',
+					);
+				$this->Issued_Application_m->insert($fields);
 			}
 			
 			//approvals
@@ -787,6 +970,23 @@ class Dashboard extends CI_Controller {
 				'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
 				);
 			$this->Approval_m->insert($query);
+
+			$query = array(
+				'referenceNum' => $referenceNum
+				);
+
+			//COMPLETE REQUIREMENTS (NOT FINAL NO BFP, ENGINEERING, ASSESSOR)
+			if(count($this->Approval_m->get_all($query)) == 8)
+			{
+				BPLO_Application::update_status($referenceNum, 'Completed');
+				$query = array(
+					'referenceNum' => $referenceNum,
+					'status' => 'Unread',
+					'role' => 4,
+					'notifMessage' => 'Completed',
+					);
+				$this->Notification_m->insert($query);
+			}
 
 			//notifications
 			//notify applicant
@@ -799,7 +999,7 @@ class Dashboard extends CI_Controller {
 			$this->Notification_m->insert($query);
 
 			$this->session->set_flashdata('message', 'Application approved!');
-			redirect('dashboard/pending_applications');
+			redirect('dashboard');
 		}
 		else
 		{
@@ -820,13 +1020,13 @@ class Dashboard extends CI_Controller {
 			'hmac' => false
 			);
 		$reference_num = $this->encryption->decrypt(hex2bin($reference_num), $decrypt_credentials);
-
-		$application = new BPLO_Application($reference_num);
-		// echo "<pre>";
-		// print_r($application);
-		// echo "</pre>";
+		// var_dump($reference_num);
 		// exit();
-		$application->change_status($reference_num, 'Cancelled');
+
+		BPLO_Application::update_status($reference_num, 'Cancelled');
+		CENRO_Application::update_status($reference_num, 'Cancelled');
+		Zoning_Application::update_status($reference_num, 'Cancelled');
+		Sanitary_Application::update_status($reference_num, 'Cancelled');
 		redirect('dashboard');
 	}
 
@@ -836,6 +1036,7 @@ class Dashboard extends CI_Controller {
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 		$navdata['title'] = "View Application";
+		$navdata['active'] = "Applications";
 		$navdata['notifications'] = User::get_notifications();
 		$this->_init_matrix($navdata);
 
@@ -848,7 +1049,7 @@ class Dashboard extends CI_Controller {
 			);
 		$application_id = $this->encryption->decrypt(hex2bin($application_id), $decrypt_credentials);
 		$query['applicationId'] = $application_id;
-		
+
 		if($role == 'BPLO')
 		{
 			//get application using model then map to application object
@@ -856,10 +1057,23 @@ class Dashboard extends CI_Controller {
 			$data['application'] = $this->Application_m->get_all_bplo_applications($query);
 			//map to application object
 			$data['application'] = new BPLO_Application($data['application'][0]->referenceNum);
+			if($data['application']->get_status() == 'Completed')
+			{
+				$reference_num = $this->encryption->decrypt($data['application']->get_referenceNum());
+				unset($query);
+				$query['referenceNum'] = $reference_num;
+				$query['YEAR(createdAt)'] = date('Y');
+
+				$query['dept'] = 'Zoning';
+				$data['zoning'] = $this->Issued_Application_m->get_all($query);
+				$query['dept'] = 'CHO';
+				$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+				//bfp
+				//occupancy
+			}
 			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 			//instantiate Owner of this application
 			$data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
-
 			$this->load->view('dashboard/bplo/view',$data);
 		}
 		else if($role == "Zoning")
@@ -873,6 +1087,30 @@ class Dashboard extends CI_Controller {
 			$data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
 
 			$this->load->view('dashboard/zoning/view', $data);
+		}
+		else if($role == "CENRO")
+		{
+			//get application using model then map to application object
+			$data['application'] = $this->Application_m->get_all_cenro_applications($query);
+			//map to application object
+			$data['application'] = new CENRO_Application($data['application'][0]->referenceNum);
+			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
+			//instantiate Owner of this application
+			$data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+
+			$this->load->view('dashboard/cenro/view', $data);
+		}
+		else if($role == "CHO")
+		{
+			//get application using model then map to application object
+			$data['application'] = $this->Application_m->get_all_sanitary_applications($query);
+			//map to application object
+			$data['application'] = new Sanitary_Application($data['application'][0]->referenceNum);
+			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
+			//instantiate Owner of this application
+			$data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+
+			$this->load->view('dashboard/cho/view', $data);
 		}
 	}
 
@@ -920,12 +1158,14 @@ class Dashboard extends CI_Controller {
 	{
 		$this->isLogin();
 		$role_id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
-		$query = array(
-			'status' => "Unread",
-			'role' => $role_id->roleId,
-			);
-		$data['notifications'] = count($this->Notification_m->get_all($query));
-		unset($query);
+		// $query = array(
+		// 	'status' => "Unread",
+		// 	'role' => $role_id->roleId,
+		// 	);
+		// $data['notifications'] = count($this->Notification_m->get_all($query));
+		// unset($query);
+		$data['notifications'] = count(User::get_notifications());
+		$data['complete'] = count(User::get_complete_notifications());
 
 		$query['status'] = 'For applicant visit';
 		$data['pending'] = count($this->Application_m->get_all_bplo_applications($query));
@@ -973,7 +1213,7 @@ class Dashboard extends CI_Controller {
 	public function get_business_profile()
 	{
 		$this->isLogin();
-		$business_id = 1;//$this->encryption->decrypt($this->input->get('id'));
+		$business_id = $this->encryption->decrypt($this->input->get('id'));
 		$query['businessId'] = $business_id;
 		$data['business'] = $this->Business_m->get_all_businesses($query);
 		$data['owner_name'] = $this->Owner_m->get_owner_name($data['business'][0]->ownerId);

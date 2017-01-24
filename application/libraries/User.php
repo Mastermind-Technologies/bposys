@@ -173,12 +173,34 @@ class User {
 		else
 		{
 			$query = array(
+				'notifMessage' => 'Incoming',
 				'status' => "Unread",
 				'role' => $role_id,
 				);
 			$data = $var->Notification_m->get_all($query);
+
+			unset($var);
 			return $data;
 		}
+	}
+
+	public static function get_complete_notifications()
+	{
+		$var = get_instance();
+		$role = $var->encryption->decrypt($var->session->userdata['userdata']['role']);
+
+		$role_id = $var->Role_m->get_roleId($role);
+		$role_id = $role_id->roleId;
+		$query = array(
+			'status' => "Unread",
+			'notifMessage' => "Completed",
+			'role' => $role_id,
+			);
+		$data = $var->Notification_m->get_all($query);
+
+		unset($var);
+		return $data;
+		
 	}
 
 	public function send_mail($param = null)

@@ -59,6 +59,28 @@ class Application_m extends CI_Model {
     return $result->result();
   }
 
+  public function get_all_cenro_applications($query = null)
+  {
+    if($query != null)
+      $this->db->where($query);
+
+    $this->db->select('*')->from($this->cenro);
+    $result = $this->db->get();
+
+    return $result->result();
+  }
+
+  public function get_all_sanitary_applications($query = null)
+  {
+    if($query != null)
+      $this->db->where($query);
+
+    $this->db->select('*')->from($this->sanitary);
+    $result = $this->db->get();
+
+    return $result->result();
+  }
+
   //OLD FUNCTIONS
   public function insert_application($fields = null)
   {
@@ -124,9 +146,23 @@ class Application_m extends CI_Model {
       case "cenro": $this->db->update($this->cenro, $query); break;
       case "zoning": $this->db->update($this->zoning, $query); break;
       case "sanitary": $this->db->update($this->sanitary, $query); break;
+      //bfp
+    }  
+  }
+
+  public function check_status($reference_number, $application)
+  {
+    $this->db->where(['referenceNum' => $reference_number]);
+    switch($application)
+    {
+      case "bplo": $this->db->select('status')->from($this->bplo); break;
+      case "cenro": $this->db->select('status')->from($this->cenro); break;
+      case "zoning": $this->db->select('status')->from($this->zoning); break;
+      case "sanitary": $this->db->select('status')->from($this->sanitary); break;
+      //bfp
     }
-    
-    
+    $result = $this->db->get();
+    return $result->result()[0]->status;
   }
 
 

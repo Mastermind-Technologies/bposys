@@ -286,21 +286,21 @@
                   </td>
                 </tr>
                 <tr>
-                  <td rowspan="2" style="width: 15%">
+                  <th rowspan="2" style="width: 15%">
                     <label for="business_activity_code">Code</label>
-                  </td>
-                  <td rowspan="2" style="width: 30%">
+                  </th>
+                  <th rowspan="2" style="width: 30%">
                     <label for="business_activity_line_of_business">Line of Business</label>
-                  </td>
-                  <td rowspan="2" style="width: 10%">
+                  </th>
+                  <th rowspan="2" style="width: 10%">
                     <label for="business_activity_no_of_units">No. of Units</label>
-                  </td>
-                  <td rowspan="2" style="width: 20%">
+                  </th>
+                  <th rowspan="2" style="width: 20%">
                     <label for="business_activity_capitalization">Capitalization</label>
-                  </td>
-                  <td colspan="2" style="width: 25%">
+                  </th>
+                  <th colspan="2" style="width: 25%">
                     <label for="business_activity_gross_sales_receipt">Gross Sales/ Receipts</label>
-                  </td>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -315,20 +315,66 @@
                 <?php endforeach ?>
               </tbody>
             </table>
-          </div>
-        </div>
-        <?php if ($application->get_status() != "On Process"): ?>
-          <div class="row text-center">
-            <?php if ($application->get_status() == "For validation..."): ?>
-              <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
-              <a href="#" class="btn btn-danger btn-lg">Reject</a>
-            <?php elseif ($application->get_status() == "For applicant visit"): ?>
-              <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
-              <a href="#" class="btn btn-warning btn-lg">Edit information</a>
+            <?php if ($application->get_status() == "Completed"): ?>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <td colspan="3">
+                      <h4 class='text-center'>Verification of Documents</h4>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Description</th>
+                    <th>Office/Agency</th>
+                    <th>Date Issued</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Barangay Clearance</td>
+                    <td>Barangay</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Zoning Clearance</td>
+                    <td>Zoning Admin</td>
+                    <td><?= date('F j, o',strtotime($zoning[0]->createdAt)) ?></td>
+                  </tr>
+                  <tr>
+                    <td>Sanitary / Health Clearance</td>
+                    <td>City Health Department</td>
+                    <td><?= date('F j, o',strtotime($sanitary[0]->createdAt)) ?></td>
+                  </tr>
+                  <tr>
+                    <td>Occupancy Permit</td>
+                    <td>Bldg. Official</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Fire Safety Inspection Certificate</td>
+                    <td>City Fire Department</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
             <?php endif ?>
           </div>
-        <?php endif ?>
-
+        </div>
+        <div class="row text-center">
+          <?php if ($application->get_status() == "For validation..."): ?>
+            <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
+            <a href="#" class="btn btn-danger btn-lg">Reject</a>
+          <?php elseif ($application->get_status() == "For applicant visit"): ?>
+            <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
+            <a href="#" class="btn btn-warning btn-lg">Edit information</a>
+          <?php elseif ($application->get_status() == "On Process"): ?>
+            <!-- none -->
+          <?php elseif ($application->get_status() == "Completed"): ?>
+            <a href="<?php echo base_url(); ?>dashboard/issue_permit/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Issue Business Permit</a>
+            <?php elseif ($application->get_status() == "Active"): ?>
+            <a href="#" class="btn btn-info btn-large">Print Business Permit</a>
+          <?php endif ?>
+        </div>
         <!-- End Container Fluid -->
       </div>
 

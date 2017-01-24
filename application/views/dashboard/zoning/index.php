@@ -18,11 +18,11 @@
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
        <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
-         <span class="label label-success"><?= $incoming ?></span><br>Incoming </a> </li>
+         <span class="label label-success"><?= $incoming ?></span><br>Incoming Applicants</a> </li>
          <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/on_process_applications"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
          <span class="label label-important"><?= $on_process ?></span><br><span>On Process</span> </a> </li>
            <li class="bg_c"> <a href="#"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
-             <span class="label label-info"><?= $issued ?></span><br>Issued this month </a> </li>
+             <span class="label label-info"><?= $issued ?></span><br>Issued</a> </li>
         <!-- <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li>
         <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li> -->
        <!--  <li class="bg_lg span3"> <a href="charts.html"> <i class="icon-signal"></i> Charts</a> </li>
@@ -157,6 +157,13 @@
     </div>
   </div>
 </div>
+
+<?php if($this->session->flashdata('message')): ?>
+  <script>
+    alert("<?= $this->session->flashdata('message'); ?>");
+  </script>
+<?php endif; ?>
+
 
 <!--Footer-part-->
 

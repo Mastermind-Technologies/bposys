@@ -56,12 +56,19 @@ class BPLO_Application extends Business {
     {
         $var = get_instance();
         $query = array(
-            'referenceNum' => $referenceNum,
+            'referenceNum' => $reference_num,
             'status' => $status,
             );
         $var->Application_m->update_application($query, 'bplo');
         unset($var);
     }
+
+    // public static function check_status($reference_num)
+    // {
+    //     $var = get_instance();
+    //     $status = $var->Application_m->check_status($reference_num, 'bplo');
+    //     return $status;
+    // }
 
 	public function check_expiry()
 	{
