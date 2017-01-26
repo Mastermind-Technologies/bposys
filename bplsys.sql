@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 24, 2017 at 05:46 PM
+-- Generation Time: Jan 26, 2017 at 12:03 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `application_bplo` (
   `applicationDate` varchar(255) DEFAULT NULL,
   `DTISECCDA_RegNum` varchar(255) DEFAULT NULL,
   `DTISECCDA_Date` varchar(255) DEFAULT NULL,
+  `brgyClearanceDateIssued` varchar(255) NOT NULL,
   `CTCNum` varchar(255) DEFAULT NULL,
   `TIN` varchar(255) DEFAULT NULL,
   `entityName` varchar(255) DEFAULT NULL,
@@ -47,10 +48,10 @@ CREATE TABLE IF NOT EXISTS `application_bplo` (
 -- Dumping data for table `application_bplo`
 --
 
-INSERT INTO `application_bplo` (`applicationId`, `referenceNum`, `userId`, `businessId`, `taxYear`, `applicationDate`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `CTCNum`, `TIN`, `entityName`, `status`, `createdAt`, `updatedAt`) VALUES
-(1, 'E4302995BD', 1, 1, 2017, 'January 22, 2017', '123123', '01/22/2017', '123', '123', '12321', 'For validation...', '2017-01-22 13:20:51', '2017-01-24 07:35:05'),
-(5, '9E9E1D64A2', 1, 1, 2017, 'January 23, 2017', '123', '01/23/2017', '12321', '123', '123123', 'Active', '2017-01-23 12:43:22', '2017-01-24 15:35:14'),
-(6, '47B3DF6BF4', 1, 1, 2017, 'January 23, 2017', '123', '01/23/2017', '123123', '2131', '123213', 'On process', '2017-01-23 12:47:52', '2017-01-24 03:22:33');
+INSERT INTO `application_bplo` (`applicationId`, `referenceNum`, `userId`, `businessId`, `taxYear`, `applicationDate`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `brgyClearanceDateIssued`, `CTCNum`, `TIN`, `entityName`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 'E4302995BD', 1, 1, 2017, 'January 22, 2017', '123123', '01/22/2017', '1/20/2017', '123', '123', '12321', 'For validation...', '2017-01-22 13:20:51', '2017-01-25 13:13:13'),
+(5, '9E9E1D64A2', 1, 1, 2017, 'January 23, 2017', '123', '01/23/2017', '1/20/2017', '12321', '123', '123123', 'Active', '2017-01-23 12:43:22', '2017-01-25 13:13:10'),
+(6, '47B3DF6BF4', 1, 1, 2017, 'January 23, 2017', '123', '01/23/2017', '1/20/2017', '123123', '2131', '123213', 'On process', '2017-01-23 12:47:52', '2017-01-25 13:13:05');
 
 -- --------------------------------------------------------
 
@@ -373,21 +374,21 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 --
 
 INSERT INTO `notifications` (`notificationId`, `referenceNum`, `status`, `role`, `notifMessage`, `createdAt`, `updatedAt`) VALUES
-(96, '9E9E1D64A2', 'Unread', 3, 'Mastermind IT Solutions has been validated by Rene Manabat of BPLO. Please check your application status.', '2017-01-24 11:33:06', '2017-01-24 11:33:06'),
+(96, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been validated by Rene Manabat of BPLO. Please check your application status.', '2017-01-24 11:33:06', '2017-01-25 13:05:13'),
 (97, '9E9E1D64A2', 'Unread', 5, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:33:17'),
 (98, '9E9E1D64A2', 'Unread', 6, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:33:17'),
 (99, '9E9E1D64A2', 'Read', 7, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:34:36'),
 (100, '9E9E1D64A2', 'Read', 8, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:36:33'),
 (101, '9E9E1D64A2', 'Unread', 9, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:33:17'),
 (102, '9E9E1D64A2', 'Read', 10, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:33:22'),
-(103, '9E9E1D64A2', 'Unread', 3, 'Mastermind IT Solutions has been approved by Rene Manabat of BPLO. You can now go to other required offices to process your application.', '2017-01-24 11:33:17', '2017-01-24 11:33:17'),
-(104, '9E9E1D64A2', 'Unread', 3, 'Mastermind IT Solutions has been validated by tester sanitary of City Health Office. Please check application status.', '2017-01-24 11:33:26', '2017-01-24 11:33:26'),
-(105, '9E9E1D64A2', 'Unread', 3, 'Mastermind IT Solutions has been approved by tester sanitary of City Health Office.', '2017-01-24 11:34:14', '2017-01-24 11:34:14'),
-(106, '9E9E1D64A2', 'Unread', 3, 'Mastermind IT Solutions has been validated by tester cenro of City Environment and Natural Resources. Please check application status.', '2017-01-24 11:34:41', '2017-01-24 11:34:41'),
-(107, '9E9E1D64A2', 'Unread', 3, 'Mastermind IT Solutions has been approved by tester cenro of City Environment and Natural Resources.', '2017-01-24 11:36:15', '2017-01-24 11:36:15'),
-(108, '9E9E1D64A2', 'Unread', 3, 'Mastermind IT Solutions has been validated by zoning tester of Zoning Department. Please check application status.', '2017-01-24 11:36:38', '2017-01-24 11:36:38'),
+(103, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been approved by Rene Manabat of BPLO. You can now go to other required offices to process your application.', '2017-01-24 11:33:17', '2017-01-25 13:05:13'),
+(104, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been validated by tester sanitary of City Health Office. Please check application status.', '2017-01-24 11:33:26', '2017-01-25 13:05:13'),
+(105, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been approved by tester sanitary of City Health Office.', '2017-01-24 11:34:14', '2017-01-25 13:05:13'),
+(106, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been validated by tester cenro of City Environment and Natural Resources. Please check application status.', '2017-01-24 11:34:41', '2017-01-25 13:05:13'),
+(107, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been approved by tester cenro of City Environment and Natural Resources.', '2017-01-24 11:36:15', '2017-01-25 13:05:13'),
+(108, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been validated by zoning tester of Zoning Department. Please check application status.', '2017-01-24 11:36:38', '2017-01-25 13:05:13'),
 (109, '9E9E1D64A2', 'Read', 4, 'Completed', '2017-01-24 11:36:47', '2017-01-24 14:49:35'),
-(110, '9E9E1D64A2', 'Unread', 3, 'Mastermind IT Solutions has been approved by zoning tester of Zoning Department.', '2017-01-24 11:36:47', '2017-01-24 11:36:47');
+(110, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been approved by zoning tester of Zoning Department.', '2017-01-24 11:36:47', '2017-01-25 13:05:13');
 
 -- --------------------------------------------------------
 
