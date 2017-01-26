@@ -290,6 +290,7 @@ class Dashboard extends CI_Controller {
 
 		$this->form_validation->set_rules('DTISECCDA_RegNum', 'DTI/SEC/CDA Registration Number', 'required|numeric');
 		$this->form_validation->set_rules('DTISECCDA_Date', 'DTI/SEC/CDA Date', 'required');
+		$this->form_validation->set_rules('brgy-clearance-date-issued','Barangay Clearance Date Issued', 'required');
 		$this->form_validation->set_rules('ctc-number', 'CTC Number', 'required|numeric');
 		$this->form_validation->set_rules('tin', 'TIN', 'required');
 		$this->form_validation->set_rules('capital-invested', 'Capital Invested', 'required|numeric');
@@ -395,6 +396,7 @@ class Dashboard extends CI_Controller {
 				'applicationDate' => $this->input->post('application-date'),
 				'DTISECCDA_RegNum' => $this->input->post('DTISECCDA_RegNum'),
 				'DTISECCDA_Date' => $this->input->post('DTISECCDA_Date'),
+				'brgyClearanceDateIssued' => $this->input->post('brgy-clearance-date-issued'),
 				'CTCNum' => $this->input->post('ctc-number'),
 				'TIN' => $this->input->post('tin'),
 				'entityName' => $entity,
@@ -1057,7 +1059,7 @@ class Dashboard extends CI_Controller {
 			$data['application'] = $this->Application_m->get_all_bplo_applications($query);
 			//map to application object
 			$data['application'] = new BPLO_Application($data['application'][0]->referenceNum);
-			if($data['application']->get_status() == 'Completed')
+			if($data['application']->get_status() == 'Completed' || $data['application']->get_status() == 'Active')
 			{
 				$reference_num = $this->encryption->decrypt($data['application']->get_referenceNum());
 				unset($query);

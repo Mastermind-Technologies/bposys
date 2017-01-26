@@ -168,6 +168,11 @@ $(document).ready(function()
     viewMode: 'years'
   });
 
+  $('.date-field').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
   $('#cnc-date-issued').datetimepicker({
     format: 'MM/DD/YYYY',
     viewMode: 'years'

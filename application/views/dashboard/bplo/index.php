@@ -43,7 +43,7 @@
       <div class="span4">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-eye-open"></i> </span>
-            <h5>Statistics</h5>
+            <h5><?= date('Y') ?> Statistics</h5>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered">
@@ -54,24 +54,24 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Total issued applications</td>
+                <tr >
+                  <td><a href="<?php echo base_url(); ?>reports">Total No. of Issued Applications</a></td>
                   <td>8850</td>
                 </tr>
-                <tr>
-                  <td>Applications this month</td>
+                <tr >
+                  <td><a href="<?php echo base_url(); ?>reports">Total No. of Applications</a></td>
                   <td>5670</td>
                 </tr>
-                <tr>
-                  <td>Issued applications this month</td>
+                <tr >
+                  <td><a href="<?php echo base_url(); ?>reports">Total No. of Renewed Applications</a></td>
                   <td>4130</td>
                 </tr>
-                <tr>
-                  <td>Unrenewed Applications this year</td>
+                <tr >
+                  <td><a href="<?php echo base_url(); ?>reports">Total No. of Unrenewed Applications</a></td>
                   <td>1574</td>
                 </tr>
-                <tr>
-                  <td>IDK</td>
+                <tr >
+                  <td><a href="<?php echo base_url(); ?>reports">Total No. of Cancelled Applications</a></td>
                   <td>1044</td>
                 </tr>
               </tbody>

@@ -315,7 +315,7 @@
                 <?php endforeach ?>
               </tbody>
             </table>
-            <?php if ($application->get_status() == "Completed"): ?>
+            <?php if ($application->get_status() == "Completed" || $application->get_status() == "Active"): ?>
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -333,7 +333,7 @@
                   <tr>
                     <td>Barangay Clearance</td>
                     <td>Barangay</td>
-                    <td></td>
+                    <td><?= date('F j, o',strtotime($application->get_BrgyClearanceDateIssued())) ?></td>
                   </tr>
                   <tr>
                     <td>Zoning Clearance</td>

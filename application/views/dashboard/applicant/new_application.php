@@ -44,7 +44,12 @@
 												<div class="input-group">
 													<input required type="text" name="DTISECCDA_Date" id="DTISECCDA_Date" class="form-control">  <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
 												</div>
-												
+											</div>
+											<div class="col-sm-4">
+												<label for="brgy-clearance-date-issued">Barangay Clearance Date Issued</label>
+												<div class="input-group">
+													<input type="text" required="" name="brgy-clearance-date-issued" class="form-control date-field"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>	
+												</div>
 											</div>
 										</div>
 										<hr>

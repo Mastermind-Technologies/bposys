@@ -11,6 +11,7 @@ class BPLO_Application extends Business {
 	private $applicationDate = null;
 	private $DTISECCDA_RegNum = null;
 	private $DTISECCDA_Date = null;
+    private $brgyClearanceDateIssued = null;
 	private $CTCNum = null;
 	private $TIN = null;
 	private $entityName = null;
@@ -131,6 +132,7 @@ class BPLO_Application extends Business {
 		$this->applicationDate = $param->applicationDate;
 		$this->DTISECCDA_RegNum = $param->DTISECCDA_RegNum;
 		$this->DTISECCDA_Date = $param->DTISECCDA_Date;
+        $this->brgyClearanceDateIssued = $param->brgyClearanceDateIssued;
 		// $this->typeOfOrganization = $param->typeOfOrganization;
 		$this->CTCNum = $param->CTCNum;
 		$this->TIN = $param->TIN;
@@ -470,5 +472,21 @@ class BPLO_Application extends Business {
     public function set_BusinessId($businessId)
     {
         $this->businessId = $businessId;
+    }
+    public function get_BrgyClearanceDateIssued()
+    {
+        return $this->brgyClearanceDateIssued;
+    }
+
+    /**
+     * Sets the value of brgyClearanceDateIssued.
+     *
+     * @param mixed $brgyClearanceDateIssued the date started
+     *
+     * @return self
+     */
+    public function set_BrgyClearanceDateIssued($brgyClearanceDateIssued)
+    {
+        $this->brgyClearanceDateIssued = $brgyClearanceDateIssued;
     }
 }//END OF CLASS
