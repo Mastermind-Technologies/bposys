@@ -102,9 +102,9 @@ $(document).ready(function(){
 		    			success: function(data)
 		    			{
 		    				if(info_active)
-			    				info_active = false;
-			    			if(success_active)
-			    				success_active = false;
+		    					info_active = false;
+		    				if(success_active)
+		    					success_active = false;
 		    				window.location = base_url+"dashboard/incoming_applications";
 		    			}
 		    		});
@@ -112,6 +112,26 @@ $(document).ready(function(){
 		    },
 		});
 	}
+
+	$('#report-year').change(function(){
+		$.ajax({
+			type:'POST',
+			url:base_url+'reports/report_year',
+			data:{year:$('#report-year').val()},
+			beforeSend: function() {
+				$('#report-container').addClass('text-center');
+				$('#report-container').html("<div style='height:400px;width:100%;'>"+
+					"<i style='margin-top:150px' class='fa fa-circle-o-notch fa-spin fa-5x fa-fw text-center'></i>"+
+					"<span class='sr-only text-center'>Loading...</span>"+
+					"</div>");
+			},
+			success:function(data)
+			{
+				$('#report-container').removeClass('text-center');
+				$('#report-container').html(data);
+			}
+		});
+	});
 
 
 });//End of Jquery

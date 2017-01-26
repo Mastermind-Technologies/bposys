@@ -26,7 +26,7 @@
             </tr>
           </thead>
           <tbody>
-            <?php if (isset($complete)): ?>
+            <?php if (is_array($complete) || is_object($complete)): ?>
              <?php foreach ($complete as $application): ?>
               <tr>
                 <td><?= $this->encryption->decrypt($application->get_referenceNum()) ?></td>

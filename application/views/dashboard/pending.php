@@ -26,7 +26,7 @@
             </tr>
           </thead>
           <tbody>
-            <?php if (isset($pending)): ?>
+            <?php if (is_array($pending) || is_object($pending)): ?>
               <?php foreach ($pending as $application): ?>
                 <tr>
                   <td><?= $this->encryption->decrypt($application->get_referenceNum()) ?></td>

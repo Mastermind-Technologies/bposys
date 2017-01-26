@@ -43,7 +43,7 @@
       <div class="span4">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-eye-open"></i> </span>
-            <h5><?= date('Y') ?> Statistics</h5>
+            <h5><?= date('Y') ?> Reports</h5>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered">

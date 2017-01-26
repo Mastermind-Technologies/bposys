@@ -36,14 +36,14 @@
 <!-- <script src="<?php echo base_url(); ?>assets/matrix/js/jquery.flot.min.js"></script>   -->
 <!-- <script src="<?php echo base_url(); ?>assets/matrix/js/jquery.flot.resize.min.js"></script>   -->
 
-<!-- <script src="<?php echo base_url(); ?>assets/matrix/js/jquery.peity.min.js"></script>  -->
+<script src="<?php echo base_url(); ?>assets/matrix/js/jquery.peity.min.js"></script> 
 <!-- <script src="<?php echo base_url(); ?>assets/matrix/js/fullcalendar.min.js"></script>  -->
 <script src="<?php echo base_url(); ?>assets/matrix/js/matrix.js"></script> 
 
 <!--!! <script src="<?php echo base_url(); ?>assets/matrix/js/matrix.dashboard.js"></script>  -->
 <!--!! <script src="<?php echo base_url(); ?>assets/matrix/js/jquery.gritter.min.js"></script>  -->
 
-<!-- <script src="<?php echo base_url(); ?>assets/matrix/js/matrix.interface.js"></script>  -->
+<script src="<?php echo base_url(); ?>assets/matrix/js/matrix.interface.js"></script> 
 <!-- <script src="<?php echo base_url(); ?>assets/matrix/js/matrix.charts.js"></script>  -->
 
 <!--!! <script src="<?php echo base_url(); ?>assets/matrix/js/matrix.calendar.js"></script> -->

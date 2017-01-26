@@ -26,7 +26,7 @@
             </tr>
           </thead>
           <tbody>
-            <?php if (isset($issued)): ?>
+            <?php if (is_array($issued) || is_object($issued)): ?>
               <?php foreach ($issued as $application): ?>
                 <tr>
                   <td><?= $this->encryption->decrypt($application->get_referenceNum()) ?></td>

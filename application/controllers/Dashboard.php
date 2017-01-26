@@ -113,14 +113,43 @@ class Dashboard extends CI_Controller {
 		}
 		else if($role == 'BPLO')
 		{
-			$applications = $this->Application_m->get_all_bplo_applications();
-			if(count($applications) > 0)
-			{	
-				foreach ($applications as $application) {
-					$application_obj = new BPLO_Application($application->referenceNum);
-					$application_obj->check_expiry();
-				}
-			}
+			//CHECK EXPIRY
+			// $bplo = $this->Application_m->get_all_bplo_applications();
+			// if(count($bplo) > 0)
+			// {	
+			// 	foreach ($bplo as $application) {
+			// 		$application_obj = new BPLO_Application($application->referenceNum);
+			// 		$application_obj->check_expiry();
+			// 	}
+			// }
+
+			// $cenro = $this->Application_m->get_all_cenro_applications();
+			// if(count($cenro) > 0)
+			// {
+			// 	foreach ($cenro as $application) {
+			// 		$application_obj = new CENRO_Application($application->referenceNum);
+			// 		$application_obj->check_expiry();
+			// 	}
+			// }
+
+			// $sanitary = $this->Application_m->get_all_sanitary_applications();
+			// if(count($sanitary) > 0)
+			// {
+			// 	foreach ($sanitary as $application) {
+			// 		$application_obj = new Sanitary_Application($application->referenceNum);
+			// 		$application_obj->check_expiry();
+			// 	}
+			// }
+
+			// $zoning = $this->Application_m->get_all_zoning_applications();
+			// if(count($zoning) > 0)
+			// {
+			// 	foreach ($zoning as $application) {
+			// 		$application_obj = new Zoning_Application($application->referenceNum);
+			// 		$application_obj->check_expiry();
+			// 	}
+			// }
+
 
 			$navdata['title'] = 'BPLO Dashboard';
 			$navdata['active'] = 'Dashboard';
@@ -746,7 +775,10 @@ class Dashboard extends CI_Controller {
 			'key' => $this->config->item('encryption_key'),
 			'hmac' => false
 			);
-
+		if(!isset($data['on_process']))
+		{
+			$data['on_process'] = [];
+		}
 		$this->load->view('dashboard/on-process',$data);
 	}
 
@@ -810,15 +842,42 @@ class Dashboard extends CI_Controller {
 		$navdata['completed'] = User::get_complete_notifications();
 		$this->_init_matrix($navdata);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 
-		$query = array(
-			'status' => 'Active',
-			);
-		$application = $this->Application_m->get_all_bplo_applications($query);
+		$query['status'] = 'Active';
+		
 
-		foreach ($application as $key => $app) {
-			$data['issued'][$key] = new BPLO_Application($app->referenceNum);
-			$data['issued'][$key]->set_applicationId($this->encryption->decrypt($data['issued'][$key]->get_applicationId()));
+		if($role == "BPLO")
+		{
+			$application = $this->Application_m->get_all_bplo_applications($query);
+			foreach ($application as $key => $app) {
+				$data['issued'][$key] = new BPLO_Application($app->referenceNum);
+				$data['issued'][$key]->set_applicationId($this->encryption->decrypt($data['issued'][$key]->get_applicationId()));
+			}
+		}
+		else if($role == "CHO")
+		{
+			$application = $this->Application_m->get_all_sanitary_applications($query);
+			foreach ($application as $key => $app) {
+				$data['issued'][$key] = new Sanitary_Application($app->referenceNum);
+				$data['issued'][$key]->set_applicationId($this->encryption->decrypt($data['issued'][$key]->get_applicationId()));
+			}
+		}
+		else if($role == "Zoning")
+		{
+			$application = $this->Application_m->get_all_zoning_applications($query);
+			foreach ($application as $key => $app) {
+				$data['issued'][$key] = new Zoning_Application($app->referenceNum);
+				$data['issued'][$key]->set_applicationId($this->encryption->decrypt($data['issued'][$key]->get_applicationId()));
+			}
+		}
+		else if($role == "CENRO")
+		{
+			$application = $this->Application_m->get_all_cenro_applications($query);
+			foreach ($application as $key => $app) {
+				$data['issued'][$key] = new CENRO_Application($app->referenceNum);
+				$data['issued'][$key]->set_applicationId($this->encryption->decrypt($data['issued'][$key]->get_applicationId()));
+			}
 		}
 
 		//custom encryption credentials for URL encryption
