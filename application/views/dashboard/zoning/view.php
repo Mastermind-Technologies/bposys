@@ -20,7 +20,6 @@
 
     <pre>
       <?php print_r($application); ?>
-      <?php print_r($owner); ?>
     </pre>
     <?php if ($application->get_status() != "Active"): ?>
       <div class="row text-center">

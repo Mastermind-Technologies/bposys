@@ -29,6 +29,8 @@ class Owner {
 
 	public function get_owner_information($id = null)
 	{
+        if(!isset($this->CI))
+            $this->CI =& get_instance();
 		$query['ownerId'] = $id;
 		$result = $this->CI->Owner_m->get_all_owners($query);
 		$this->set_owner_all($result[0]);
@@ -41,6 +43,7 @@ class Owner {
 	{
 		if(!isset($this->CI))
 			$this->CI =& get_instance();
+        
 		$this->ownerId = $this->CI->encryption->encrypt($param->ownerId);
 		$this->firstName = $param->firstName;
 		$this->middleName = $param->middleName;

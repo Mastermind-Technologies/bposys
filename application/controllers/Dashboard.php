@@ -1134,7 +1134,12 @@ class Dashboard extends CI_Controller {
 			}
 			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 			//instantiate Owner of this application
-			$data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+			// echo "<pre>";
+			// print_r($data['owner']);
+			// echo "</pre>";
+			// exit();
+
 			$this->load->view('dashboard/bplo/view',$data);
 		}
 		else if($role == "Zoning")
@@ -1145,7 +1150,7 @@ class Dashboard extends CI_Controller {
 			$data['application'] = new Zoning_Application($data['application'][0]->referenceNum);
 			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 			//instantiate Owner of this application
-			$data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
 
 			$this->load->view('dashboard/zoning/view', $data);
 		}
@@ -1157,7 +1162,7 @@ class Dashboard extends CI_Controller {
 			$data['application'] = new CENRO_Application($data['application'][0]->referenceNum);
 			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 			//instantiate Owner of this application
-			$data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
 
 			$this->load->view('dashboard/cenro/view', $data);
 		}
@@ -1169,7 +1174,7 @@ class Dashboard extends CI_Controller {
 			$data['application'] = new Sanitary_Application($data['application'][0]->referenceNum);
 			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 			//instantiate Owner of this application
-			$data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
 
 			$this->load->view('dashboard/cho/view', $data);
 		}
