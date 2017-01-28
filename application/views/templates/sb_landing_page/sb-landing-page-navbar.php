@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="<?= $selected=='contact' ? 'active' : '' ?>">
-                        <a href="#"  style="color: #FFF">Contact Us</a>
+                        <a href="#banner"  style="color: #FFF">Contact Us</a>
                     </li>
                     <li class="<?= $selected=='register' ? 'active' : '' ?>">
                         <a href="<?php echo base_url(); ?>register" style="color: #FFF">Register</a>

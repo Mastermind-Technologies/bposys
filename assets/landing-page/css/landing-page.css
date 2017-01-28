@@ -120,7 +120,7 @@ h6 {
 .banner {
     padding: 100px 0;
     color: #f8f8f8;
-    background: url(../img/banner-bg.jpg) no-repeat center center;
+    background: url(../img/bplo-map.png) no-repeat center center;
     background-size: cover;
 }
 
@@ -129,6 +129,13 @@ h6 {
     text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
     font-size: 3em;
 }
+
+.banner h5 {
+    margin: 0;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    font-size: 1.5em;
+}
+
 
 .banner ul {
     margin-bottom: 0;

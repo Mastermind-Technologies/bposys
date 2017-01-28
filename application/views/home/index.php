@@ -101,16 +101,23 @@
     <!-- /.content-section-a -->
 
 	<a  name="contact"></a>
-    <div class="banner">
+    <div class="banner" id="banner">
 
         <div class="container">
 
             <div class="row">
                 <div class="col-lg-6">
-                    <h2>Connect to Start Bootstrap:</h2>
+                    <h2>Contact us now:</h2>
                 </div>
-                <div class="col-lg-6">
-                    <ul class="list-inline banner-social-buttons">
+                <div class="col-lg-6" style="text-align: right">
+
+                    <h5>Address: 7 St Francis, San Antonio, Biñan, Laguna inside Biñan City Hall</h5>
+                    <br />
+                    <h5>Telephone Number: 09989898989</h5>
+                    <h5>09189898989</h5>
+                    <br />
+                    <h5>Email: bplo2017@binan.gov.ph</h5>
+                    <!-- <ul class="list-inline banner-social-buttons">
                         <li>
                             <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
                         </li>
@@ -120,7 +127,7 @@
                         <li>
                             <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
 
