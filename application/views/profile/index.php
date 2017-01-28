@@ -67,110 +67,6 @@
 										<label for="civil-staus">Civil Status</label>
 										<h5><?= $user->get_civilStatus() ?></h5>
 									</div>
-									<div class="col-sm-3">
-										<label for="position">Position</label>
-										<h5><?= $user->get_position() ?></h5>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12">
-								<h3 class="page-header">Address</h3>
-								<div class="row">
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="house-bldg-no">House No./Bldg No.</label>
-											<h5><?= $user->get_houseBldgNum() ?></h5>
-										</div>
-
-									</div>
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="bldg-name">Building Name</label>
-											<h5><?= $user->get_bldgName() ?></h5>
-										</div>
-
-									</div>
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="unit-no">Unit Number</label>
-											<h5><?= $user->get_unitNum() ?></h5>
-										</div>
-
-									</div>
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="street">Street</label>
-											<h5><?= $user->get_street() ?></h5>
-										</div>
-
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="barangay">Barangay</label>
-											<h5><?= $user->get_barangay() ?></h5>
-										</div>
-
-									</div>
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="subdivision">Subdivision</label>
-											<h5><?= $user->get_subdivision() ?></h5>
-										</div>
-
-									</div>
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="city-municipality">City/Municipality</label>
-											<h5><?= $user->get_cityMunicipality() ?></h5>
-										</div>
-
-									</div>
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="province">Province</label>
-											<h5><?= $user->get_province() ?></h5>
-										</div>
-
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12">
-								<h3 class="page-header">Contact Details</h3>
-								<div class="row">
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="contact-number">Contact Number</label>
-											<h5><?= $user->get_contactNum() ?></h5>
-										</div>
-									</div>
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="telephone-number">Telephone Number (Landline)</label>
-											<h5><?= $user->get_telNum() ?></h5>
-										</div>
-									</div>
-								</div>
-								<h3 class="page-header">Others</h3>
-								<div class="row">
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="business-area">Business Area (in sq. m.)</label>
-											<h5><?= $user->get_businessArea() ?></h5>
-										</div>
-
-									</div>
-									<div class="col-sm-3">
-										<div class="form-group">
-											<label for="num-of-employees">Number of Employees Residing</label>
-											<h5><?= $user->get_numOfEmployeesLGU() ?></h5>
-										</div>
-									</div>
 								</div>
 								<hr>
 								<div class="row">
@@ -183,8 +79,9 @@
 								</div>
 							</div>
 						</div>
+
 					</div>
-					<!-- /.panel-body -->
+					<!-- /.panel-body
 				</div>
 			</div>
 			<!-- /.col-lg-12 -->
@@ -194,3 +91,5 @@
 	<!-- /.container-fluid -->
 </div>
 <!-- </body> -->
+</div>
+</div>

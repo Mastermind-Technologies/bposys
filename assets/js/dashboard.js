@@ -16,6 +16,201 @@ $(document).ready(function()
 
   $('[data-toggle="tooltip"]').tooltip();
 
+  $('#cnc').click(function(){
+    if($('#cnc').is(':checked'))
+    {
+      $('#cnc-date-issued').prop('disabled',false);
+      $('#cnc-date-issued').prop('required',true);
+    }
+    else
+    {
+      $('#cnc-date-issued').prop('disabled',true);
+      $('#cnc-date-issued').prop('required',false);
+      $('#cnc-date-issued').val("");
+    }
+  });
+
+  $('#llda').click(function(){
+    if($('#llda').is(':checked'))
+    {
+      $('#llda-date-issued').prop('disabled',false);
+      $('#llda-date-issued').prop('required',true);
+    }
+    else
+    {
+      $('#llda-date-issued').prop('disabled',true);
+      $('#llda-date-issued').prop('required',false);
+      $('#llda-date-issued').val("");
+    }
+  });
+
+  $('#discharge-permit').click(function(){
+    if($('#discharge-permit').is(':checked'))
+    {
+      $('#discharge-permit-date-issued').prop('disabled',false);
+      $('#discharge-permit-date-issued').prop('required',true);
+    }
+    else
+    {
+      $('#discharge-permit-date-issued').prop('disabled',true);
+      $('#discharge-permit-date-issued').prop('required',false);
+      $('#discharge-permit-date-issued').val("");
+    }
+  });
+
+  $('#apsci').click(function(){
+    if($('#apsci').is(':checked'))
+    {
+      $('#apsci-date-issued').prop('disabled',false);
+      $('#apsci-date-issued').prop('required',true);
+    }
+    else
+    {
+      $('#apsci-date-issued').prop('disabled',true);
+      $('#apsci-date-issued').prop('required',false);
+      $('#apsci-date-issued').val("");
+    }
+  });
+
+  $('#steam-generator-others').click(function(){
+    if($('#steam-generator-others').is(':checked'))
+    {
+      $('#steam-generator-specify').prop('disabled',false);
+      $('#steam-generator-specify').prop('required',true);
+    }
+    else
+    {
+      $('#steam-generator-specify').prop('disabled',true);
+      $('#steam-generator-specify').prop('required',false);
+      $('#steam-generator-specify').val("");
+    }
+  });
+
+  $('#steam-generator-specify').change(function(){
+    $('#steam-generator-others').val($('#steam-generator-specify').val());
+  });
+
+  $('#pending-llda-case').click(function(){
+    if($('#pending-llda-case').is(':checked'))
+    {
+      $('#llda-case-no').prop('disabled',false);
+      $('#llda-case-no').prop('required',true);
+    }
+    else
+    {
+      $('#llda-case-no').prop('disabled',true);
+      $('#llda-case-no').prop('required',false);
+      $('#llda-case-no').val("");
+    }
+  });
+
+  $('#garbage-radio input').on('change',function(){
+    // console.log($('input[name=garbage-collection-frequency]:checked').val());
+    if($('#garbage-collection-others').is(':checked'))
+    {
+      $('#garbage-collection-specify').prop('disabled',false);
+      $('#garbage-collection-specify').prop('required',true);
+    }
+    else
+    {
+      $('#garbage-collection-specify').prop('disabled',true);
+      $('#garbage-collection-specify').prop('required',false);
+      $('#garbage-collection-specify').val("");
+    }
+  });
+
+
+  $('#garbage-collection-specify').change(function(){
+    $('#garbage-collection-others').val($('#garbage-collection-specify').val());
+    // console.log($('#garbage-collection-others').val());
+  });
+
+  $('#drainage-system').click(function(){
+    if($('#drainage-system').is(':checked'))
+    {
+      $('#drainage-system-type1').prop('disabled',false);
+      $('#drainage-system-type1').prop('checked',true);
+      $('#drainage-system-type2').prop('disabled',false);
+
+      $('#drainage-where-discharged1').prop('disabled',false);
+      $('#drainage-where-discharged1').prop('checked',true);
+      $('#drainage-where-discharged2').prop('disabled',false);
+    }
+    else
+    {
+      $('#drainage-system-type1').prop('disabled',true);
+      $('#drainage-system-type1').prop('checked',false);
+      $('#drainage-system-type2').prop('disabled',true);
+
+      $('#drainage-where-discharged1').prop('disabled',true);
+      $('#drainage-where-discharged1').prop('checked',false);
+      $('#drainage-where-discharged2').prop('disabled',true);
+    }
+  });
+
+  $('#septic-tank').click(function(){
+    if($('#septic-tank').is(':checked'))
+    {
+      $('#sewerage-where-discharged1').prop('disabled',false);
+      $('#sewerage-where-discharged1').prop('checked',true);
+      $('#sewerage-where-discharged2').prop('disabled',false);
+    }
+    else
+    {
+      $('#sewerage-where-discharged1').prop('disabled',true);
+      $('#sewerage-where-discharged1').prop('checked',false);
+      $('#sewerage-where-discharged2').prop('disabled',true);
+    }
+  });
+
+  $('#date-of-operation').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('.date-field').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#cnc-date-issued').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#llda-date-issued').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#discharge-permit-date-issued').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#apsci-date-issued').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#DTISECCDA_Date').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#organization-type').change(function(event){
+    if($('#organization-type').val() == 'Corporation')
+    {
+      $('#corporation-name').prop('disabled',false);
+      $('#corporation-name').prop('required',true);
+    }
+    else
+    {
+      $('#corporation-name').prop('disabled',true);
+      $('#corporation-name').prop('required',false);
+    }
+  });
+
   $('#btn-male').click(function(event)
   {
     $('#btn-male').addClass('active');
@@ -64,7 +259,7 @@ $(document).ready(function()
     }
     else
     {
-      $('.lessor-controls input[type=text], textarea, input[type=email]').each(function() {
+      $('.lessor-controls input[type=text], textarea[name=lessor-address], input[type=email]').each(function() {
         $(this).prop('disabled', true);
         $(this).prop('required', false);
       });
@@ -103,7 +298,6 @@ $(document).ready(function()
         {
           process_business_activity(data.referenceNum);
         }
-        
       }
     });
     return false;
@@ -154,6 +348,46 @@ $(document).ready(function()
       // }
     });
   }
+
+  $('#business').change(function(event){
+    $.ajax({
+      type:"GET",
+      dataType:"JSON",
+      url:base_url+"dashboard/get_business_profile",
+      data:{id:$('#business').val()},
+      success:function(data){
+        // console.log(data);
+        $('#tax-payer-name').html(data.lastName + ", " + data.firstName + " (" + data.middleName + ")");
+        $('#president-treasurer-name').html(data.presidentTreasurerName);
+        $('#pollution-control-officer').html(data.pollutionControlOfficer);
+        $('#male-employees').html(data.maleEmployees);
+        $('#female-employees').html(data.femaleEmployees);
+        $('#pwd-employees').html(data.PWDEmployees);
+        $('#company-name').html(data.companyName);
+        $('#business-name').html(data.businessName);
+        $('#trade-name').html(data.tradeName);
+        $('#signage-name').html(data.signageName);
+        $('#nature-of-business').html(data.natureOfBusiness);
+        $('#organization-type').html(data.organizationType);
+        $('#corporation-name').html(data.corporationName);
+        $('#pin').html(data.PIN);
+        $('#date-of-operation-text').html(data.dateOfOperation);
+        $('#business-desc').html(data.businessDesc);
+        $('#house-bldg-no').html(data.houseBldgNum);
+        $('#unit-no').html(data.unitNum);
+        $('#subdivision').html(data.subdivision);
+        $('#province').html(data.province);
+        $('#street').html(data.street);
+        $('#city-municipality').html(data.cityMunicipality);
+        $('#barangay').html(data.barangay);
+        $('#bldg-name').html(data.bldgName);
+        $('#business-area').html(data.businessArea);
+        $('#tel-num').html(data.telNum);
+        $('#email').html(data.email);
+        $('#lgu-employees').html(data.LGUResidingEmployees);
+      }
+    });
+  });
 
   function count_business_activities()
   {

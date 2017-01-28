@@ -17,17 +17,19 @@
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
        <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
-         <span class="label label-success badge-incoming"><?= $incoming > 0 ? $incoming : "" ?></span><br>Incoming </a> </li>
+         <span class="label label-warning badge-incoming"><?= $incoming > 0 ? $incoming : "" ?></span><br>For Validation </a> </li>
          <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/pending_applications"> <i class="fa fa-hourglass fa-2x" aria-hidden="true"></i>
            <span class="label label-important badge-pending"><?= $pending > 0 ? $pending : "" ?></span><br><span>Pending</span> </a> </li>
-           <li class="bg_lo"> <a href="#"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
-         <span class="label label-important badge-process"><?= $process > 0 ? $process : "" ?></span><br><span>On Process</span> </a> </li>
-           <li class="bg_c"> <a href="#"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
-           <span class="label label-info badge-issued"><?= $issued > 0 ? $process : "" ?></span><br>Issued</a> </li>
+           <li class="bg_lo"> <a href="<?php echo base_url(); ?>dashboard/on_process_applications"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
+         <span class="label label-success badge-process"><?= $process > 0 ? $process : "" ?></span><br><span>On Process</span> </a> </li>
+         <li class="bg_c"> <a href="<?php echo base_url(); ?>dashboard/completed_applications"> <i class="fa fa-th-list fa-2x" aria-hidden="true"></i>
+           <span class="label label-info badge-issued"><?= $complete > 0 ? $complete : "" ?></span><br>Complete Requirements</a> </li>
+           <li class="bg_ls"> <a href="<?php echo base_url(); ?>dashboard/issued_applications"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
+           <span class="label label-info badge-issued"><?= $issued > 0 ? $issued : "" ?></span><br>Issued</a> </li>
         <!-- <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li>
         <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li> -->
-       <!--  <li class="bg_lg span3"> <a href="charts.html"> <i class="icon-signal"></i> Charts</a> </li>
-        <li class="bg_ly"> <a href="widgets.html"> <i class="icon-inbox"></i><span class="label label-success">101</span> Widgets </a> </li>
+        <li class="bg_lg span3"> <a href="<?php echo base_url(); ?>reports"> <i class="icon-signal"></i> View Reports</a> </li>
+<!--         <li class="bg_ly"> <a href="widgets.html"> <i class="icon-inbox"></i><span class="label label-success">101</span> Widgets </a> </li>
         <li class="bg_lo"> <a href="tables.html"> <i class="icon-th"></i> Tables</a> </li>
         <li class="bg_ls"> <a href="grid.html"> <i class="icon-fullscreen"></i> Full width</a> </li>
         <li class="bg_lo span3"> <a href="form-common.html"> <i class="icon-th-list"></i> Forms</a> </li>
@@ -41,7 +43,7 @@
       <div class="span4">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-eye-open"></i> </span>
-            <h5>Statistics</h5>
+            <h5><?= date('Y') ?> Reports</h5>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered">
@@ -52,24 +54,24 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Total issued applications</td>
+                <tr >
+                  <td><a href="<?php echo base_url(); ?>reports">Total No. of Issued Applications</a></td>
                   <td>8850</td>
                 </tr>
-                <tr>
-                  <td>Applications this month</td>
+                <tr >
+                  <td><a href="<?php echo base_url(); ?>reports">Total No. of Applications</a></td>
                   <td>5670</td>
                 </tr>
-                <tr>
-                  <td>Issued applications this month</td>
+                <tr >
+                  <td><a href="<?php echo base_url(); ?>reports">Total No. of Renewed Applications</a></td>
                   <td>4130</td>
                 </tr>
-                <tr>
-                  <td>Unrenewed Applications this year</td>
+                <tr >
+                  <td><a href="<?php echo base_url(); ?>reports">Total No. of Unrenewed Applications</a></td>
                   <td>1574</td>
                 </tr>
-                <tr>
-                  <td>IDK</td>
+                <tr >
+                  <td><a href="<?php echo base_url(); ?>reports">Total No. of Cancelled Applications</a></td>
                   <td>1044</td>
                 </tr>
               </tbody>
@@ -158,6 +160,13 @@
     </div>
   </div>
 </div>
+
+<?php if($this->session->flashdata('message')): ?>
+  <script>
+    alert("<?= $this->session->flashdata('message'); ?>");
+  </script>
+<?php endif; ?>
+
 
 <!--Footer-part-->
 

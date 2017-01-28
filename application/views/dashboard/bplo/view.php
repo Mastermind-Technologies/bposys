@@ -7,12 +7,18 @@
         <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a> 
       <?php elseif ($application->get_status() == "For applicant visit"): ?>
         <a href="<?php echo base_url(); ?>dashboard/pending_applications">Pending Applications</a> 
+      <?php elseif ($application->get_status() == "On process"): ?>
+        <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a> 
       <?php endif ?>
       
       <a href="#" class="current">View</a>
     </div>
     <!--End-breadcrumbs-->
   </div>
+
+<!--   <pre>
+    <?php print_r($application); ?>
+  </pre> -->
 
   <div class="container-fluid">
 <!--     <div class="row">
@@ -36,7 +42,7 @@
             </td>
             <td>
               <label for="dti_registration_number">DTI/SEC/CDA Registration No.</label>
-              <h5><?= $application->get_DTISECCDA_RegNum() ?></h5>
+              <h5><?= $application->get_DTISECCDARegNum() ?></h5>
             </td>
           </tr>
           <tr>
@@ -46,13 +52,13 @@
             </td>
             <td>
               <label for="dti_date_of_registration">DTI/SEC/CDA Date of Registration</label>
-              <h5><?= $application->get_DTISECCDA_Date() ?></h5>
+              <h5><?= $application->get_DTISECCDADate() ?></h5>
             </td>
           </tr>
           <tr>
             <td colspan="2">
               <label for="type_of_organization">Type of Organization</label>
-              <h5><?= $application->get_typeOfOrganization() ?></h5>
+              <h5><?= $application->get_organizationType() ?></h5>
             </td>
           </tr>
           <tr>
@@ -78,7 +84,7 @@
           <tr>
             <td colspan="2">
               <label for="name_of_tax_payer">Name of Tax Payer</label>
-              <h5><?= $application->get_taxPayerName() ?></h5>
+              <h5><?= $application->get_LastName().", ".$application->get_FirstName()." (".$application->get_MiddleName().")" ?></h5>
             </td>
           </tr>
           <tr>
@@ -114,7 +120,7 @@
             </td>
             <td>
               <label for="owners_address_house_no">House No. / Bldg. No.</label>
-              <h5><?= $owner->get_houseBldgNum() ?></h5>
+              <h5><?= $application->get_houseBldgNum() ?></h5>
             </td>
           </tr>
           <tr>
@@ -124,7 +130,7 @@
             </td>
             <td>
               <label for="owners_address_building_name">Building Name</label>
-              <h5><?= $owner->get_bldgName() ?></h5>
+              <h5><?= $application->get_OwnerbldgName() ?></h5>
             </td>
           </tr>
           <tr>
@@ -134,7 +140,7 @@
             </td>
             <td>
               <label for="owners_address_unit_no">Unit No.</label>
-              <h5><?= $owner->get_unitNum() ?></h5>
+              <h5><?= $application->get_OwnerunitNum() ?></h5>
             </td>
           </tr>
           <tr>
@@ -144,7 +150,7 @@
             </td>
             <td>
               <label for="owners_address_street">Street</label>
-              <h5><?= $owner->get_street() ?></h5>
+              <h5><?= $application->get_Ownerstreet() ?></h5>
             </td>
           </tr>
           <tr>
@@ -154,17 +160,17 @@
             </td>
             <td>
               <label for="owners_address_brgy">Barangay</label>
-              <h5><?= $owner->get_barangay() ?></h5>
+              <h5><?= $application->get_Ownerbarangay() ?></h5>
             </td>
           </tr>
           <tr>
             <td>
               <label for="business_address_subdivision">Subdivision</label>
-              <h5><?= $application->get_subdivision() ?></h5>
+              <h5><?= $application->get_Subdivision() ?></h5>
             </td>
             <td>
               <label for="owners_address_subdivision">Subdivision</label>
-              <h5><?= $owner->get_subdivision() ?></h5>
+              <h5><?= $application->get_Ownersubdivision() ?></h5>
             </td>
           </tr>
           <tr>
@@ -174,7 +180,7 @@
             </td>
             <td>
               <label for="owners_address_city_municipality">City/ Municipality</label>
-              <h5><?= $owner->get_cityMunicipality() ?></h5>
+              <h5><?= $application->get_OwnercityMunicipality() ?></h5>
             </td>
           </tr>
           <tr>
@@ -184,7 +190,7 @@
             </td>
             <td>
               <label for="owners_address_city_province">Province</label>
-              <h5><?= $owner->get_province() ?></h5>
+              <h5><?= $application->get_Ownerprovince() ?></h5>
             </td>
           </tr>
           <tr>
@@ -194,7 +200,7 @@
             </td>
             <td>
               <label for="owners_address_tel_no">Tel No.</label>
-              <h5><?= $owner->get_telNum() ?></h5>
+              <h5><?= $application->get_OwnertelNum() ?></h5>
             </td>
           </tr>
           <tr>
@@ -204,7 +210,7 @@
             </td>
             <td>
               <label for="owners_address_email_address">Email Address</label>
-              <h5><?= $application->get_email() ?></h5>
+              <h5><?= $application->get_OwnerEmail() ?></h5>
             </td>
           </tr>
           <tr>
@@ -214,17 +220,17 @@
             </td>
             <td>
               <label for="owners_address_business_area">Business Area (in sq. m.)</label>
-              <h5><?= $owner->get_businessArea() ?></h5>
+              <h5><?= $application->get_businessArea() ?></h5>
             </td>
           </tr>
           <tr>
             <td>
-              <label for="business_address_no_of_employees_in_establishment">Property Index Number (PIN)</label>
-              <h5><?= $application->get_numOfEmployees() ?></h5>
+              <label for="business_address_no_of_employees_in_establishment">Total No. of Employees in Establishment</label>
+              <h5><?= $application->get_MaleEmployees() + $application->get_FemaleEmployees() + $application->get_PWDEmployees() ?></h5>
             </td>
             <td>
-              <label for="owners_address_no_of_employees_residing_in_lgu">Business Area (in sq. m.)</label>
-              <h5><?= $owner->get_numOfEmployeesLGU() ?></h5>
+              <label for="owners_address_no_of_employees_residing_in_lgu">No. of Employees Residing in LGU</label>
+              <h5><?= $application->get_LGUEmployees() ?></h5>
             </td>
           </tr>
           <tr>
@@ -280,21 +286,21 @@
                   </td>
                 </tr>
                 <tr>
-                  <td rowspan="2" style="width: 15%">
+                  <th rowspan="2" style="width: 15%">
                     <label for="business_activity_code">Code</label>
-                  </td>
-                  <td rowspan="2" style="width: 30%">
+                  </th>
+                  <th rowspan="2" style="width: 30%">
                     <label for="business_activity_line_of_business">Line of Business</label>
-                  </td>
-                  <td rowspan="2" style="width: 10%">
+                  </th>
+                  <th rowspan="2" style="width: 10%">
                     <label for="business_activity_no_of_units">No. of Units</label>
-                  </td>
-                  <td rowspan="2" style="width: 20%">
+                  </th>
+                  <th rowspan="2" style="width: 20%">
                     <label for="business_activity_capitalization">Capitalization</label>
-                  </td>
-                  <td colspan="2" style="width: 25%">
+                  </th>
+                  <th colspan="2" style="width: 25%">
                     <label for="business_activity_gross_sales_receipt">Gross Sales/ Receipts</label>
-                  </td>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -309,6 +315,49 @@
                 <?php endforeach ?>
               </tbody>
             </table>
+            <?php if ($application->get_status() == "Completed" || $application->get_status() == "Active"): ?>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <td colspan="3">
+                      <h4 class='text-center'>Verification of Documents</h4>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Description</th>
+                    <th>Office/Agency</th>
+                    <th>Date Issued</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Barangay Clearance</td>
+                    <td>Barangay</td>
+                    <td><?= date('F j, o',strtotime($application->get_BrgyClearanceDateIssued())) ?></td>
+                  </tr>
+                  <tr>
+                    <td>Zoning Clearance</td>
+                    <td>Zoning Admin</td>
+                    <td><?= date('F j, o',strtotime($zoning[0]->createdAt)) ?></td>
+                  </tr>
+                  <tr>
+                    <td>Sanitary / Health Clearance</td>
+                    <td>City Health Department</td>
+                    <td><?= date('F j, o',strtotime($sanitary[0]->createdAt)) ?></td>
+                  </tr>
+                  <tr>
+                    <td>Occupancy Permit</td>
+                    <td>Bldg. Official</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Fire Safety Inspection Certificate</td>
+                    <td>City Fire Department</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            <?php endif ?>
           </div>
         </div>
         <div class="row text-center">
@@ -316,12 +365,16 @@
             <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
             <a href="#" class="btn btn-danger btn-lg">Reject</a>
           <?php elseif ($application->get_status() == "For applicant visit"): ?>
-            <a href="<?php echo base_url(); ?>/dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
+            <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
             <a href="#" class="btn btn-warning btn-lg">Edit information</a>
+          <?php elseif ($application->get_status() == "On Process"): ?>
+            <!-- none -->
+          <?php elseif ($application->get_status() == "Completed"): ?>
+            <a href="<?php echo base_url(); ?>dashboard/issue_permit/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Issue Business Permit</a>
+            <?php elseif ($application->get_status() == "Active"): ?>
+            <a href="#" class="btn btn-info btn-large">Print Business Permit</a>
           <?php endif ?>
         </div>
-
-
         <!-- End Container Fluid -->
       </div>
 

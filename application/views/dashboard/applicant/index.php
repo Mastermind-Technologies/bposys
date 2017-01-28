@@ -13,7 +13,7 @@
 								<button class="btn btn-success" id="btn-edit-info"><i class="fa fa-plus-circle" aria-hidden="true"></i> New</button>
 							</div>
 							<div class="panel-body">
-								<?php if(sizeof($applications)>0): ?>
+								<?php if(count($applications)>0): ?>
 									<table id="application-table" class="table table-bordered">
 										<th class="text-center">Reference Number</th>
 										<th class="text-center">Details</th>
@@ -26,7 +26,7 @@
 														<td style="width:45%;" class='text-center'>
 															<div class="row">
 																<div class="col-sm-12">
-																	<span>Business Name: <strong><?= $application->get_businessName()?></strong></span>
+																	<span>Business Name: <strong><?= $application->get_BusinessName()?></strong></span>
 																</div>
 															</div>
 															<div class="row">
@@ -59,7 +59,7 @@
 														<td style="width:25%;">
 															<div class="block text-center">
 																<a href="<?php echo base_url('form/view/'.bin2hex($this->encryption->encrypt($application->get_applicationId().'|'.$this->encryption->decrypt($application->get_referenceNum()), $custom_encrypt))); ?>"  id="btn-view-details" class="btn btn-primary">View Details</a>
-																<button id="<?php echo base_urL('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($this->encryption->decrypt($application->get_referenceNum()),$custom_encrypt))) ?>" value="Cancel" class="btn btn-danger btn-cancel">Cancel</button>
+																<button id="<?php echo base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($this->encryption->decrypt($application->get_referenceNum()),$custom_encrypt))) ?>" value="Cancel" class="btn btn-danger btn-cancel">Cancel</button>
 															</div>
 
 														</td>

@@ -149,7 +149,7 @@ class User {
 			$query = array(
 				'userId' => $var->encryption->decrypt($var->session->userdata['userdata']['userId']),
 				);
-			$applications = $var->Application_m->get_all_applications($query);
+			$applications = $var->Application_m->get_all_bplo_applications($query);
 			//get applicant notifications
 			foreach($applications as $application)
 			{
@@ -173,12 +173,34 @@ class User {
 		else
 		{
 			$query = array(
+				'notifMessage' => 'Incoming',
 				'status' => "Unread",
 				'role' => $role_id,
 				);
 			$data = $var->Notification_m->get_all($query);
+
+			unset($var);
 			return $data;
 		}
+	}
+
+	public static function get_complete_notifications()
+	{
+		$var = get_instance();
+		$role = $var->encryption->decrypt($var->session->userdata['userdata']['role']);
+
+		$role_id = $var->Role_m->get_roleId($role);
+		$role_id = $role_id->roleId;
+		$query = array(
+			'status' => "Unread",
+			'notifMessage' => "Completed",
+			'role' => $role_id,
+			);
+		$data = $var->Notification_m->get_all($query);
+
+		unset($var);
+		return $data;
+		
 	}
 
 	public function send_mail($param = null)
@@ -232,7 +254,7 @@ class User {
 			}
 		}
 
-}
+	}
 
 	// public function register($query = null)
 	// {
@@ -242,37 +264,37 @@ class User {
 	// 	return $response;
 	// }
 
-protected function set_user_all($param = null)
-{
-	if(!isset($this->CI))
-		$this->CI =& get_instance();
-	$role = "";
-	switch($param->role)
+	protected function set_user_all($param = null)
 	{
-		case 1: $role = "Master Admin"; break;
-		case 2: $role = "User Admin"; break;
-		case 3: $role = "Applicant"; break;
-		case 4: $role = "BPLO"; break;
+		if(!isset($this->CI))
+			$this->CI =& get_instance();
+		$role = "";
+		switch($param->role)
+		{
+			case 1: $role = "Master Admin"; break;
+			case 2: $role = "User Admin"; break;
+			case 3: $role = "Applicant"; break;
+			case 4: $role = "BPLO"; break;
+		}
+
+		$this->userId = $this->CI->encryption->encrypt($param->userId);
+		$this->firstName = $param->firstName;
+		$this->middleName = $param->middleName;
+		$this->lastName = $param->lastName;
+		$this->role = $role;
+		$this->suffix = $param->suffix;
+		$this->gender = $param->gender;
+		$this->civilStatus = $param->civilStatus;
+		$this->email = $param->email;
+		$this->birthDate = $param->birthDate;
+
+		$this->unset_CI();
+		return $this;
 	}
 
-	$this->userId = $this->CI->encryption->encrypt($param->userId);
-	$this->firstName = $param->firstName;
-	$this->middleName = $param->middleName;
-	$this->lastName = $param->lastName;
-	$this->role = $role;
-	$this->suffix = $param->suffix;
-	$this->gender = $param->gender;
-	$this->civilStatus = $param->civilStatus;
-	$this->email = $param->email;
-	$this->birthDate = $param->birthDate;
-
-	$this->unset_CI();
-	return $this;
-}
-
-protected function unset_CI()
-{
-	if(isset($this->CI))
-		unset($this->CI);
-}
+	protected function unset_CI()
+	{
+		if(isset($this->CI))
+			unset($this->CI);
+	}
 }
