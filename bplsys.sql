@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 26, 2017 at 12:03 PM
+-- Generation Time: Jan 28, 2017 at 11:34 AM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `application_bplo` (
 
 INSERT INTO `application_bplo` (`applicationId`, `referenceNum`, `userId`, `businessId`, `taxYear`, `applicationDate`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `brgyClearanceDateIssued`, `CTCNum`, `TIN`, `entityName`, `status`, `createdAt`, `updatedAt`) VALUES
 (1, 'E4302995BD', 1, 1, 2017, 'January 22, 2017', '123123', '01/22/2017', '1/20/2017', '123', '123', '12321', 'For validation...', '2017-01-22 13:20:51', '2017-01-25 13:13:13'),
-(5, '9E9E1D64A2', 1, 1, 2017, 'January 23, 2017', '123', '01/23/2017', '1/20/2017', '12321', '123', '123123', 'Active', '2017-01-23 12:43:22', '2017-01-25 13:13:10'),
+(5, '9E9E1D64A2', 1, 1, 2017, 'January 23, 2017', '123', '01/23/2017', '1/20/2017', '12321', '123', '123123', 'Active', '2017-01-23 12:43:22', '2017-01-28 09:04:02'),
 (6, '47B3DF6BF4', 1, 1, 2017, 'January 23, 2017', '123', '01/23/2017', '1/20/2017', '123123', '2131', '123213', 'On process', '2017-01-23 12:47:52', '2017-01-25 13:13:05');
 
 -- --------------------------------------------------------
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `approvals` (
   `staff` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `approvals`
@@ -187,7 +187,8 @@ INSERT INTO `approvals` (`approvalId`, `referenceNum`, `role`, `type`, `staff`, 
 (41, '9E9E1D64A2', 7, 'Validate', 'tester cenro', '2017-01-24 11:34:41', '2017-01-24 11:34:41'),
 (42, '9E9E1D64A2', 7, 'Approve', 'tester cenro', '2017-01-24 11:36:15', '2017-01-24 11:36:15'),
 (43, '9E9E1D64A2', 8, 'Validate', 'zoning tester', '2017-01-24 11:36:38', '2017-01-24 11:36:38'),
-(44, '9E9E1D64A2', 8, 'Approve', 'zoning tester', '2017-01-24 11:36:47', '2017-01-24 11:36:47');
+(44, '9E9E1D64A2', 8, 'Approve', 'zoning tester', '2017-01-24 11:36:47', '2017-01-24 11:36:47'),
+(45, '9E9E1D64A2', 4, 'Issue', 'Rene Manabat', '2017-01-28 09:04:57', '2017-01-28 09:04:57');
 
 -- --------------------------------------------------------
 
@@ -306,7 +307,7 @@ CREATE TABLE IF NOT EXISTS `issued_applications` (
   `type` varchar(30) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `issued_applications`
@@ -317,7 +318,8 @@ INSERT INTO `issued_applications` (`issueId`, `referenceNum`, `dept`, `type`, `c
 (3, '9E9E1D64A2', 'CENRO', 'New', '2017-01-24 11:36:15', '2017-01-24 15:33:16'),
 (4, '9E9E1D64A2', 'Zoning', 'New', '2017-01-24 11:36:47', '2017-01-24 15:33:19'),
 (5, '9E9E1D64A2', 'BPLO', 'New', '2017-01-24 15:35:35', '2017-01-24 15:59:32'),
-(7, '47B3DF6BF4', 'BPLO', 'Renew', '2017-01-24 15:35:35', '2017-01-24 15:59:32');
+(7, '47B3DF6BF4', 'BPLO', 'Renew', '2017-01-24 15:35:35', '2017-01-24 15:59:32'),
+(8, '9E9E1D64A2', 'BPLO', 'New', '2017-01-28 09:04:57', '2017-01-28 09:04:57');
 
 -- --------------------------------------------------------
 
@@ -498,7 +500,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `birthDate` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -510,7 +512,30 @@ INSERT INTO `users` (`userId`, `role`, `firstName`, `lastName`, `middleName`, `s
 (3, 4, 'Rene', 'Manabat', 'C', '', 'Male', 'manabat.rene@yahoo.com', 'Single', '$2y$11$siARsmYAQeaUes.lc6GGtuo4.Z064.hLHsjmfVXUrsMlLz2WWSNfi', '01/22/2017', '2017-01-22 15:21:10', '2017-01-22 15:21:19'),
 (4, 8, 'zoning', 'tester', '.', '', 'Female', 'zoning@yahoo.com', 'Single', '$2y$11$9AwRmguWvE7xxtbSmU0PI.5XJUt11WAo9V898EXJConqBItphzjkW', '01/23/2017', '2017-01-23 13:40:13', '2017-01-23 13:40:23'),
 (5, 7, 'tester', 'cenro', '.', '', 'Male', 'cenro@yahoo.com', 'Single', '$2y$11$U5jDMB/IcLbBfsGfVjXee..yvduqOlmGhpvtsaJ8xjkZFENQ8j45a', '01/24/2017', '2017-01-24 02:48:22', '2017-01-24 02:48:57'),
-(6, 10, 'tester', 'sanitary', '.', '', 'Female', 'sanitary@yahoo.com', 'Single', '$2y$11$8XrzAcPA81u740c160gZAOXPH72ANUhceakMT560.vsusgkAAWD/.', '01/24/2017', '2017-01-24 03:33:39', '2017-01-24 03:34:43');
+(6, 10, 'tester', 'sanitary', '.', '', 'Female', 'sanitary@yahoo.com', 'Single', '$2y$11$8XrzAcPA81u740c160gZAOXPH72ANUhceakMT560.vsusgkAAWD/.', '01/24/2017', '2017-01-24 03:33:39', '2017-01-24 03:34:43'),
+(17, 3, 'Tester', 'Tester', '.', '', 'Male', 'dotraze@gmail.com', 'Single', '$2y$11$xmsdTzVLqmjVl.CnzGPkL.OY6EcwT6z7oF8IMGUwMuYc87Q5piPBa', '01/28/2017', '2017-01-28 06:50:45', '2017-01-28 06:50:45');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `verifications`
+--
+
+CREATE TABLE IF NOT EXISTS `verifications` (
+  `verificationId` int(10) NOT NULL,
+  `userId` int(10) NOT NULL,
+  `code` varchar(10) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `verifications`
+--
+
+INSERT INTO `verifications` (`verificationId`, `userId`, `code`, `status`, `createdAt`, `updatedAt`) VALUES
+(8, 1, '0C18C0C597', 1, '2017-01-28 06:58:35', '2017-01-28 06:58:35');
 
 --
 -- Indexes for dumped tables
@@ -642,6 +667,13 @@ ALTER TABLE `users`
   ADD KEY `role` (`role`);
 
 --
+-- Indexes for table `verifications`
+--
+ALTER TABLE `verifications`
+  ADD PRIMARY KEY (`verificationId`),
+  ADD KEY `userId` (`userId`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -669,7 +701,7 @@ ALTER TABLE `application_zoning`
 -- AUTO_INCREMENT for table `approvals`
 --
 ALTER TABLE `approvals`
-  MODIFY `approvalId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
+  MODIFY `approvalId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `assessments`
 --
@@ -694,7 +726,7 @@ ALTER TABLE `charges`
 -- AUTO_INCREMENT for table `issued_applications`
 --
 ALTER TABLE `issued_applications`
-  MODIFY `issueId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `issueId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `lessors`
 --
@@ -724,7 +756,12 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `userId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `verifications`
+--
+ALTER TABLE `verifications`
+  MODIFY `verificationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- Constraints for dumped tables
 --
@@ -823,6 +860,12 @@ ALTER TABLE `owners`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role`) REFERENCES `roles` (`roleId`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `verifications`
+--
+ALTER TABLE `verifications`
+  ADD CONSTRAINT `verifications_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
