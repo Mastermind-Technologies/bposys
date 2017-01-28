@@ -18,7 +18,7 @@ class User_m extends CI_Model {
     if($result->num_rows() == 0)
     {
       $this->db->insert($this->_table_name, $fields);
-      return true;
+      return $this->db->insert_id();
     }
     else
     {
