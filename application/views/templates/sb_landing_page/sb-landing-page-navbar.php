@@ -1,29 +1,29 @@
 <!-- Navigation -->
 <title>BPOSys | <?= $title ?></title>
-    <nav class="navbar-default topnav" role="navigation">
+    <nav class="navbar-default topnav" role="navigation"  style="background-color: #212121">
         <div class="container topnav">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
+            <div class="navbar-header" >
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand topnav" href="<?php echo base_url();?>home">BPOSys</a>
+                <a style="color: white" class="navbar-brand topnav" href="<?php echo base_url();?>home">BPOSys</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="<?= $selected=='contact' ? 'active' : '' ?>">
-                        <a href="#">Contact Us</a>
+                        <a href="#"  style="color: #FFF">Contact Us</a>
                     </li>
                     <li class="<?= $selected=='register' ? 'active' : '' ?>">
-                        <a href="<?php echo base_url(); ?>register">Register</a>
+                        <a href="<?php echo base_url(); ?>register" style="color: #FFF">Register</a>
                     </li>
                     <li class="<?= $selected=='login' ? 'active' : '' ?>">
-                        <a href="#" data-toggle="modal" data-target="#modalLogin">Login</a>
+                        <a href="#" data-toggle="modal" data-target="#modalLogin" style="color: #FFF">Login</a>
                     </li>
                 </ul>
             </div>

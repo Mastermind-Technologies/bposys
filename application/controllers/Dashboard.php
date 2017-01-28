@@ -83,7 +83,7 @@ class Dashboard extends CI_Controller {
 				// 		}
 				// 	}
 				// }
-				
+
 				//custom encryption credentials for URL encryption
 				$data['custom_encrypt'] = array(
 					'cipher' => 'blowfish',
@@ -111,7 +111,7 @@ class Dashboard extends CI_Controller {
 		{
 			$applications = $this->Application_m->get_all_applications();
 			if(sizeof($applications) > 0)
-			{	
+			{
 				foreach ($applications as $application) {
 					$application_obj = new Application($application->referenceNum);
 					$application_obj->check_expiry();
@@ -534,7 +534,7 @@ class Dashboard extends CI_Controller {
 		// 		}
 		// 	}
 		// }
-		
+
 
 		if($data['notifications'] == "")
 			unset($data['notifications']);
@@ -637,6 +637,7 @@ class Dashboard extends CI_Controller {
 		$data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
 
 		$this->load->view('dashboard/bplo/view',$data);
+		echo script_tag('assets/css/custom.css');
 	}
 
 	public function validate_application($referenceNum = null)
@@ -648,8 +649,8 @@ class Dashboard extends CI_Controller {
 		$referenceNum = $this->encryption->decrypt($referenceNum);
 		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$application = new Application($referenceNum);
-		
-		
+
+
 		$role_Id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
 
 		//approvals
@@ -729,7 +730,7 @@ class Dashboard extends CI_Controller {
 			$this->Notification_m->insert($query);
 
 		//notify all departments
-			for ($i=5; $i <= 10 ; $i++) { 
+			for ($i=5; $i <= 10 ; $i++) {
 				$query = array(
 					'referenceNum' => $referenceNum,
 					'status' => 'Unread',
@@ -746,7 +747,7 @@ class Dashboard extends CI_Controller {
 		{
 			$this->session->set_flashdata('message', 'ERROR: Invalid action!');
 			redirect('dashboard/pending_applications');
-		}	
+		}
 	}
 
 	public function update_notif()

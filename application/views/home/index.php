@@ -1,7 +1,7 @@
 <body>
 
     <!-- Header -->
-    <div class="intro-header">
+    <div class="intro-header" >
         <div class="container">
 
             <div class="row">
@@ -9,7 +9,7 @@
                     <div class="intro-message">
                         <h2>Welcome to</h2>
                         <h1>Business Permit Online System</h1>
-                        <h3>Apply Business Permit Online. Anytime. Anywhere</h3>
+                        <h3>Start your business now!</h3>
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <!-- <li>
@@ -42,11 +42,11 @@
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">Death to the Stock Photo:<br>Special Thanks</h2>
-                    <p class="lead">A special thanks to <a target="_blank" href="http://join.deathtothestockphoto.com/">Death to the Stock Photo</a> for providing the photographs that you see in this template. Visit their website to become a member.</p>
+                    <h2 class="section-heading">No more repetitive filling up of forms</h2>
+                    <p class="lead">Apply online now using the unified form. Single fill up for all 6 major requirements in acquiring or renewing a business permit.</p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive" src="<?php echo base_url(); ?>assets/landing-page/img/ipad.png" alt="">
+                    <img class="img-responsive" src="<?php echo base_url(); ?>assets/landing-page/img/unified-form-resize.png" alt="">
                 </div>
             </div>
 
@@ -64,11 +64,11 @@
                 <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">3D Device Mockups<br>by PSDCovers</h2>
-                    <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by <a target="_blank" href="http://www.psdcovers.com/">PSDCovers</a>! Visit their website to download some of their awesome, free photoshop actions!</p>
+                    <h2 class="section-heading">Track the progress of your application online</h2>
+                    <p class="lead">Know the current status of your business permit application. View all requirements you need in order to finish your application!</p>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                    <img class="img-responsive" src="<?php echo base_url(); ?>assets/landing-page/img/dog.png" alt="">
+                    <img class="img-responsive" src="<?php echo base_url(); ?>assets/landing-page/img/track-application-resize.png" alt="">
                 </div>
             </div>
 
@@ -86,11 +86,11 @@
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">Google Web Fonts and<br>Font Awesome Icons</h2>
-                    <p class="lead">This template features the 'Lato' font, part of the <a target="_blank" href="http://www.google.com/fonts">Google Web Font library</a>, as well as <a target="_blank" href="http://fontawesome.io">icons from Font Awesome</a>.</p>
+                    <h2 class="section-heading">Paperless transaction on the go!</h2>
+                    <p class="lead">You don't have to pile up application forms inside your envelope. Store all your information online!</p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive" src="<?php echo base_url(); ?>assets/landing-page/img/phones.png" alt="">
+                    <img class="img-responsive" src="<?php echo base_url(); ?>assets/landing-page/img/paperless-resize.png" alt="">
                 </div>
             </div>
 
