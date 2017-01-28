@@ -280,7 +280,8 @@ class Profile extends CI_Controller {
 		}
 		if($this->Owner_m->count_owners() > 0)
 		{
-			$data['owner'] = $this->Owner_m->get_all_owners();
+			$query['userId'] = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+			$data['owner'] = $this->Owner_m->get_all_owners($query);
 			$this->load->view('profile/manage_businesses', $data);
 		}
 		else

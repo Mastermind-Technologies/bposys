@@ -818,9 +818,18 @@ class Dashboard extends CI_Controller {
 		$this->isLogin();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+		$role_Id = $this->Role_m->get_roleId($role);
 		$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $reference_num));
 		
 		BPLO_Application::update_status($reference_num, 'Active');
+
+		$query = array(
+			'referenceNum' => $reference_num,
+			'role' => $role_Id->roleId,
+			'type' => "Issue",
+			'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
+			);
+		$this->Approval_m->insert($query);
 
 		$fields = array(
 			'referenceNum' => $reference_num,
