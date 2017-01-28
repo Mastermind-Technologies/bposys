@@ -220,27 +220,25 @@ class User {
 			$mail->isSMTP();                            // Set mailer to use SMTP
 			$mail->Host = 'smtp.gmail.com';             // Specify main and backup SMTP servers
 			$mail->SMTPAuth = true;                     // Enable SMTP authentication
-			$mail->Username = 'dotraze2@gmail.com';          // SMTP username
+			$mail->Username = 'bposys.noreply@gmail.com';          // SMTP username
 			$mail->Password = '0seventeen'; // SMTP password
 			$mail->SMTPSecure = 'tls';                  // Enable TLS encryption, `ssl` also accepted
 			$mail->Port = 587;                          // TCP port to connect to
 
-			$mail->setFrom('dotraze2@gmail.com', 'TestMailer');
-			$mail->addReplyTo('dotraze2@gmail.com', 'TestMailer');
+			$mail->setFrom('bposys.noreply@gmail.com', 'Business Permit Online System');
+			$mail->addReplyTo('bposys.noreply@gmail.com', 'Business Permit Online System');
 			$mail->addAddress($this->email);   // Add a recipient
 			// $mail->addCC('cc@example.com');
 			// $mail->addBCC('bcc@example.com');
 
 			$mail->isHTML(true);  // Set email format to HTML
 
-			$body_email = $param['body'];
-
 			// $body_email = "Welcome to shoplocal this is your account<br/><br/><br/><br/>";
 			// $body_email .= "Username: ".$username." <br/>";
 			// $body_email .= "Password: ".$password." <br/>";
 			
-			$mail->Subject = "Business Permit Online System";
-			$mail->Body    = $body_email;
+			$mail->Subject = $param['subject'];
+			$mail->Body    = $param['body'];
 
 			$this->unset_CI();
 			if(!$mail->send()) 
