@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Business extends Owner {
 	private $businessId = null;
 	private $presidentTreasurerName = null;
-	private $businessName = null;
+	protected $businessName = null;
 	private $companyName = null;
 	private $tradeName = null;
 	private $signageName = null;

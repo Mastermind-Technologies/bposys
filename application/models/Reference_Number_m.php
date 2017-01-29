@@ -23,4 +23,14 @@ class Reference_Number_m extends CI_Model {
 
 		return $reference_number;
 	}
+
+	public function get_all_reference_numbers($query = null)
+	{
+		if($query != null)
+			$this->db->where($query);
+		$this->db->select('*')->from($this->reference);
+		$result = $this->db->get();
+
+		return $result->result();
+	}
 }//END OF CLASS

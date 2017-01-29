@@ -27,4 +27,14 @@ class Approval_m extends CI_Model {
     return $result->result();
   }
 
+  public function get_latest_approval($query = null)
+  {
+    if($query != null)
+      $this->db->where($query);
+    $this->db->select('*')->from($this->_table_name)->order_by('createdAt', 'desc')->limit(1);
+    $result = $this->db->get();
+
+    return $result->result();
+  }
+
 }//END OF CLASS

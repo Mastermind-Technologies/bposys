@@ -51,8 +51,11 @@ class CENRO_Application extends Business {
 	{
 		$query['referenceNum'] = $reference_num;
 		$application = $this->CI->Application_m->get_all_cenro_applications($query);
-		$this->set_application_all($application[0]);
-		$this->get_business_information($application[0]->businessId);
+        if(count($application) > 0)
+        {
+            $this->set_application_all($application[0]);
+            $this->get_business_information($application[0]->businessId);
+        }
 		$this->unset_CI();
 		return $this;
 	}
@@ -87,21 +90,19 @@ class CENRO_Application extends Business {
 		//check if status is active
 		if($this->status == 'Active')
 		{
+            $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
+            $query = array(
+                'referenceNum' => $reference_num,
+                'role' => 7,
+                'type' => 'Approve',
+                );
+            $approval = $this->CI->Approval_m->get_latest_approval($query);
 			//if this year is greater than application date, expire application
-			if(date('Y') > date('Y', strtotime($this->applicationDate)))
+			if(date('Y') > date('Y', strtotime($approval[0]->createdAt)))
 			{
 				$reference_num = $this->CI->encryption->decrypt($this->referenceNum);
 				$this->change_status($reference_num, 'Expired');
 				$this->status = 'Expired';
-				$query = array(
-					'referenceNum' => $reference_num,
-					'status' => 'Unread',
-					'role' => '3',
-					'notifMessage' => $this->businessName . " application has expired, please check application details for renewal request.",
-					);
-				$var = get_instance();
-				$var->Notification_m->insert($query);
-				unset($var);
 			}
 		}
 		$this->unset_CI();

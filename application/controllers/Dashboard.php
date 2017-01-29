@@ -114,6 +114,22 @@ class Dashboard extends CI_Controller {
 		else if($role == 'BPLO')
 		{
 			//CHECK EXPIRY
+			$reference_numbers = $this->Reference_Number_m->get_all_reference_numbers();
+			if(count($reference_numbers) > 0)
+			{
+				foreach ($reference_numbers as $key => $reference) 
+				{
+					$application = new BPLO_Application($reference->referenceNum);
+					$application->check_expiry();
+					$application = new CENRO_Application($reference->referenceNum);
+					$application->check_expiry();
+					$application = new Zoning_Application($reference->referenceNum);
+					$application->check_expiry();
+					$application = new Sanitary_Application($reference->referenceNum);
+					$application->check_expiry();
+				}
+			}
+
 			// $bplo = $this->Application_m->get_all_bplo_applications();
 			// if(count($bplo) > 0)
 			// {	
