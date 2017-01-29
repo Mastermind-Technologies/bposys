@@ -103,7 +103,7 @@ class Dashboard extends CI_Controller {
 				if($this->Business_m->count_businesses() > 0)
 					$this->load->view('dashboard/applicant/index', $data);
 				else
-					redirect('profile/manage_business_profiles?ft=1');
+					redirect('profile/add_business?ft=1');
 			}
 			//if applicant is still not a registered owner, force register.
 			else
@@ -313,8 +313,7 @@ class Dashboard extends CI_Controller {
 		echo script_tag('assets/js/parsley.min.js');
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		$query['userId'] = $user_id;
-		$data['business'] = $this->Business_m->get_all_businesses($query);
+		$data['business'] = $this->Business_m->get_all_unapplied_businesses($user_id);
 
 		$this->load->view('dashboard/applicant/new_application',$data);
 	}

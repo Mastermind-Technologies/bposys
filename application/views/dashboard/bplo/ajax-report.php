@@ -6,6 +6,7 @@
 			title: {
 				text: "Issued Business Permits Year <?= $year ?>"
 			},
+			animationEnabled: true,
 			data: [{
 				type: "stackedColumn",
 				legendText: "New",

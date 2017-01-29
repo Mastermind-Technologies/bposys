@@ -5,6 +5,8 @@ class Owner_m extends CI_Model {
 
   private $table = 'owners';
   private $table_users = 'users';
+  private $table_bplo = 'application_bplo';
+  private $table_business = 'businesses';
 
   public function __construct()
   {
@@ -42,6 +44,28 @@ class Owner_m extends CI_Model {
    $this->db->where(['userId' => $this->encryption->decrypt($this->session->userdata['userdata']['userId'])]);
    $this->db->from($this->table);
    return $this->db->count_all_results();
+ }
+
+ public function count_male_owners()
+ {
+  //select owners.firstName from owners join businesses on owners.ownerId = businesses.ownerId join application_bplo on businesses.businessId = application_bplo.businessId where owners.gender = 'male' and application_bplo.status = 'active' group by owners.firstName 
+  // $this->db->where($query);
+  // $this->db->where(['application_bplo.status' => 'Active'])->or_where('application_bplo.status =', 'Expired');
+  $this->db->select('owners.firstName, owners.gender')->from($this->table)->join($this->table_business,'owners.ownerId = businesses.ownerId')->join($this->table_bplo, 'businesses.businessId = application_bplo.businessId')->where(['owners.gender' => 'male', 'application_bplo.status' => 'active'])->or_where('application_bplo.status', 'expired');
+  $this->db->group_by('owners.firstName');
+
+  return $this->db->count_all_results();
+ }
+
+ public function count_female_owners()
+ {
+  //select owners.firstName from owners join businesses on owners.ownerId = businesses.ownerId join application_bplo on businesses.businessId = application_bplo.businessId where owners.gender = 'male' and application_bplo.status = 'active' group by owners.firstName 
+  // $this->db->where($query);
+  // $this->db->where(['application_bplo.status' => 'Active'])->or_where('application_bplo.status =', 'Expired');
+  $this->db->select('owners.firstName, owners.gender')->from($this->table)->join($this->table_business,'owners.ownerId = businesses.ownerId')->join($this->table_bplo, 'businesses.businessId = application_bplo.businessId')->where(['owners.gender' => 'female', 'application_bplo.status' => 'active'])->or_where('application_bplo.status', 'expired');
+  $this->db->group_by('owners.firstName');
+
+  return $this->db->count_all_results();
  }
 
  public function check_owner($user_id)
