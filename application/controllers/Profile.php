@@ -152,12 +152,9 @@ class Profile extends CI_Controller {
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$owner_id = $this->input->get('n');
 
-		$owner = new Owner($owner_id);
-		echo "<h2>This page [view owner] is still under development</h2>";
-		echo '<pre>';
-		print_r($owner);
-		echo '</pre>';
-		exit();
+		$data['owner'] = new Owner($owner_id);
+
+		$this->load->view('profile/view-owner',$data);
 	}
 
 	public function edit_owner()
@@ -167,12 +164,9 @@ class Profile extends CI_Controller {
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$owner_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->get('ownr')));
 
-		$owner = new Owner($owner_id);
-		echo "<h2>This page [edit owner] is still under development</h2>";
-		echo '<pre>';
-		print_r($owner);
-		echo '</pre>';
-		exit();
+		$data['owner'] = new Owner($owner_id);
+
+		$this->load->view('profile/edit-owner',$data);
 	}
 
 	public function add_owner()
@@ -280,11 +274,8 @@ class Profile extends CI_Controller {
 		$business_id = $this->input->get("n");
 
 		$data['business'] = new Business($business_id);
-		echo "<h2>This page[view_business] is still under development.</h2>";
-		echo "<pre>";
-		print_r($data['business']);
-		echo "</pre>";
-		exit();
+
+		$this->load->view('profile/view-business', $data);
 	}
 
 	public function edit_business()
@@ -295,11 +286,8 @@ class Profile extends CI_Controller {
 		$business_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->get('app')));
 
 		$data['business'] = new Business($business_id);
-		echo "<h2>This page[edit_business] is still under development.</h2>";
-		echo "<pre>";
-		print_r($data['business']);
-		echo "</pre>";
-		exit();
+
+		$this->load->view('profile/edit-business', $data);
 	}
 
 	public function add_business()
