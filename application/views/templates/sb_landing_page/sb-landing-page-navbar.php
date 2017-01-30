@@ -16,8 +16,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+                  <li class="<?= $selected=='howto' ? 'active' : '' ?>">
+                      <a href="<?php echo base_url(); ?>home/guide"  style="color: #FFF">How to</a>
+                  </li>
                     <li class="<?= $selected=='contact' ? 'active' : '' ?>">
-                        <a href="#banner"  style="color: #FFF">Contact Us</a>
+                        <a href="<?php echo base_url(); ?>home#banner"  style="color: #FFF">Contact Us</a>
                     </li>
                     <li class="<?= $selected=='register' ? 'active' : '' ?>">
                         <a href="<?php echo base_url(); ?>register" style="color: #FFF">Register</a>

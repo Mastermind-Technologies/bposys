@@ -87,7 +87,7 @@
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
                     <h2 class="section-heading">Paperless transaction on the go!</h2>
-                    <p class="lead">You don't have to pile up application forms inside your envelope. Store all your information online!</p>
+                    <p class="lead">You don't have to pile up application forms inside your envelope. Store all your information online for your today's application and for the years to come!</p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <img class="img-responsive" src="<?php echo base_url(); ?>assets/landing-page/img/paperless-resize.png" alt="">

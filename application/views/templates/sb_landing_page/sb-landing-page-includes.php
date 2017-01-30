@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    
+
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/landing-page/css/bootstrap.min.css" rel="stylesheet">
@@ -17,8 +17,11 @@
     <!-- Bootstrap Datetimepicker CSS -->
     <link href="<?php echo base_url(); ?>assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
+
+
     <!-- Custom CSS -->
     <link href="<?php echo base_url(); ?>assets/landing-page/css/landing-page.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/landing-page/css/landing-page-custom.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="<?php echo base_url(); ?>assets/landing-page/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
