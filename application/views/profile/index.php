@@ -5,12 +5,6 @@
 		<div class="row">
 			<div class="col-lg-12">
 
-				<?php if($this->session->flashdata('error')): ?>
-					<div class="alert alert-danger"> <!--bootstrap error div-->
-						<?=$this->session->flashdata('error')?>
-					</div>
-				<?php endif; ?>
-
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						Your Information
@@ -70,11 +64,8 @@
 								</div>
 								<hr>
 								<div class="row">
-									<div class="col-sm-3 col-sm-offset-3">
+									<div class="col-sm-4 col-sm-offset-4">
 										<a href="<?php echo base_url() ?>profile/edit" class="btn btn-warning btn-block">Edit</a>
-									</div>
-									<div class="col-sm-3">
-										<a href="<?php echo base_url() ?>dashboard" class="btn btn-danger btn-block">Cancel</a>
 									</div>
 								</div>
 							</div>
@@ -93,3 +84,9 @@
 <!-- </body> -->
 </div>
 </div>
+
+<?php if($this->session->flashdata('message')): ?>
+	<script>
+		alert("<?= $this->session->flashdata('message'); ?>");
+	</script>
+<?php endif; ?>
