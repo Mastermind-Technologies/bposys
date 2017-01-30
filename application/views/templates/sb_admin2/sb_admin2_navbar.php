@@ -66,10 +66,10 @@
                     <!-- /.nav-second-level -->
                 <!-- </li> -->
                 <li>
-                    <a href="<?php echo base_url(); ?>profile/manage_owner_profiles"><i class="fa fa-users fa-fw"></i> Manage Owner Profiles</a>
+                    <a href="<?php echo base_url(); ?>profile/owners"><i class="fa fa-users fa-fw"></i> Manage Owners</a>
                 </li>
                 <li>
-                    <a href="<?php echo base_url(); ?>profile/manage_business_profiles"><i class="fa fa-cubes fa-fw"></i> Manage Business Profiles</a>
+                    <a href="<?php echo base_url(); ?>profile/businesses"><i class="fa fa-cubes fa-fw"></i> Manage Businesses</a>
                 </li>
                 <!-- <li>
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>

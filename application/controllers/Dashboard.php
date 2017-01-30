@@ -103,7 +103,7 @@ class Dashboard extends CI_Controller {
 				if($this->Business_m->count_businesses() > 0)
 					$this->load->view('dashboard/applicant/index', $data);
 				else
-					redirect('profile/manage_business_profiles?ft=1');
+					redirect('profile/add_business?ft=1');
 			}
 			//if applicant is still not a registered owner, force register.
 			else
@@ -114,6 +114,22 @@ class Dashboard extends CI_Controller {
 		else if($role == 'BPLO')
 		{
 			//CHECK EXPIRY
+			$reference_numbers = $this->Reference_Number_m->get_all_reference_numbers();
+			if(count($reference_numbers) > 0)
+			{
+				foreach ($reference_numbers as $key => $reference) 
+				{
+					$application = new BPLO_Application($reference->referenceNum);
+					$application->check_expiry();
+					$application = new CENRO_Application($reference->referenceNum);
+					$application->check_expiry();
+					$application = new Zoning_Application($reference->referenceNum);
+					$application->check_expiry();
+					$application = new Sanitary_Application($reference->referenceNum);
+					$application->check_expiry();
+				}
+			}
+
 			// $bplo = $this->Application_m->get_all_bplo_applications();
 			// if(count($bplo) > 0)
 			// {	
@@ -297,8 +313,7 @@ class Dashboard extends CI_Controller {
 		echo script_tag('assets/js/parsley.min.js');
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		$query['userId'] = $user_id;
-		$data['business'] = $this->Business_m->get_all_businesses($query);
+		$data['business'] = $this->Business_m->get_all_unapplied_businesses($user_id);
 
 		$this->load->view('dashboard/applicant/new_application',$data);
 	}
@@ -818,9 +833,18 @@ class Dashboard extends CI_Controller {
 		$this->isLogin();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+		$role_Id = $this->Role_m->get_roleId($role);
 		$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $reference_num));
 		
 		BPLO_Application::update_status($reference_num, 'Active');
+
+		$query = array(
+			'referenceNum' => $reference_num,
+			'role' => $role_Id->roleId,
+			'type' => "Issue",
+			'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
+			);
+		$this->Approval_m->insert($query);
 
 		$fields = array(
 			'referenceNum' => $reference_num,

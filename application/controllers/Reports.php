@@ -63,6 +63,7 @@ class Reports extends CI_Controller {
 		$this->_init_matrix($navdata);
 		$this->isLogin();
 
+		//BY YEAR
 		$query['YEAR(createdAt)'] = date('Y');
 		$query['dept'] = "BPLO";
 		$query['type'] = "New";
@@ -152,6 +153,92 @@ class Reports extends CI_Controller {
 				break;
 			}
 		}
+
+		//PEITY CHARTS / SUMMARY
+		unset($query);
+		$query['status'] = 'Active';
+		$data['businesses'] = count($this->Application_m->get_all_bplo_applications($query));
+
+		unset($query);
+		$query['dept'] = 'BPLO';
+		$query['type'] = 'New';
+		$data['issued'] = count($this->Issued_Application_m->get_all($query));
+
+		unset($query);
+		$query['status'] = 'Expired';
+		$data['expired'] = count($this->Application_m->get_all_bplo_applications($query));
+		//total number of businesses (active + expired)
+		$data['businesses'] = (int)$data['businesses'] + (int)$data['expired'];
+
+		$query['status'] = 'Cancelled';
+		$data['cancelled'] = count($this->Application_m->get_all_bplo_applications($query));
+
+		$query['status'] = 'Closed';
+		$data['closed'] = count($this->Application_m->get_all_bplo_applications($query));
+
+
+		//BY GENDER
+		unset($query);
+		$data['male'] = $this->Owner_m->count_male_owners();
+		$data['female'] = $this->Owner_m->count_female_owners();
+
+		//BY BARANGAY
+		$barangay = $this->Business_m->count_businesses_by_barangay();
+		$expired = $this->Business_m->count_expired_businesses_by_barangay();
+		foreach($barangay as $b)
+		{
+			if(count($expired) > 0)
+			{
+				foreach ($expired as $e) {
+					if($b->barangay == $e->barangay)
+					{
+						$data['barangay_array'][] = (object) array_merge((array)$b, (array)$e);
+					}
+					else
+					{
+						$data['barangay_array'][] = (object) $b;
+					}
+				}
+			}
+			else
+			{
+				$data['barangay_array'][] = (object) $b;
+			}
+		}
+
+		//RANGE
+		for ($i=2012; $i <= date('Y') ; $i++) { 
+
+			$data['new'][$i] = new stdClass();
+			$data['new'][$i]->year = $i;
+
+			$data['renew'][$i] = new stdClass();
+			$data['renew'][$i]->year = $i;
+
+			$data['expected'][$i] = new stdClass();
+			$data['expected'][$i]->year = $i;
+			
+			$query['dept'] = "BPLO";
+			$query['type'] = "New";
+
+			$query['YEAR(createdAt)'] = $i;
+			$data['new'][$i]->count = count($this->Issued_Application_m->get_all($query));
+
+			$query['type'] = "Renew";
+			$data['renew'][$i]->count = count($this->Issued_Application_m->get_all($query));
+
+			$query['YEAR(createdAt)'] = $i-1;
+			$query['type'] = "New";
+			$data['expected'][$i]->count = count($this->Issued_Application_m->get_all($query));
+			$query['type'] = "Renew";
+			$data['expected'][$i]->count = $data['expected'][$i]->count + count($this->Issued_Application_m->get_all($query));
+		}
+
+		// echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
+		// exit();
+
 
 		$this->load->view('dashboard/bplo/reports',$data);
 	}

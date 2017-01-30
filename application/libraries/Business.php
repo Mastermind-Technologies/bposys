@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Business extends Owner {
 	private $businessId = null;
 	private $presidentTreasurerName = null;
-	private $businessName = null;
+	protected $businessName = null;
 	private $companyName = null;
 	private $tradeName = null;
 	private $signageName = null;
@@ -20,24 +20,25 @@ class Business extends Owner {
 	private $street = null;
     private $subdivision = null;
     private $barangay = null;
-	private $cityMunicipality = null;
-	private $province = null;
-	private $telnum = null;
-	private $email = null;
-	private $pollutionControlOfficer = null;
-	private $maleEmployees = null;
-	private $femaleEmployees = null;
-	private $PWDEmployees = null;
+    private $cityMunicipality = null;
+    private $province = null;
+    private $telnum = null;
+    private $email = null;
+    private $pollutionControlOfficer = null;
+    private $maleEmployees = null;
+    private $femaleEmployees = null;
+    private $PWDEmployees = null;
     private $LGUEmployees = null;
-	private $businessArea = null;
+    private $businessArea = null;
+    private $isApplied = null;
 
-	public function __construct($business_id = null)
-	{
-		$this->CI =& get_instance();
-		$this->CI->load->model('Business_m');
-		if(isset($business_id))
-			return $this->get_information($business_id);
-	}
+    public function __construct($business_id = null)
+    {
+      $this->CI =& get_instance();
+      $this->CI->load->model('Business_m');
+      if(isset($business_id))
+         return $this->get_business_information($business_id);
+ }
 
     /**
      * get_s the value of businessId.
@@ -396,8 +397,8 @@ class Business extends Owner {
      *
      * @return mixed
      */
-    public function get_Subdivision()
-    {
+     public function get_Subdivision()
+     {
         return $this->subdivision;
     }
 
@@ -654,11 +655,46 @@ class Business extends Owner {
     	if(!isset($this->CI))
     		$this->CI = get_instance();
     	$query['businessId'] = $id;
-    	$result = $this->CI->Business_m->get_all_businesses($query);
-    	$this->get_owner_information($result[0]->ownerId);
-    	$this->set_all($result[0]);
-    	$this->unset_CI();
-    	return $this;
+        if($this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['role']) == "Applicant")
+            $query['userId'] = $this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['userId']);
+        $result = $this->CI->Business_m->get_all_businesses($query);
+        if(count($result) > 0)
+        {
+           $this->get_owner_information($result[0]->ownerId);
+           $this->set_all($result[0]);
+           $this->unset_CI();
+           return $this;
+        }
+         else
+         {
+            $this->CI->session->set_flashdata('failed','Invalid Id');
+            $this->unset_CI();
+            redirect('home');
+        }
+}
+
+        /**
+     * Gets the value of isApplied.
+     *
+     * @return mixed
+     */
+        public function get_IsApplied()
+        {
+            return $this->isApplied;
+        }
+
+    /**
+     * Sets the value of isApplied.
+     *
+     * @param mixed $isApplied the is applied
+     *
+     * @return self
+     */
+    public function set_IsApplied($isApplied)
+    {
+        $this->isApplied = $isApplied;
+
+        return $this;
     }
 
     public function set_all($param = null)
@@ -682,19 +718,19 @@ class Business extends Owner {
     	$this->unitNum = $param->unitNum;
     	$this->street = $param->street;
         $this->subdivision = $param->subdivision;
-    	$this->barangay = $param->barangay;
-    	$this->cityMunicipality = $param->cityMunicipality;
-    	$this->province = $param->province;
-    	$this->telnum = $param->telNum;
-    	$this->email = $param->email;
-    	$this->pollutionControlOfficer = $param->pollutionControlOfficer;
-    	$this->maleEmployees = $param->maleEmployees;
-    	$this->femaleEmployees = $param->femaleEmployees;
-    	$this->PWDEmployees = $param->PWDEmployees;
+        $this->barangay = $param->barangay;
+        $this->cityMunicipality = $param->cityMunicipality;
+        $this->province = $param->province;
+        $this->telnum = $param->telNum;
+        $this->email = $param->email;
+        $this->pollutionControlOfficer = $param->pollutionControlOfficer;
+        $this->maleEmployees = $param->maleEmployees;
+        $this->femaleEmployees = $param->femaleEmployees;
+        $this->PWDEmployees = $param->PWDEmployees;
         $this->LGUEmployees = $param->LGUResidingEmployees;
-    	$this->businessArea = $param->businessArea;
+        $this->businessArea = $param->businessArea;
 
-    	$this->unset_CI();
-    	return $this;
+        $this->unset_CI();
+        return $this;
     }
 }//END OF CLASS

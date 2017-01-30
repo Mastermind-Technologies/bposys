@@ -23,6 +23,7 @@ class BPLO_Application extends Business {
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
 		$this->CI->load->model('Application_m');
+        $this->CI->load->model('Approval_m');
 		$this->CI->load->model('Business_Activity_m');
 		$this->CI->load->model('Lessor_m');
 		$this->CI->load->model('Notification_m');
@@ -35,8 +36,11 @@ class BPLO_Application extends Business {
 		$query['referenceNum'] = $reference_num;
 
 		$application = $this->CI->Application_m->get_all_bplo_applications($query);
-		$this->set_application_all($application[0]);
-		$this->get_business_information($application[0]->businessId);
+        if(count($application) > 0)
+        {
+            $this->set_application_all($application[0]);
+            $this->get_business_information($application[0]->businessId);        
+        }
 		$this->unset_CI();
 		return $this;
 	}
@@ -78,8 +82,15 @@ class BPLO_Application extends Business {
 		//check if status is active
 		if($this->status == 'Active')
 		{
+            $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
+            $query = array(
+                'referenceNum' => $reference_num,
+                'role' => 4,
+                'type' => 'Issue',
+                );
+            $approval = $this->CI->Approval_m->get_latest_approval($query);
 			//if this year is greater than application date, expire application
-			if(date('Y') > date('Y', strtotime($this->applicationDate)))
+			if(date('Y') > date('Y', strtotime($approval[0]->createdAt)))
 			{
 				$reference_num = $this->CI->encryption->decrypt($this->referenceNum);
 				$this->change_status($reference_num, 'Expired');

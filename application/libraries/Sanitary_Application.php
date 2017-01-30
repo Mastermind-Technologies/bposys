@@ -25,11 +25,14 @@ class Sanitary_Application extends Business {
 		$query['referenceNum'] = $reference_num;
 
 		$application = $this->CI->Application_m->get_all_sanitary_applications($query);
-		$this->set_application_all($application[0]);
-		$this->get_business_information($application[0]->businessId);
-		$this->unset_CI();
-		return $this;
-	}
+        if(count($application) > 0)
+        {
+          $this->set_application_all($application[0]);
+          $this->get_business_information($application[0]->businessId);
+        }
+      $this->unset_CI();
+      return $this;
+    }
 
 	public function change_status($reference_num = null, $status = null)
 	{
@@ -58,32 +61,30 @@ class Sanitary_Application extends Business {
         unset($var);
     }
 
-	public function check_expiry()
-	{
-		if(!isset($this->CI))
-			$this->CI =& get_instance();
-		//check if status is active
-		if($this->status == 'Active')
-		{
-			//if this year is greater than application date, expire application
-			if(date('Y') > date('Y', strtotime($this->applicationDate)))
-			{
-				$reference_num = $this->CI->encryption->decrypt($this->referenceNum);
-				$this->change_status($reference_num, 'Expired');
-				$this->status = 'Expired';
-				$query = array(
-					'referenceNum' => $reference_num,
-					'status' => 'Unread',
-					'role' => '3',
-					'notifMessage' => $this->businessName . " application has expired, please check application details for renewal request.",
-					);
-				$var = get_instance();
-				$var->Notification_m->insert($query);
-				unset($var);
-			}
-		}
-		$this->unset_CI();
-	}
+    public function check_expiry()
+    {
+        if(!isset($this->CI))
+             $this->CI =& get_instance();
+    		//check if status is active
+         if($this->status == 'Active')
+         {
+            $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
+            $query = array(
+                'referenceNum' => $reference_num,
+                'role' => 10,
+                'type' => 'Approve',
+                );
+            $approval = $this->CI->Approval_m->get_latest_approval($query);
+                //if this year is greater than application date, expire application
+            if(date('Y') > date('Y', strtotime($approval[0]->createdAt)))
+            {
+                $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
+                $this->change_status($reference_num, 'Expired');
+                $this->status = 'Expired';
+            }
+        }
+        $this->unset_CI();
+    }
 
 	public function set_application_all($param = null)
 	{
