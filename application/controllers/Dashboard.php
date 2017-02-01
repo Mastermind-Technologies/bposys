@@ -337,7 +337,7 @@ class Dashboard extends CI_Controller {
 		$this->form_validation->set_rules('brgy-clearance-date-issued','Barangay Clearance Date Issued', 'required');
 		$this->form_validation->set_rules('ctc-number', 'CTC Number', 'required|numeric');
 		$this->form_validation->set_rules('tin', 'TIN', 'required');
-		$this->form_validation->set_rules('capital-invested', 'Capital Invested', 'required|numeric');
+		// $this->form_validation->set_rules('capital-invested', 'Capital Invested', 'required|numeric');
 		$this->form_validation->set_rules('business', 'Business Profile', 'required');
 
 		if($this->input->post('tax-incentive'))
@@ -415,7 +415,6 @@ class Dashboard extends CI_Controller {
 		}
 		else
 		{
-
 			if($this->input->post('tax-incentive'))
 			{
 				$entity = $this->input->post('entity');
@@ -479,7 +478,7 @@ class Dashboard extends CI_Controller {
 				'userId' => $user_id,
 				'referenceNum' => $reference_num,
 				'businessId' =>$business_id,
-				'capitalInvested' => $this->input->post('capital-invested'),
+				// 'capitalInvested' => 0,
 				'status' => 'standby',
 				);
 			$this->Application_m->insert_zoning($zoning_fields);

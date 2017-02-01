@@ -94,12 +94,12 @@
 													</select>
 												</div>
 											</div>
-											<div class="col-sm-3">
+											<!-- <div class="col-sm-3">
 												<div class="form-group">
 													<label>Capital Invested</label>
 													<input type="text" name="capital-invested" required data-parsley-type="digits" id="capital-invested" class="form-control">
 												</div>
-											</div>
+											</div> -->
 										</div>
 										<div class="row">
 											<div class="col-sm-3">
@@ -825,7 +825,7 @@
 														<td><input id="code" name="code" type="text" required class=form-control></td>
 														<td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td>
 														<td><input id="num-of-units" name="num-of-units" type="text" required class=form-control></td>
-														<td><input id="capitalization" name="capitalization" type="text" required class=form-control></td>
+														<td><input id="capitalization" name="capitalization[]" type="text" required class=form-control></td>
 														<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
 													</tr>
 												</tbody>

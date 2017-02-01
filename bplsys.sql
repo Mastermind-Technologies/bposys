@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 30, 2017 at 04:59 PM
+-- Generation Time: Feb 01, 2017 at 05:15 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -144,7 +144,6 @@ CREATE TABLE IF NOT EXISTS `application_zoning` (
   `referenceNum` varchar(255) NOT NULL,
   `userId` int(5) NOT NULL,
   `businessId` int(10) NOT NULL,
-  `capitalInvested` int(255) NOT NULL,
   `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -154,10 +153,10 @@ CREATE TABLE IF NOT EXISTS `application_zoning` (
 -- Dumping data for table `application_zoning`
 --
 
-INSERT INTO `application_zoning` (`applicationId`, `referenceNum`, `userId`, `businessId`, `capitalInvested`, `status`, `createdAt`, `updatedAt`) VALUES
-(1, 'E4302995BD', 1, 1, 12321321, 'Cancelled', '2017-01-22 13:20:51', '2017-01-24 05:08:00'),
-(5, '9E9E1D64A2', 1, 1, 123213, 'Active', '2017-01-23 12:43:22', '2017-01-29 03:48:49'),
-(6, '47B3DF6BF4', 1, 1, 123123, 'Active', '2017-01-23 12:47:52', '2017-01-30 13:54:52');
+INSERT INTO `application_zoning` (`applicationId`, `referenceNum`, `userId`, `businessId`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 'E4302995BD', 1, 1, 'Cancelled', '2017-01-22 13:20:51', '2017-01-24 05:08:00'),
+(5, '9E9E1D64A2', 1, 1, 'Active', '2017-01-23 12:43:22', '2017-01-29 03:48:49'),
+(6, '47B3DF6BF4', 1, 1, 'Active', '2017-01-23 12:47:52', '2017-01-30 13:54:52');
 
 -- --------------------------------------------------------
 
@@ -222,7 +221,6 @@ CREATE TABLE IF NOT EXISTS `businesses` (
   `companyName` varchar(255) NOT NULL,
   `tradeName` varchar(255) NOT NULL,
   `signageName` varchar(255) NOT NULL,
-  `natureOfBusiness` varchar(255) NOT NULL,
   `organizationType` varchar(255) NOT NULL,
   `corporationName` varchar(255) NOT NULL,
   `dateOfOperation` varchar(255) NOT NULL,
@@ -252,10 +250,10 @@ CREATE TABLE IF NOT EXISTS `businesses` (
 -- Dumping data for table `businesses`
 --
 
-INSERT INTO `businesses` (`businessId`, `userId`, `ownerId`, `presidentTreasurerName`, `businessName`, `companyName`, `tradeName`, `signageName`, `natureOfBusiness`, `organizationType`, `corporationName`, `dateOfOperation`, `businessDesc`, `PIN`, `bldgName`, `houseBldgNum`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `telNum`, `email`, `pollutionControlOfficer`, `maleEmployees`, `femaleEmployees`, `PWDEmployees`, `businessArea`, `LGUResidingEmployees`, `createdAt`, `updatedAt`) VALUES
-(1, 1, 1, 'Labay Billy James', 'Mastermind IT Solutions', 'Mastermind', 'Mastermind', 'mastermind-signage', 'IT Solutions', 'Corporation', 'Jason Corp', '01/22/2017', 'description here', 23232, 'Mercury', 'Blk 29 Lot 19', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '0498393969', 'mastermind@yahoo.com', 'Jason Hernandez', 20, 15, 2, '22222', 10, '2017-01-21 17:07:12', '2017-01-29 06:12:07'),
-(4, 1, 1, 'Jason Hernandez', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Single', 'NA', '01/29/2017', 'Test Business 10', 0, 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Malaban', 'Test Business 10', 'Biñan City', 'Laguna', '2222', 'test@yahoo.com', 'Jason Hernandez', 1, 2, 3, '1212', 4, '2017-01-29 10:04:56', '2017-01-29 12:23:04'),
-(5, 18, 3, 'Jason Hernandez', 'Jason Business', 'Jason Company', 'Jason Jason', 'Jason Business', 'Jason', 'Single', 'NA', '01/30/2017', 'Jason Desc', 0, 'w', 'q', 'e', 'r', 'San Jose', 'd', 'Biñan City', 'Laguna', '123123123', 'hernandez.jason@yahoo.com', '1', 2, 3, 4, '1', 5, '2017-01-30 15:37:56', '2017-01-30 15:37:56');
+INSERT INTO `businesses` (`businessId`, `userId`, `ownerId`, `presidentTreasurerName`, `businessName`, `companyName`, `tradeName`, `signageName`, `organizationType`, `corporationName`, `dateOfOperation`, `businessDesc`, `PIN`, `bldgName`, `houseBldgNum`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `telNum`, `email`, `pollutionControlOfficer`, `maleEmployees`, `femaleEmployees`, `PWDEmployees`, `businessArea`, `LGUResidingEmployees`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 1, 'Labay Billy James', 'Mastermind IT Solutions', 'Mastermind', 'Mastermind', 'mastermind-signage', 'Corporation', 'Jason Corp', '01/22/2017', 'description here', 23232, 'Mercury', 'Blk 29 Lot 19', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '0498393969', 'mastermind@yahoo.com', 'Jason Hernandez', 20, 15, 2, '22222', 10, '2017-01-21 17:07:12', '2017-01-29 06:12:07'),
+(4, 1, 1, 'Jason Hernandez', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Single', 'NA', '01/29/2017', 'Test Business 10', 0, 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Malaban', 'Test Business 10', 'Biñan City', 'Laguna', '2222', 'test@yahoo.com', 'Jason Hernandez', 1, 2, 3, '1212', 4, '2017-01-29 10:04:56', '2017-01-29 12:23:04'),
+(5, 18, 3, 'Jason Hernandez', 'Jason Business', 'Jason Company', 'Jason Jason', 'Jason Business', 'Single', 'NA', '01/30/2017', 'Jason Desc', 0, 'w', 'q', 'e', 'r', 'San Jose', 'd', 'Biñan City', 'Laguna', '123123123', 'hernandez.jason@yahoo.com', '1', 2, 3, 4, '1', 5, '2017-01-30 15:37:56', '2017-01-30 15:37:56');
 
 -- --------------------------------------------------------
 
@@ -422,6 +420,7 @@ CREATE TABLE IF NOT EXISTS `owners` (
   `subdivision` varchar(255) DEFAULT NULL,
   `cityMunicipality` varchar(255) DEFAULT NULL,
   `province` varchar(255) DEFAULT NULL,
+  `PIN` varchar(255) NOT NULL,
   `contactNum` varchar(255) DEFAULT NULL,
   `telNum` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
@@ -433,9 +432,9 @@ CREATE TABLE IF NOT EXISTS `owners` (
 -- Dumping data for table `owners`
 --
 
-INSERT INTO `owners` (`ownerId`, `userId`, `firstName`, `middleName`, `lastName`, `suffix`, `gender`, `houseBldgNo`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `contactNum`, `telNum`, `email`, `createdAt`, `updatedAt`) VALUES
-(1, 1, 'Renjo', 'Enriquez', 'Dolosa', '', 'Male', 'Blk 29 Lot 19', 'N/A', 'N/A', 'Dumaguete Street owner', 'Santo Tomas owner', 'South City Homes owner', 'Biñan City owner', 'Laguna owner', '09175138266', '8393969', 'dolosa.renjo@yahoo.com', '2017-01-21 15:07:36', '2017-01-23 11:03:59'),
-(3, 18, 'Jason', 'Tadeo', 'Hernandez', '', 'Male', 'q', 'w', 'e', 'r', 's', 'a', 'd', 'f', '123123', '123123', 'hernandez.jason@yahoo.com', '2017-01-30 15:34:47', '2017-01-30 15:34:47');
+INSERT INTO `owners` (`ownerId`, `userId`, `firstName`, `middleName`, `lastName`, `suffix`, `gender`, `houseBldgNo`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `PIN`, `contactNum`, `telNum`, `email`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 'Renjo', 'Enriquez', 'Dolosa', '', 'Male', 'Blk 29 Lot 19', 'N/A', 'N/A', 'Dumaguete Street owner', 'Santo Tomas owner', 'South City Homes owner', 'Biñan City owner', 'Laguna owner', '1212', '09175138266', '8393969', 'dolosa.renjo@yahoo.com', '2017-01-21 15:07:36', '2017-02-01 15:08:22'),
+(3, 18, 'Jason', 'Tadeo', 'Hernandez', '', 'Male', 'q', 'w', 'e', 'r', 's', 'a', 'd', 'f', '1212', '123123', '123123', 'hernandez.jason@yahoo.com', '2017-01-30 15:34:47', '2017-02-01 15:08:25');
 
 -- --------------------------------------------------------
 

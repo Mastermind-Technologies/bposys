@@ -69,7 +69,7 @@ class Profile extends CI_Controller {
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
 		$data['user'] = new User($user_id);
-	
+
 		$this->load->view('profile/edit_profile', $data);
 	}
 
@@ -128,21 +128,29 @@ class Profile extends CI_Controller {
 		$query['userId'] = $user_id;
 		$owner = $this->Owner_m->get_all_owners($query);
 		$unapplied = $this->Owner_m->get_unapplied_business_owners($user_id);
+
 		foreach ($owner as $key => $o) {
 			$data['owner'][$key] = new Owner($o->ownerId);
-			foreach ($unapplied as $u) {
-				if($o->ownerId == $u->ownerId)
-				{
-					$data['owner'][$key]->set_IsApplied(0);
-				}
-				else
-				{
-					$data['owner'][$key]->set_IsApplied(1);
+			if(count($unapplied) != 0)
+			{
+				foreach ($unapplied as $u) {
+					if($o->ownerId == $u->ownerId)
+					{
+						$data['owner'][$key]->set_IsApplied(0);
+					}
+					else
+					{
+						$data['owner'][$key]->set_IsApplied(1);
+					}
 				}
 			}
-		}
+			else
+			{
+				$data['owner'][$key]->set_IsApplied(1);
+			}
 
-		$this->load->view('profile/manage_owners', $data);
+			$this->load->view('profile/manage_owners', $data);
+		}
 	}
 
 	public function view_owner()
@@ -198,6 +206,7 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('subdivision', 'Subdivision', 'required');
 		$this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
 		$this->form_validation->set_rules('province', 'Province', 'required');
+		$this->form_validation->set_rules('PIN', 'Zip/Postal Code', 'required');
 		$this->form_validation->set_rules('contact-number', 'Contact Number', 'required');
 		$this->form_validation->set_rules('email','Email','required');
 
@@ -223,6 +232,7 @@ class Profile extends CI_Controller {
 				'subdivision' => $this->input->post('subdivision'),
 				'cityMunicipality' => $this->input->post('city-municipality'),
 				'province' => $this->input->post('province'),
+				'PIN' => $this->input->post('PIN'),
 				'contactNum' => $this->input->post('contact-number'),
 				'telNum' => $this->input->post('telephone-number'),
 				'email' => $this->input->post('email'),
@@ -251,15 +261,22 @@ class Profile extends CI_Controller {
 
 		$unapplied = $this->Business_m->get_all_unapplied_businesses($user_id);
 		foreach ($data['business'] as $key => $b) {
-			foreach ($unapplied as $key => $u) {
-				if($b->get_BusinessName() == $u->businessName)
-				{
-					$b->set_IsApplied(0);
+			if(count($unapplied) != 0)
+			{
+				foreach ($unapplied as $key => $u) {
+					if($b->get_BusinessName() == $u->businessName)
+					{
+						$b->set_IsApplied(0);
+					}
+					else
+					{
+						$b->set_IsApplied(1);
+					}
 				}
-				else
-				{
-					$b->set_IsApplied(1);
-				}
+			}
+			else
+			{
+				$b->set_IsApplied(1);
 			}
 		}
 
@@ -322,7 +339,7 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('company-name','Company Name','required');
 		$this->form_validation->set_rules('trade-name','Trade/Franchise Name','required');
 		$this->form_validation->set_rules('signage-name','Signage Name','required');
-		$this->form_validation->set_rules('nature-of-business','Nature of Business','required');
+		// $this->form_validation->set_rules('nature-of-business','Nature of Business','required');
 		$this->form_validation->set_rules('organization-type','Organization Type','required');
 		if($this->input->post('organization-type') == 'Corporation')
 			$this->form_validation->set_rules('corporation-name', 'Corporation Name', 'required');
@@ -391,7 +408,7 @@ class Profile extends CI_Controller {
 				'companyName' => $this->input->post('company-name'),
 				'tradeName' => $this->input->post('trade-name'),
 				'signageName' => $this->input->post('signage-name'),
-				'natureOfBusiness' => $this->input->post('nature-of-business'),
+				// 'natureOfBusiness' => $this->input->post('nature-of-business'),
 				'organizationType' => $this->input->post('organization-type'),
 				'corporationName' => $this->input->post('organization-type')=="Corporation" ? $this->input->post('corporation-name') : "NA",
 				'dateOfOperation' => $this->input->post('date-of-operation'),

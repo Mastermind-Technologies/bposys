@@ -135,7 +135,7 @@
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
-												<label for="date-of-operation">Date of Operation</label>
+												<label for="date-of-operation">Date of Operation/Date Started</label>
 												<div class="input-group date">
 													<input type="text" required id="date-of-operation" name="date-of-operation" class="form-control" data="DateTimePicker" />  <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
 												</div>
@@ -147,12 +147,6 @@
 											<div class="form-group">
 												<label for="business-area">Business Area (in sq. m.)</label>
 												<input type="text" required name="business-area" id="business-area" class="form-control">
-											</div>
-										</div>
-										<div class="col-sm-3">
-											<div class="form-group">
-												<label for="PIN">Property Index Number (PIN)</label>
-												<input type="text" required data-parsley-type='digits' name="PIN" id="PIN" class="form-control">
 											</div>
 										</div>
 										<div class="col-sm-3">
@@ -251,6 +245,14 @@
 											</div>
 										</div>
 									</div>
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label for="PIN">Zip/Postal Code</label>
+												<input type="text" required data-parsley-type='digits' name="PIN" id="PIN" class="form-control">
+											</div>
+										</div>
+									</div>
 									
 									<h4 class="page-header">Contact Details</h4>
 									<div class="row">
@@ -275,12 +277,6 @@
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-						<div class="col-sm-12">
-							
-							<div class="row">
-								
 							</div>
 						</div>
 					</div>

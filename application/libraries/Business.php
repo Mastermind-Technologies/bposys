@@ -8,7 +8,7 @@ class Business extends Owner {
 	private $companyName = null;
 	private $tradeName = null;
 	private $signageName = null;
-	private $natureOfBusiness = null;
+	// private $natureOfBusiness = null;
 	private $organizationType = null;
 	private $corporationName = null;
 	private $dateOfOperation = null;
@@ -177,10 +177,10 @@ class Business extends Owner {
      *
      * @return mixed
      */
-    public function get_NatureOfBusiness()
-    {
-    	return $this->natureOfBusiness;
-    }
+    // public function get_NatureOfBusiness()
+    // {
+    // 	return $this->natureOfBusiness;
+    // }
 
     /**
      * Sets the value of natureOfBusiness.
@@ -189,10 +189,10 @@ class Business extends Owner {
      *
      * @return self
      */
-    public function set_NatureOfBusiness($natureOfBusiness)
-    {
-    	$this->natureOfBusiness = $natureOfBusiness;
-    }
+    // public function set_NatureOfBusiness($natureOfBusiness)
+    // {
+    // 	$this->natureOfBusiness = $natureOfBusiness;
+    // }
 
     /**
      * get_s the value of organizationType.
@@ -710,7 +710,7 @@ class Business extends Owner {
     	$this->companyName = $param->companyName;
     	$this->tradeName = $param->tradeName;
     	$this->signageName = $param->signageName;
-    	$this->natureOfBusiness = $param->natureOfBusiness;
+    	// $this->natureOfBusiness = $param->natureOfBusiness;
     	$this->organizationType = $param->organizationType;
     	$this->corporationName = $param->corporationName;
     	$this->dateOfOperation = $param->dateOfOperation;

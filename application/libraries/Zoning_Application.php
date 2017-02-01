@@ -7,7 +7,7 @@ class Zoning_Application extends Business {
 	private $referenceNum = null;
 	private $userId = null;
     private $businessId = null;
-    private $capitalInvested = null;
+    // private $capitalInvested = null;
 	private $status = null;
 	
 	public function __construct($reference_num = null){
@@ -90,7 +90,7 @@ class Zoning_Application extends Business {
 		$this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
 		$this->userId = $this->CI->encryption->encrypt($param->userId);
         $this->businessId = $this->CI->encryption->encrypt($param->businessId);
-        $this->capitalInvested = $param->capitalInvested;
+        // $this->capitalInvested = $param->capitalInvested;
 		$this->status = $param->status;
 
 		$this->unset_CI();
@@ -203,10 +203,10 @@ class Zoning_Application extends Business {
         $this->businessId = $businessId;
     }
 
-    public function get_CapitalInvested()
-    {
-        return $this->capitalInvested;
-    }
+    // public function get_CapitalInvested()
+    // {
+    //     return $this->capitalInvested;
+    // }
 
     /**
      * Sets the value of capitalInvested.
@@ -215,8 +215,8 @@ class Zoning_Application extends Business {
      *
      * @return self
      */
-    public function set_CapitalInvested($capitalInvested)
-    {
-        $this->capitalInvested = $capitalInvested;
-    }
+    // public function set_CapitalInvested($capitalInvested)
+    // {
+    //     $this->capitalInvested = $capitalInvested;
+    // }
 }//END OF CLASS
