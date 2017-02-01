@@ -315,7 +315,7 @@
                 <?php endforeach ?>
               </tbody>
             </table>
-            <?php if ($application->get_status() == "Completed" || $application->get_status() == "Active"): ?>
+            <?php if ($application->get_status() == "Completed" || $application->get_status() == "Active" || $application->get_status() == "On process"): ?>
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -338,12 +338,12 @@
                   <tr>
                     <td>Zoning Clearance</td>
                     <td>Zoning Admin</td>
-                    <td><?= date('F j, o',strtotime($zoning[0]->createdAt)) ?></td>
+                    <td><?= isset($zoning[0]->createdAt) ? date('F j, o',strtotime($zoning[0]->createdAt)) : '' ?></td>
                   </tr>
                   <tr>
                     <td>Sanitary / Health Clearance</td>
                     <td>City Health Department</td>
-                    <td><?= date('F j, o',strtotime($sanitary[0]->createdAt)) ?></td>
+                    <td><?= isset($sanitary[0]->createdAt) ? date('F j, o',strtotime($sanitary[0]->createdAt)) : '' ?></td>
                   </tr>
                   <tr>
                     <td>Occupancy Permit</td>

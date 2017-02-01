@@ -108,7 +108,7 @@ class Dashboard extends CI_Controller {
 			//if applicant is still not a registered owner, force register.
 			else
 			{
-				redirect('profile/manage_owner_profiles?ft=1');
+				redirect('profile/add_owner?ft=1');
 			}
 		}
 		else if($role == 'BPLO')
@@ -1142,7 +1142,7 @@ class Dashboard extends CI_Controller {
 			$data['application'] = $this->Application_m->get_all_bplo_applications($query);
 			//map to application object
 			$data['application'] = new BPLO_Application($data['application'][0]->referenceNum);
-			if($data['application']->get_status() == 'Completed' || $data['application']->get_status() == 'Active')
+			if($data['application']->get_status() == 'Completed' || $data['application']->get_status() == 'Active' || $data['application']->get_status() == 'On process')
 			{
 				$reference_num = $this->encryption->decrypt($data['application']->get_referenceNum());
 				unset($query);

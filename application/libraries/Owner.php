@@ -18,6 +18,7 @@ class Owner {
 	private $owner_contactNum = null;
 	private $owner_telNum = null;
     private $owner_email = null;
+    private $isApplied = null;
 
 	public function __construct($owner_id = null)
 	{
@@ -32,11 +33,28 @@ class Owner {
         if(!isset($this->CI))
             $this->CI =& get_instance();
 		$query['ownerId'] = $id;
-		$result = $this->CI->Owner_m->get_all_owners($query);
-		$this->set_owner_all($result[0]);
 
-		$this->unset_CI();
-		return $this;
+        if($this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['role']) == 'Applicant')
+        {
+            $query['userId'] = $this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['userId']);
+        }
+
+		$result = $this->CI->Owner_m->get_all_owners($query);
+
+        if(count($result) > 0)
+        {
+    		$this->set_owner_all($result[0]);
+            $this->unset_CI();
+            return $this;
+        }
+        else
+        {
+            $this->CI->session->set_flashdata('failed', 'Invalid Inputt');
+            $this->unset_CI();
+            redirect('Home');
+        }
+
+		
 	}
 
 	public function set_owner_all($param = null)
@@ -395,5 +413,29 @@ class Owner {
     private function set_OwnerEmail($owner_email)
     {
         $this->owner_email = $owner_email;
+    }
+
+    /**
+     * Gets the value of isApplied.
+     *
+     * @return mixed
+     */
+    public function get_IsApplied()
+    {
+        return $this->isApplied;
+    }
+
+    /**
+     * Sets the value of isApplied.
+     *
+     * @param mixed $isApplied the is applied
+     *
+     * @return self
+     */
+    public function set_IsApplied($isApplied)
+    {
+        $this->isApplied = $isApplied;
+
+        return $this;
     }
 }//END OF CLASS

@@ -37,8 +37,8 @@ class Business extends Owner {
       $this->CI =& get_instance();
       $this->CI->load->model('Business_m');
       if(isset($business_id))
-         return $this->get_business_information($business_id);
- }
+       return $this->get_business_information($business_id);
+}
 
     /**
      * get_s the value of businessId.
@@ -655,19 +655,22 @@ class Business extends Owner {
     	if(!isset($this->CI))
     		$this->CI = get_instance();
     	$query['businessId'] = $id;
+
         if($this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['role']) == "Applicant")
             $query['userId'] = $this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['userId']);
+
         $result = $this->CI->Business_m->get_all_businesses($query);
+
         if(count($result) > 0)
         {
-           $this->get_owner_information($result[0]->ownerId);
-           $this->set_all($result[0]);
-           $this->unset_CI();
-           return $this;
+         $this->get_owner_information($result[0]->ownerId);
+         $this->set_all($result[0]);
+         $this->unset_CI();
+         return $this;
         }
-         else
-         {
-            $this->CI->session->set_flashdata('failed','Invalid Id');
+        else
+        {
+            $this->CI->session->set_flashdata('failed','Invalid Input');
             $this->unset_CI();
             redirect('home');
         }

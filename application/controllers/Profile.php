@@ -68,14 +68,8 @@ class Profile extends CI_Controller {
 		$this->_init();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		$user = new User($user_id);
-		echo "<h2>This page[edit profile] is still under development.</h2>";
-		echo "<pre>";
-		print_r($user);
-		echo "</pre>";
-		exit();
-
-		
+		$data['user'] = new User($user_id);
+	
 		$this->load->view('profile/edit_profile', $data);
 	}
 
@@ -88,18 +82,19 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('lname', 'Last Name', 'required');
 		$this->form_validation->set_rules('birth-date', 'Birth Date', 'required');
 		$this->form_validation->set_rules('gender', 'Gender', 'required');
-		$this->form_validation->set_rules('position', 'Position', 'required');
-		$this->form_validation->set_rules('house-bldg-no', 'Civil Status', 'required');
-		$this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
-		$this->form_validation->set_rules('unit-no', 'Unit Number', 'required');
-		$this->form_validation->set_rules('street', 'Street', 'required');
-		$this->form_validation->set_rules('barangay', 'Barangay', 'required');
-		$this->form_validation->set_rules('subdivision', 'Subdivision', 'required');
-		$this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
-		$this->form_validation->set_rules('province', 'Province', 'required');
-		$this->form_validation->set_rules('contact-number', 'Contact Number', 'required');
-		$this->form_validation->set_rules('business-area', 'Business Area', 'required');
-		$this->form_validation->set_rules('num-of-employees', 'Number of Employees', 'required');
+		$this->form_validation->set_rules('civil-status', 'required');
+		// $this->form_validation->set_rules('position', 'Position', 'required');
+		// $this->form_validation->set_rules('house-bldg-no', 'Civil Status', 'required');
+		// $this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
+		// $this->form_validation->set_rules('unit-no', 'Unit Number', 'required');
+		// $this->form_validation->set_rules('street', 'Street', 'required');
+		// $this->form_validation->set_rules('barangay', 'Barangay', 'required');
+		// $this->form_validation->set_rules('subdivision', 'Subdivision', 'required');
+		// $this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
+		// $this->form_validation->set_rules('province', 'Province', 'required');
+		// $this->form_validation->set_rules('contact-number', 'Contact Number', 'required');
+		// $this->form_validation->set_rules('business-area', 'Business Area', 'required');
+		// $this->form_validation->set_rules('num-of-employees', 'Number of Employees', 'required');
 
 
 		if($this->form_validation->run() == FALSE)
@@ -109,7 +104,7 @@ class Profile extends CI_Controller {
 		}
 		else
 		{
-			$user_fields = array(
+			$fields = array(
 				'firstName' => $this->input->post('fname'),
 				'lastName' => $this->input->post('lname'),
 				'middleName' => $this->input->post('mname'),
@@ -118,82 +113,65 @@ class Profile extends CI_Controller {
 				'birthDate' => $this->input->post('birth-date'),
 				'civilStatus' => $this->input->post('civil-status'),
 				);
-
-			$applicant_fields = array(
-				'userId' => $user_id,			
-				'houseBldgNo' => $this->input->post('house-bldg-no'),
-				'bldgName' => $this->input->post('bldg-name'),
-				'unitNum' => $this->input->post('unit-no'),
-				'street' => $this->input->post('street'),
-				'barangay' => $this->input->post('barangay'),
-				'subdivision' => $this->input->post('subdivision'),
-				'cityMunicipality' => $this->input->post('city-municipality'),
-				'province' => $this->input->post('province'),
-				'contactNum' => $this->input->post('contact-number'),
-				'telNum' => $this->input->post('telephone-number'),
-				'businessArea' => $this->input->post('business-area'),
-				'numOfEmployeesLGU' => $this->input->post('num-of-employees'),
-				'position' => $this->input->post('position'),
-				);
-
-	    	// echo "<pre>";
-	    	// print_r($applicant_fields);
-	    	// echo "</pre>";
-	    	// exit();
-
-			$is_setup = $this->Owner_m->check_owner($user_id);
-
-	    	//if applicant is already registered
-			if($is_setup)
-			{
-				$is_success = $this->Owner_m->update_owner_details($user_fields, $applicant_fields);
-
-				if($is_success)
-				{
-					$this->session->set_flashdata('message', 'Update Successful!');
-				}
-				else
-				{
-					$this->session->set_flashdata('message', 'Update failed');
-				}
-			}
-	    	//for first time set-up
-	    	//the system registers the applicant first before updating
-			else
-			{
-				$is_success = $this->Owner_m->register_owner($applicant_fields);
-				if($is_success)
-				{
-					$is_success = $this->Owner_m->update_owner_details($user_fields, $applicant_fields);
-					if($is_success)
-					{
-						$this->session->set_flashdata('message', 'Applicant Registered!');
-					}
-					else
-					{
-						$this->session->set_flashdata('message', 'Applicant Registration Failed');
-					}
-				}
-				else
-				{
-					$this->session->set_flashdata('message', 'Applicant Registration Failed');
-				}
-
-			}
-			// if($this->Business_Address_m->count_addresses > 0)
-			// {
-			// 	redirect('dashboard');
-			// }
-			// else
-			// {
-				// redirect('profile/manage_business_address');
-			// }
+			$this->User_m->update_user($fields);
+			$this->session->set_flashdata('message', 'Profile updated successfully!');
+			redirect('profile');
 		}
 	}
 
-	public function manage_owner_profiles()
+	public function owners()
 	{
-		// $this->isLogin();
+		$this->isLogin();
+		$this->_init();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$query['userId'] = $user_id;
+		$owner = $this->Owner_m->get_all_owners($query);
+		$unapplied = $this->Owner_m->get_unapplied_business_owners($user_id);
+		foreach ($owner as $key => $o) {
+			$data['owner'][$key] = new Owner($o->ownerId);
+			foreach ($unapplied as $u) {
+				if($o->ownerId == $u->ownerId)
+				{
+					$data['owner'][$key]->set_IsApplied(0);
+				}
+				else
+				{
+					$data['owner'][$key]->set_IsApplied(1);
+				}
+			}
+		}
+
+		$this->load->view('profile/manage_owners', $data);
+	}
+
+	public function view_owner()
+	{
+		$this->isLogin();
+		$this->_init();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$owner_id = $this->input->get('n');
+
+		$data['owner'] = new Owner($owner_id);
+
+		$this->load->view('profile/view-owner',$data);
+	}
+
+	public function edit_owner()
+	{
+		$this->isLogin();
+		$this->_init();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$owner_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->get('ownr')));
+
+		$data['owner'] = new Owner($owner_id);
+
+		$this->load->view('profile/edit-owner',$data);
+	}
+
+	public function add_owner()
+	{
+		$this->isLogin();
 		$this->_init();
 		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
@@ -201,7 +179,7 @@ class Profile extends CI_Controller {
 		{
 			$this->session->set_flashdata('message', 'Welcome to <strong>BPOSYS</strong>! Please set up your initial owner profile before you can proceed. Just fill up the fields below.');
 		}
-		$this->load->view('profile/manage_owners');
+		$this->load->view('profile/add-owner');
 	}
 
 	public function save_owner()
@@ -226,7 +204,7 @@ class Profile extends CI_Controller {
 		if($this->form_validation->run() == FALSE)
 		{
 			$this->session->set_flashdata('error', validation_errors());
-			redirect('profile/manage_owner_profiles');
+			redirect('profile/add_owner');
 		}
 		else
 		{
@@ -296,11 +274,8 @@ class Profile extends CI_Controller {
 		$business_id = $this->input->get("n");
 
 		$data['business'] = new Business($business_id);
-		echo "<h2>This page[view_business] is still under development.</h2>";
-		echo "<pre>";
-		print_r($data['business']);
-		echo "</pre>";
-		exit();
+
+		$this->load->view('profile/view-business', $data);
 	}
 
 	public function edit_business()
@@ -311,11 +286,8 @@ class Profile extends CI_Controller {
 		$business_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->get('app')));
 
 		$data['business'] = new Business($business_id);
-		echo "<h2>This page[edit_business] is still under development.</h2>";
-		echo "<pre>";
-		print_r($data['business']);
-		echo "</pre>";
-		exit();
+
+		$this->load->view('profile/edit-business', $data);
 	}
 
 	public function add_business()

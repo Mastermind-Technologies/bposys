@@ -83,6 +83,18 @@ class Owner_m extends CI_Model {
   }
 }
 
+public function get_unapplied_business_owners($user_id)
+{
+  //select * from owners left join businesses on owners.ownerId = businesses.ownerId left join application_bplo on businesses.businessId = application_bplo.businessId where businesses.businessId IS NULL
+  $this->db->select('owners.firstName, owners.lastName, owners.ownerId');
+  $this->db->from('owners');
+  $this->db->join($this->table_business, 'owners.ownerId = businesses.ownerId', 'left');
+  $this->db->join($this->table_bplo, 'businesses.businessId = application_bplo.businessId', 'left');
+  $this->db->where(['owners.userId' => $user_id, 'businesses.businessId' => NULL]);
+
+  return $this->db->get()->result();
+}
+
   // public function register_owner($fields = null)
   // {
   //   $this->db->insert($this->_table_name, $fields);

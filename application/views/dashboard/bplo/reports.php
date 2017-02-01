@@ -39,7 +39,7 @@
             <div class="right"> <strong class='count'><?= $cancelled ?></strong> Cancelled </div>
           </li>
           <li>
-            <div class="left peity_bar_neutral"><span>12,6,9,23,14,10,13</span>+30%</div>
+            <div class="left peity_bar_neutral"><span>12,6,9,23,14,10,13</span><!-- +30% --></div>
             <div class="right"> <strong class='count'><?= $closed ?></strong> Closed</div>
           </li>
         </ul>
@@ -244,6 +244,7 @@
         },
         axisX: {
           interval: 1,
+          valueFormatString: "#"
         },
         theme: "theme3",
         toolTip: {
