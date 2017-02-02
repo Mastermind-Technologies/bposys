@@ -16,15 +16,15 @@
         <h1>Register</h1>
         <hr>
 
-        <form class="form-group" action="<?php echo base_url();?>auth/register_user" method="post">
+        <form class="form-group" action="<?php echo base_url();?>auth/register_user" data-parsley-validate="" method="post">
           <div class="row">
             <div class="col-sm-6">
               <label for="fname">First Name</label>
-              <input type="text" name="fname" class="form-control" value="">
+              <input type="text" name="fname" required class="form-control" value="">
             </div>
             <div class="col-sm-6">
               <label for="lname">Last Name</label>
-              <input type="text" name="lname" class="form-control" value="">
+              <input type="text" name="lname" required class="form-control" value="">
             </div>
           </div>
           <div class="row">
@@ -42,9 +42,9 @@
             <div class="col-sm-4"><p>
               <label for="gender">Gender</label>
               <div class="btn-group" style="margin-top:-10px;" role="group" aria-label="gender">
-                <button type="button" class="btn btn-default" id="btn-male">Male</button>
+                <button type="button" class="btn btn-default active" id="btn-male">Male</button>
                 <button type="button" class="btn btn-default" id="btn-female">Female</button>
-                <input type="hidden" name="gender" id="hidden-gender" value="">
+                <input type="hidden" name="gender" id="hidden-gender" value="male">
               </div>
             </p>
           </div>
@@ -54,7 +54,7 @@
               <div class="col-md-12">
                <div class="form-group">
                  <div class="input-group date">
-                 <input type="text" id="datetimepicker1" name="birth-date" class="form-control" data="DateTimePicker" />  <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+                 <input type="text" id="datetimepicker1" name="birth-date" required class="form-control" data="DateTimePicker" />  <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@
           <div class="col-sm-12" style="padding:0">
             <label for="civil-staus">Civil Status</label>
             <div class="form-group">
-              <select class="form-control" name="civil-status" id="civil-status">
+              <select class="form-control" required name="civil-status" id="civil-status">
                 <option selected disabled select>Civil Status</option>
                 <option value="Single">Single</option>
                 <option value="Married">Married</option>
@@ -93,18 +93,22 @@
       <div class="row">
         <div class="col-sm-6">
           <label for="email">Email</label>
-          <input type="email" class="form-control" name="email" value="">
+          <input type="email" class="form-control" required name="email" value="">
+        </div>
+        <div class="col-sm-6">
+          <label for="contact-number">Contact Number</label>
+          <input type="text" class="form-control" required name='contact-number'>
         </div>
       </div>
 
       <div class="row">
         <div class="col-sm-6">
           <label for="password">Password</label>
-          <input type="password" class="form-control" name="password" value="">
+          <input type="password" class="form-control" required name="password" id='password' value="">
         </div>
         <div class="col-sm-6">
           <label for="confirm-password">Confirm Password</label>
-          <input type="password" class="form-control" name="confirm-password" value="">
+          <input type="password" class="form-control" required data-parsley-equalto="#password" name="confirm-password" value="">
         </div>
       </div>
 

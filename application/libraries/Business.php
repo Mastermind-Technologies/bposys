@@ -8,7 +8,6 @@ class Business extends Owner {
 	private $companyName = null;
 	private $tradeName = null;
 	private $signageName = null;
-	// private $natureOfBusiness = null;
 	private $organizationType = null;
 	private $corporationName = null;
 	private $dateOfOperation = null;
@@ -31,6 +30,12 @@ class Business extends Owner {
     private $LGUEmployees = null;
     private $businessArea = null;
     private $isApplied = null;
+    private $emergencyContactPerson = null;
+    private $emergencyTelNum = null;
+    private $emergencyEmail = null;
+
+    // private $natureOfBusiness = null;
+    // private $capitalInvested = null;
 
     public function __construct($business_id = null)
     {
@@ -699,6 +704,77 @@ class Business extends Owner {
 
         return $this;
     }
+        /**
+     * Gets the value of emergencyContactPerson.
+     *
+     * @return mixed
+     */
+    public function get_EmergencyContactPerson()
+    {
+        return $this->emergencyContactPerson;
+    }
+
+    /**
+     * Sets the value of emergencyContactPerson.
+     *
+     * @param mixed $emergencyContactPerson the emergency contact person
+     *
+     * @return self
+     */
+    public function set_EmergencyContactPerson($emergencyContactPerson)
+    {
+        $this->emergencyContactPerson = $emergencyContactPerson;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of emergencyTelNum.
+     *
+     * @return mixed
+     */
+    public function get_EmergencyTelNum()
+    {
+        return $this->emergencyTelNum;
+    }
+
+    /**
+     * Sets the value of emergencyTelNum.
+     *
+     * @param mixed $emergencyTelNum the emergency tel num
+     *
+     * @return self
+     */
+    public function set_EmergencyTelNum($emergencyTelNum)
+    {
+        $this->emergencyTelNum = $emergencyTelNum;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of emergencyEmail.
+     *
+     * @return mixed
+     */
+    public function get_EmergencyEmail()
+    {
+        return $this->emergencyEmail;
+    }
+
+    /**
+     * Sets the value of emergencyEmail.
+     *
+     * @param mixed $emergencyEmail the emergency email
+     *
+     * @return self
+     */
+    public function set_EmergencyEmail($emergencyEmail)
+    {
+        $this->emergencyEmail = $emergencyEmail;
+
+        return $this;
+    }
 
     public function set_all($param = null)
     {
@@ -732,6 +808,9 @@ class Business extends Owner {
         $this->PWDEmployees = $param->PWDEmployees;
         $this->LGUEmployees = $param->LGUResidingEmployees;
         $this->businessArea = $param->businessArea;
+        $this->emergencyContactPerson = $param->emergencyContactPerson;
+        $this->emergencyTelNum = $param->emergencyTelNum;
+        $this->emergencyEmail = $param->emergencyEmail;
 
         $this->unset_CI();
         return $this;

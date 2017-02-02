@@ -104,6 +104,23 @@
 								</div>
 							</div>
 							<div class="row">
+								<div class="col-sm-12">
+									<h3 class="panel-header">Contact Information</h3>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label for="email">Email</label>
+										<input type="text" class='form-control' name='email' value="<?= $user->get_email() ?>">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label for="contact-number">Contact Number</label>
+										<input type="text" class='form-control' name='contact-number' value="<?= $user->get_contactNum() ?>">
+									</div>
+								</div>
+							</div>
+							<div class="row">
 								<div class="col-sm-4 col-sm-offset-4">
 									<input type="submit" class='btn btn-success btn-block' value='Submit'>
 								</div>

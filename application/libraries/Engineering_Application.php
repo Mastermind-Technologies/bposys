@@ -1,20 +1,19 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Zoning_Application extends Business {
+class Engineering_Application extends Business {
 
 	private $applicationId = null;
 	private $referenceNum = null;
 	private $userId = null;
     private $businessId = null;
-    private $capitalInvested = null;
 	private $status = null;
 	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
+        $this->CI->load->model('Approval_m');
 		$this->CI->load->model('Application_m');
 		$this->CI->load->model('Notification_m');
-        $this->CI->load->model('Business_Activity_m');
 		if(isset($reference_num))
 			return $this->get_application($reference_num);
 	}
@@ -23,16 +22,15 @@ class Zoning_Application extends Business {
 	{
 		$query['referenceNum'] = $reference_num;
 
-		$application = $this->CI->Application_m->get_all_zoning_applications($query);
+		$application = $this->CI->Application_m->get_all_engineering_applications($query);
         if(count($application) > 0)
         {
-            $this->set_application_all($application[0]);
-            $this->get_business_information($application[0]->businessId);
+          $this->set_application_all($application[0]);
+          $this->get_business_information($application[0]->businessId);
         }
-		
-		$this->unset_CI();
-		return $this;
-	}
+      $this->unset_CI();
+      return $this;
+    }
 
 	public function change_status($reference_num = null, $status = null)
 	{
@@ -41,7 +39,7 @@ class Zoning_Application extends Business {
 			'referenceNum' => $reference_num,
 			'status' => $status,
 			);
-		$this->CI->Application_m->update_application($query, 'zoning');
+		$this->CI->Application_m->update_application($query, 'engineering');
 		$this->status = $status;
 		$this->unset_CI();
 	}
@@ -53,25 +51,29 @@ class Zoning_Application extends Business {
             'referenceNum' => $reference_num,
             'status' => $status,
             );
-        $var->Application_m->update_application($query, 'zoning');
+        $var->Application_m->update_application($query, 'engineering');
+        // $query = array(
+        //     'referenceNum' => $reference_num,
+        //     );
+        // $var->Approval_m->
         unset($var);
     }
 
-	public function check_expiry()
-	{
-		if(!isset($this->CI))
-			$this->CI =& get_instance();
-		//check if status is active
-        if($this->status == 'Active')
-        {
+    public function check_expiry()
+    {
+        if(!isset($this->CI))
+             $this->CI =& get_instance();
+    		//check if status is active
+         if($this->status == 'Active')
+         {
             $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
             $query = array(
                 'referenceNum' => $reference_num,
-                'role' => 8,
+                'role' => 9,
                 'type' => 'Approve',
                 );
             $approval = $this->CI->Approval_m->get_latest_approval($query);
-            //if this year is greater than application date, expire application
+                //if this year is greater than application date, expire application
             if(date('Y') > date('Y', strtotime($approval[0]->createdAt)))
             {
                 $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
@@ -80,31 +82,24 @@ class Zoning_Application extends Business {
             }
         }
         $this->unset_CI();
-	}
+    }
 
 	public function set_application_all($param = null)
 	{
 		if(!isset($this->CI))
 			$this->CI =& get_instance();
-
-        $business_activity = $this->CI->Business_Activity_m->get_all_business_activity_by_reference_num($param->referenceNum);
-
-        $total_capital = 0;
-        foreach ($business_activity as $b) {
-            $total_capital += $b->capitalization;
-        }
-
-		$this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
-		$this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
-		$this->userId = $this->CI->encryption->encrypt($param->userId);
+        $this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
+        $this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
         $this->businessId = $this->CI->encryption->encrypt($param->businessId);
-        $this->capitalInvested = $total_capital;
-		$this->status = $param->status;
-
+        $this->userId = $this->CI->encryption->encrypt($param->userId);
+        $this->status = $param->status;
 		$this->unset_CI();
 		return $this;
 	}
     
+   
+
+   
 
     /**
      * Gets the value of applicationId.
@@ -126,10 +121,12 @@ class Zoning_Application extends Business {
     public function set_ApplicationId($applicationId)
     {
         $this->applicationId = $applicationId;
+
+        return $this;
     }
 
     /**
-     * get_s the value of referenceNum.
+     * Gets the value of referenceNum.
      *
      * @return mixed
      */
@@ -148,10 +145,12 @@ class Zoning_Application extends Business {
     public function set_ReferenceNum($referenceNum)
     {
         $this->referenceNum = $referenceNum;
+
+        return $this;
     }
 
     /**
-     * get_s the value of userId.
+     * Gets the value of userId.
      *
      * @return mixed
      */
@@ -170,10 +169,35 @@ class Zoning_Application extends Business {
     public function set_UserId($userId)
     {
         $this->userId = $userId;
+
+        return $this;
     }
 
     /**
-     * get_s the value of status.
+     * Gets the value of businessId.
+     *
+     * @return mixed
+     */
+    public function get_BusinessId()
+    {
+        return $this->businessId;
+    }
+
+    /**
+     * Sets the value of businessId.
+     *
+     * @param mixed $businessId the business id
+     *
+     * @return self
+     */
+    public function set_BusinessId($businessId)
+    {
+        $this->businessId = $businessId;
+
+        return $this;
+    }
+    /**
+     * Gets the value of status.
      *
      * @return mixed
      */
@@ -192,39 +216,7 @@ class Zoning_Application extends Business {
     public function set_Status($status)
     {
         $this->status = $status;
-    }
 
-    public function get_BusinessId()
-    {
-        return $this->businessId;
-    }
-
-    /**
-     * Sets the value of businessId.
-     *
-     * @param mixed $businessId the date started
-     *
-     * @return self
-     */
-    public function set_BusinessId($businessId)
-    {
-        $this->businessId = $businessId;
-    }
-
-    public function get_CapitalInvested()
-    {
-        return $this->capitalInvested;
-    }
-
-    /**
-     * Sets the value of capitalInvested.
-     *
-     * @param mixed $capitalInvested the date started
-     *
-     * @return self
-     */
-    public function set_CapitalInvested($capitalInvested)
-    {
-        $this->capitalInvested = $capitalInvested;
+        return $this;
     }
 }//END OF CLASS

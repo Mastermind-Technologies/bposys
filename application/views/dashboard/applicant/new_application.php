@@ -63,6 +63,10 @@
 												<label for="tin">TIN*</label>
 												<input required type="text" name="tin" class="form-control">
 											</div>
+											<div class="col-sm-4">
+												<label for="occupancy-permit-number">Occupany Permit Number</label>
+												<input type="text" required="" name="occupancy-permit-number" class="form-control">
+											</div>
 										</div>
 										<hr>
 										<div class="row">
@@ -206,15 +210,6 @@
 											</div>
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label>Nature of Business</label>
-													<br>
-													<span id='nature-of-business'>N/A</span>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
 													<label>Organization Type</label>
 													<br>
 													<span id='organization-type'>N/A</span>
@@ -228,11 +223,13 @@
 													<span id='corporation-name'>N/A</span>
 												</div>
 											</div>
-											<div class="col-sm-4">
-												<label>Property Index Number (PIN)</label>
-												<br>
-												<span id='pin'>N/A</span>
-											</div>
+	<!-- 										<div class="col-sm-4">
+												<div class="form-group">
+													<label>Nature of Business</label>
+													<br>
+													<span id='nature-of-business'>N/A</span>
+												</div>
+											</div> -->
 										</div>
 										<div class="row">
 											<div class="col-sm-4">
@@ -318,6 +315,37 @@
 													<label>Business Area (in sq. m.)</label>
 													<br>
 													<span id='business-area'>N/A</span>
+												</div>
+											</div>
+											<div class="col-sm-3">
+												<label>Zip/Postal Code (PIN)</label>
+												<br>
+												<span id='pin'>N/A</span>
+											</div>
+										</div>
+										<hr>
+										<div class="row">
+											<div class="col-sm-12">
+												<h4>Building Details</h4>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="storeys">No. of Storeys</label>
+													<input type="text" class='form-control' name='storeys' required>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="portion-occupied">Portion Occupied</label>
+													<input type="text" name="portion-occupied" class="form-control" required>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="area-per-floor">Area per Floor (in sq. m.)</label>
+													<input type="text" name="area-per-floor" data-parsley-type='digits' class="form-control" required>
 												</div>
 											</div>
 										</div>
@@ -422,29 +450,6 @@
 													</div>
 												</div>
 											</div>
-											<div class="row">
-												<div class="col-sm-12">
-													<h4>In case of emergency</h4>
-												</div>
-												<div class="col-sm-4">
-													<div class="form-group">
-														<label for="contact-name">Contact Person Name*</label>
-														<input type="text" disabled name="emergency-contact-name" class="form-control">
-													</div>
-												</div>
-												<div class="col-sm-4">
-													<div class="form-group">
-														<label for="emergency-tel-cel-no">Tel No./Cel No.*</label>
-														<input type="text" disabled name="emergency-tel-cel-no" data-parsley-type="digits" class="form-control">
-													</div>
-												</div>
-												<div class="col-sm-4">
-													<div class="form-group">
-														<label for="emergency-email">Email Address*</label>
-														<input type="email" disabled name="emergency-email" class="form-control">
-													</div>
-												</div>
-											</div>
 										</div>
 										<hr>
 										<h4>Issued Certificates/Permits</h4>
@@ -510,7 +515,7 @@
 											<div class="col-sm-4">
 												<div class="form-group">
 													<label for="products-by-products">Products and By-Products</label>
-													<input type="text" id="products-by-products" name="products-by-products" class="form-control" value="???">
+													<input type="text" id="products-by-products" name="products-by-products" class="form-control">
 												</div>
 											</div>
 										</div>
@@ -811,25 +816,24 @@
 											<hr>
 											<div class="row">
 												<div class="col-sm-12">
-													<h4>Business Activity</h4>
+													<h4 class='text-center'>Business Activity</h4>
 												</div>
 											</div>
-											<table id='bus-activity' class="table table-bordered">
-												<th>Code</th>
-												<th>Line of Business</th>
-												<th>No. of Units</th>
-												<th>Capitalization</th>
-												<!-- <th></th> -->
-												<tbody class="table-body">
-													<tr class="data">
-														<td><input id="code" name="code" type="text" required class=form-control></td>
-														<td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td>
-														<td><input id="num-of-units" name="num-of-units" type="text" required class=form-control></td>
-														<td><input id="capitalization" name="capitalization[]" type="text" required class=form-control></td>
-														<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
-													</tr>
-												</tbody>
-											</table>
+											<div class="col-sm-8 col-sm-offset-2">
+												<table id='bus-activity' class="table table-bordered">
+													<th>Line of Business</th>
+													<th>Capitalization</th>
+													<!-- <th></th> -->
+													<tbody class="table-body">
+														<tr class="data">
+															<td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td>
+															<td><input id="capitalization" name="capitalization" type="text" required data-parsley-type='digits' class=form-control></td>
+															<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
+														</tr>
+													</tbody>
+												</table>
+											</div>
+											
 
 											<div class="row">
 												<div class="col-sm-4 col-sm-offset-4">

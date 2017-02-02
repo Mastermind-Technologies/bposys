@@ -270,10 +270,10 @@
                 </td>
                 <td>
                   <label for="lessor_in_case_of_emergency">In case of emergency (Contact Person | Tel No./Cel No. | Email)</label>
-                  <h5><?= isset($application->lessors) ? 
-                    $application->get_lessors()->emergencyContactPerson." | ".
-                    $application->get_lessors()->emergencyTelNum." | ".
-                    $application->get_lessors()->emergencyEmail : "NA" ?></h5>
+                  <h5><?= 
+                    $application->get_emergencyContactPerson()." | ".
+                    $application->get_emergencyTelNum()." | ".
+                    $application->get_emergencyEmail() ?></h5>
                   </td>
                 </tr>
               </tbody>
@@ -366,7 +366,7 @@
             <a href="#" class="btn btn-danger btn-lg">Reject</a>
           <?php elseif ($application->get_status() == "For applicant visit"): ?>
             <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
-            <a href="#" class="btn btn-warning btn-lg">Edit information</a>
+            <!-- <a href="#" class="btn btn-warning btn-lg">Edit information</a> -->
           <?php elseif ($application->get_status() == "On Process"): ?>
             <!-- none -->
           <?php elseif ($application->get_status() == "Completed"): ?>

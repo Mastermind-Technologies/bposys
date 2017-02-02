@@ -83,6 +83,8 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('birth-date', 'Birth Date', 'required');
 		$this->form_validation->set_rules('gender', 'Gender', 'required');
 		$this->form_validation->set_rules('civil-status', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required');
+		$this->form_validation->set_rules('contact-number', 'Contact Number', 'required');
 		// $this->form_validation->set_rules('position', 'Position', 'required');
 		// $this->form_validation->set_rules('house-bldg-no', 'Civil Status', 'required');
 		// $this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
@@ -112,6 +114,8 @@ class Profile extends CI_Controller {
 				'gender' => $this->input->post('gender'),
 				'birthDate' => $this->input->post('birth-date'),
 				'civilStatus' => $this->input->post('civil-status'),
+				'email' => $this->input->post('email'),
+				'contactNum' => $this->input->post('contact-number'),
 				);
 			$this->User_m->update_user($fields);
 			$this->session->set_flashdata('message', 'Profile updated successfully!');
@@ -129,7 +133,8 @@ class Profile extends CI_Controller {
 		$owner = $this->Owner_m->get_all_owners($query);
 		$unapplied = $this->Owner_m->get_unapplied_business_owners($user_id);
 
-		foreach ($owner as $key => $o) {
+		foreach ($owner as $key => $o) 
+		{
 			$data['owner'][$key] = new Owner($o->ownerId);
 			if(count($unapplied) != 0)
 			{
@@ -137,6 +142,7 @@ class Profile extends CI_Controller {
 					if($o->ownerId == $u->ownerId)
 					{
 						$data['owner'][$key]->set_IsApplied(0);
+						break;
 					}
 					else
 					{
@@ -146,12 +152,18 @@ class Profile extends CI_Controller {
 			}
 			else
 			{
-				$data['owner'][$key]->set_IsApplied(1);
+				// $data['owner'][$key]->set_IsApplied(1);
 			}
-
-			$this->load->view('profile/manage_owners', $data);
 		}
+		// echo "<pre>";
+		// print_r($owner);
+		// echo "</	pre>";
+		// exit();
+
+
+		$this->load->view('profile/manage_owners', $data);
 	}
+	
 
 	public function view_owner()
 	{
@@ -240,7 +252,7 @@ class Profile extends CI_Controller {
 
 			$this->Owner_m->insert($fields);
 
-			if($this->Business_m->count_businesses > 0)
+			if($this->Business_m->count_businesses() > 0)
 				redirect('dashboard');
 			else
 				redirect('profile/add_business?ft=1');
@@ -267,6 +279,7 @@ class Profile extends CI_Controller {
 					if($b->get_BusinessName() == $u->businessName)
 					{
 						$b->set_IsApplied(0);
+						break;
 					}
 					else
 					{
@@ -353,6 +366,7 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('subdivision','Subdivision','required');
 		$this->form_validation->set_rules('barangay','Barangay','required');
 		$this->form_validation->set_rules('email','Email','required');
+		$this->form_validation->set_rules('PIN','Zip/Postal Code','required');
 		$this->form_validation->set_rules('telephone-number','Telephone Number','required');
 		$this->form_validation->set_rules('pollution-control-officer','Pollution Control Officer','required');
 		$this->form_validation->set_rules('male-employees','No. of Male Employees','required|numeric');
@@ -360,6 +374,9 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('pwd-employees','No. of PWD Employees','required|numeric');
 		$this->form_validation->set_rules('lgu-employees', 'No. of Employees Residing in LGU', 'required|numeric');
 		$this->form_validation->set_rules('president-treasurer-name', 'Name of President/Treasurer of Corporation','required');
+		$this->form_validation->set_rules('emergency-contact-name', "Lessor's Address", 'required');
+		$this->form_validation->set_rules('emergency-tel-cel-no', "Lessor's Address", 'required|numeric');
+		$this->form_validation->set_rules('emergency-email', "Lessor's Address", 'required');
 
 		if($this->form_validation->run() == false)
 		{
@@ -421,6 +438,7 @@ class Profile extends CI_Controller {
 				'subdivision' => $this->input->post('subdivision'),
 				'cityMunicipality' => "Biñan City",
 				'province' => "Laguna",
+				'PIN' => $this->input->post('PIN'),
 				'telNum' => $this->input->post('telephone-number'),
 				'email' => $this->input->post('email'),
 				'pollutionControlOfficer' => $this->input->post('pollution-control-officer'),
@@ -430,6 +448,9 @@ class Profile extends CI_Controller {
 				'LGUResidingEmployees' => $this->input->post('lgu-employees'),
 				'businessArea' => $this->input->post('business-area'),
 				'presidentTreasurerName' => $this->input->post('president-treasurer-name'),
+				'emergencyContactPerson' => $this->input->post('emergency-contact-name'),
+				'emergencyTelNum' => $this->input->post('emergency-tel-cel-no'),
+				'emergencyEmail' => $this->input->post('emergency-email'),
 				);
 			$this->Business_m->insert($fields);
 

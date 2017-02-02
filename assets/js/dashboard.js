@@ -270,7 +270,7 @@ $(document).ready(function()
   $('#btn-add-bus-activity').click(function(){
     rowCount++;
     console.log(rowCount);
-    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td></tr>");
+    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><input type='text' required class=form-control></td><td><input type='text' required data-parsley-type='digits' class=form-control></td></tr>");
 
   });
 
@@ -309,12 +309,10 @@ $(document).ready(function()
     var total_rows = count_business_activities();
     $("#bus-activity tbody .data").each(function() {
       ctr++;
-      var code = $(this).find("td:nth-child(1) input").val();
-      var lineOfBusiness = $(this).find("td:nth-child(2) input").val();
-      var numOfUnits = $(this).find("td:nth-child(3) input").val();
-      var capitalization = $(this).find("td:nth-child(4) input").val();
+      var lineOfBusiness = $(this).find("td:nth-child(1) input").val();
+      var capitalization = $(this).find("td:nth-child(2) input").val();
 
-      if(code == '' || lineOfBusiness == '' || numOfUnits == '' || capitalization == '')
+      if(lineOfBusiness == '' || capitalization == '')
       {
         //do nothing
       }
@@ -324,7 +322,7 @@ $(document).ready(function()
           type:"POST",
           url:base_url+"dashboard/store_business_activity",
           dataType:'json',
-          data:{ctr:ctr, total_rows:total_rows, code:code, lineOfBusiness:lineOfBusiness, numOfUnits:numOfUnits, capitalization:capitalization, referenceNum:reference_number},
+          data:{ctr:ctr, total_rows:total_rows, lineOfBusiness:lineOfBusiness, capitalization:capitalization, referenceNum:reference_number},
           success: function(o){
             if(o == "success")
             {
@@ -367,7 +365,6 @@ $(document).ready(function()
         $('#business-name').html(data.businessName);
         $('#trade-name').html(data.tradeName);
         $('#signage-name').html(data.signageName);
-        $('#nature-of-business').html(data.natureOfBusiness);
         $('#organization-type').html(data.organizationType);
         $('#corporation-name').html(data.corporationName);
         $('#pin').html(data.PIN);

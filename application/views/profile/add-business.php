@@ -270,6 +270,30 @@
 											</div>
 										</div>
 									</div>
+
+									<div class="row">
+										<div class="col-sm-12">
+											<h4>In case of emergency</h4>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label for="contact-name">Contact Person Name</label>
+												<input type="text" required name="emergency-contact-name" class="form-control">
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label for="emergency-tel-cel-no">Tel No./Cel No.</label>
+												<input type="text" required name="emergency-tel-cel-no" data-parsley-type="digits" class="form-control">
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label for="emergency-email">Email Address</label>
+												<input type="email" required name="emergency-email" class="form-control">
+											</div>
+										</div>
+									</div>
 									<hr>
 									<div class="row">
 										<div class="col-sm-4 col-sm-offset-4">
