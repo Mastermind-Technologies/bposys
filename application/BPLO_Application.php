@@ -76,6 +76,7 @@ class BPLO_Application extends Business {
 			}
 		}
 		$this->unset_CI();
+        return $this;
 	}
 
 	public function set_application_all($param = null)

@@ -21,11 +21,11 @@
          <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/pending_applications"> <i class="fa fa-hourglass fa-2x" aria-hidden="true"></i>
            <span class="label label-important badge-pending"><?= $pending > 0 ? $pending : "" ?></span><br><span>Pending</span> </a> </li>
            <li class="bg_lo"> <a href="<?php echo base_url(); ?>dashboard/on_process_applications"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
-         <span class="label label-success badge-process"><?= $process > 0 ? $process : "" ?></span><br><span>On Process</span> </a> </li>
-         <li class="bg_c"> <a href="<?php echo base_url(); ?>dashboard/completed_applications"> <i class="fa fa-th-list fa-2x" aria-hidden="true"></i>
-           <span class="label label-info badge-issued"><?= $complete > 0 ? $complete : "" ?></span><br>Complete Requirements</a> </li>
-           <li class="bg_ls"> <a href="<?php echo base_url(); ?>dashboard/issued_applications"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
-           <span class="label label-info badge-issued"><?= $issued > 0 ? $issued : "" ?></span><br>Issued</a> </li>
+             <span class="label label-success badge-process"><?= $process > 0 ? $process : "" ?></span><br><span>On Process</span> </a> </li>
+             <li class="bg_c"> <a href="<?php echo base_url(); ?>dashboard/completed_applications"> <i class="fa fa-th-list fa-2x" aria-hidden="true"></i>
+               <span class="label label-info badge-issued"><?= $complete > 0 ? $complete : "" ?></span><br>Complete Requirements</a> </li>
+               <li class="bg_ls"> <a href="<?php echo base_url(); ?>dashboard/issued_applications"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
+                 <span class="label label-info badge-issued"><?= $issued > 0 ? $issued : "" ?></span><br>Issued</a> </li>
         <!-- <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li>
         <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li> -->
         <li class="bg_lg span3"> <a href="<?php echo base_url(); ?>reports"> <i class="icon-signal"></i> View Reports</a> </li>
@@ -56,23 +56,23 @@
               <tbody>
                 <tr >
                   <td><a href="<?php echo base_url(); ?>reports">Total No. of Issued Applications</a></td>
-                  <td>8850</td>
+                  <td><?= $issued ?></td>
                 </tr>
                 <tr >
                   <td><a href="<?php echo base_url(); ?>reports">Total No. of Applications</a></td>
-                  <td>5670</td>
+                  <td><?= $applications ?></td>
                 </tr>
                 <tr >
                   <td><a href="<?php echo base_url(); ?>reports">Total No. of Renewed Applications</a></td>
-                  <td>4130</td>
+                  <td><?= $renewed ?></td>
                 </tr>
                 <tr >
                   <td><a href="<?php echo base_url(); ?>reports">Total No. of Unrenewed Applications</a></td>
-                  <td>1574</td>
+                  <td><?= $expired ?></td>
                 </tr>
                 <tr >
                   <td><a href="<?php echo base_url(); ?>reports">Total No. of Cancelled Applications</a></td>
-                  <td>1044</td>
+                  <td><?= $cancelled ?></td>
                 </tr>
               </tbody>
             </table>
@@ -88,31 +88,20 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
+                  <th>#</th>
                   <th>Business Name</th>
                   <!-- <th>Visits</th> -->
                 </tr>
               </thead>
               <tbody class="">
-                <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <!-- <td>12444</td> -->
-                </tr>
-                <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <!-- <td>10455</td> -->
-                </tr>
-                <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <!-- <td>8455</td> -->
-                </tr>
-                <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <!-- <td>4456</td> -->
-                </tr>
-                <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <!-- <td>2210</td> -->
-                </tr>
+                <?php foreach ($latest_applications as $key => $application): ?>
+                  <tr>
+                    <td><?= $key+1 ?></td>
+                    <td>
+                      <a href="<?php echo base_url(); ?>dashboard/incoming_applications"><?= $application->get_BusinessName() ?></a>
+                    </td>
+                  </tr>
+                <?php endforeach ?>
               </tbody>
             </table>
           </div>
@@ -127,31 +116,21 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
+                  <th>#</th>
                   <th>Business Name</th>
-                  <th>Issued</th>
+                  <th>Date Issued</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <td>DATE</td>
-                </tr>
-                <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <td>DATE</td>
-                </tr>
-                <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <td>DATE</td>
-                </tr>
-                <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <td>DATE</td>
-                </tr>
-                <tr>
-                  <td><a href="#">Business Name</a></td>
-                  <td>DATE</td>
-                </tr>
+                <?php foreach ($latest_issued as $key => $application): ?>
+                  <tr>
+                    <td><?= $key+1 ?></td>
+                    <td>
+                      <a href="<?php echo base_url(); ?>dashboard/issued_applications"><?= $application->get_BusinessName() ?></a>
+                    </td>
+                    <td><?= $application->get_DateIssued() ?></td>
+                  </tr>
+                <?php endforeach ?>
               </tbody>
             </table>
           </div>

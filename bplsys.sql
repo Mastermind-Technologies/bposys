@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 02, 2017 at 05:45 PM
+-- Generation Time: Feb 05, 2017 at 08:10 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -62,6 +62,8 @@ CREATE TABLE IF NOT EXISTS `application_bplo` (
   `businessId` int(10) NOT NULL,
   `taxYear` int(4) DEFAULT NULL,
   `applicationDate` varchar(255) DEFAULT NULL,
+  `idPresented` varchar(255) NOT NULL,
+  `modeOfPayment` varchar(255) NOT NULL,
   `DTISECCDA_RegNum` varchar(255) DEFAULT NULL,
   `DTISECCDA_Date` varchar(255) DEFAULT NULL,
   `brgyClearanceDateIssued` varchar(255) NOT NULL,
@@ -77,12 +79,12 @@ CREATE TABLE IF NOT EXISTS `application_bplo` (
 -- Dumping data for table `application_bplo`
 --
 
-INSERT INTO `application_bplo` (`applicationId`, `referenceNum`, `userId`, `businessId`, `taxYear`, `applicationDate`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `brgyClearanceDateIssued`, `CTCNum`, `TIN`, `entityName`, `status`, `createdAt`, `updatedAt`) VALUES
-(1, 'E4302995BD', 1, 1, 2017, 'January 22, 2017', '123123', '01/22/2017', '1/20/2017', '123', '123', '12321', 'For Validation...', '2017-01-22 13:20:51', '2017-01-29 13:36:42'),
-(5, '9E9E1D64A2', 1, 1, 2017, 'January 23, 2017', '123', '01/23/2017', '1/20/2017', '12321', '123', '123123', 'Active', '2017-01-23 12:43:22', '2017-01-29 03:48:28'),
-(6, '47B3DF6BF4', 1, 1, 2017, 'January 23, 2017', '123', '01/23/2017', '1/20/2017', '123123', '2131', '123213', 'On process', '2017-01-23 12:47:52', '2017-01-25 13:13:05'),
-(8, '4824FE5C5F', 1, 6, 2017, 'February 2, 2017', '123', '02/02/2017', '02/02/2017', '123', '123', 'awdqse', 'On process', '2017-02-02 13:05:06', '2017-02-02 14:11:34'),
-(9, 'D2D2E57657', 1, 4, 2017, 'February 2, 2017', '1212', '02/03/2017', '02/03/2017', '1212', '1212', 'NA', 'For validation...', '2017-02-02 16:20:03', '2017-02-02 16:20:03');
+INSERT INTO `application_bplo` (`applicationId`, `referenceNum`, `userId`, `businessId`, `taxYear`, `applicationDate`, `idPresented`, `modeOfPayment`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `brgyClearanceDateIssued`, `CTCNum`, `TIN`, `entityName`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 'E4302995BD', 1, 1, 2017, 'January 22, 2017', '123', 'Anually', '123123', '01/22/2017', '1/20/2017', '123', '123', '12321', 'Cancelled', '2017-01-22 13:20:51', '2017-02-04 13:02:25'),
+(5, '9E9E1D64A2', 1, 1, 2017, 'January 23, 2017', '123', 'Anually', '123', '01/23/2017', '1/20/2017', '12321', '123', '123123', 'Active', '2017-01-23 12:43:22', '2017-02-04 13:02:27'),
+(6, '47B3DF6BF4', 1, 1, 2017, 'January 23, 2017', '123', 'Anually', '123', '01/23/2017', '1/20/2017', '123123', '2131', '123213', 'Cancelled', '2017-01-23 12:47:52', '2017-02-04 13:02:28'),
+(8, '4824FE5C5F', 1, 6, 2017, 'February 2, 2017', '123', 'Anually', '123', '02/02/2017', '02/02/2017', '123', '123', 'awdqse', 'On process', '2017-02-02 13:05:06', '2017-02-04 13:02:30'),
+(9, 'D2D2E57657', 1, 4, 2017, 'February 2, 2017', '123', 'Anually', '1212', '02/03/2017', '02/03/2017', '1212', '1212', 'NA', 'Expired', '2017-02-02 16:20:03', '2017-02-04 13:02:32');
 
 -- --------------------------------------------------------
 
@@ -136,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `application_cenro` (
 INSERT INTO `application_cenro` (`applicationId`, `userId`, `businessId`, `referenceNum`, `CNC`, `LLDAClearance`, `dischargePermit`, `apsci`, `productsAndByProducts`, `smokeEmission`, `volatileCompound`, `fugitiveParticulates`, `steamGenerator`, `APCD`, `stackHeight`, `wastewaterTreatmentFacility`, `wastewaterTreatmentOperationAndProcess`, `pendingCaseWithLLDA`, `typeOfSolidWastesGenerated`, `qtyPerDay`, `garbageCollectionMethod`, `frequencyOfGarbageCollection`, `wasteCollector`, `collectorAddress`, `garbageDisposalMethod`, `wasteMinimizationMethod`, `drainageSystem`, `drainageType`, `drainageDischargeLocation`, `sewerageSystem`, `septicTank`, `sewerageDischargeLocation`, `waterSupply`, `status`, `createdAt`, `updatedAt`) VALUES
 (1, 1, 1, 'E4302995BD', 'NA', 'NA', 'NA', 'NA', 'NA', 0, 0, 'NA', 'NA', 'asdasd', '123213', 'asdasda', 0, '12312321', 'asdsa', 123213, 'asdasd', 'Weekly', 'asdas', 'dasdsa', 'Sanitary Landfill', 'NA', 1, 'Close/Underground', 'Public Drainage System', 1, 1, 'Public Drainage System', 'Deep Well', 'Cancelled', '2017-01-22 13:20:51', '2017-01-24 05:08:00'),
 (5, 1, 1, '9E9E1D64A2', 'NA', 'NA', 'NA', 'NA', 'NA', 1, 1, 'Dust|Gas', 'Boiler|steam generator others', 'qwe', '123', 'qwe', 1, '1121', 'qwe', 222, 'qwewqe', 'hehez', 'qwe', 'qweqwe', 'Sanitary Landfill', 'Recycling|Reduction|Reuse', 0, 'NA', 'NA', 0, 0, 'NA', 'Surface Water', 'Active', '2017-01-23 12:43:22', '2017-01-29 03:48:36'),
-(6, 1, 1, '47B3DF6BF4', '01/23/2017', '01/04/2017', '01/04/2017', '01/23/2017', 'NA', 0, 0, 'NA', 'NA', 'asdas', '123123', '12313', 1, 'NA', 'asdas', 12312, 'asdasd', 'Daily', 'asdad', 'asdasda', 'Sanitary Landfill', 'NA', 0, 'NA', 'NA', 0, 0, 'NA', 'Deep Well', 'On process', '2017-01-23 12:47:52', '2017-01-24 03:31:20'),
+(6, 1, 1, '47B3DF6BF4', '01/23/2017', '01/04/2017', '01/04/2017', '01/23/2017', 'NA', 0, 0, 'NA', 'NA', 'asdas', '123123', '12313', 1, 'NA', 'asdas', 12312, 'asdasd', 'Daily', 'asdad', 'asdasda', 'Sanitary Landfill', 'NA', 0, 'NA', 'NA', 0, 0, 'NA', 'Deep Well', 'Cancelled', '2017-01-23 12:47:52', '2017-02-04 03:09:15'),
 (8, 1, 6, '4824FE5C5F', 'NA', 'NA', 'NA', 'NA', 'asdawd', 0, 0, 'NA', 'NA', 'asdasd', '123123', 'awcawdasd', 0, 'NA', 'awdwa', 123123, 'aweqa', 'Daily', 'awdad', 'awdawdw', 'Sanitary Landfill', 'NA', 0, 'NA', 'NA', 0, 0, 'NA', 'Deep Well', 'For applicant visit', '2017-02-02 13:05:07', '2017-02-02 14:05:19'),
 (9, 1, 4, 'D2D2E57657', 'NA', '02/03/2017', 'NA', '02/03/2017', 'qweqwe', 1, 1, 'Mist', 'Boiler|Furnace|asdasd', 'wwww', '1212', 'qqqq', 1, '1121', 'aaaaa', 2222, 'qqqqq', 'qweqwe', 'rrrr', 'wewewewe', 'Sanitary Landfill', 'Reduction', 1, 'Close/Underground', 'Nature Outfall/Waterbody', 1, 0, 'NA', 'Deep Well', 'standby', '2017-02-02 16:20:03', '2017-02-02 16:20:03');
 
@@ -188,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `application_sanitary` (
 
 INSERT INTO `application_sanitary` (`applicationId`, `referenceNum`, `userId`, `businessId`, `annualEmployeePhysicalExam`, `typeLevelOfWaterSource`, `status`, `createdAt`, `updatedAt`) VALUES
 (4, '9E9E1D64A2', 1, 1, 1, 'hehez', 'Active', '2017-01-23 12:43:22', '2017-01-29 03:48:43'),
-(5, '47B3DF6BF4', 1, 1, 0, 'asdasdas', 'standby', '2017-01-23 12:47:52', '2017-01-23 12:47:52'),
+(5, '47B3DF6BF4', 1, 1, 0, 'asdasdas', 'Cancelled', '2017-01-23 12:47:52', '2017-02-04 03:09:15'),
 (7, '4824FE5C5F', 1, 6, 1, 'sefsdfad', 'For applicant visit', '2017-02-02 13:05:07', '2017-02-02 14:05:19'),
 (8, 'D2D2E57657', 1, 4, 1, 'qweqweqw', 'standby', '2017-02-02 16:20:03', '2017-02-02 16:20:03');
 
@@ -215,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `application_zoning` (
 INSERT INTO `application_zoning` (`applicationId`, `referenceNum`, `userId`, `businessId`, `status`, `createdAt`, `updatedAt`) VALUES
 (1, 'E4302995BD', 1, 1, 'Cancelled', '2017-01-22 13:20:51', '2017-01-24 05:08:00'),
 (5, '9E9E1D64A2', 1, 1, 'Active', '2017-01-23 12:43:22', '2017-01-29 03:48:49'),
-(6, '47B3DF6BF4', 1, 1, 'Active', '2017-01-23 12:47:52', '2017-01-30 13:54:52'),
+(6, '47B3DF6BF4', 1, 1, 'Cancelled', '2017-01-23 12:47:52', '2017-02-04 03:09:15'),
 (8, '4824FE5C5F', 1, 6, 'For applicant visit', '2017-02-02 13:05:06', '2017-02-02 14:05:19'),
 (9, 'D2D2E57657', 1, 4, 'standby', '2017-02-02 16:20:03', '2017-02-02 16:20:03');
 
@@ -490,7 +492,7 @@ INSERT INTO `notifications` (`notificationId`, `referenceNum`, `status`, `role`,
 (131, '4824FE5C5F', 'Read', 3, 'test has been approved by tester bfp of Bureau of Fire Protection.', '2017-02-02 14:42:24', '2017-02-02 16:00:00'),
 (132, '4824FE5C5F', 'Read', 3, 'test has been validated by tester engineering from the Office of the Building Official. Please check application status.', '2017-02-02 14:49:30', '2017-02-02 16:00:00'),
 (133, '4824FE5C5F', 'Read', 3, 'test has been approved by tester engineering from the Office of the Building Official.', '2017-02-02 14:52:17', '2017-02-02 16:00:00'),
-(134, 'D2D2E57657', 'Unread', 4, 'Incoming', '2017-02-02 16:20:03', '2017-02-02 16:20:03');
+(134, 'D2D2E57657', 'Read', 4, 'Incoming', '2017-02-02 16:20:03', '2017-02-04 07:25:48');
 
 -- --------------------------------------------------------
 
@@ -615,8 +617,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`userId`, `role`, `firstName`, `lastName`, `middleName`, `suffix`, `gender`, `email`, `contactNum`, `civilStatus`, `password`, `birthDate`, `createdAt`, `updatedAt`) VALUES
 (1, 3, 'Renjo', 'Dolosa', 'Enriquez', '', 'Male', 'dolosa.renjo@yahoo.com', 1234, 'Single', '$2y$11$Wlkq3iwlkczgZjQAb5aUfuRUnEP0yxS220AmjkYyIUT75Ru8U5qeu', '02/17/1995', '2017-01-21 14:02:28', '2017-02-02 16:08:13'),
 (2, 3, 'Ida Julienne', 'Peñaflor', 'Mangaliman', '', 'Female', 'penaflor.ida@yahoo.com', 123, 'Single', '$2y$11$sUsLgv1XBm.tp8wqO/EezubRAhoki2qkP..viHY1emnPTUsqLN4Yu', '08/10/1996', '2017-01-21 17:31:56', '2017-02-02 11:06:11'),
-(3, 4, 'Rene', 'Manabat', 'C', '', 'Male', 'manabat.rene@yahoo.com', 123, 'Single', '$2y$11$siARsmYAQeaUes.lc6GGtuo4.Z064.hLHsjmfVXUrsMlLz2WWSNfi', '01/22/2017', '2017-01-22 15:21:10', '2017-02-02 11:06:14'),
-(4, 8, 'zoning', 'tester', '.', '', 'Female', 'zoning@yahoo.com', 123, 'Single', '$2y$11$9AwRmguWvE7xxtbSmU0PI.5XJUt11WAo9V898EXJConqBItphzjkW', '01/23/2017', '2017-01-23 13:40:13', '2017-02-02 11:06:16'),
+(3, 4, 'tester', 'bplo', '', '', 'Male', 'bplo@yahoo.com', 123, 'Single', '$2y$11$siARsmYAQeaUes.lc6GGtuo4.Z064.hLHsjmfVXUrsMlLz2WWSNfi', '01/22/2017', '2017-01-22 15:21:10', '2017-02-04 08:06:16'),
+(4, 8, 'tester', 'zoning', '.', '', 'Female', 'zoning@yahoo.com', 123, 'Single', '$2y$11$9AwRmguWvE7xxtbSmU0PI.5XJUt11WAo9V898EXJConqBItphzjkW', '01/23/2017', '2017-01-23 13:40:13', '2017-02-04 08:06:03'),
 (5, 7, 'tester', 'cenro', '.', '', 'Male', 'cenro@yahoo.com', 123, 'Single', '$2y$11$U5jDMB/IcLbBfsGfVjXee..yvduqOlmGhpvtsaJ8xjkZFENQ8j45a', '01/24/2017', '2017-01-24 02:48:22', '2017-02-02 11:06:18'),
 (6, 10, 'tester', 'sanitary', '.', '', 'Female', 'sanitary@yahoo.com', 123, 'Single', '$2y$11$8XrzAcPA81u740c160gZAOXPH72ANUhceakMT560.vsusgkAAWD/.', '01/24/2017', '2017-01-24 03:33:39', '2017-02-02 11:06:20'),
 (17, 3, 'Tester', 'Tester', '.', '', 'Male', 'dotraze@gmail.com', 123, 'Single', '$2y$11$xmsdTzVLqmjVl.CnzGPkL.OY6EcwT6z7oF8IMGUwMuYc87Q5piPBa', '01/28/2017', '2017-01-28 06:50:45', '2017-02-02 11:06:22'),

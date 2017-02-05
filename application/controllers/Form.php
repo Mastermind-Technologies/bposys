@@ -99,15 +99,22 @@ class Form extends CI_Controller {
 		}
 
 		$data['application'] = new BPLO_Application($referenceNum);
-		$data['owner'] = new Owner($user_id);
+		$data['bfp'] = new BFP_Application($referenceNum);
+		$data['cenro'] = new CENRO_Application($referenceNum);
+		$data['business'] = new Business($this->encryption->decrypt($data['application']->get_BusinessID()));
+		$data['sanitary'] = new Sanitary_Application($referenceNum);
 		// echo "<pre>";
 		// print_r($data);
 		// echo "</pre>";
 		// exit();
 
-
+		// echo script_tag('assets/js/dashboard.js');
+		// echo script_tag('assets/js/parsley.min.js');
 		$this->load->view('dashboard/applicant/renew-application', $data);
+	}
 
+	public function submit_renewal_application()
+	{
 
 	}
 

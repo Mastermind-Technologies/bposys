@@ -9,6 +9,8 @@ class BPLO_Application extends Business {
 	private $taxYear = null;
     private $businessId = null;
 	private $applicationDate = null;
+    private $modeOfPayment = null;
+    private $idPresented = null;
 	private $DTISECCDA_RegNum = null;
 	private $DTISECCDA_Date = null;
     private $brgyClearanceDateIssued = null;
@@ -19,6 +21,7 @@ class BPLO_Application extends Business {
 	private $businessActivities = null;
 	private $lessors = null;
 	private $dateStarted = null;
+    private $dateIssued = null;
 	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
@@ -141,10 +144,11 @@ class BPLO_Application extends Business {
         $this->businessId = $this->CI->encryption->encrypt($param->businessId);
 		$this->taxYear = $param->taxYear;
 		$this->applicationDate = $param->applicationDate;
+        $this->modeOfPayment = $param->modeOfPayment;
+        $this->idPresented = $param->idPresented;
 		$this->DTISECCDA_RegNum = $param->DTISECCDA_RegNum;
 		$this->DTISECCDA_Date = $param->DTISECCDA_Date;
         $this->brgyClearanceDateIssued = $param->brgyClearanceDateIssued;
-		// $this->typeOfOrganization = $param->typeOfOrganization;
 		$this->CTCNum = $param->CTCNum;
 		$this->TIN = $param->TIN;
 		$this->entityName = $param->entityName;
@@ -499,5 +503,101 @@ class BPLO_Application extends Business {
     public function set_BrgyClearanceDateIssued($brgyClearanceDateIssued)
     {
         $this->brgyClearanceDateIssued = $brgyClearanceDateIssued;
+    }
+
+    /**
+     * Gets the value of data_issued.
+     *
+     * @return mixed
+     */
+    public function getDataIssued()
+    {
+        return $this->data_issued;
+    }
+
+    /**
+     * Sets the value of data_issued.
+     *
+     * @param mixed $data_issued the data issued
+     *
+     * @return self
+     */
+    private function _setDataIssued($data_issued)
+    {
+        $this->data_issued = $data_issued;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of date_issued.
+     *
+     * @return mixed
+     */
+    public function get_DateIssued()
+    {
+        return $this->date_issued;
+    }
+
+    /**
+     * Sets the value of date_issued.
+     *
+     * @param mixed $date_issued the date issued
+     *
+     * @return self
+     */
+    public function set_DateIssued($date_issued)
+    {
+        $this->date_issued = $date_issued;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of modeOfPayment.
+     *
+     * @return mixed
+     */
+    public function get_ModeOfPayment()
+    {
+        return $this->modeOfPayment;
+    }
+
+    /**
+     * Sets the value of modeOfPayment.
+     *
+     * @param mixed $modeOfPayment the mode of payment
+     *
+     * @return self
+     */
+    public function set_ModeOfPayment($modeOfPayment)
+    {
+        $this->modeOfPayment = $modeOfPayment;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of idPresented.
+     *
+     * @return mixed
+     */
+    public function get_IdPresented()
+    {
+        return $this->idPresented;
+    }
+
+    /**
+     * Sets the value of idPresented.
+     *
+     * @param mixed $idPresented the id presented
+     *
+     * @return self
+     */
+    public function set_IdPresented($idPresented)
+    {
+        $this->idPresented = $idPresented;
+
+        return $this;
     }
 }//END OF CLASS

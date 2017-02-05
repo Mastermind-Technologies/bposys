@@ -132,45 +132,8 @@ class Dashboard extends CI_Controller {
 					$application = new Engineering_Application($reference->referenceNum);
 					$application->check_expiry();
 				}
+				unset($application);
 			}
-
-
-			// $bplo = $this->Application_m->get_all_bplo_applications();
-			// if(count($bplo) > 0)
-			// {	
-			// 	foreach ($bplo as $application) {
-			// 		$application_obj = new BPLO_Application($application->referenceNum);
-			// 		$application_obj->check_expiry();
-			// 	}
-			// }
-
-			// $cenro = $this->Application_m->get_all_cenro_applications();
-			// if(count($cenro) > 0)
-			// {
-			// 	foreach ($cenro as $application) {
-			// 		$application_obj = new CENRO_Application($application->referenceNum);
-			// 		$application_obj->check_expiry();
-			// 	}
-			// }
-
-			// $sanitary = $this->Application_m->get_all_sanitary_applications();
-			// if(count($sanitary) > 0)
-			// {
-			// 	foreach ($sanitary as $application) {
-			// 		$application_obj = new Sanitary_Application($application->referenceNum);
-			// 		$application_obj->check_expiry();
-			// 	}
-			// }
-
-			// $zoning = $this->Application_m->get_all_zoning_applications();
-			// if(count($zoning) > 0)
-			// {
-			// 	foreach ($zoning as $application) {
-			// 		$application_obj = new Zoning_Application($application->referenceNum);
-			// 		$application_obj->check_expiry();
-			// 	}
-			// }
-
 
 			$navdata['title'] = 'BPLO Dashboard';
 			$navdata['active'] = 'Dashboard';
@@ -178,6 +141,35 @@ class Dashboard extends CI_Controller {
 			$navdata['notifications'] = User::get_notifications();
 			$navdata['completed'] = User::get_complete_notifications();
 			$this->_init_matrix($navdata);
+
+			$query['status'] = 'For validation...';
+			$application = $this->Application_m->get_latest_bplo_applications($query);
+			foreach ($application as $key => $a) {
+				$data['latest_applications'][] = new BPLO_Application($a->referenceNum);
+			}
+
+			$application = $this->Issued_Application_m->get_all(['dept' => 'BPLO']);
+			foreach ($application as $key => $a) {
+				$data['latest_issued'][] = new BPLO_Application($a->referenceNum);
+				$data['latest_issued'][$key]->set_DateIssued(date('F j, o',strtotime($a->createdAt)));
+			}
+			// echo "<pre>";
+			// print_r($data['latest_issued']);
+			// echo "</pre>";
+			// exit();
+
+
+			$data['applications'] = count($this->Application_m->get_all_bplo_applications());
+
+			$data['total_issued'] = count($this->Issued_Application_m->get_all(['dept' => 'BPLO']));
+
+			$data['renewed'] = count($this->Issued_Application_m->get_all(['type' => 'Renew']));
+
+			$query['status'] = 'Expired';
+			$data['expired'] = count($this->Application_m->get_all_bplo_applications($query));
+
+			$query['status'] = 'Cancelled';
+			$data['cancelled'] = count($this->Application_m->get_all_bplo_applications($query));
 
 			$query['status'] = 'For validation...';
 			$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
@@ -327,6 +319,8 @@ class Dashboard extends CI_Controller {
 		$this->form_validation->set_rules('ctc-number', 'CTC Number', 'required|numeric');
 		$this->form_validation->set_rules('tin', 'TIN', 'required');
 		$this->form_validation->set_rules('occupancy-permit-number', 'Occupancy Permit Number', 'required');
+		$this->form_validation->set_rules('id-presented', 'ID Presented', 'required');
+		$this->form_validation->set_rules('mode-of-payment', 'Mode of Payment', 'required');
 		// $this->form_validation->set_rules('capital-invested', 'Capital Invested', 'required|numeric');
 		$this->form_validation->set_rules('business', 'Business Profile', 'required');
 
@@ -427,6 +421,8 @@ class Dashboard extends CI_Controller {
 				'businessId' => $business_id,
 				'taxYear' => $this->input->post('tax-year'),
 				'applicationDate' => $this->input->post('application-date'),
+				'modeOfPayment' => $this->input->post('mode-of-payment'),
+				'id-presented' => $this->input->post('id-presented'),
 				'DTISECCDA_RegNum' => $this->input->post('DTISECCDA_RegNum'),
 				'DTISECCDA_Date' => $this->input->post('DTISECCDA_Date'),
 				'brgyClearanceDateIssued' => $this->input->post('brgy-clearance-date-issued'),
@@ -607,9 +603,7 @@ class Dashboard extends CI_Controller {
 	{
 		$fields = array(
 			'bploId' => $this->input->post('referenceNum'),
-			'code' => $this->input->post('code'),
 			'lineOfBusiness' => $this->input->post('lineOfBusiness'),
-			'numOfUnits' => $this->input->post('numOfUnits'),
 			'capitalization' => $this->input->post('capitalization'),
 			);
 

@@ -16,6 +16,19 @@ $(document).ready(function()
 
   $('[data-toggle="tooltip"]').tooltip();
 
+  $('#certify').click(function(){
+    if($('#certify').is(':checked'))
+    {
+      $('#s1-proceed').removeAttr('disabled');
+      $('#s1-proceed').prop('href','#step2');
+    }
+    else
+    {
+      $('#s1-proceed').attr('disabled',true);
+      $('#s1-proceed').removeAttr('href');
+    }
+  });
+
   $('#cnc').click(function(){
     if($('#cnc').is(':checked'))
     {
@@ -426,9 +439,30 @@ $(document).ready(function()
       return false;
   });
 
-  function check_notifications()
-  {
-    //
-  }
+  //VALIDATE WIZARD FORM
+  var $sections = $('.tab-pane');
+  // Next button goes forward if current block validates
+  var index = 1;
+  $('.form-navigation .next').click(function() {
+    if ($('#new_application_form, .renewal-form').parsley().validate({group: 'block-' + index}))
+    {
+      $('.tab-pane').eq(index).removeClass('active');
+      index++;
+      $('.tab-pane').eq(index).addClass('active');
+      console.log(index);
+    }
+  });
 
+  $('.form-navigation .previous').click(function() {
+    $('.tab-pane').eq(index).removeClass('active');
+    index--;
+    $('.tab-pane').eq(index).addClass('active');
+    console.log(index);
+  });
+
+  // Prepare sections by setting the `data-parsley-group` attribute to 'block-0', 'block-1', etc.
+  $sections.each(function(index, section) {
+    $(section).find(':input[type=text], select').attr('data-parsley-group', 'block-' + index);
+  });
+  
 }); //End of Jquery
