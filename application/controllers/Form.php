@@ -104,7 +104,7 @@ class Form extends CI_Controller {
 		$data['business'] = new Business($this->encryption->decrypt($data['application']->get_BusinessID()));
 		$data['sanitary'] = new Sanitary_Application($referenceNum);
 		// echo "<pre>";
-		// print_r($data);
+		// print_r($data['application']);
 		// echo "</pre>";
 		// exit();
 
@@ -115,7 +115,7 @@ class Form extends CI_Controller {
 
 	public function submit_renewal_application()
 	{
-
+		
 	}
 
 	//BILLY 12-15-2016 3:45PM

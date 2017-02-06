@@ -286,15 +286,15 @@
                   </td>
                 </tr>
                 <tr>
-                  <th rowspan="2" style="width: 15%">
+                  <!-- <th rowspan="2" style="width: 15%">
                     <label for="business_activity_code">Code</label>
-                  </th>
+                  </th> -->
                   <th rowspan="2" style="width: 30%">
                     <label for="business_activity_line_of_business">Line of Business</label>
                   </th>
-                  <th rowspan="2" style="width: 10%">
+                  <!-- <th rowspan="2" style="width: 10%">
                     <label for="business_activity_no_of_units">No. of Units</label>
-                  </th>
+                  </t -->h>
                   <th rowspan="2" style="width: 20%">
                     <label for="business_activity_capitalization">Capitalization</label>
                   </th>
@@ -306,9 +306,9 @@
               <tbody>
                 <?php foreach ($application->get_businessActivities() as $activity): ?>
                   <tr>
-                    <td><?= $activity->code ?></td>
+                    <!-- <td><?= $activity->code ?></td> -->
                     <td><?= $activity->lineOfBusiness ?></td>
-                    <td><?= $activity->numOfUnits ?></td>
+                    <!-- <td><?= $activity->numOfUnits ?></td> -->
                     <td><?= $activity->capitalization ?></td>
                     <td><?= "???" ?></td>
                   </tr>

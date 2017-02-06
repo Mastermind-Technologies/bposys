@@ -505,13 +505,13 @@
 														<div class="col-sm-3">
 															<label for="cnc-date-issued">Date Issued:</label>
 															<div class="input-group">
-																<input type="text" disabled="" class="form-control" name="cnc-date-issued" value="<?= $cenro->get_cnc()!='NA' ? $cenro->get_cnc() : '' ?>" id="cnc-date-issued"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+																<input type="text" class="form-control" name="cnc-date-issued" <?= $cenro->get_cnc()!='NA' ? 'required '.'value='.$cenro->get_cnc() : 'disabled' ?> id="cnc-date-issued"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
 															</div>
 														</div>
 														<div class="col-sm-3 col-sm-offset-2">
 															<label for="llda-date-issued">Date Issued:</label>
 															<div class="input-group">
-																<input type="text" disabled="" class="form-control" name="llda-date-issued" value='<?= $cenro->get_LLDAClearance()!='NA' ? $cenro->get_LLDAClearance() : '' ?>' id="llda-date-issued"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+																<input type="text" class="form-control" name="llda-date-issued" <?= $cenro->get_LLDAClearance()!='NA' ? 'required '.'value='.$cenro->get_LLDAClearance() : 'disabled' ?> id="llda-date-issued"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
 															</div>
 
 														</div>
@@ -533,13 +533,13 @@
 														<div class="col-sm-3">
 															<label for="discharge-permit-date-issued">Date Issued:</label>
 															<div class="input-group">
-																<input type="text" disabled="" class="form-control" name="discharge-permit-date-issued" value='<?= $cenro->get_dischargepermit()!='NA' ? $cenro->get_dischargepermit() : '' ?>' id="discharge-permit-date-issued"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+																<input type="text" class="form-control" name="discharge-permit-date-issued" <?= $cenro->get_dischargepermit()!='NA' ? 'required '.'value='.$cenro->get_dischargepermit() : 'disabled' ?> id="discharge-permit-date-issued"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
 															</div>
 														</div>
 														<div class="col-sm-3 col-sm-offset-2">
 															<label for="apsci-date-issued">Date Issued:</label>
 															<div class="input-group">
-																<input type="text" disabled="" class="form-control" name="apsci-date-issued" value='<?= $cenro->get_apsci()!='NA' ? $cenro->get_apsci() : '' ?>' id="apsci-date-issued"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+																<input type="text" class="form-control" name="apsci-date-issued" <?= $cenro->get_apsci()!='NA' ? 'required '.'value='.$cenro->get_apsci() : 'disabled' ?> id="apsci-date-issued"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
 															</div>
 														</div>
 													</div>
@@ -567,12 +567,12 @@
 												<div class="row">
 													<div class="col-sm-5">
 														<div class="checkbox">
-															<label><input type="checkbox" name="smoke-emission" id="smoke-emission"><strong>Smoke/Emission</strong></label>
+															<label><input type="checkbox" <?= $cenro->get_SmokeEmission()==1 ? 'checked' : '' ?> name="smoke-emission" id="smoke-emission"><strong>Smoke/Emission</strong></label>
 														</div>
 													</div>
 													<div class="col-sm-5">
 														<div class="checkbox">
-															<label><input type="checkbox" name="volatile-compound" id="volatile-compound"><strong>Volatile Compound</strong></label>
+															<label><input type="checkbox" <?= $cenro->get_VolatileCompound()==1 ? 'checked' : '' ?> name="volatile-compound" id="volatile-compound"><strong>Volatile Compound</strong></label>
 														</div>
 													</div>
 												</div>
@@ -581,22 +581,22 @@
 													<div class="col-sm-5">
 														<span>Fugitive Particulates:</span>
 														<div class="checkbox">
-															<label><input type="checkbox" name="fugitive-particulates[]" value="Dust"><strong>Dust</strong></label>
+															<label><input type="checkbox" <?= in_array('Dust', $cenro->get_FugitiveParticulates()) ? 'checked' : '' ?> name="fugitive-particulates[]" value="Dust"><strong>Dust</strong></label>
 														</div>
 														<div class="checkbox">
-															<label><input type="checkbox" name="fugitive-particulates[]" value="Mist"><strong>Mist</strong></label>
+															<label><input type="checkbox" <?= in_array('Mist', $cenro->get_FugitiveParticulates()) ? 'checked' : '' ?> name="fugitive-particulates[]" value="Mist"><strong>Mist</strong></label>
 														</div>
 														<div class="checkbox">
-															<label><input type="checkbox" name="fugitive-particulates[]" value="Gas"><strong>Gas</strong></label>
+															<label><input type="checkbox" <?= in_array('Gas', $cenro->get_FugitiveParticulates()) ? 'checked' : '' ?> name="fugitive-particulates[]" value="Gas"><strong>Gas</strong></label>
 														</div>
 													</div>
 													<div class="col-sm-5">
 														<span>Steam Generator:</span>
 														<div class="checkbox">
-															<label><input type="checkbox" name="steam-generators[]" value="Boiler"><strong>Boiler</strong></label>
+															<label><input type="checkbox" <?= in_array('Boiler', $cenro->get_SteamGenerator()) ? 'checked' : '' ?> name="steam-generators[]" value="Boiler"><strong>Boiler</strong></label>
 														</div>
 														<div class="checkbox">
-															<label><input type="checkbox" name="steam-generators[]" value="Furnace"><strong>Furnace</strong></label>
+															<label><input type="checkbox" <?= in_array('Furnace', $cenro->get_SteamGenerator()) ? 'checked' : '' ?> name="steam-generators[]" value="Furnace"><strong>Furnace</strong></label>
 														</div>
 														<div class="checkbox">
 															<label><input type="checkbox" name="steam-generators[]" id="steam-generator-others" value="" ><strong>Others</strong></label>
@@ -608,11 +608,11 @@
 												<div class="row">
 													<div class="col-sm-4">
 														<label for="air-pollution-control-devices">Air Pollution Control Devices Being Used</label>
-														<input type="text" required id="air-pollution-control-devices" name="air-pollution-control-devices" class="form-control">
+														<input type="text" value="<?= $cenro->get_APCD() ?>" required id="air-pollution-control-devices" name="air-pollution-control-devices" class="form-control">
 													</div>
 													<div class="col-sm-4">
 														<label for="stack-height">Stack Height</label>
-														<input type="text" required name="stack-height" id="stack-height" class="form-control">
+														<input type="text" required value="<?= $cenro->get_StackHeight() ?>" name="stack-height" id="stack-height" class="form-control">
 													</div>
 												</div>
 												<!-- END AIR POLLUTION -->
@@ -629,14 +629,14 @@
 												<div class="row">
 													<div class="col-sm-4 ">
 														<label for="wastewater-treatment-facility">Wastewater Treatment Facility</label>
-														<input required type="text" name="wastewater-treatment-facility" id="wastewater-treatment-facility" class="form-control">
+														<input required type="text" value="<?= $cenro->get_wastewaterTreatmentFacility() ?>" name="wastewater-treatment-facility" id="wastewater-treatment-facility" class="form-control">
 													</div>
 												</div>
 
 												<div class="row">
 													<div class="col-sm-5">
 														<div class="checkbox">
-															<label><input type="checkbox" name="wastewater-treatment-operation" id="wastewater-treatment-operation"><strong>Wastewater Treatment Operation and Process</strong></label>
+															<label><input type="checkbox" <?= $cenro->get_wastewaterTreatmentOperationAndProcess()==1 ? 'checked' : '' ?> name="wastewater-treatment-operation" id="wastewater-treatment-operation"><strong>Wastewater Treatment Operation and Process</strong></label>
 														</div>
 													</div>
 												</div>
@@ -644,14 +644,14 @@
 												<div class="row">
 													<div class="col-sm-3">
 														<div class="checkbox">
-															<label><input type="checkbox" name="pending-llda-case" id="pending-llda-case"><strong>Pending Case with LLDA?</strong></label>
+															<label><input type="checkbox" <?= $cenro->get_pendingCaseWithLLDA()!=null ? 'checked' : '' ?> name="pending-llda-case" id="pending-llda-case"><strong>Pending Case with LLDA?</strong></label>
 														</div>
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-sm-3">
 														<label for="case-no">Case No.</label>
-														<input type="text" disabled name="llda-case-no" data-parsley-type="digits" id="llda-case-no" class="form-control">
+														<input type="text" name="llda-case-no" <?= $cenro->get_pendingCaseWithLLDA()!=null ? 'required '.'value='.$cenro->get_pendingCaseWithLLDA() : 'disabled' ?> data-parsley-type="digits" id="llda-case-no" class="form-control">
 													</div>
 												</div>
 												<!-- END OF WASTEWATER -->
@@ -661,19 +661,19 @@
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="type-of-solid-wastes">Type of Solid Wastes Generated</label>
-															<input required type="text" id="type-of-solid-wastes" name="type-of-solid-wastes" class="form-control">
+															<input required type="text" value="<?= $cenro->get_typeOfSolidWastesGenerated() ?>" id="type-of-solid-wastes" name="type-of-solid-wastes" class="form-control">
 														</div>
 													</div>
 													<div class="col-sm-2">
 														<div class="form-group">
 															<label for="qty-per-day">Quantity per day</label>
-															<input required type="text" id="qty-per-day" data-parsley-type='digits' name="qty-per-day" class="form-control">
+															<input required type="text" value="<?= $cenro->get_qtyperday() ?>" id="qty-per-day" data-parsley-type='digits' name="qty-per-day" class="form-control">
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="method-of-garbage-collection">Method of Garbage Collection</label>
-															<input required type="text" id="method-of-garbage-collection" name="method-of-garbage-collection" class="form-control">
+															<input required type="text" value="<?= $cenro->get_garbageCollectionMethod() ?>" id="method-of-garbage-collection" name="method-of-garbage-collection" class="form-control">
 														</div>
 													</div>
 												</div>
@@ -684,14 +684,14 @@
 														<div class="form-group" id="garbage-radio">
 															<span>Frequency of Garbage Collection:</span>
 															<div class="radio-inline">
-																<label><input type="radio" checked name="garbage-collection-frequency" id="garbage-collection-frequency" value="Daily"><strong>Daily</strong></label>
+																<label><input type="radio" <?= $cenro->get_frequencyOfGarbageCollection()=='Daily' ? 'checked' : '' ?> name="garbage-collection-frequency" id="garbage-collection-frequency" value="Daily"><strong>Daily</strong></label>
 															</div>
 															<div class="radio-inline">
-																<label><input type="radio" name="garbage-collection-frequency" value="Weekly" id="garbage-collection-frequency"><strong>Weekly</strong></label>
+																<label><input type="radio" <?= $cenro->get_frequencyOfGarbageCollection()=='Weekly' ? 'checked' : '' ?> name="garbage-collection-frequency" value="Weekly" id="garbage-collection-frequency"><strong>Weekly</strong></label>
 															</div>
 															<div class="radio-inline">
-																<label><input type="radio" name="garbage-collection-frequency" id="garbage-collection-others" value=""><strong>Others</strong></label>
-																<input type="text" name="garbage-collection-specify" id="garbage-collection-specify" disabled placeholder="Please specify...">
+																<label><input type="radio" <?= $cenro->get_frequencyOfGarbageCollection()!='Daily'&&$cenro->get_frequencyOfGarbageCollection()!='Weekly' ? 'checked' : '' ?> name="garbage-collection-frequency" id="garbage-collection-others" value=""><strong>Others</strong></label>
+																<input type="text" <?= $cenro->get_frequencyOfGarbageCollection()!='Daily'&&$cenro->get_frequencyOfGarbageCollection()!='Weekly' ? 'required '.'value='.$cenro->get_frequencyOfGarbageCollection() : 'disabled' ?> name="garbage-collection-specify" id="garbage-collection-specify" placeholder="Please specify...">
 															</div>
 														</div>
 													</div>
@@ -700,7 +700,7 @@
 													<div class="col-sm-5">
 														<div class="form-group">
 															<label for="collector">Person / Company Collecting Solid Wastes</label>
-															<input required type="text" id="collector" name="collector" class="form-control">
+															<input required type="text" value="<?= $cenro->get_wasteCollector() ?>" id="collector" name="collector" class="form-control">
 														</div>
 													</div>
 												</div>
@@ -708,7 +708,7 @@
 													<div class="col-sm-5">
 														<div class="form-group">
 															<label for="collector-address">Collector's Address</label>
-															<textarea required name="collector-address" id="collector-address" class="form-control"></textarea>
+															<textarea required name="collector-address" value="<?= $cenro->get_collectorAddress() ?>" id="collector-address" class="form-control"></textarea>
 														</div>
 													</div>
 												</div>
@@ -719,10 +719,10 @@
 														<div class="form-group">
 															<span>Method of Garbage Disposal:</span>
 															<div class="radio-inline">
-																<label><input type="radio" checked name="garbage-disposal-method" value="Sanitary Landfill"><strong>Sanitary Landfill</strong></label>
+																<label><input type="radio" <?= $cenro->get_GarbageDisposalMethod()=='Sanitary Landfill' ? 'checked' : '' ?> name="garbage-disposal-method" value="Sanitary Landfill"><strong>Sanitary Landfill</strong></label>
 															</div>
 															<div class="radio-inline">
-																<label><input type="radio" name="garbage-disposal-method" value="Controlled Dumpsite"><strong>Controlled Dumpsite</strong></label>
+																<label><input type="radio" <?= $cenro->get_GarbageDisposalMethod()=='Controlled Dumpsite' ? 'checked' : '' ?> name="garbage-disposal-method" value="Controlled Dumpsite"><strong>Controlled Dumpsite</strong></label>
 															</div>
 														</div>
 													</div>
@@ -733,13 +733,13 @@
 														<div class="form-group">
 															<span>Method of Waste Minimization (if any):</span>
 															<div class="checkbox-inline">
-																<label><input type="checkbox" name="waste-minimization[]" value="Recycling"><strong>Recycling</strong></label>
+																<label><input type="checkbox" <?= in_array('Recycling', $cenro->get_wasteMinimizationMethod()) ? 'checked' : '' ?> name="waste-minimization[]" value="Recycling"><strong>Recycling</strong></label>
 															</div>
 															<div class="checkbox-inline">
-																<label><input type="checkbox" name="waste-minimization[]" value="Reduction"><strong>Reduction</strong></label>
+																<label><input type="checkbox" <?= in_array('Reduction', $cenro->get_wasteMinimizationMethod()) ? 'checked' : '' ?> name="waste-minimization[]" value="Reduction"><strong>Reduction</strong></label>
 															</div>
 															<div class="checkbox-inline">
-																<label><input type="checkbox" name="waste-minimization[]" value="Reuse"><strong>Reuse</strong></label>
+																<label><input type="checkbox" <?= in_array('Reuse', $cenro->get_wasteMinimizationMethod()) ? 'checked' : '' ?> name="waste-minimization[]" value="Reuse"><strong>Reuse</strong></label>
 															</div>
 														</div>
 													</div>
@@ -751,7 +751,7 @@
 												<div class="row">
 													<div class="col-sm-4">
 														<div class="checkbox">
-															<label><input type="checkbox" name="drainage-system" id="drainage-system"><strong>Drainage System</strong></input></label>
+															<label><input type="checkbox" <?= $cenro->get_drainageSystem()==1 ? 'checked' : '' ?> name="drainage-system" id="drainage-system"><strong>Drainage System</strong></input></label>
 														</div>
 													</div>
 												</div>
@@ -762,145 +762,256 @@
 														</div>
 														<div class="col-sm-3 col-sm-offset-1">
 															<div class="radio-inline">
-																<label><input type="radio" disabled id="drainage-system-type1" name="drainage-system-type" value="Close/Underground"><strong>Closed/Underground</strong></input></label>
+																<label><input type="radio" 
+																	<?php 
+																	if($cenro->get_drainageType() == 'Close/Underground')
+																	{
+																		echo 'checked';
+																	} 
+																	else if($cenro->get_drainageType() == 'NA')
+																	{
+																		echo 'disabled';
+																	}
+																	else
+																	{
+																		echo '';
+																	}
+																	?> id="drainage-system-type1" name="drainage-system-type" value="Close/Underground"><strong>Closed/Underground</strong></input></label>
+																</div>
 															</div>
-														</div>
-														<div class="col-sm-3">
-															<div class="radio-inline">
-																<label><input type="radio" disabled id="drainage-system-type2" name="drainage-system-type" value="Open Canal"><strong class="testing">Open Canal</strong></input></label>
+															<div class="col-sm-3">
+																<div class="radio-inline">
+																	<label><input type="radio" <?php 
+																		if($cenro->get_drainageType() == 'Open Canal')
+																		{
+																			echo 'checked';
+																		} 
+																		else if($cenro->get_drainageType() == 'NA')
+																		{
+																			echo 'disabled';
+																		}
+																		else
+																		{
+																			echo '';
+																		}
+																		?> id="drainage-system-type2" name="drainage-system-type" value="Open Canal"><strong class="testing">Open Canal</strong></input></label>
+																	</div>
+																</div>
 															</div>
-														</div>
-													</div>
 
-												</div>
-												<div class="row">
-													<div class="form-group">
-														<div class="col-sm-12">
-															<label for="">Where Discharged:</label>
 														</div>
-														<div class="col-sm-3 col-sm-offset-1">
-															<div class="radio-inline">
-																<label><input type="radio" disabled name="drainage-where-discharged" id="drainage-where-discharged1" value="Public Drainage System"><strong>Public Drainage System</strong></input></label>
-															</div>
-														</div>
-														<div class="col-sm-3">
-															<div class="radio-inline">
-																<label><input type="radio" disabled name="drainage-where-discharged" id="drainage-where-discharged2" value="Nature Outfall/Waterbody"><strong>Nature Outfall/Waterbody</strong></input></label>
-															</div>
-														</div>
-													</div>
-												</div>
-												<!-- END OF DRAINAGE -->
-												<hr>
-												<h4>Sewerage</h4>
-												<small>Check if available</small>
-												<div class="row">
-													<div class="col-sm-4">
-														<div class="checkbox">
-															<label><input type="checkbox" name="sewerage-system" id="sewerage-system"><strong>Sewerage System</strong></input></label>
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-sm-4">
-														<div class="checkbox">
-															<label><input type="checkbox" id="septic-tank" name="septic-tank"><strong>Septic Tank</strong></input></label>
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-sm-12">
-														<label for="">Where Discharged:</label></div>
-														<div class="col-sm-3 col-sm-offset-1">
-															<div class="radio-inline">
-																<label><input type="radio" disabled name="sewerage-where-discharged" id="sewerage-where-discharged1" value="Public Drainage System"><strong>Public Drainage System</strong></input></label>
-															</div>
-														</div>
-														<div class="col-sm-3">
-															<div class="radio-inline">
-																<label><input type="radio" disabled name="sewerage-where-discharged" id="sewerage-where-discharged2" value="Treatment in Septic Tank"><strong>Treatment in Septic Tank</strong></input></label>
-															</div>
-														</div>
-													</div>
-													<!-- END OF SEWERAGE -->
-													<hr>
-													<h4>Water Supply/Source</h4>
-													<div class="row">
-														<div class="col-sm-3">
-															<div class="radio">
-																<label><input type="radio" checked name="water-supply" value="Deep Well"><strong>Deep Well</strong></input></label>
-															</div>
-														</div>
-														<div class="col-sm-3">
-															<div class="radio">
-																<label><input type="radio" name="water-supply" value="Water Utility"><strong>Local Water Utility</strong></input></label>
-															</div>
-														</div>
-														<div class="col-sm-3">
-															<div class="radio">
-																<label><input type="radio" name="water-supply" value="Surface Water"><strong>Surface Water</strong></input></label>
-															</div>
-														</div>
-													</div>
-													<div class="row">
-														<div class="col-sm-3">
+														<div class="row">
 															<div class="form-group">
-																<label for="water-supply-type">Type of Water Supply/Source</label>
-																<input type="text" name="water-supply-type" id="water-supply-type" class="form-control">
+																<div class="col-sm-12">
+																	<label for="">Where Discharged:</label>
+																</div>
+																<div class="col-sm-3 col-sm-offset-1">
+																	<div class="radio-inline">
+																		<label><input type="radio" 
+																			<?php 
+																			if($cenro->get_DrainageDischargeLocation() == 'Public Drainage System')
+																			{
+																				echo 'checked';
+																			} 
+																			else if($cenro->get_DrainageDischargeLocation() == 'NA')
+																			{
+																				echo 'disabled';
+																			}
+																			else
+																			{
+																				echo '';
+																			}
+																			?>
+																			name="drainage-where-discharged" id="drainage-where-discharged1" value="Public Drainage System"><strong>Public Drainage System</strong></input></label>
+																		</div>
+																	</div>
+																	<div class="col-sm-3">
+																		<div class="radio-inline">
+																			<label><input type="radio" 
+																				<?php 
+																				if($cenro->get_DrainageDischargeLocation() == 'Nature Outfall/Waterbody')
+																				{
+																					echo 'checked';
+																				} 
+																				else if($cenro->get_DrainageDischargeLocation() == 'NA')
+																				{
+																					echo 'disabled';
+																				}
+																				else
+																				{
+																					echo '';
+																				}
+																				?>
+																				name="drainage-where-discharged" id="drainage-where-discharged2" value="Nature Outfall/Waterbody"><strong>Nature Outfall/Waterbody</strong></input></label>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<!-- END OF DRAINAGE -->
+																<hr>
+																<h4>Sewerage</h4>
+																<small>Check if available</small>
+																<div class="row">
+																	<div class="col-sm-4">
+																		<div class="checkbox">
+																			<label><input type="checkbox" <?= $cenro->get_sewerageSystem()==1 ? 'checked' : '' ?> name="sewerage-system" id="sewerage-system"><strong>Sewerage System</strong></input></label>
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-sm-4">
+																		<div class="checkbox">
+																			<label><input type="checkbox" <?php $cenro->get_septicTank()==1 ? 'checked' : '' ?> id="septic-tank" name="septic-tank"><strong>Septic Tank</strong></input></label>
+																		</div>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-sm-12">
+																		<label for="">Where Discharged:</label></div>
+																		<div class="col-sm-3 col-sm-offset-1">
+																			<div class="radio-inline">
+																				<label><input type="radio"
+																					<?php 
+																					if($cenro->get_SewerageDischargeLocation() == 'Public Drainage System')
+																					{
+																						echo 'checked';
+																					} 
+																					else if($cenro->get_SewerageDischargeLocation() == 'NA')
+																					{
+																						echo 'disabled';
+																					}
+																					else
+																					{
+																						echo '';
+																					}
+																					?>
+																					name="sewerage-where-discharged" id="sewerage-where-discharged1" value="Public Drainage System"><strong>Public Drainage System</strong></input></label>
+																				</div>
+																			</div>
+																			<div class="col-sm-3">
+																				<div class="radio-inline">
+																					<label>
+																						<input type="radio"
+																						<?php 
+																						if($cenro->get_SewerageDischargeLocation() == 'Treatment in Septic Tank')
+																						{
+																							echo 'checked';
+																						} 
+																						else if($cenro->get_SewerageDischargeLocation() == 'NA')
+																						{
+																							echo 'disabled';
+																						}
+																						else
+																						{
+																							echo '';
+																						}
+																						?>
+																						name="sewerage-where-discharged" id="sewerage-where-discharged2" value="Treatment in Septic Tank"><strong>Treatment in Septic Tank</strong></input></label>
+																					</div>
+																				</div>
+																			</div>
+																			<!-- END OF SEWERAGE -->
+																			<hr>
+																			<h4>Water Supply/Source</h4>
+																			<div class="row">
+																				<div class="col-sm-3">
+																					<div class="radio">
+																						<label><input type="radio" checked name="water-supply" <?= $cenro->get_waterSupply()=='Deep Well' ? 'checked' : '' ?> value="Deep Well"><strong>Deep Well</strong></input></label>
+																					</div>
+																				</div>
+																				<div class="col-sm-3">
+																					<div class="radio">
+																						<label><input type="radio" name="water-supply" <?= $cenro->get_waterSupply()=='Water Utility' ? 'checked' : '' ?> value="Water Utility"><strong>Local Water Utility</strong></input></label>
+																					</div>
+																				</div>
+																				<div class="col-sm-3">
+																					<div class="radio">
+																						<label><input type="radio" name="water-supply" <?= $cenro->get_waterSupply()=='Surface Water' ? 'checked' : '' ?> value="Surface Water"><strong>Surface Water</strong></input></label>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="row">
+																				<div class="col-sm-3">
+																					<div class="form-group">
+																						<label for="water-supply-type">Type of Water Supply/Source</label>
+																						<input type="text" name="water-supply-type" required value="<?= $sanitary->get_TypeLevelOfWaterSource() ?>" id="water-supply-type" class="form-control">
+																					</div>
+																				</div>
+																			</div>
+																			<!-- END OF WATER SUPPLY/SOURCE -->
+																			<hr>
+																			<h4>Hazardous Waste Treater/Transporter</h4>
+																			???
+																		</div>
+																		<hr>
+																		<div class="col-sm-3 pull-right form-navigation">
+																			<a data-toggle='tab' class='btn btn-success previous'>Back</a>
+																			<a data-toggle='tab' class='btn btn-success next'>Next 5/6</a>
+																		</div>
+																	</div>
+																	<div class="tab-pane" id='step7'>
+																		<h2 class="panel-header">Business Activities</h2>
+																		<div class="col-sm-12">
+																			<table id='bus-activity' class="table table-bordered">
+																				
+																				<tr>
+																					<th></th>
+																					<th></th>
+																					<th class='text-center' colspan=2>Gross/Sales Receipts</th>
+																				</tr>
+																				<tr>
+																					<th class='text-center'>Line of Business</th>
+																					<th class='text-center'>Previous Gross</th>
+																					<th class='text-center'>Essentials</th>
+																					<th class='text-center'>Non-Essential</th>
+																				</tr>
+																				
+																				
+																				
+																				<!-- <th></th> -->
+																				<tbody class="table-body">
+																					<?php foreach ($application->get_BusinessActivities() as $key => $app): ?>
+																						<tr>
+																							<td>
+																								<?= $app->lineOfBusiness ?>
+																								<input name='activity-id[]' type="hidden" value="<?= $app->activityId ?>">
+																							</td>
+																							<td><input type="text" class='form-control' required data-parsley-type='digits' name='previous-gross[]'></td>
+																							<td><input type="text" class='form-control' required data-parsley-type='digits' name='essential[]'></td>
+																							<td><input type="text" class='form-control' required data-parsley-type='digits' name='non-essential[]'></td>
+																						</tr>
+																					<?php endforeach ?>
+																					<!-- <tr class="data">
+																						<td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td>
+																						<td><input id="capitalization" name="capitalization" type="text" required data-parsley-type='digits' class=form-control></td>
+																					</tr> -->
+																				</tbody>
+																			</table>
+																		</div>
+
+
+																		<!-- <div class="row">
+																			<div class="col-sm-4 col-sm-offset-4">
+																				<a id="btn-add-bus-activity" class="btn btn-primary btn-block"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
+																			</div>
+																		</div> -->
+																		<hr>
+																		<div class="col-sm-3 pull-right form-navigation">
+																			<a data-toggle='tab' class='btn btn-success previous'>Back</a>
+																			<button type="submit" id="btn-submit" class="btn btn-success"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Submit</button>
+																		</div>
+																	</div>
+																</div>
 															</div>
-														</div>
+														</form>
 													</div>
-													<!-- END OF WATER SUPPLY/SOURCE -->
-													<hr>
-													<h4>Hazardous Waste Treater/Transporter</h4>
-													???
-												</div>
-												<hr>
-												<div class="col-sm-3 pull-right form-navigation">
-													<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-													<a data-toggle='tab' class='btn btn-success next'>Next 5/6</a>
+													<!-- /.panel-body -->
 												</div>
 											</div>
-											<div class="tab-pane" id='step7'>
-												<h2 class="panel-header">Business Activities</h2>
-												<div class="col-sm-8 col-sm-offset-2">
-													<table id='bus-activity' class="table table-bordered">
-														<th>Line of Business</th>
-														<th>Capitalization</th>
-														<!-- <th></th> -->
-														<tbody class="table-body">
-															<tr class="data">
-																<td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td>
-																<td><input id="capitalization" name="capitalization" type="text" required data-parsley-type='digits' class=form-control></td>
-																<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
-															</tr>
-														</tbody>
-													</table>
-												</div>
-
-
-												<div class="row">
-													<div class="col-sm-4 col-sm-offset-4">
-														<a id="btn-add-bus-activity" class="btn btn-primary btn-block"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
-													</div>
-												</div>
-												<hr>
-												<div class="col-sm-3 pull-right form-navigation">
-													<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-													<button type="submit" id="btn-submit" class="btn btn-success btn-block"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Save</button>
-												</div>
-											</div>
+											<!-- /.col-lg-12 -->
 										</div>
+										<!-- /.row -->
 									</div>
-								</form>
-							</div>
-							<!-- /.panel-body -->
-						</div>
-					</div>
-					<!-- /.col-lg-12 -->
-				</div>
-				<!-- /.row -->
-			</div>
-			<!-- /.container-fluid -->
-		</div>
+									<!-- /.container-fluid -->
+								</div>
 <!-- </body>

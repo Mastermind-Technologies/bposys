@@ -113,6 +113,10 @@ class CENRO_Application extends Business {
 		if(!isset($this->CI))
 			$this->CI =& get_instance();
 
+        $fugitive_particulates = $param->fugitiveParticulates!=null ? explode('|', $param->fugitiveParticulates) : [];
+        $steam_generator = $param->steamGenerator!=null ? explode('|', $param->steamGenerator) : [];
+        $waste_minimization = $param->wasteMinimizationMethod!=null ? explode('|', $param->wasteMinimizationMethod) : [];
+
         $this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
         $this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
         $this->userId = $this->CI->encryption->encrypt($param->userId);
@@ -124,8 +128,8 @@ class CENRO_Application extends Business {
         $this->productsAndByProducts = $param->productsAndByProducts;
         $this->smokeEmission = $param->smokeEmission;
         $this->volatileCompound = $param->volatileCompound;
-        $this->fugitiveParticulates = $param->fugitiveParticulates;
-        $this->steamGenerator = $param->steamGenerator;
+        $this->fugitiveParticulates = $fugitive_particulates;//$param->fugitiveParticulates;
+        $this->steamGenerator = $steam_generator;//$param->steamGenerator;
         $this->APCD = $param->APCD;
         $this->stackHeight = $param->stackHeight;
         $this->wastewaterTreatmentFacility = $param->wastewaterTreatmentFacility;
@@ -138,7 +142,7 @@ class CENRO_Application extends Business {
         $this->wasteCollector = $param->wasteCollector;
         $this->collectorAddress = $param->collectorAddress;
         $this->garbageDisposalMethod = $param->garbageDisposalMethod;
-        $this->wasteMinimizationMethod = $param->wasteMinimizationMethod;
+        $this->wasteMinimizationMethod = $waste_minimization;//$param->wasteMinimizationMethod;
         $this->drainageSystem = $param->drainageSystem;
         $this->drainageType = $param->drainageType;
         $this->drainageDischargeLocation = $param->drainageDischargeLocation;
