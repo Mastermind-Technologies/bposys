@@ -22,6 +22,7 @@ class BPLO_Application extends Business {
 	private $lessors = null;
 	private $dateStarted = null;
     private $dateIssued = null;
+    private $applicationType = null;
 	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
@@ -30,6 +31,19 @@ class BPLO_Application extends Business {
 		$this->CI->load->model('Business_Activity_m');
 		$this->CI->load->model('Lessor_m');
 		$this->CI->load->model('Notification_m');
+        $this->CI->load->model('Renewal_m');
+
+        $isExisting = $this->CI->Renewal_m->check_application($reference_num);
+
+        if($isExisting)
+        {
+            $this->applicationType = "Renew";
+        }
+        else
+        {
+            $this->applicationType = "New";
+        }
+
 		if(isset($reference_num))
 			return $this->get_application($reference_num);
 	}
@@ -597,6 +611,30 @@ class BPLO_Application extends Business {
     public function set_IdPresented($idPresented)
     {
         $this->idPresented = $idPresented;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of applicationType.
+     *
+     * @return mixed
+     */
+    public function get_ApplicationType()
+    {
+        return $this->applicationType;
+    }
+
+    /**
+     * Sets the value of applicationType.
+     *
+     * @param mixed $applicationType the application type
+     *
+     * @return self
+     */
+    public function set_ApplicationType($applicationType)
+    {
+        $this->applicationType = $applicationType;
 
         return $this;
     }

@@ -48,6 +48,45 @@ class Application_m extends CI_Model {
     $this->db->insert($this->engineering, $fields);
   }
 
+  public function update_bplo($fields)
+  {
+    $this->db->where(['referenceNum' => $fields['referenceNum']]);
+    $this->db->update($this->bplo, $fields);
+
+    $this->db->select('applicationId')->where(['referenceNum' => $fields['referenceNum']])->from($this->bplo);
+    return $this->db->get()->result()[0]->applicationId;
+  }
+
+  public function update_zoning($fields)
+  {
+    $this->db->where(['referenceNum' => $fields['referenceNum']]);
+    $this->db->update($this->zoning, $fields);
+  }
+
+  public function update_cenro($fields)
+  {
+    $this->db->where(['referenceNum' => $fields['referenceNum']]);
+    $this->db->update($this->cenro, $fields);
+  }
+
+  public function update_sanitary($fields)
+  {
+    $this->db->where(['referenceNum' => $fields['referenceNum']]);
+    $this->db->update($this->sanitary, $fields);
+  }
+
+  public function update_bfp($fields)
+  {
+    $this->db->where(['referenceNum' => $fields['referenceNum']]);
+    $this->db->update($this->bfp, $fields);
+  }
+
+  public function update_engineering($fields)
+  {
+    $this->db->where(['referenceNum' => $fields['referenceNum']]);
+    $this->db->update($this->engineering, $fields);
+  }
+
   public function get_all_bplo_applications($query = null)
   {
     if($query != null)

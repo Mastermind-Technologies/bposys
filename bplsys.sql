@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2017 at 08:10 PM
+-- Generation Time: Feb 07, 2017 at 02:49 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -140,7 +140,7 @@ INSERT INTO `application_cenro` (`applicationId`, `userId`, `businessId`, `refer
 (5, 1, 1, '9E9E1D64A2', 'NA', 'NA', 'NA', 'NA', 'NA', 1, 1, 'Dust|Gas', 'Boiler|steam generator others', 'qwe', '123', 'qwe', 1, '1121', 'qwe', 222, 'qwewqe', 'hehez', 'qwe', 'qweqwe', 'Sanitary Landfill', 'Recycling|Reduction|Reuse', 0, 'NA', 'NA', 0, 0, 'NA', 'Surface Water', 'Active', '2017-01-23 12:43:22', '2017-01-29 03:48:36'),
 (6, 1, 1, '47B3DF6BF4', '01/23/2017', '01/04/2017', '01/04/2017', '01/23/2017', 'NA', 0, 0, 'NA', 'NA', 'asdas', '123123', '12313', 1, 'NA', 'asdas', 12312, 'asdasd', 'Daily', 'asdad', 'asdasda', 'Sanitary Landfill', 'NA', 0, 'NA', 'NA', 0, 0, 'NA', 'Deep Well', 'Cancelled', '2017-01-23 12:47:52', '2017-02-04 03:09:15'),
 (8, 1, 6, '4824FE5C5F', 'NA', 'NA', 'NA', 'NA', 'asdawd', 0, 0, 'NA', 'NA', 'asdasd', '123123', 'awcawdasd', 0, 'NA', 'awdwa', 123123, 'aweqa', 'Daily', 'awdad', 'awdawdw', 'Sanitary Landfill', 'NA', 0, 'NA', 'NA', 0, 0, 'NA', 'Deep Well', 'For applicant visit', '2017-02-02 13:05:07', '2017-02-02 14:05:19'),
-(9, 1, 4, 'D2D2E57657', 'NA', '02/03/2017', 'NA', '02/03/2017', 'qweqwe', 1, 1, 'Mist', 'Boiler|Furnace|asdasd', 'wwww', '1212', 'qqqq', 1, '1121', 'aaaaa', 2222, 'qqqqq', 'qweqwe', 'rrrr', 'wewewewe', 'Sanitary Landfill', 'Reduction', 1, 'Close/Underground', 'Nature Outfall/Waterbody', 1, 0, 'NA', 'Deep Well', 'standby', '2017-02-02 16:20:03', '2017-02-02 16:20:03');
+(9, 1, 4, 'D2D2E57657', 'NA', '02/03/2017', 'NA', '02/03/2017', 'qweqwe', 1, 1, 'Dust|Gas', 'Boiler|Furnace|asdasd', 'wwww', '1212', 'qqqq', 1, '1121', 'aaaaa', 2222, 'qqqqq', 'Daily', 'rrrr', 'wewewewe', 'Sanitary Landfill', 'Reduction', 1, 'Open Canal', 'Public Drainage System', 1, 0, 'NA', 'Deep Well', 'standby', '2017-02-02 16:20:03', '2017-02-06 14:43:14');
 
 -- --------------------------------------------------------
 
@@ -376,6 +376,22 @@ CREATE TABLE IF NOT EXISTS `charges` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `grosses`
+--
+
+CREATE TABLE IF NOT EXISTS `grosses` (
+  `grossId` int(255) NOT NULL,
+  `activityId` int(255) NOT NULL,
+  `previousGross` int(255) NOT NULL,
+  `essentials` int(255) NOT NULL,
+  `nonEssentials` int(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `issued_applications`
 --
 
@@ -558,6 +574,20 @@ INSERT INTO `reference_numbers` (`referenceId`, `userId`, `referenceNum`, `creat
 (6, 1, '47B3DF6BF4', '2017-01-23 12:47:51', '2017-01-23 12:47:51'),
 (8, 1, '4824FE5C5F', '2017-02-02 13:05:06', '2017-02-02 13:05:06'),
 (9, 1, 'D2D2E57657', '2017-02-02 16:20:03', '2017-02-02 16:20:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `renewals`
+--
+
+CREATE TABLE IF NOT EXISTS `renewals` (
+  `renewalId` int(10) NOT NULL,
+  `referenceNum` varchar(255) NOT NULL,
+  `year` int(11) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -749,6 +779,13 @@ ALTER TABLE `charges`
   ADD KEY `referenceNum` (`referenceNum`);
 
 --
+-- Indexes for table `grosses`
+--
+ALTER TABLE `grosses`
+  ADD PRIMARY KEY (`grossId`),
+  ADD KEY `activityId` (`activityId`);
+
+--
 -- Indexes for table `issued_applications`
 --
 ALTER TABLE `issued_applications`
@@ -784,6 +821,13 @@ ALTER TABLE `reference_numbers`
   ADD PRIMARY KEY (`referenceId`),
   ADD UNIQUE KEY `referenceNum` (`referenceNum`),
   ADD KEY `userId` (`userId`);
+
+--
+-- Indexes for table `renewals`
+--
+ALTER TABLE `renewals`
+  ADD PRIMARY KEY (`renewalId`),
+  ADD KEY `referenceNum` (`referenceNum`);
 
 --
 -- Indexes for table `roles`
@@ -865,6 +909,11 @@ ALTER TABLE `business_activities`
 ALTER TABLE `charges`
   MODIFY `chargeId` int(10) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `grosses`
+--
+ALTER TABLE `grosses`
+  MODIFY `grossId` int(255) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `issued_applications`
 --
 ALTER TABLE `issued_applications`
@@ -889,6 +938,11 @@ ALTER TABLE `owners`
 --
 ALTER TABLE `reference_numbers`
   MODIFY `referenceId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `renewals`
+--
+ALTER TABLE `renewals`
+  MODIFY `renewalId` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `roles`
 --
@@ -989,6 +1043,12 @@ ALTER TABLE `charges`
   ADD CONSTRAINT `charges_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `reference_numbers` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `grosses`
+--
+ALTER TABLE `grosses`
+  ADD CONSTRAINT `grosses_ibfk_1` FOREIGN KEY (`activityId`) REFERENCES `business_activities` (`activityId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `issued_applications`
 --
 ALTER TABLE `issued_applications`
@@ -1012,6 +1072,12 @@ ALTER TABLE `notifications`
 --
 ALTER TABLE `owners`
   ADD CONSTRAINT `owners_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `renewals`
+--
+ALTER TABLE `renewals`
+  ADD CONSTRAINT `renewals_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `reference_numbers` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`

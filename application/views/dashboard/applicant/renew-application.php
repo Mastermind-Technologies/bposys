@@ -17,7 +17,9 @@
 						</div>
 						<div class="panel-body">
 							<!-- action="<?php echo base_url() ?>dashboard/submit_application" -->
-							<form id="<?php echo base_url(); ?>form/submit_renewal_application" class='renewal-form' method="post" data-parsley-validate="">
+							<form action="<?php echo base_url(); ?>form/submit_renewal_application" class='renewal-form' method="post" data-parsley-validate="">
+							<input type="hidden" name='ref' value='<?= $application->get_referenceNum() ?>'>
+							<input type="hidden" name='aid' value='<?= $application->get_applicationId() ?>'>
 								<div class="row">
 									<div class="tab-content clearfix">
 										<div class="tab-pane">
@@ -134,6 +136,7 @@
 														<div class="form-group">
 															<label for="business">Business Name</label>
 															<h3 style='margin-top:0'><?= $business->get_BusinessName() ?></h3>
+															<input type="hidden" name='business' value="<?= $business->get_BusinessId() ?>">
 														</div>
 													</div>
 												</div>
@@ -197,8 +200,8 @@
 														<div class="form-group">
 															<label for="">Annual Physical Exams for Employees</label>
 															<div class="radio">
-																<label><input type="radio" <?= $sanitary->get_annualEmployeePhysicalExam()=='1' ? 'checked' : '' ?> name="annual-exams" value="Yes" disabled>Yes</label>
-																<label><input type="radio" <?= $sanitary->get_annualEmployeePhysicalExam()=='0' ? 'checked' : '' ?> name="annual-exams" value="No" disabled>No</label>
+																<label><input type="radio" <?= $sanitary->get_annualEmployeePhysicalExam()=='1' ? 'checked' : '' ?> name="annual-exams" value="Yes">Yes</label>
+																<label><input type="radio" <?= $sanitary->get_annualEmployeePhysicalExam()=='0' ? 'checked' : '' ?> name="annual-exams" value="No">No</label>
 															</div>
 														</div>
 													</div>
@@ -358,19 +361,19 @@
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="storeys">No. of Storeys</label>
-															<input type="text" class='form-control' value='<?= $bfp->get_storeys() ?>' name='storeys' disabled>
+															<input type="text" class='form-control' value='<?= $bfp->get_storeys() ?>' name='storeys' required>
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="portion-occupied">Portion Occupied</label>
-															<input type="text" name="portion-occupied" value='<?= $bfp->get_occupiedPortion() ?>' disabled class="form-control">
+															<input type="text" name="portion-occupied" value='<?= $bfp->get_occupiedPortion() ?>' required class="form-control">
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="area-per-floor">Area per Floor (in sq. m.)</label>
-															<input type="text" name="area-per-floor" value='<?= $bfp->get_AreaPerFloor() ?>' data-parsley-type='digits' class="form-control" disabled>
+															<input type="text" name="area-per-floor" value='<?= $bfp->get_AreaPerFloor() ?>' data-parsley-type='digits' class="form-control" required>
 														</div>
 													</div>
 												</div>
@@ -708,7 +711,7 @@
 													<div class="col-sm-5">
 														<div class="form-group">
 															<label for="collector-address">Collector's Address</label>
-															<textarea required name="collector-address" value="<?= $cenro->get_collectorAddress() ?>" id="collector-address" class="form-control"></textarea>
+															<textarea required name="collector-address" id="collector-address" class="form-control"><?= $cenro->get_collectorAddress() ?></textarea>
 														</div>
 													</div>
 												</div>
@@ -998,7 +1001,7 @@
 																		<hr>
 																		<div class="col-sm-3 pull-right form-navigation">
 																			<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-																			<button type="submit" id="btn-submit" class="btn btn-success"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Submit</button>
+																			<button type="submit" class="btn btn-success"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Submit</button>
 																		</div>
 																	</div>
 																</div>

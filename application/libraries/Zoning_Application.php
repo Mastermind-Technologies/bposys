@@ -9,12 +9,25 @@ class Zoning_Application extends Business {
     private $businessId = null;
     private $capitalInvested = null;
 	private $status = null;
+    private $applicationType = null;
 	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
 		$this->CI->load->model('Application_m');
 		$this->CI->load->model('Notification_m');
         $this->CI->load->model('Business_Activity_m');
+        $this->CI->load->model('Renewal_m');
+
+        $isExisting = $this->CI->Renewal_m->check_application($reference_num);
+
+        if($isExisting)
+        {
+            $this->applicationType = "Renew";
+        }
+        else
+        {
+            $this->applicationType = "New";
+        }
 		if(isset($reference_num))
 			return $this->get_application($reference_num);
 	}
@@ -226,5 +239,29 @@ class Zoning_Application extends Business {
     public function set_CapitalInvested($capitalInvested)
     {
         $this->capitalInvested = $capitalInvested;
+    }
+
+    /**
+     * Gets the value of applicationType.
+     *
+     * @return mixed
+     */
+    public function get_ApplicationType()
+    {
+        return $this->applicationType;
+    }
+
+    /**
+     * Sets the value of applicationType.
+     *
+     * @param mixed $applicationType the application type
+     *
+     * @return self
+     */
+    public function set_ApplicationType($applicationType)
+    {
+        $this->applicationType = $applicationType;
+
+        return $this;
     }
 }//END OF CLASS

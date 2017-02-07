@@ -422,7 +422,7 @@ class Dashboard extends CI_Controller {
 				'taxYear' => $this->input->post('tax-year'),
 				'applicationDate' => $this->input->post('application-date'),
 				'modeOfPayment' => $this->input->post('mode-of-payment'),
-				'id-presented' => $this->input->post('id-presented'),
+				'idPresented' => $this->input->post('id-presented'),
 				'DTISECCDA_RegNum' => $this->input->post('DTISECCDA_RegNum'),
 				'DTISECCDA_Date' => $this->input->post('DTISECCDA_Date'),
 				'brgyClearanceDateIssued' => $this->input->post('brgy-clearance-date-issued'),
@@ -1143,20 +1143,35 @@ class Dashboard extends CI_Controller {
 				);
 			$this->Approval_m->insert($query);
 
-			$query = array(
-				'referenceNum' => $referenceNum
-				);
-
-			if(count($this->Approval_m->get_all($query)) == 12)
+			$bplo = new BPLO_Application($referenceNum);
+			if($bplo->get_applicationType() == "New")
 			{
-				BPLO_Application::update_status($referenceNum, 'Completed');
-				$query = array(
-					'referenceNum' => $referenceNum,
-					'status' => 'Unread',
-					'role' => 4,
-					'notifMessage' => 'Completed',
-					);
-				$this->Notification_m->insert($query);
+				//NEW
+				if(count($this->Approval_m->check_action_count($referenceNum)) == 12)
+				{
+					BPLO_Application::update_status($referenceNum, 'Completed');
+					$query = array(
+						'referenceNum' => $referenceNum,
+						'status' => 'Unread',
+						'role' => 4,
+						'notifMessage' => 'Completed',
+						);
+					$this->Notification_m->insert($query);
+				}
+			}
+			else
+			{	//RENEW
+				if(count($this->Approval_m->check_action_count($referenceNum)) == 10)
+				{
+					BPLO_Application::update_status($referenceNum, 'Completed');
+					$query = array(
+						'referenceNum' => $referenceNum,
+						'status' => 'Unread',
+						'role' => 4,
+						'notifMessage' => 'Completed',
+						);
+					$this->Notification_m->insert($query);
+				}
 			}
 
 			//notifications
@@ -1237,10 +1252,18 @@ class Dashboard extends CI_Controller {
 
 				$query['dept'] = 'Zoning';
 				$data['zoning'] = $this->Issued_Application_m->get_all($query);
+
 				$query['dept'] = 'CHO';
 				$data['sanitary'] = $this->Issued_Application_m->get_all($query);
-				//bfp
-				//occupancy
+
+				$query['dept'] = 'BFP';
+				$data['bfp'] = $this->Issued_Application_m->get_all($query);
+
+				$query['dept'] = 'CENRO';
+				$data['cenro'] = $this->Issued_Application_m->get_all($query);
+
+				$query['dept'] = 'Engineering';
+				$data['engineering'] = $this->Issued_Application_m->get_all($query);
 			}
 			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 			//instantiate Owner of this application

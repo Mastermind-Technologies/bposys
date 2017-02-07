@@ -337,23 +337,28 @@
                   </tr>
                   <tr>
                     <td>Zoning Clearance</td>
-                    <td>Zoning Admin</td>
+                    <td>City Planning and Development Office</td>
                     <td><?= isset($zoning[0]->createdAt) ? date('F j, o',strtotime($zoning[0]->createdAt)) : '' ?></td>
                   </tr>
                   <tr>
-                    <td>Sanitary / Health Clearance</td>
-                    <td>City Health Department</td>
+                    <td>Sanitary Permit / Health Clearance</td>
+                    <td>City Health Office</td>
                     <td><?= isset($sanitary[0]->createdAt) ? date('F j, o',strtotime($sanitary[0]->createdAt)) : '' ?></td>
                   </tr>
                   <tr>
-                    <td>Occupancy Permit</td>
-                    <td>Bldg. Official</td>
-                    <td></td>
+                    <td>City Environmental Certificate</td>
+                    <td>City Environment and Natural Resources Office</td>
+                    <td><?= isset($cenro[0]->createdAt) ? date('F j, o',strtotime($cenro[0]->createdAt)) : '' ?></td>
                   </tr>
                   <tr>
-                    <td>Fire Safety Inspection Certificate</td>
-                    <td>City Fire Department</td>
-                    <td></td>
+                    <td>Engineering Clearance</td>
+                    <td>Office of the Building Official</td>
+                    <td><?= isset($engineering[0]->createdAt) ? date('F j, o',strtotime($engineering[0]->createdAt)) : '' ?></td>
+                  </tr>
+                  <tr>
+                    <td>Valid Fire Safety Inspection Certificate</td>
+                    <td>Bureau of Fire Protection</td>
+                    <td><?= isset($bfp[0]->createdAt) ? date('F j, o',strtotime($bfp[0]->createdAt)) : '' ?></td>
                   </tr>
                 </tbody>
               </table>
