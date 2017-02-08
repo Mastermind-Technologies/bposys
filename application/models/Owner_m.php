@@ -55,6 +55,7 @@ class Owner_m extends CI_Model {
   $this->db->group_by('owners.firstName');
 
   return $this->db->count_all_results();
+  // return $this->db->get()->result();
  }
 
  public function count_female_owners()

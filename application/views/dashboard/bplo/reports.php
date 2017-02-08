@@ -18,7 +18,7 @@
             <div class="left peity_bar_neutral"><span><span style="display: none;">2,4,9,7,12,10,12</span>
               <canvas width="50" height="24"></canvas>
             </span><!-- +10% --></div>
-            <div class="right"> <strong class='count'><?= $businesses ?></strong> Businesses </div>
+            <div class="right"> <strong class='count'><?= $businesses ?></strong> Unique Businesses </div>
           </li>
           <li>
             <div class="left peity_line_good"><span><span style="display: none;">10,15,8,14,13,10,10,15</span>
@@ -30,7 +30,7 @@
             <div class="left peity_bar_bad"><span><span style="display: none;">3,5,6,16,8,10,6</span>
               <canvas width="50" height="24"></canvas>
             </span><!-- -40% --></div>
-            <div class="right"> <strong class='count'><?= $expired ?></strong> Expired/Unrenewed</div>
+            <div class="right"> <strong class='count'><?= $expired ?></strong> Expired</div>
           </li>
           <li>
             <div class="left peity_line_bad"><span><span style="display: none;">12,6,9,23,14,10,17</span>

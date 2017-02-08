@@ -442,7 +442,7 @@ class Form extends CI_Controller {
 						'referenceNum' => $reference_num,
 						'status' => "Unread",
 						'role' => $i,
-						'notifMessage' => "Renewal",
+						'notifMessage' => "Incoming",
 						);
 
 					$this->Notification_m->insert($query);

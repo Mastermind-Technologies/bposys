@@ -29,9 +29,8 @@ class Approval_m extends CI_Model {
 
   public function check_action_count($reference_num)
   {
-    $this->db->where(['type' => 'Approve'])->or_where(['type' => 'Validate']);
-    $this->db->where(['referenceNum' => $reference_num]);
-    $this->db->where(['YEAR(createdAt)' => date('Y')]);
+    // $this->db->where(['type' => 'Approve', 'referenceNum' => $reference_num, 'YEAR(createdAt)' => date('Y')]);
+    $this->db->where('(type = "Approve" or type = "Validate") and YEAR(createdAt) = "'.date('Y').'" and referenceNum = "'.$reference_num.'"');
     $this->db->select('*')->from($this->_table_name);
     return $this->db->get()->result();
   }

@@ -94,14 +94,16 @@
                 </tr>
               </thead>
               <tbody class="">
-                <?php foreach ($latest_applications as $key => $application): ?>
-                  <tr>
-                    <td><?= $key+1 ?></td>
-                    <td>
-                      <a href="<?php echo base_url(); ?>dashboard/incoming_applications"><?= $application->get_BusinessName() ?></a>
-                    </td>
-                  </tr>
-                <?php endforeach ?>
+                <?php if (isset($latest_applications)): ?>
+                  <?php foreach ($latest_applications as $key => $application): ?>
+                    <tr>
+                      <td><?= $key+1 ?></td>
+                      <td>
+                        <a href="<?php echo base_url(); ?>dashboard/incoming_applications"><?= $application->get_BusinessName() ?></a>
+                      </td>
+                    </tr>
+                  <?php endforeach ?>
+                <?php endif ?>
               </tbody>
             </table>
           </div>
