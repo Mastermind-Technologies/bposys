@@ -283,7 +283,22 @@ $(document).ready(function()
   $('#btn-add-bus-activity').click(function(){
     rowCount++;
     console.log(rowCount);
-    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><input type='text' required class=form-control></td><td><input type='text' required data-parsley-type='digits' class=form-control></td></tr>");
+    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><select required class=form-control>"+
+      "<option selected disabled>Select Line of Business</option>"+
+      "<option value='Manufacturer Kind'>Manufacturer Kind</option>"+
+      "<option value='Wholesaler kind'>Wholesaler kind</option>"+
+      "<option value='Exporter kind'>Exporter kind</option>"+
+      "<option value='Retailer'>Retailer</option>"+
+      "<option value='Contractor'>Contractor</option>"+
+      "<option value='Bank'>Bank</option>"+
+      "<option value='Lessor (Renting)'>Lessor (Rentals)</option>"+
+      "<option value='Peddlers'>Peddlers</option>"+
+      "<option value='Amusement devices/places'>Amusement devices/places</option>"+
+      "<option value='Retail Dealers (liquors)'>Retail Dealers (liquors)</option>"+
+      "<option value='Retail Dealers (tobaccos)'>Retail Dealers (tobaccos)</option>"+
+      "<option value='Display areas of products'>Display areas of products</option>"+
+      "<option value='Others'>Others</option>"+
+      "</select></td><td><input type='text' required data-parsley-type='digits' class=form-control></td></tr>");
 
   });
 
@@ -318,11 +333,12 @@ $(document).ready(function()
 
   function process_business_activity(reference_number)
   {
+
     var ctr = 0;
     var total_rows = count_business_activities();
     $("#bus-activity tbody .data").each(function() {
       ctr++;
-      var lineOfBusiness = $(this).find("td:nth-child(1) input").val();
+      var lineOfBusiness = $(this).find("td:nth-child(1) select").val();
       var capitalization = $(this).find("td:nth-child(2) input").val();
 
       if(lineOfBusiness == '' || capitalization == '')
@@ -339,11 +355,10 @@ $(document).ready(function()
           success: function(o){
             if(o == "success")
             {
-              console.log("Success!");
-              console.log("Redirecting...");
-              window.setTimeout(function() { 
-                window.location = base_url+"dashboard"; 
-              },2000);
+              // window.setTimeout(function() { 
+              //   window.location = base_url+"dashboard"; 
+              // },2000);
+              process_order_of_payment(reference_number);
             }
             else
             {
@@ -358,6 +373,27 @@ $(document).ready(function()
 
       // }
     });
+  }
+
+  function process_order_of_payment(reference_number)
+  {
+    console.log('Processing...');
+    $.ajax({
+      type:"POST",
+      url:base_url+"dashboard/process_assessments",
+      dataType:"JSON",
+      data:{referenceNum: reference_number},
+      success: function(data){
+        if(data == "success")
+        {
+          console.log("Success!");
+          console.log("Redirecting...");
+          window.setTimeout(function() { 
+            window.location = base_url+"dashboard"; 
+          },2000);
+        }
+      }
+    })
   }
 
   $('#business').change(function(event){

@@ -27,29 +27,6 @@ class Profile extends CI_Controller {
 		$this->_init();
 
 		$data['user'] = new User($this->encryption->decrypt($this->session->userdata['userdata']['userId']));
-
-		// echo "<pre>";
-		// print_r($data['user']);
-		// echo "</pre>";
-		// exit();
-
-
-		// $is_registered = $this->Owner_m->check_owner($user_id);
-		// if($is_registered)
-		// {
-		// 	$owner = new Owner($user_id);
-		// 	$data['user'] = $owner;
-		// }
-		// else
-		// {
-		// 	$user = new User($user_id);
-		// 	$data['user'] = $user;
-		// }
-
-		// echo "<pre>";
-		// print_r($data);
-		// echo "</pre>";
-		// exit();
 		
 		$this->load->view('profile/index', $data);
 	}
@@ -352,6 +329,7 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('company-name','Company Name','required');
 		$this->form_validation->set_rules('trade-name','Trade/Franchise Name','required');
 		$this->form_validation->set_rules('signage-name','Signage Name','required');
+		$this->form_validation->set_rules('zone-type', 'Zone Type', 'required');
 		// $this->form_validation->set_rules('nature-of-business','Nature of Business','required');
 		$this->form_validation->set_rules('organization-type','Organization Type','required');
 		if($this->input->post('organization-type') == 'Corporation')
@@ -425,6 +403,7 @@ class Profile extends CI_Controller {
 				'companyName' => $this->input->post('company-name'),
 				'tradeName' => $this->input->post('trade-name'),
 				'signageName' => $this->input->post('signage-name'),
+				'zoneType' => $this->input->post('zone-type'),
 				// 'natureOfBusiness' => $this->input->post('nature-of-business'),
 				'organizationType' => $this->input->post('organization-type'),
 				'corporationName' => $this->input->post('organization-type')=="Corporation" ? $this->input->post('corporation-name') : "NA",

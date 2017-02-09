@@ -33,6 +33,7 @@ class Business extends Owner {
     private $emergencyContactPerson = null;
     private $emergencyTelNum = null;
     private $emergencyEmail = null;
+    private $zoneType = null;
 
     // private $natureOfBusiness = null;
     // private $capitalInvested = null;
@@ -811,8 +812,33 @@ class Business extends Owner {
         $this->emergencyContactPerson = $param->emergencyContactPerson;
         $this->emergencyTelNum = $param->emergencyTelNum;
         $this->emergencyEmail = $param->emergencyEmail;
+        $this->zoneType = $param->zoneType;
 
         $this->unset_CI();
+        return $this;
+    }
+
+    /**
+     * Gets the value of zoneType.
+     *
+     * @return mixed
+     */
+    public function get_ZoneType()
+    {
+        return $this->zoneType;
+    }
+
+    /**
+     * Sets the value of zoneType.
+     *
+     * @param mixed $zoneType the zone type
+     *
+     * @return self
+     */
+    public function set_ZoneType($zoneType)
+    {
+        $this->zoneType = $zoneType;
+
         return $this;
     }
 }//END OF CLASS

@@ -910,6 +910,48 @@
 									</div>
 									<div class="tab-pane" id='step7'>
 										<h2 class="panel-header">Business Activities</h2>
+										<div class="col-sm-10 col-sm-offset-1 well well-lg">
+											<h3><strong>Information on Line of Businesses</strong></h3>
+											<br>
+											<br>
+											1.) <strong>Manufacturer Kind</strong> - Manufacturers, assemblers, repackers, processors, brewers, distillers, rectifiers and compounders, or whatever kind or nature.
+											<br>
+											<br>
+											2.) <strong>Wholesaler Kind</strong> - Wholesalers, distributors, or dealers or whatever kind or nature.
+											<br>
+											<br>
+											3.) <strong>Exporter Kind</strong> - Exporters, and/or manufacturers, millers, producers, wholesalers, distributors, dealers or retailers of essential commodities, and millers of commodities other than rice and corn, operators of coffee or meat grinders or coconut grater.
+											<br>
+											<br>
+											4.) <strong>Retailer</strong> - Retailers of all other commodities not classified as essential.
+											<br>
+											<br>
+											5.) <strong>Contractors</strong> - Contractors and other independent contractors, Restaurants, cafes, cafeterias, carinderias, eateries, food caterers, ice cream and refreshment parlors, soda fountains, Amusement places and other establishments whose activity consists essentially of sales of services for a fee.
+											<br>
+											<br>
+											6.) <strong>Banks</strong> - Banks and other financial institutions.
+											<br>
+											<br>
+											7.) <strong>Lessor (Rentals)</strong> - Lessors of real estate including apartments for rent, boarding houses, Privately owned public markets, subdivision operators, or real estate developers, private cemeteries or memorial parks.
+											<br>
+											<br>
+											8.) <strong>Peddlers</strong>
+											<br>
+											<br>
+											9.) <strong>Amusement devices/places</strong> - Proprietors of amusement devices/places for a fee.
+											<br>
+											<br>
+											10.) <strong>Retail Dealers (liquors)</strong> - Retailers in liquors or wines whether imported from other countries or locally manufactured including fermented liquors (beers), tuba, basi and other distilled spirits.
+											<br>
+											<br>
+											11.) <strong>Retail Dealers (tobaccos)</strong> - Retail dealers or retailers of manufactured tobacco or snuff including cigars and cigarettes.
+											<br>
+											<br>
+											12.) <strong>Display areas of products</strong> - Offices used as display areas of the products or where no stocks or items are stored for sale but receives orders for the products; and warehouses being utilized as storage of products and which does not accept orders or issue sales invoice.
+											<br>
+											<br>
+											13.) <strong>Others</strong> - Other businesses, trades or commercial undertakings not herein expressly specified.
+										</div>
 										<div class="col-sm-8 col-sm-offset-2">
 											<table id='bus-activity' class="table table-bordered">
 												<th>Line of Business</th>
@@ -917,8 +959,24 @@
 												<!-- <th></th> -->
 												<tbody class="table-body">
 													<tr class="data">
-														<td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td>
-														<td><input id="capitalization" name="capitalization" type="text" required data-parsley-type='digits' class=form-control></td>
+														<!-- <td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td> -->
+														<td><select name='line-of-business' id='line-of-business' required class="form-control">
+															<option selected disabled>Select Line of Business</option>
+															<option value='Manufacturer Kind'>Manufacturer Kind</option>
+															<option value='Wholesaler kind'>Wholesaler kind</option>
+															<option value='Exporter kind'>Exporter kind</option>
+															<option value='Retailer'>Retailer</option>
+															<option value='Contractor'>Contractor</option>
+															<option value='Bank'>Bank</option>
+															<option value='Lessor (Renting)'>Lessor (Rentals)</option>
+															<option value='Peddlers'>Peddlers</option>
+															<option value='Amusement devices/places'>Amusement devices/places</option>
+															<option value='Retail Dealers (liquors)'>Retail Dealers (liquors)</option>
+															<option value='Retail Dealers (tobaccos)'>Retail Dealers (tobaccos)</option>
+															<option value='Display areas of products'>Display areas of products</option>
+															<option value='Others'>Others</option>
+														</select></td>
+														<td><input id='capitalization' name="capitalization" type="text" required data-parsley-type='digits' class=form-control></td>
 														<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
 													</tr>
 												</tbody>
@@ -932,9 +990,9 @@
 											</div>
 										</div>
 										<hr>
-										<div class="col-sm-3 pull-right form-navigation">
+										<div class="col-sm-4 pull-right form-navigation">
 											<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-											<button type="submit" id="btn-submit" class="btn btn-success btn-block"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Save</button>
+											<button type="submit" id="btn-submit" class="btn btn-success"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Submit Application</button>
 										</div>
 									</div>
 								</div>
@@ -950,3 +1008,19 @@
 	</div>
 	<!-- /.container-fluid -->
 </div>
+
+<!-- <div id="modalLineOfBusiness" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Choose Line of Business</h4>
+			</div>
+			<div class="modal-body">
+
+			</div>
+		</div>
+	</div>
+</div> -->

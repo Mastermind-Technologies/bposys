@@ -18,6 +18,7 @@ class Dashboard extends CI_Controller {
 		$this->load->model('Business_m');
 		$this->load->model('Approval_m');
 		$this->load->model('Notification_m');
+		$this->load->model('Assessment_m');
 		$this->load->library('form_validation');
 
 		$this->load->model('Business_Address_m');
@@ -1424,7 +1425,7 @@ class Dashboard extends CI_Controller {
 			if($role_id->roleId == '3')
 			{
 
-				$notifications = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);
+				$notifications = $this->Notification_m->get_applicant_unread($role_id->roleId, $user_id);
 
 				foreach ($notifications as $notification) {
 					$query = array(
@@ -1434,7 +1435,10 @@ class Dashboard extends CI_Controller {
 					$set['status'] = "Read";
 					$this->Notification_m->update($query,$set);
 				}
-				$data['notifications'] = $notifications;
+
+				//get latest 10;
+				$latest = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);
+				$data['notifications'] = $latest;
 				$this->load->view('dashboard/applicant/notif-view', $data);
 			}
 			else
@@ -1522,6 +1526,167 @@ class Dashboard extends CI_Controller {
 			$result = (object) array_merge((array) $data['business'][0], (array) $data['owner_name'][0]);
 
 			echo json_encode($result);
+		}
+
+		public function process_assessments()
+		{
+			$this->isLogin();
+			$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+			//this is the applicationID not referenceNumber
+			$reference_number = $this->input->post('referenceNum');
+
+			//get referenceNumber with thrown applicationId
+			$result = $this->Application_m->get_all_bplo_applications(['applicationId' => $reference_number]);
+
+			//replace
+			$reference_number = $result[0]->referenceNum;
+
+			$bplo = new BPLO_Application($reference_number);
+			$business_activity = $bplo->get_BusinessActivities();
+			$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
+
+			foreach ($business_activity as $key => $activity) {
+				$mayor_permit_fee[$key] = Assessment::compute_mayors_permit_fee($activity->capitalization, $work_force, $activity->lineOfBusiness);
+				// echo "Mayor's Permit Fee: ".$activity->lineOfBusiness;
+				// echo "<br>";
+				// var_dump($mayor_permit_fee[$key]);
+				// echo "<br>";
+				$environmental[$key] = Assessment::compute_environmental_clearance_fee($activity->capitalization, $bplo->get_ZoneType());
+				// var_dump($environmental[$key]);
+				// echo "<br>";
+				$garbage_service[$key] = Assessment::compute_garbage_service_fee($activity->lineOfBusiness);
+				// var_dump($garbage_service[$key]);
+				// echo "<br>";
+
+				$zoning_fee[$key] = Assessment::compute_zoning_clearance_fee($activity->capitalization, $bplo->get_zoneType());
+				// var_dump($zoning_fee[$key]);
+				// echo "<br>";
+			}
+			$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
+			// var_dump($sanitary_fee);
+			// echo "<br>";
+
+			$fixed_fees = Assessment::get_fixed_fees($work_force);
+			// var_dump($fixed_fees);
+			// echo "<br>";
+
+			$total = 0;
+			$env_total = 0;
+			$gs_total = 0;
+			$zoning_total = 0;
+			foreach ($mayor_permit_fee as $key => $mayor_fee) {
+				$total += $mayor_fee['mayor_fee'];
+				$total += $mayor_fee['tax'];
+			}
+			foreach ($environmental as $key => $e) {
+				$total += $e;
+				$total += $garbage_service[$key];
+				$total += $zoning_fee[$key];
+
+				$env_total += $e;
+				$gs_total += $garbage_service[$key];
+				$zoning_total += $zoning_fee[$key];
+			}
+			foreach ($fixed_fees as $key => $value) {
+				$total += $value;
+			}
+			$total += (float)$sanitary_fee;
+
+			// echo $total;
+
+			$assessment_fields = array(
+				'referenceNum' => $reference_number,
+				'amount' => $total,
+				'paidUpTo' => "None",
+				'status' => $bplo->get_ApplicationType(),
+				);
+			$assessmentId = $this->Assessment_m->insert_assessment($assessment_fields);
+
+			foreach ($mayor_permit_fee as $key => $mayor_fee) {
+				$charge_field = array(
+					'assessmentId' => $assessmentId,
+					'due' => $mayor_fee['mayor_fee'],
+					'surcharge' => 0,
+					'interest' => 0,
+					'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($mayor_fee['line_of_business']).')'
+					);
+				$this->Assessment_m->add_charge($charge_field);
+
+				$charge_field = array(
+					'assessmentId' => $assessmentId,
+					'due' => $mayor_fee['tax'],
+					'surcharge' => 0,
+					'interest' => 0,
+					'particulars' => 'TAX ON '.strtoupper($mayor_fee['line_of_business'])
+					);
+				$this->Assessment_m->add_charge($charge_field);
+			}
+
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $env_total,
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
+				);
+			$this->Assessment_m->add_charge($charge_field);
+
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $zoning_total,
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => 'ZONING/LOCATIONAL CLEARANCE FEE',
+				);
+			$this->Assessment_m->add_charge($charge_field);
+
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $gs_total,
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => 'GARBAGE SERVICE FEE',
+				);
+			$this->Assessment_m->add_charge($charge_field);
+
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $fixed_fees['annual_inspection'],
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => 'ANNUAL INSPECTION FEE',
+				);
+			$this->Assessment_m->add_charge($charge_field);
+
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $fixed_fees['business_inspection'],
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => 'BUSINESS INSPECTION FEE',
+				);
+			$this->Assessment_m->add_charge($charge_field);
+
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $fixed_fees['business_plate_sticker'],
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => 'BUSINESS PLATE & STICKER',
+				);
+			$this->Assessment_m->add_charge($charge_field);
+
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $fixed_fees['health_card_fee'],
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => 'HEALTH CARD FEE',
+				);
+			$this->Assessment_m->add_charge($charge_field);
+			
+			echo json_encode("success");
 		}
 
 }//END OF CLASS,
