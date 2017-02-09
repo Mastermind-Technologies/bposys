@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2017 at 03:53 PM
+-- Generation Time: Feb 09, 2017 at 05:34 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -342,6 +342,9 @@ CREATE TABLE IF NOT EXISTS `businesses` (
   `subdivision` varchar(255) NOT NULL,
   `cityMunicipality` varchar(255) NOT NULL,
   `province` varchar(255) NOT NULL,
+  `lat` varchar(255) NOT NULL,
+  `lng` varchar(255) NOT NULL,
+  `gmapAddress` varchar(255) NOT NULL,
   `telNum` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `pollutionControlOfficer` varchar(255) NOT NULL,
@@ -355,19 +358,20 @@ CREATE TABLE IF NOT EXISTS `businesses` (
   `emergencyEmail` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `businesses`
 --
 
-INSERT INTO `businesses` (`businessId`, `userId`, `ownerId`, `presidentTreasurerName`, `businessName`, `companyName`, `tradeName`, `signageName`, `organizationType`, `corporationName`, `dateOfOperation`, `zoneType`, `businessDesc`, `PIN`, `bldgName`, `houseBldgNum`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `telNum`, `email`, `pollutionControlOfficer`, `maleEmployees`, `femaleEmployees`, `PWDEmployees`, `businessArea`, `LGUResidingEmployees`, `emergencyContactPerson`, `emergencyTelNum`, `emergencyEmail`, `createdAt`, `updatedAt`) VALUES
-(1, 1, 1, 'Labay Billy James', 'Mastermind IT Solutions', 'Mastermind', 'Mastermind', 'mastermind-signage', 'Corporation', 'Jason Corp', '01/22/2017', 'Single residential', 'description here', 23232, 'Mercury', 'Blk 29 Lot 19', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '0498393969', 'mastermind@yahoo.com', 'Jason Hernandez', 20, 15, 2, '22222', 10, '', '', '', '2017-01-21 17:07:12', '2017-02-09 05:34:15'),
-(4, 1, 1, 'Jason Hernandez', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Single', 'NA', '01/29/2017', 'Single residential', 'Test Business 10', 0, 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Malaban', 'Test Business 10', 'Biñan City', 'Laguna', '2222', 'test@yahoo.com', 'Jason Hernandez', 1, 2, 3, '1212', 4, '', '', '', '2017-01-29 10:04:56', '2017-02-09 05:34:18'),
-(5, 18, 3, 'Jason Hernandez', 'Jason Business', 'Jason Company', 'Jason Jason', 'Jason Business', 'Single', 'NA', '01/30/2017', 'Single residential', 'Jason Desc', 0, 'w', 'q', 'e', 'r', 'San Jose', 'd', 'Biñan City', 'Laguna', '123123123', 'hernandez.jason@yahoo.com', '1', 2, 3, 4, '1', 5, '', '', '', '2017-01-30 15:37:56', '2017-02-09 05:34:19'),
-(6, 1, 6, 'test', 'test', 'test', 'test', 'test', 'Single', 'NA', '02/02/2017', 'Single residential', 'test', 0, '123', '123', '123', '123', 'Malaban', '123', 'Biñan City', 'Laguna', '123213', 'asd@yahoo.com', 'test', 22, 22, 22, '123', 22, 'emergencyTest', 'emergencyTest', 'emergencyTest', '2017-02-02 11:47:20', '2017-02-09 05:34:21'),
-(7, 1, 1, 'asda', '123', '123', '123', '123', 'Partnership', 'NA', '02/02/2017', 'Single residential', '123', 123, '123', '123', '123', '123', 'Canlalay', '123', 'Biñan City', 'Laguna', '123123', 'asda@yahoo.com', '123', 123, 123, 123, '123', 123, '', '', '', '2017-02-02 11:51:15', '2017-02-09 05:34:23'),
-(8, 1, 1, 'Test 42', 'Test 42', 'Test 42', 'Test 42', 'Test 42', 'Single', 'NA', '02/09/2017', 'Single residential', 'Test 42', 1121, 'Test 42', 'Test 42', 'Test 42', 'Test 42', 'Malaban', 'Test 42', 'Biñan City', 'Laguna', '12345', 'asdx@yahoo.com', 'Test 42', 5, 5, 5, '120', 5, 'Test 42', '12345', 'asdx@yahoo.com', '2017-02-09 05:32:18', '2017-02-09 05:32:18');
+INSERT INTO `businesses` (`businessId`, `userId`, `ownerId`, `presidentTreasurerName`, `businessName`, `companyName`, `tradeName`, `signageName`, `organizationType`, `corporationName`, `dateOfOperation`, `zoneType`, `businessDesc`, `PIN`, `bldgName`, `houseBldgNum`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `lat`, `lng`, `gmapAddress`, `telNum`, `email`, `pollutionControlOfficer`, `maleEmployees`, `femaleEmployees`, `PWDEmployees`, `businessArea`, `LGUResidingEmployees`, `emergencyContactPerson`, `emergencyTelNum`, `emergencyEmail`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 1, 'Labay Billy James', 'Mastermind IT Solutions', 'Mastermind', 'Mastermind', 'mastermind-signage', 'Corporation', 'Jason Corp', '01/22/2017', 'Single residential', 'description here', 23232, 'Mercury', 'Blk 29 Lot 19', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '0498393969', 'mastermind@yahoo.com', 'Jason Hernandez', 20, 15, 2, '22222', 10, '', '', '', '2017-01-21 17:07:12', '2017-02-09 15:24:55'),
+(4, 1, 1, 'Jason Hernandez', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Single', 'NA', '01/29/2017', 'Single residential', 'Test Business 10', 0, 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Malaban', 'Test Business 10', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '2222', 'test@yahoo.com', 'Jason Hernandez', 1, 2, 3, '1212', 4, '', '', '', '2017-01-29 10:04:56', '2017-02-09 15:24:53'),
+(5, 18, 3, 'Jason Hernandez', 'Jason Business', 'Jason Company', 'Jason Jason', 'Jason Business', 'Single', 'NA', '01/30/2017', 'Single residential', 'Jason Desc', 0, 'w', 'q', 'e', 'r', 'San Jose', 'd', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '123123123', 'hernandez.jason@yahoo.com', '1', 2, 3, 4, '1', 5, '', '', '', '2017-01-30 15:37:56', '2017-02-09 15:24:51'),
+(6, 1, 6, 'test', 'test', 'test', 'test', 'test', 'Single', 'NA', '02/02/2017', 'Single residential', 'test', 0, '123', '123', '123', '123', 'Malaban', '123', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '123213', 'asd@yahoo.com', 'test', 22, 22, 22, '123', 22, 'emergencyTest', 'emergencyTest', 'emergencyTest', '2017-02-02 11:47:20', '2017-02-09 15:24:50'),
+(7, 1, 1, 'asda', '123', '123', '123', '123', 'Partnership', 'NA', '02/02/2017', 'Single residential', '123', 123, '123', '123', '123', '123', 'Canlalay', '123', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '123123', 'asda@yahoo.com', '123', 123, 123, 123, '123', 123, '', '', '', '2017-02-02 11:51:15', '2017-02-09 15:24:48'),
+(8, 1, 1, 'Test 42', 'Test 42', 'Test 42', 'Test 42', 'Test 42', 'Single', 'NA', '02/09/2017', 'Single residential', 'Test 42', 1121, 'Test 42', 'Test 42', 'Test 42', 'Test 42', 'Malaban', 'Test 42', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '12345', 'asdx@yahoo.com', 'Test 42', 5, 5, 5, '120', 5, 'Test 42', '12345', 'asdx@yahoo.com', '2017-02-09 05:32:18', '2017-02-09 15:24:46'),
+(9, 1, 1, 'Test 43', 'Test 43', 'Test 43', 'Test 43', 'Test 43', 'Partnership', 'NA', '02/09/2017', 'Commercial/Industrial kind', 'Test 43', 1522, 'Test 43', 'Test 43', 'Test 43', 'Test 43', 'Platero', 'Test 43', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '123123', 'test43@yahoo.com', 'Test 43', 10, 10, 10, '255', 10, 'Test 43', '12312', 'test43@yahoo.com', '2017-02-09 15:24:03', '2017-02-09 15:24:03');
 
 -- --------------------------------------------------------
 
@@ -690,13 +694,13 @@ INSERT INTO `notifications` (`notificationId`, `referenceNum`, `status`, `role`,
 (197, '4824FE5C5F', 'Read', 4, 'Completed', '2017-02-08 14:33:23', '2017-02-08 14:33:51'),
 (198, '4824FE5C5F', 'Read', 3, 'test has been approved by tester engineering from the Office of the Building Official.', '2017-02-08 14:33:23', '2017-02-09 02:24:13'),
 (208, 'AE9054B21A', 'Read', 4, 'Incoming', '2017-02-09 08:10:15', '2017-02-09 08:36:01'),
-(209, 'AE9054B21A', 'Unread', 3, 'Test 42 has been validated by tester bplo of BPLO. Please check your application status.', '2017-02-09 13:39:56', '2017-02-09 13:39:56'),
+(209, 'AE9054B21A', 'Read', 3, 'Test 42 has been validated by tester bplo of BPLO. Please check your application status.', '2017-02-09 13:39:56', '2017-02-09 14:57:59'),
 (210, 'AE9054B21A', 'Read', 5, 'Incoming', '2017-02-09 13:40:03', '2017-02-09 13:45:23'),
 (211, 'AE9054B21A', 'Read', 7, 'Incoming', '2017-02-09 13:40:03', '2017-02-09 13:40:15'),
 (212, 'AE9054B21A', 'Read', 8, 'Incoming', '2017-02-09 13:40:03', '2017-02-09 13:42:42'),
 (213, 'AE9054B21A', 'Read', 9, 'Incoming', '2017-02-09 13:40:03', '2017-02-09 13:42:04'),
 (214, 'AE9054B21A', 'Read', 10, 'Incoming', '2017-02-09 13:40:03', '2017-02-09 13:41:20'),
-(215, 'AE9054B21A', 'Unread', 3, 'Test 42 has been approved by tester bplo of BPLO. You can now go to other required offices to process your application.', '2017-02-09 13:40:03', '2017-02-09 13:40:03');
+(215, 'AE9054B21A', 'Read', 3, 'Test 42 has been approved by tester bplo of BPLO. You can now go to other required offices to process your application.', '2017-02-09 13:40:03', '2017-02-09 14:57:59');
 
 -- --------------------------------------------------------
 
@@ -1093,7 +1097,7 @@ ALTER TABLE `assessments`
 -- AUTO_INCREMENT for table `businesses`
 --
 ALTER TABLE `businesses`
-  MODIFY `businessId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `businessId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `business_activities`
 --
