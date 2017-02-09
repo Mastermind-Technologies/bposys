@@ -373,15 +373,81 @@
                 </div>
               </div>
               <div id="tab2" class="tab-pane">
-
+                <h3 class='text-center'>Tax Order of Payment</h3>
+                <div class="row">
+                  <div class="span2">
+                    <label for=""><strong>Name of Business</strong></label>
+                    <span><?= $application->get_BusinessName() ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Line of Business</strong></label>
+                    <span><?= $application->get_LineOfBusiness() ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Status</strong></label>
+                    <span><?= $application->get_ApplicationType() ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Bill No.</strong></label>
+                    <span><?= $application->get_Assessment()->assessmentId ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Year</strong></label>
+                    <span><?= date('Y', strtotime($application->get_Assessment()->createdAt)) ?></span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="span2">
+                    <label for=""><strong>Owner/Taxpayer</strong></label>
+                    <span><?= $application->get_FirstName()." ".strtoupper(substr($application->get_MiddleName(),0,1)).". ".$application->get_LastName() ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Business Address</strong></label>
+                    <span><?= $application->get_barangay().", Biñan City, Laguna" ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Capital</strong></label>
+                    <span><?= "PHP ".$application->get_capital() ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Date Issued</strong></label>
+                    <span><?= date('F j, o',strtotime($application->get_Assessment()->createdAt)) ?></span>
+                  </div>
+                </div>
+                <table class="table table-bordered">
+                  <thead>
+                    <th>Year</th>
+                    <th>Particulars</th>
+                    <th>Due</th>
+                    <th>Surcharge</th>
+                    <th>Interest</th>
+                    <th>Total</th>
+                  </thead>
+                  <tbody>
+                    <?php $total = 0; ?>
+                    <?php foreach ($application->get_Charges() as $key => $charge): ?>
+                      <tr>
+                        <td><?= date('Y', strtotime($charge->createdAt)) ?></td>
+                        <td><?= $charge->particulars ?></td>
+                        <td><?= $charge->due ?></td>
+                        <td><?= $charge->surcharge ?></td>
+                        <td><?= $charge->interest ?></td>
+                        <td><?php $t = $charge->due + $charge->surcharge + $charge->interest;
+                          echo $t; 
+                          $total += $t; ?></td>
+                        </tr>
+                      <?php endforeach ?>
+                    </tbody>
+                  </table>
+                  <div class="row">
+                    <div class="span2 offset6">
+                      <label for="">Total: <?= $application->get_assessment()->amount ?></label>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
+          <!-- End Container Fluid -->
         </div>
-
-        <!-- End Container Fluid -->
       </div>
-
-
-    </div>

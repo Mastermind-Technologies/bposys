@@ -23,6 +23,10 @@ class BPLO_Application extends Business {
 	private $dateStarted = null;
     private $dateIssued = null;
     private $applicationType = null;
+    private $assessment = null;
+    private $charges = null;
+    private $lineOfBusiness = null;
+    private $capital = null;
 	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
@@ -32,6 +36,7 @@ class BPLO_Application extends Business {
 		$this->CI->load->model('Lessor_m');
 		$this->CI->load->model('Notification_m');
         $this->CI->load->model('Renewal_m');
+        $this->CI->load->model('Assessment_m');
 
         $isExisting = $this->CI->Renewal_m->check_application($reference_num);
 
@@ -139,6 +144,27 @@ class BPLO_Application extends Business {
 		$query['bploId'] = $param->applicationId;
 		$lessors = $this->CI->Lessor_m->get_all_lessor($query);
 		$business_activities = $this->CI->Business_Activity_m->get_all_business_activity($query);
+        $lineOfBusiness = "";
+        $total_capital = 0;
+
+            for ($i=0; $i < count($business_activities) ; $i++) { 
+                if($i == count($lineOfBusiness))
+                    $lineOfBusiness .= $business_activities[$i]->lineOfBusiness;
+                else
+                    $lineOfBusiness .= $business_activities[$i]->lineOfBusiness.", ";
+                $total_capital += $business_activities[$i]->capitalization;
+            }
+
+        unset($query);
+        $assessment = $this->CI->Assessment_m->get_assessment(['referenceNum' => $param->referenceNum]);
+
+        if(count($assessment) > 0)
+            $charges = $this->CI->Assessment_m->get_charges(['assessmentId' => $assessment[0]->assessmentId]);
+
+        // echo "<pre>";
+        // print_r($charges);
+        // echo "</pre>";
+        // exit();
 
 		unset($query);
 
@@ -169,6 +195,14 @@ class BPLO_Application extends Business {
 		$this->status = $param->status;
 		$this->businessActivities = $business_activities;
 		$this->dateStarted = $param->createdAt;
+        $this->lineOfBusiness = $lineOfBusiness;
+        $this->capital = $total_capital;
+        if(count($assessment) > 0)
+        {
+            $this->assessment = $assessment[0];
+            $this->charges = $charges;
+        }
+
 		if($lessors != null)
 			$this->lessors = $lessors[0];
 		else
@@ -635,6 +669,102 @@ class BPLO_Application extends Business {
     public function set_ApplicationType($applicationType)
     {
         $this->applicationType = $applicationType;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of assessment.
+     *
+     * @return mixed
+     */
+    public function get_Assessment()
+    {
+        return $this->assessment;
+    }
+
+    /**
+     * Sets the value of assessment.
+     *
+     * @param mixed $assessment the assessment
+     *
+     * @return self
+     */
+    public function set_Assessment($assessment)
+    {
+        $this->assessment = $assessment;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of charges.
+     *
+     * @return mixed
+     */
+    public function get_Charges()
+    {
+        return $this->charges;
+    }
+
+    /**
+     * Sets the value of charges.
+     *
+     * @param mixed $charges the charges
+     *
+     * @return self
+     */
+    public function set_Charges($charges)
+    {
+        $this->charges = $charges;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of lineOfBusiness.
+     *
+     * @return mixed
+     */
+    public function get_LineOfBusiness()
+    {
+        return $this->lineOfBusiness;
+    }
+
+    /**
+     * Sets the value of lineOfBusiness.
+     *
+     * @param mixed $lineOfBusiness the line of business
+     *
+     * @return self
+     */
+    public function set_LineOfBusiness($lineOfBusiness)
+    {
+        $this->lineOfBusiness = $lineOfBusiness;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of capital.
+     *
+     * @return mixed
+     */
+    public function get_Capital()
+    {
+        return $this->capital;
+    }
+
+    /**
+     * Sets the value of capital.
+     *
+     * @param mixed $capital the capital
+     *
+     * @return self
+     */
+    public function set_Capital($capital)
+    {
+        $this->capital = $capital;
 
         return $this;
     }

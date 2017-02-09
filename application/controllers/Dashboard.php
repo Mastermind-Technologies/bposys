@@ -1033,6 +1033,14 @@ class Dashboard extends CI_Controller {
 				$data['issued'][$key]->set_applicationId($this->encryption->decrypt($data['issued'][$key]->get_applicationId()));
 			}
 		}
+		else if($role == "Engineering")
+		{
+			$application = $this->Application_m->get_all_engineering_applications($query);
+			foreach ($application as $key => $app) {
+				$data['issued'][$key] = new Engineering_Application($app->referenceNum);
+				$data['issued'][$key]->set_applicationId($this->encryption->decrypt($data['issued'][$key]->get_applicationId()));
+			}
+		}
 
 		//custom encryption credentials for URL encryption
 		$data['custom_encrypt'] = array(
@@ -1312,15 +1320,17 @@ class Dashboard extends CI_Controller {
 				'hmac' => false
 				);
 			$application_id = $this->encryption->decrypt(hex2bin($application_id), $decrypt_credentials);
+			// var_dump($application_id);
+			// exit();
 			$query['applicationId'] = $application_id;
 
 			if($role == 'BPLO')
 			{
-			//get application using model then map to application object
-
+				//get application using model then map to application object
 				$data['application'] = $this->Application_m->get_all_bplo_applications($query);
-			//map to application object
+				//map to application object
 				$data['application'] = new BPLO_Application($data['application'][0]->referenceNum);
+
 				if($data['application']->get_status() == 'Completed' || $data['application']->get_status() == 'Active' || $data['application']->get_status() == 'On process')
 				{
 					$reference_num = $this->encryption->decrypt($data['application']->get_referenceNum());
@@ -1359,9 +1369,35 @@ class Dashboard extends CI_Controller {
 				$data['application'] = $this->Application_m->get_all_zoning_applications($query);
 			//map to application object
 				$data['application'] = new Zoning_Application($data['application'][0]->referenceNum);
+				$data['bplo'] = new BPLO_Application($this->encryption->decrypt($data['application']->get_referenceNum()));
 				$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
-			//instantiate Owner of this application
-			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+
+				//map to application object
+				
+
+				if($data['bplo']->get_status() == 'Completed' || $data['bplo']->get_status() == 'Active' || $data['bplo']->get_status() == 'On process')
+				{
+					$reference_num = $this->encryption->decrypt($data['bplo']->get_referenceNum());
+					unset($query);
+					$query['referenceNum'] = $reference_num;
+					$query['YEAR(createdAt)'] = date('Y');
+
+					$query['dept'] = 'Zoning';
+					$data['zoning'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'CHO';
+					$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'BFP';
+					$data['bfp'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'CENRO';
+					$data['cenro'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'Engineering';
+					$data['engineering'] = $this->Issued_Application_m->get_all($query);
+				}
+				$data['bplo']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['bplo']->get_referenceNum()));
 
 				$this->load->view('dashboard/zoning/view', $data);
 			}
@@ -1371,9 +1407,34 @@ class Dashboard extends CI_Controller {
 				$data['application'] = $this->Application_m->get_all_cenro_applications($query);
 			//map to application object
 				$data['application'] = new CENRO_Application($data['application'][0]->referenceNum);
+				$data['bplo'] = new BPLO_Application($this->encryption->decrypt($data['application']->get_referenceNum()));
 				$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 			//instantiate Owner of this application
 			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+
+				if($data['bplo']->get_status() == 'Completed' || $data['bplo']->get_status() == 'Active' || $data['bplo']->get_status() == 'On process')
+				{
+					$reference_num = $this->encryption->decrypt($data['bplo']->get_referenceNum());
+					unset($query);
+					$query['referenceNum'] = $reference_num;
+					$query['YEAR(createdAt)'] = date('Y');
+
+					$query['dept'] = 'Zoning';
+					$data['zoning'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'CHO';
+					$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'BFP';
+					$data['bfp'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'CENRO';
+					$data['cenro'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'Engineering';
+					$data['engineering'] = $this->Issued_Application_m->get_all($query);
+				}
+				$data['bplo']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['bplo']->get_referenceNum()));
 
 				$this->load->view('dashboard/cenro/view', $data);
 			}
@@ -1383,9 +1444,32 @@ class Dashboard extends CI_Controller {
 				$data['application'] = $this->Application_m->get_all_sanitary_applications($query);
 			//map to application object
 				$data['application'] = new Sanitary_Application($data['application'][0]->referenceNum);
+				$data['bplo'] = new BPLO_Application($this->encryption->decrypt($data['application']->get_referenceNum()));
 				$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
-			//instantiate Owner of this application
-			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+
+				if($data['bplo']->get_status() == 'Completed' || $data['bplo']->get_status() == 'Active' || $data['bplo']->get_status() == 'On process')
+				{
+					$reference_num = $this->encryption->decrypt($data['bplo']->get_referenceNum());
+					unset($query);
+					$query['referenceNum'] = $reference_num;
+					$query['YEAR(createdAt)'] = date('Y');
+
+					$query['dept'] = 'Zoning';
+					$data['zoning'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'CHO';
+					$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'BFP';
+					$data['bfp'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'CENRO';
+					$data['cenro'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'Engineering';
+					$data['engineering'] = $this->Issued_Application_m->get_all($query);
+				}
+				$data['bplo']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['bplo']->get_referenceNum()));
 
 				$this->load->view('dashboard/cho/view', $data);
 			}
@@ -1395,9 +1479,32 @@ class Dashboard extends CI_Controller {
 				$data['application'] = $this->Application_m->get_all_bfp_applications($query);
 			//map to application object
 				$data['application'] = new BFP_Application($data['application'][0]->referenceNum);
+				$data['bplo'] = new BPLO_Application($this->encryption->decrypt($data['application']->get_referenceNum()));
 				$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
-			//instantiate Owner of this application
-			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+
+				if($data['bplo']->get_status() == 'Completed' || $data['bplo']->get_status() == 'Active' || $data['bplo']->get_status() == 'On process')
+				{
+					$reference_num = $this->encryption->decrypt($data['bplo']->get_referenceNum());
+					unset($query);
+					$query['referenceNum'] = $reference_num;
+					$query['YEAR(createdAt)'] = date('Y');
+
+					$query['dept'] = 'Zoning';
+					$data['zoning'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'CHO';
+					$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'BFP';
+					$data['bfp'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'CENRO';
+					$data['cenro'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'Engineering';
+					$data['engineering'] = $this->Issued_Application_m->get_all($query);
+				}
+				$data['bplo']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['bplo']->get_referenceNum()));
 
 				$this->load->view('dashboard/bfp/view', $data);
 			}
@@ -1407,9 +1514,32 @@ class Dashboard extends CI_Controller {
 				$data['application'] = $this->Application_m->get_all_engineering_applications($query);
 			//map to application object
 				$data['application'] = new Engineering_Application($data['application'][0]->referenceNum);
+				$data['bplo'] = new BPLO_Application($this->encryption->decrypt($data['application']->get_referenceNum()));
 				$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
-			//instantiate Owner of this application
-			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
+
+				if($data['bplo']->get_status() == 'Completed' || $data['bplo']->get_status() == 'Active' || $data['bplo']->get_status() == 'On process')
+				{
+					$reference_num = $this->encryption->decrypt($data['bplo']->get_referenceNum());
+					unset($query);
+					$query['referenceNum'] = $reference_num;
+					$query['YEAR(createdAt)'] = date('Y');
+
+					$query['dept'] = 'Zoning';
+					$data['zoning'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'CHO';
+					$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'BFP';
+					$data['bfp'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'CENRO';
+					$data['cenro'] = $this->Issued_Application_m->get_all($query);
+
+					$query['dept'] = 'Engineering';
+					$data['engineering'] = $this->Issued_Application_m->get_all($query);
+				}
+				$data['bplo']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['bplo']->get_referenceNum()));
 
 				$this->load->view('dashboard/engineering/view', $data);
 			}
@@ -1674,6 +1804,15 @@ class Dashboard extends CI_Controller {
 				'surcharge' => 0,
 				'interest' => 0,
 				'particulars' => 'BUSINESS PLATE & STICKER',
+				);
+			$this->Assessment_m->add_charge($charge_field);
+
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $sanitary_fee,
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => 'SANITARY PERMIT FEE',
 				);
 			$this->Assessment_m->add_charge($charge_field);
 
