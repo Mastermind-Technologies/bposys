@@ -260,6 +260,19 @@
 												</div>
 											</div>
 										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label for="">Map Location</label>
+													<br>
+													<span><strong>Google Maps Address: </strong> <span id='gmaps-address'>NA</span></span>
+													<input type="hidden" required name="lat" id="lat" value="">
+													<input type="hidden" required name="lng" id="lng" value="">
+													<input type="hidden" required name="g-address" id="g-address" value="">
+													<div id="map" style="width:100%; height:400px"></div>
+												</div>
+											</div>
+										</div>
 
 										<h4 class="page-header">Contact Details</h4>
 										<div class="row">
@@ -281,7 +294,9 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<h4>In case of emergency</h4>
+												<hr>
 											</div>
+
 											<div class="col-sm-4">
 												<div class="form-group">
 													<label for="contact-name">Contact Person Name</label>
@@ -322,4 +337,6 @@
 </div>
 <!-- /.container-fluid -->
 </div>
-<!-- </body>
+<!-- </body> -->
+
+

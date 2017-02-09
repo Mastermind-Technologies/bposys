@@ -24,6 +24,7 @@
           <li class="active"><a data-toggle="tab" href="#tab1">CHO Form</a></li>
           <li><a data-toggle="tab" href="#bplo">BPLO Form</a></li>
           <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
+          <li><a data-toggle="tab" href="#tab3">Business Location</a></li>
         </ul>
       </div>
       <div class="widget-content tab-content">
@@ -441,10 +442,32 @@
                     </div>
                   </div>
                 </div>
+                <div id="tab3" class="tab-pane">
+                  <div id="gmaps" style="width:100%; height:500px; background-color: gray"></div>
+                </div>
               </div>
             </div>
             <!-- End Container Fluid -->
           </div>
-
-
         </div>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8&callback=initMap"
+        async defer></script>
+
+        <script>
+          var map;
+        // console.log(<?= $application->get_lng() ?>);
+        function initMap(){
+          latlang = new google.maps.LatLng(<?= $bplo->get_lat() ?>,<?= $bplo->get_lng() ?>);
+          map = new google.maps.Map(document.getElementById('gmaps'), {
+            center: latlang,
+            zoom: 15
+
+          });
+          var marker = new google.maps.Marker({
+            position: latlang,
+          });
+
+          marker.setMap(map);
+        }
+      </script>

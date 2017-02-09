@@ -343,6 +343,7 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('street','Street','required');
 		$this->form_validation->set_rules('subdivision','Subdivision','required');
 		$this->form_validation->set_rules('barangay','Barangay','required');
+		$this->form_validation->set_rules('g-address', 'Please point your business location on google maps.', 'required');
 		$this->form_validation->set_rules('email','Email','required');
 		$this->form_validation->set_rules('PIN','Zip/Postal Code','required');
 		$this->form_validation->set_rules('telephone-number','Telephone Number','required');
@@ -417,6 +418,9 @@ class Profile extends CI_Controller {
 				'subdivision' => $this->input->post('subdivision'),
 				'cityMunicipality' => "Biñan City",
 				'province' => "Laguna",
+				'lat' => $this->input->post('lat'),
+				'lng' => $this->input->post('lng'),
+				'gmapAddress' => $this->input->post('g-address'),
 				'PIN' => $this->input->post('PIN'),
 				'telNum' => $this->input->post('telephone-number'),
 				'email' => $this->input->post('email'),

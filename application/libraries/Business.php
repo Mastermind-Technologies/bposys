@@ -34,6 +34,9 @@ class Business extends Owner {
     private $emergencyTelNum = null;
     private $emergencyEmail = null;
     private $zoneType = null;
+    private $lat = null;
+    private $lng = null;
+    private $gmapAddress = null;
 
     // private $natureOfBusiness = null;
     // private $capitalInvested = null;
@@ -813,6 +816,9 @@ class Business extends Owner {
         $this->emergencyTelNum = $param->emergencyTelNum;
         $this->emergencyEmail = $param->emergencyEmail;
         $this->zoneType = $param->zoneType;
+        $this->lng = $param->lng;
+        $this->lat = $param->lat;
+        $this->gmapAddress = $param->gmapAddress;
 
         $this->unset_CI();
         return $this;
@@ -838,6 +844,78 @@ class Business extends Owner {
     public function set_ZoneType($zoneType)
     {
         $this->zoneType = $zoneType;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of lat.
+     *
+     * @return mixed
+     */
+    public function get_Lat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Sets the value of lat.
+     *
+     * @param mixed $lat the lat
+     *
+     * @return self
+     */
+    public function set_Lat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of lng.
+     *
+     * @return mixed
+     */
+    public function get_Lng()
+    {
+        return $this->lng;
+    }
+
+    /**
+     * Sets the value of lng.
+     *
+     * @param mixed $lng the lng
+     *
+     * @return self
+     */
+    public function set_Lng($lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of gmapAddress.
+     *
+     * @return mixed
+     */
+    public function get_GmapAddress()
+    {
+        return $this->gmapAddress;
+    }
+
+    /**
+     * Sets the value of gmapAddress.
+     *
+     * @param mixed $gmapAddress the gmap address
+     *
+     * @return self
+     */
+    public function set_GmapAddress($gmapAddress)
+    {
+        $this->gmapAddress = $gmapAddress;
 
         return $this;
     }

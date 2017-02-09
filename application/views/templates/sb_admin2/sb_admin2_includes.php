@@ -3,6 +3,7 @@
 
 <head>
 
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,27 +39,27 @@
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <![endif]-->
 
-    <!-- jQuery -->
-    <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/jquery/jquery.min.js"></script>
+        <!-- jQuery -->
+        <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/jquery/jquery.min.js"></script>
 
-    <!-- Moment -->
-    <script src="<?php echo base_url(); ?>assets/js/moment.min.js"></script>
+        <!-- Moment -->
+        <script src="<?php echo base_url(); ?>assets/js/moment.min.js"></script>
 
-    <!-- noty -->
-    <script src="<?php echo base_url(); ?>assets/js/noty/packaged/jquery.noty.packaged.min.js"></script>
+        <!-- noty -->
+        <script src="<?php echo base_url(); ?>assets/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/metisMenu/metisMenu.min.js"></script>
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/metisMenu/metisMenu.min.js"></script>
 
-    <!-- Datepicker -->
-    <script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.min.js"></script>
+        <!-- Datepicker -->
+        <script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.min.js"></script>
 
-    <!-- Morris Charts JavaScript -->
+        <!-- Morris Charts JavaScript -->
     <!-- <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/raphael/raphael.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/morrisjs/morris.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/sb_admin2/data/morris-data.js"></script> -->

@@ -395,6 +395,17 @@
 												<span id='pin'>N/A</span>
 											</div>
 										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label for="">Map Location (Click to replace marker)</label>
+													<br>
+													<span><strong>Google Maps Address: </strong> <span id='gmaps-address'>NA</span></span>
+													<div id="gmaps" style="height:400px; width:100%; background-color: gray"></div>
+												</div>
+												
+											</div>
+										</div>
 										<hr>
 										<div class="row">
 											<div class="col-sm-12">

@@ -112,7 +112,7 @@ $(document).ready(function(){
 		    				if(type == "success")
 		    					window.location = base_url+"dashboard/completed_applications";
 		    				else if(type == "information")
-			    				window.location = base_url+"dashboard/incoming_applications";
+		    					window.location = base_url+"dashboard/incoming_applications";
 		    			}
 		    		});
 		    	},
@@ -141,16 +141,15 @@ $(document).ready(function(){
 	});
 
 	$('.count').each(function () {
-    $(this).prop('Counter',0).animate({
-        Counter: $(this).text()
-    }, {
-        duration: 3000,
-        easing: 'swing',
-        step: function (now) {
-            $(this).text(Math.ceil(now));
-        }
-    });
-});
-
+		$(this).prop('Counter',0).animate({
+			Counter: $(this).text()
+		}, {
+			duration: 3000,
+			easing: 'swing',
+			step: function (now) {
+				$(this).text(Math.ceil(now));
+			}
+		});
+	});
 
 });//End of Jquery
