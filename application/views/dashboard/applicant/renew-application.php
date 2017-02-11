@@ -18,8 +18,8 @@
 						<div class="panel-body">
 							<!-- action="<?php echo base_url() ?>dashboard/submit_application" -->
 							<form action="<?php echo base_url(); ?>form/submit_renewal_application" class='renewal-form' method="post" data-parsley-validate="">
-							<input type="hidden" name='ref' value='<?= $application->get_referenceNum() ?>'>
-							<input type="hidden" name='aid' value='<?= $application->get_applicationId() ?>'>
+								<input type="hidden" name='ref' value='<?= $application->get_referenceNum() ?>'>
+								<input type="hidden" name='aid' value='<?= $application->get_applicationId() ?>'>
 								<div class="row">
 									<div class="tab-content clearfix">
 										<div class="tab-pane">
@@ -406,31 +406,31 @@
 											<div class="col-sm-12 lessor-controls">
 												<div class="row">
 													<div class="col-sm-12">
-														<input type="checkbox" name='rented' <?= isset($application->get_lessors()->lessorId) ? 'checked' : '' ?> id='rented' data-toggle="tooltip" title="Please identify lessor's information below if yes">
+														<input type="checkbox" name='rented' <?= $application->get_lessors()!=null ? 'checked' : '' ?> id='rented' data-toggle="tooltip" title="Please identify lessor's information below if yes">
 														<label for="rented">Is the business place rented?</label>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-first-name">First Name*</label>
-															<input type="text" <?= isset($application->get_lessors()->lessorId) ? '' : 'disabled' ?> class="form-control" name='lessor-first-name' value="<?= isset($application->get_lessors()->lessorId) ? $application->get_lessors()->firstName : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name='lessor-first-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->firstName : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-middle-name">Middle Name*</label>
-															<input type="text" <?= isset($application->get_lessors()->lessorId) ? '' : 'disabled' ?> class="form-control" name='lessor-middle-name' value="<?= isset($application->get_lessors()->lessorId) ? $application->get_lessors()->middleName : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name='lessor-middle-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->middleName : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-last-name">Last Name*</label>
-															<input type="text" <?= isset($application->get_lessors()->lessorId) ? '' : 'disabled' ?> class="form-control" name='lessor-last-name' value="<?= isset($application->get_lessors()->lessorId) ? $application->get_lessors()->lastName : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name='lessor-last-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->lastName : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-address">Lessor's Address*</label>
-															<textarea name="lessor-address" id="lessor-address" <?= isset($application->get_lessors()->lessorId) ? '' : 'disabled' ?> rows="1" class='form-control' placeholder="House No./Bldg.No/Street"><?= isset($application->get_lessors()->lessorId) ? $application->get_lessors()->address : '' ?></textarea>
+															<textarea name="lessor-address" id="lessor-address" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> rows="1" class='form-control' placeholder="House No./Bldg.No/Street"><?= $application->get_lessors()!=null ? $application->get_lessors()->address : '' ?></textarea>
 														</div>
 													</div>
 												</div>
@@ -438,25 +438,25 @@
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-subdivision">Subdivision*</label>
-															<input type="text" <?= isset($application->get_lessors()->lessorId) ? '' : 'disabled' ?> class="form-control" name="lessor-subdivision" value="<?= isset($application->get_lessors()->lessorId) ? $application->get_lessors()->subdivision : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-subdivision" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->subdivision : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-barangay">Barangay*</label>
-															<input type="text" <?= isset($application->get_lessors()->lessorId) ? '' : 'disabled' ?> class="form-control" name="lessor-barangay" value="<?= isset($application->get_lessors()->lessorId) ? $application->get_lessors()->barangay : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-barangay" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->barangay : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-city-municipality">City/Municipality*</label>
-															<input type="text" <?= isset($application->get_lessors()->lessorId) ? '' : 'disabled' ?> class="form-control" name="lessor-city-municipality" value="<?= isset($application->get_lessors()->lessorId) ? $application->get_lessors()->cityMunicipality : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-city-municipality" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->cityMunicipality : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-province">Province*</label>
-															<input type="text" <?= isset($application->get_lessors()->lessorId) ? '' : 'disabled' ?> class="form-control" name="lessor-province" value="<?= isset($application->get_lessors()->lessorId) ? $application->get_lessors()->province : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-province" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->province : '' ?>">
 														</div>
 													</div>
 												</div>
@@ -464,19 +464,19 @@
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-monthly-rental">Monthly Rental*</label>
-															<input type="text" <?= isset($application->get_lessors()->lessorId) ? '' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-monthly-rental" value="<?= isset($application->get_lessors()->lessorId) ? $application->get_lessors()->monthlyRental : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-monthly-rental" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->monthlyRental : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-tel-cel-no">Tel No./Cel No.*</label>
-															<input type="text" <?= isset($application->get_lessors()->lessorId) ? '' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-tel-cel-no" value="<?= isset($application->get_lessors()->lessorId) ? $application->get_lessors()->telNum : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-tel-cel-no" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->telNum : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="">Email Address*</label>
-															<input type="email" <?= isset($application->get_lessors()->lessorId) ? '' : 'disabled' ?> class="form-control" name="lessor-email" value="<?= isset($application->get_lessors()->lessorId) ? $application->get_lessors()->email : '' ?>">
+															<input type="email" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-email" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->email : '' ?>">
 														</div>
 													</div>
 												</div>

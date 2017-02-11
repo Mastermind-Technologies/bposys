@@ -205,8 +205,6 @@ class BPLO_Application extends Business {
 
 		if($lessors != null)
 			$this->lessors = $lessors[0];
-		else
-			unset($this->lessors);
 
 		$this->unset_CI();
 		return $this;
