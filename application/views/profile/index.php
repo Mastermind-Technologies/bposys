@@ -5,12 +5,6 @@
 		<div class="row">
 			<div class="col-lg-12">
 
-				<?php if($this->session->flashdata('error')): ?>
-					<div class="alert alert-danger"> <!--bootstrap error div-->
-						<?=$this->session->flashdata('error')?>
-					</div>
-				<?php endif; ?>
-
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						Your Information
@@ -68,17 +62,28 @@
 										<h5><?= $user->get_civilStatus() ?></h5>
 									</div>
 								</div>
-								<hr>
 								<div class="row">
-									<div class="col-sm-3 col-sm-offset-3">
-										<a href="<?php echo base_url() ?>profile/edit" class="btn btn-warning btn-block">Edit</a>
+									<div class="col-sm-12">
+										<h3 class="panel-header">Contact Information</h3>
 									</div>
 									<div class="col-sm-3">
-										<a href="<?php echo base_url() ?>dashboard" class="btn btn-danger btn-block">Cancel</a>
+										<label for="email">Email</label>
+										<h5><?= $user->get_email() ?></h5>
+									</div>
+									<div class="col-sm-3">
+										<label for="contact-number">Contact Number</label>
+										<h5><?= $user->get_ContactNum() ?></h5>
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-sm-4 col-sm-offset-4">
+										<a href="<?php echo base_url() ?>profile/edit" class="btn btn-warning btn-block">Edit</a>
 									</div>
 								</div>
 							</div>
 						</div>
+						
 
 					</div>
 					<!-- /.panel-body
@@ -93,3 +98,9 @@
 <!-- </body> -->
 </div>
 </div>
+
+<?php if($this->session->flashdata('message')): ?>
+	<script>
+		alert("<?= $this->session->flashdata('message'); ?>");
+	</script>
+<?php endif; ?>

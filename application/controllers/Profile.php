@@ -27,29 +27,6 @@ class Profile extends CI_Controller {
 		$this->_init();
 
 		$data['user'] = new User($this->encryption->decrypt($this->session->userdata['userdata']['userId']));
-
-		// echo "<pre>";
-		// print_r($data['user']);
-		// echo "</pre>";
-		// exit();
-
-
-		// $is_registered = $this->Owner_m->check_owner($user_id);
-		// if($is_registered)
-		// {
-		// 	$owner = new Owner($user_id);
-		// 	$data['user'] = $owner;
-		// }
-		// else
-		// {
-		// 	$user = new User($user_id);
-		// 	$data['user'] = $user;
-		// }
-
-		// echo "<pre>";
-		// print_r($data);
-		// echo "</pre>";
-		// exit();
 		
 		$this->load->view('profile/index', $data);
 	}
@@ -67,24 +44,9 @@ class Profile extends CI_Controller {
 		$this->isLogin();
 		$this->_init();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-		
-		$is_registered = $this->Owner_m->check_owner($user_id);
-		if($is_registered)
-		{
-			$owner = new Owner($user_id);
-			$data['user'] = $owner;
-		}
-		else
-		{
-			$user = new User($user_id);
-			$data['user'] = $user;
-		}
 
-		// echo "<pre>";
-		// print_r($data);
-		// echo "</pre>";
-		// exit();
-		
+		$data['user'] = new User($user_id);
+
 		$this->load->view('profile/edit_profile', $data);
 	}
 
@@ -97,18 +59,21 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('lname', 'Last Name', 'required');
 		$this->form_validation->set_rules('birth-date', 'Birth Date', 'required');
 		$this->form_validation->set_rules('gender', 'Gender', 'required');
-		$this->form_validation->set_rules('position', 'Position', 'required');
-		$this->form_validation->set_rules('house-bldg-no', 'Civil Status', 'required');
-		$this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
-		$this->form_validation->set_rules('unit-no', 'Unit Number', 'required');
-		$this->form_validation->set_rules('street', 'Street', 'required');
-		$this->form_validation->set_rules('barangay', 'Barangay', 'required');
-		$this->form_validation->set_rules('subdivision', 'Subdivision', 'required');
-		$this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
-		$this->form_validation->set_rules('province', 'Province', 'required');
+		$this->form_validation->set_rules('civil-status', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required');
 		$this->form_validation->set_rules('contact-number', 'Contact Number', 'required');
-		$this->form_validation->set_rules('business-area', 'Business Area', 'required');
-		$this->form_validation->set_rules('num-of-employees', 'Number of Employees', 'required');
+		// $this->form_validation->set_rules('position', 'Position', 'required');
+		// $this->form_validation->set_rules('house-bldg-no', 'Civil Status', 'required');
+		// $this->form_validation->set_rules('bldg-name', 'Building Name', 'required');
+		// $this->form_validation->set_rules('unit-no', 'Unit Number', 'required');
+		// $this->form_validation->set_rules('street', 'Street', 'required');
+		// $this->form_validation->set_rules('barangay', 'Barangay', 'required');
+		// $this->form_validation->set_rules('subdivision', 'Subdivision', 'required');
+		// $this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
+		// $this->form_validation->set_rules('province', 'Province', 'required');
+		// $this->form_validation->set_rules('contact-number', 'Contact Number', 'required');
+		// $this->form_validation->set_rules('business-area', 'Business Area', 'required');
+		// $this->form_validation->set_rules('num-of-employees', 'Number of Employees', 'required');
 
 
 		if($this->form_validation->run() == FALSE)
@@ -118,7 +83,7 @@ class Profile extends CI_Controller {
 		}
 		else
 		{
-			$user_fields = array(
+			$fields = array(
 				'firstName' => $this->input->post('fname'),
 				'lastName' => $this->input->post('lname'),
 				'middleName' => $this->input->post('mname'),
@@ -126,83 +91,84 @@ class Profile extends CI_Controller {
 				'gender' => $this->input->post('gender'),
 				'birthDate' => $this->input->post('birth-date'),
 				'civilStatus' => $this->input->post('civil-status'),
-				);
-
-			$applicant_fields = array(
-				'userId' => $user_id,			
-				'houseBldgNo' => $this->input->post('house-bldg-no'),
-				'bldgName' => $this->input->post('bldg-name'),
-				'unitNum' => $this->input->post('unit-no'),
-				'street' => $this->input->post('street'),
-				'barangay' => $this->input->post('barangay'),
-				'subdivision' => $this->input->post('subdivision'),
-				'cityMunicipality' => $this->input->post('city-municipality'),
-				'province' => $this->input->post('province'),
+				'email' => $this->input->post('email'),
 				'contactNum' => $this->input->post('contact-number'),
-				'telNum' => $this->input->post('telephone-number'),
-				'businessArea' => $this->input->post('business-area'),
-				'numOfEmployeesLGU' => $this->input->post('num-of-employees'),
-				'position' => $this->input->post('position'),
 				);
-
-	    	// echo "<pre>";
-	    	// print_r($applicant_fields);
-	    	// echo "</pre>";
-	    	// exit();
-
-			$is_setup = $this->Owner_m->check_owner($user_id);
-
-	    	//if applicant is already registered
-			if($is_setup)
-			{
-				$is_success = $this->Owner_m->update_owner_details($user_fields, $applicant_fields);
-
-				if($is_success)
-				{
-					$this->session->set_flashdata('message', 'Update Successful!');
-				}
-				else
-				{
-					$this->session->set_flashdata('message', 'Update failed');
-				}
-			}
-	    	//for first time set-up
-	    	//the system registers the applicant first before updating
-			else
-			{
-				$is_success = $this->Owner_m->register_owner($applicant_fields);
-				if($is_success)
-				{
-					$is_success = $this->Owner_m->update_owner_details($user_fields, $applicant_fields);
-					if($is_success)
-					{
-						$this->session->set_flashdata('message', 'Applicant Registered!');
-					}
-					else
-					{
-						$this->session->set_flashdata('message', 'Applicant Registration Failed');
-					}
-				}
-				else
-				{
-					$this->session->set_flashdata('message', 'Applicant Registration Failed');
-				}
-
-			}
-			// if($this->Business_Address_m->count_addresses > 0)
-			// {
-			// 	redirect('dashboard');
-			// }
-			// else
-			// {
-				// redirect('profile/manage_business_address');
-			// }
+			$this->User_m->update_user($fields);
+			$this->session->set_flashdata('message', 'Profile updated successfully!');
+			redirect('profile');
 		}
 	}
 
-	public function manage_owner_profiles()
+	public function owners()
 	{
-		// $this->isLogin();
+		$this->isLogin();
+		$this->_init();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$query['userId'] = $user_id;
+		$owner = $this->Owner_m->get_all_owners($query);
+		$unapplied = $this->Owner_m->get_unapplied_business_owners($user_id);
+
+		foreach ($owner as $key => $o) 
+		{
+			$data['owner'][$key] = new Owner($o->ownerId);
+			if(count($unapplied) != 0)
+			{
+				foreach ($unapplied as $u) {
+					if($o->ownerId == $u->ownerId)
+					{
+						$data['owner'][$key]->set_IsApplied(0);
+						break;
+					}
+					else
+					{
+						$data['owner'][$key]->set_IsApplied(1);
+					}
+				}
+			}
+			else
+			{
+				// $data['owner'][$key]->set_IsApplied(1);
+			}
+		}
+		// echo "<pre>";
+		// print_r($owner);
+		// echo "</	pre>";
+		// exit();
+
+
+		$this->load->view('profile/manage_owners', $data);
+	}
+	
+
+	public function view_owner()
+	{
+		$this->isLogin();
+		$this->_init();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$owner_id = $this->input->get('n');
+
+		$data['owner'] = new Owner($owner_id);
+
+		$this->load->view('profile/view-owner',$data);
+	}
+
+	public function edit_owner()
+	{
+		$this->isLogin();
+		$this->_init();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$owner_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->get('ownr')));
+
+		$data['owner'] = new Owner($owner_id);
+
+		$this->load->view('profile/edit-owner',$data);
+	}
+
+	public function add_owner()
+	{
+		$this->isLogin();
 		$this->_init();
 		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
@@ -210,7 +176,7 @@ class Profile extends CI_Controller {
 		{
 			$this->session->set_flashdata('message', 'Welcome to <strong>BPOSYS</strong>! Please set up your initial owner profile before you can proceed. Just fill up the fields below.');
 		}
-		$this->load->view('profile/manage_owners');
+		$this->load->view('profile/add-owner');
 	}
 
 	public function save_owner()
@@ -229,13 +195,14 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('subdivision', 'Subdivision', 'required');
 		$this->form_validation->set_rules('city-municipality', 'City/Municipality', 'required');
 		$this->form_validation->set_rules('province', 'Province', 'required');
+		$this->form_validation->set_rules('PIN', 'Zip/Postal Code', 'required');
 		$this->form_validation->set_rules('contact-number', 'Contact Number', 'required');
 		$this->form_validation->set_rules('email','Email','required');
 
 		if($this->form_validation->run() == FALSE)
 		{
 			$this->session->set_flashdata('error', validation_errors());
-			redirect('profile/manage_owner_profiles');
+			redirect('profile/add_owner');
 		}
 		else
 		{
@@ -254,6 +221,7 @@ class Profile extends CI_Controller {
 				'subdivision' => $this->input->post('subdivision'),
 				'cityMunicipality' => $this->input->post('city-municipality'),
 				'province' => $this->input->post('province'),
+				'PIN' => $this->input->post('PIN'),
 				'contactNum' => $this->input->post('contact-number'),
 				'telNum' => $this->input->post('telephone-number'),
 				'email' => $this->input->post('email'),
@@ -261,18 +229,79 @@ class Profile extends CI_Controller {
 
 			$this->Owner_m->insert($fields);
 
-			if($this->Business_m->count_businesses > 0)
+			if($this->Business_m->count_businesses() > 0)
 				redirect('dashboard');
 			else
-				redirect('profile/manage_business_profiles?ft=1');
+				redirect('profile/add_business?ft=1');
 		}
 	}
 
-	public function manage_business_profiles()
+	public function businesses()
 	{
 		$this->isLogin();
 		$this->_init();
-		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$query['userId'] = $user_id;
+		$business = $this->Business_m->get_all_businesses($query);
+		foreach ($business as $key => $b) {
+			$data['business'][] = new Business($b->businessId);
+		}
+
+		$unapplied = $this->Business_m->get_all_unapplied_businesses($user_id);
+		foreach ($data['business'] as $key => $b) {
+			if(count($unapplied) != 0)
+			{
+				foreach ($unapplied as $key => $u) {
+					if($b->get_BusinessName() == $u->businessName)
+					{
+						$b->set_IsApplied(0);
+						break;
+					}
+					else
+					{
+						$b->set_IsApplied(1);
+					}
+				}
+			}
+			else
+			{
+				$b->set_IsApplied(1);
+			}
+		}
+
+		$this->load->view('profile/manage_businesses', $data);
+	}
+
+	public function view_business()
+	{
+		$this->isLogin();
+		$this->_init();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$business_id = $this->input->get("n");
+
+		$data['business'] = new Business($business_id);
+
+		$this->load->view('profile/view-business', $data);
+	}
+
+	public function edit_business()
+	{
+		$this->isLogin();
+		$this->_init();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$business_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->get('app')));
+
+		$data['business'] = new Business($business_id);
+
+		$this->load->view('profile/edit-business', $data);
+	}
+
+	public function add_business()
+	{
+		$this->isLogin();
+		$this->_init();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		if($this->input->get('ft') == 1)
 		{
 			$this->session->set_flashdata('message', '<strong>Almost there</strong>! Please set up your initial business profile before you can proceed to your dashboard and apply for your permits/clearances.');
@@ -280,12 +309,13 @@ class Profile extends CI_Controller {
 		}
 		if($this->Owner_m->count_owners() > 0)
 		{
-			$data['owner'] = $this->Owner_m->get_all_owners();
-			$this->load->view('profile/manage_businesses', $data);
+			$query['userId'] = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+			$data['owner'] = $this->Owner_m->get_all_owners($query);
+			$this->load->view('profile/add-business', $data);
 		}
 		else
 		{
-			redirect('profile/manage_owner_profiles?ft=1');
+			redirect('profile/manage_owners?ft=1');
 		}
 	}
 
@@ -299,7 +329,8 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('company-name','Company Name','required');
 		$this->form_validation->set_rules('trade-name','Trade/Franchise Name','required');
 		$this->form_validation->set_rules('signage-name','Signage Name','required');
-		$this->form_validation->set_rules('nature-of-business','Nature of Business','required');
+		$this->form_validation->set_rules('zone-type', 'Zone Type', 'required');
+		// $this->form_validation->set_rules('nature-of-business','Nature of Business','required');
 		$this->form_validation->set_rules('organization-type','Organization Type','required');
 		if($this->input->post('organization-type') == 'Corporation')
 			$this->form_validation->set_rules('corporation-name', 'Corporation Name', 'required');
@@ -312,9 +343,9 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('street','Street','required');
 		$this->form_validation->set_rules('subdivision','Subdivision','required');
 		$this->form_validation->set_rules('barangay','Barangay','required');
-		$this->form_validation->set_rules('city-municipality','City Municipality','required');
-		$this->form_validation->set_rules('province','Province','required');
+		$this->form_validation->set_rules('g-address', 'Please point your business location on google maps.', 'required');
 		$this->form_validation->set_rules('email','Email','required');
+		$this->form_validation->set_rules('PIN','Zip/Postal Code','required');
 		$this->form_validation->set_rules('telephone-number','Telephone Number','required');
 		$this->form_validation->set_rules('pollution-control-officer','Pollution Control Officer','required');
 		$this->form_validation->set_rules('male-employees','No. of Male Employees','required|numeric');
@@ -322,14 +353,50 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('pwd-employees','No. of PWD Employees','required|numeric');
 		$this->form_validation->set_rules('lgu-employees', 'No. of Employees Residing in LGU', 'required|numeric');
 		$this->form_validation->set_rules('president-treasurer-name', 'Name of President/Treasurer of Corporation','required');
+		$this->form_validation->set_rules('emergency-contact-name', "Lessor's Address", 'required');
+		$this->form_validation->set_rules('emergency-tel-cel-no', "Lessor's Address", 'required|numeric');
+		$this->form_validation->set_rules('emergency-email', "Lessor's Address", 'required');
 
 		if($this->form_validation->run() == false)
 		{
 			$this->session->set_flashdata('error', validation_errors());
-			redirect('profile/manage_business_profiles');
+			redirect('profile/add_business');
 		}
 		else
 		{
+			$barangay = $this->encryption->decrypt($this->input->post('barangay'));
+			switch($barangay)
+			{
+				case "Biñan": break; 
+				case "Bungahan": break; 
+				case "Canlalay": break; 
+				case "Casile": break; 
+				case "Dela Paz": break; 
+				case "Ganado": break; 
+				case "Langkiwa": break; 
+				case "Loma": break; 
+				case "Malaban": break; 
+				case "Malamig": break; 
+				case "Mampalasan": break; 
+				case "Platero": break; 
+				case "Poblacion": break; 
+				case "San Antonio": break; 
+				case "San Francisco (Halang)": break; 
+				case "San Jose": break; 
+				case "San Vicente": break; 
+				case "Santo Domingo": break; 
+				case "Soro-Soro": break; 
+				case "Sto. Niño": break; 
+				case "Sto. Tomas (Calabuso)": break; 
+				case "Timbao": break; 
+				case "Tubigan": break; 
+				case "Zapote": break; 
+				default: 
+				$this->session->set_flashdata('error', 'Invalid Barangay!');
+				redirect('profile/add_business');
+				break;
+			}
+
 			$fields = array(
 				'userId' => $user_id,
 				'ownerId' => $this->encryption->decrypt($this->input->post('business-owner')),
@@ -337,7 +404,8 @@ class Profile extends CI_Controller {
 				'companyName' => $this->input->post('company-name'),
 				'tradeName' => $this->input->post('trade-name'),
 				'signageName' => $this->input->post('signage-name'),
-				'natureOfBusiness' => $this->input->post('nature-of-business'),
+				'zoneType' => $this->input->post('zone-type'),
+				// 'natureOfBusiness' => $this->input->post('nature-of-business'),
 				'organizationType' => $this->input->post('organization-type'),
 				'corporationName' => $this->input->post('organization-type')=="Corporation" ? $this->input->post('corporation-name') : "NA",
 				'dateOfOperation' => $this->input->post('date-of-operation'),
@@ -346,10 +414,14 @@ class Profile extends CI_Controller {
 				'houseBldgNum' => $this->input->post('house-bldg-no'),
 				'unitNum' => $this->input->post('unit-no'),
 				'street' => $this->input->post('street'),
-				'barangay' => $this->input->post('barangay'),
+				'barangay' => $barangay,
 				'subdivision' => $this->input->post('subdivision'),
-				'cityMunicipality' => $this->input->post('city-municipality'),
-				'province' => $this->input->post('province'),
+				'cityMunicipality' => "Biñan City",
+				'province' => "Laguna",
+				'lat' => $this->input->post('lat'),
+				'lng' => $this->input->post('lng'),
+				'gmapAddress' => $this->input->post('g-address'),
+				'PIN' => $this->input->post('PIN'),
 				'telNum' => $this->input->post('telephone-number'),
 				'email' => $this->input->post('email'),
 				'pollutionControlOfficer' => $this->input->post('pollution-control-officer'),
@@ -359,6 +431,9 @@ class Profile extends CI_Controller {
 				'LGUResidingEmployees' => $this->input->post('lgu-employees'),
 				'businessArea' => $this->input->post('business-area'),
 				'presidentTreasurerName' => $this->input->post('president-treasurer-name'),
+				'emergencyContactPerson' => $this->input->post('emergency-contact-name'),
+				'emergencyTelNum' => $this->input->post('emergency-tel-cel-no'),
+				'emergencyEmail' => $this->input->post('emergency-email'),
 				);
 			$this->Business_m->insert($fields);
 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 26, 2017 at 12:03 PM
+-- Generation Time: Feb 09, 2017 at 05:34 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -23,6 +23,36 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `application_bfp`
+--
+
+CREATE TABLE IF NOT EXISTS `application_bfp` (
+  `applicationId` int(10) NOT NULL,
+  `userId` int(10) NOT NULL,
+  `businessId` int(10) NOT NULL,
+  `referenceNum` varchar(255) NOT NULL,
+  `applicationDate` varchar(255) NOT NULL,
+  `storeys` int(10) NOT NULL,
+  `occupiedPortion` varchar(255) NOT NULL,
+  `areaPerFloor` int(10) NOT NULL,
+  `occupancyPermitNum` int(20) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `application_bfp`
+--
+
+INSERT INTO `application_bfp` (`applicationId`, `userId`, `businessId`, `referenceNum`, `applicationDate`, `storeys`, `occupiedPortion`, `areaPerFloor`, `occupancyPermitNum`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 6, '4824FE5C5F', 'February 2, 2017', 2, 'asdsa', 23232, 123, 'Active', '2017-02-02 13:05:07', '2017-02-08 14:32:20'),
+(2, 1, 4, 'D2D2E57657', 'February 7, 2017', 5, '1212', 1212, 1212, 'Active', '2017-02-02 16:20:03', '2017-02-08 13:52:36'),
+(12, 1, 8, 'AE9054B21A', 'February 9, 2017', 123, '123', 123, 21312, 'For applicant visit', '2017-02-09 08:10:14', '2017-02-09 13:40:02');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `application_bplo`
 --
 
@@ -33,6 +63,8 @@ CREATE TABLE IF NOT EXISTS `application_bplo` (
   `businessId` int(10) NOT NULL,
   `taxYear` int(4) DEFAULT NULL,
   `applicationDate` varchar(255) DEFAULT NULL,
+  `idPresented` varchar(255) NOT NULL,
+  `modeOfPayment` varchar(255) NOT NULL,
   `DTISECCDA_RegNum` varchar(255) DEFAULT NULL,
   `DTISECCDA_Date` varchar(255) DEFAULT NULL,
   `brgyClearanceDateIssued` varchar(255) NOT NULL,
@@ -42,16 +74,19 @@ CREATE TABLE IF NOT EXISTS `application_bplo` (
   `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `application_bplo`
 --
 
-INSERT INTO `application_bplo` (`applicationId`, `referenceNum`, `userId`, `businessId`, `taxYear`, `applicationDate`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `brgyClearanceDateIssued`, `CTCNum`, `TIN`, `entityName`, `status`, `createdAt`, `updatedAt`) VALUES
-(1, 'E4302995BD', 1, 1, 2017, 'January 22, 2017', '123123', '01/22/2017', '1/20/2017', '123', '123', '12321', 'For validation...', '2017-01-22 13:20:51', '2017-01-25 13:13:13'),
-(5, '9E9E1D64A2', 1, 1, 2017, 'January 23, 2017', '123', '01/23/2017', '1/20/2017', '12321', '123', '123123', 'Active', '2017-01-23 12:43:22', '2017-01-25 13:13:10'),
-(6, '47B3DF6BF4', 1, 1, 2017, 'January 23, 2017', '123', '01/23/2017', '1/20/2017', '123123', '2131', '123213', 'On process', '2017-01-23 12:47:52', '2017-01-25 13:13:05');
+INSERT INTO `application_bplo` (`applicationId`, `referenceNum`, `userId`, `businessId`, `taxYear`, `applicationDate`, `idPresented`, `modeOfPayment`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `brgyClearanceDateIssued`, `CTCNum`, `TIN`, `entityName`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 'E4302995BD', 1, 1, 2017, 'January 22, 2017', '123', 'Anually', '123123', '01/22/2017', '1/20/2017', '123', '123', '12321', 'Cancelled', '2017-01-22 13:20:51', '2017-02-04 13:02:25'),
+(5, '9E9E1D64A2', 1, 1, 2017, 'January 23, 2017', '123', 'Anually', '123', '01/23/2017', '1/20/2017', '12321', '123', '123123', 'Active', '2017-01-23 12:43:22', '2017-02-04 13:02:27'),
+(6, '47B3DF6BF4', 1, 1, 2017, 'January 23, 2017', '123', 'Anually', '123', '01/23/2017', '1/20/2017', '123123', '2131', '123213', 'Cancelled', '2017-01-23 12:47:52', '2017-02-04 13:02:28'),
+(8, '4824FE5C5F', 1, 6, 2017, 'February 2, 2017', '123', 'Anually', '123', '02/02/2017', '02/02/2017', '123', '123', 'awdqse', 'Active', '2017-02-02 13:05:06', '2017-02-08 14:34:05'),
+(9, 'D2D2E57657', 1, 4, 2017, 'February 7, 2017', '123', 'Quarterly', '1212', '02/03/2017', '02/03/2017', '1212', '1212', 'NA', 'Active', '2017-02-02 16:20:03', '2017-02-08 14:11:19'),
+(19, 'AE9054B21A', 1, 8, 2017, 'February 9, 2017', '12321', 'Semi-Anually', '123', '02/09/2017', '02/09/2017', '12321', '213213', 'NA', 'On process', '2017-02-09 08:10:14', '2017-02-09 13:40:02');
 
 -- --------------------------------------------------------
 
@@ -96,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `application_cenro` (
   `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `application_cenro`
@@ -104,8 +139,36 @@ CREATE TABLE IF NOT EXISTS `application_cenro` (
 
 INSERT INTO `application_cenro` (`applicationId`, `userId`, `businessId`, `referenceNum`, `CNC`, `LLDAClearance`, `dischargePermit`, `apsci`, `productsAndByProducts`, `smokeEmission`, `volatileCompound`, `fugitiveParticulates`, `steamGenerator`, `APCD`, `stackHeight`, `wastewaterTreatmentFacility`, `wastewaterTreatmentOperationAndProcess`, `pendingCaseWithLLDA`, `typeOfSolidWastesGenerated`, `qtyPerDay`, `garbageCollectionMethod`, `frequencyOfGarbageCollection`, `wasteCollector`, `collectorAddress`, `garbageDisposalMethod`, `wasteMinimizationMethod`, `drainageSystem`, `drainageType`, `drainageDischargeLocation`, `sewerageSystem`, `septicTank`, `sewerageDischargeLocation`, `waterSupply`, `status`, `createdAt`, `updatedAt`) VALUES
 (1, 1, 1, 'E4302995BD', 'NA', 'NA', 'NA', 'NA', 'NA', 0, 0, 'NA', 'NA', 'asdasd', '123213', 'asdasda', 0, '12312321', 'asdsa', 123213, 'asdasd', 'Weekly', 'asdas', 'dasdsa', 'Sanitary Landfill', 'NA', 1, 'Close/Underground', 'Public Drainage System', 1, 1, 'Public Drainage System', 'Deep Well', 'Cancelled', '2017-01-22 13:20:51', '2017-01-24 05:08:00'),
-(5, 1, 1, '9E9E1D64A2', 'NA', 'NA', 'NA', 'NA', 'NA', 1, 1, 'Dust|Gas', 'Boiler|steam generator others', 'qwe', '123', 'qwe', 1, '1121', 'qwe', 222, 'qwewqe', 'hehez', 'qwe', 'qweqwe', 'Sanitary Landfill', 'Recycling|Reduction|Reuse', 0, 'NA', 'NA', 0, 0, 'NA', 'Surface Water', 'Active', '2017-01-23 12:43:22', '2017-01-24 11:34:54'),
-(6, 1, 1, '47B3DF6BF4', '01/23/2017', '01/04/2017', '01/04/2017', '01/23/2017', 'NA', 0, 0, 'NA', 'NA', 'asdas', '123123', '12313', 1, 'NA', 'asdas', 12312, 'asdasd', 'Daily', 'asdad', 'asdasda', 'Sanitary Landfill', 'NA', 0, 'NA', 'NA', 0, 0, 'NA', 'Deep Well', 'On process', '2017-01-23 12:47:52', '2017-01-24 03:31:20');
+(5, 1, 1, '9E9E1D64A2', 'NA', 'NA', 'NA', 'NA', 'NA', 1, 1, 'Dust|Gas', 'Boiler|steam generator others', 'qwe', '123', 'qwe', 1, '1121', 'qwe', 222, 'qwewqe', 'hehez', 'qwe', 'qweqwe', 'Sanitary Landfill', 'Recycling|Reduction|Reuse', 0, 'NA', 'NA', 0, 0, 'NA', 'Surface Water', 'Active', '2017-01-23 12:43:22', '2017-01-29 03:48:36'),
+(6, 1, 1, '47B3DF6BF4', '01/23/2017', '01/04/2017', '01/04/2017', '01/23/2017', 'NA', 0, 0, 'NA', 'NA', 'asdas', '123123', '12313', 1, 'NA', 'asdas', 12312, 'asdasd', 'Daily', 'asdad', 'asdasda', 'Sanitary Landfill', 'NA', 0, 'NA', 'NA', 0, 0, 'NA', 'Deep Well', 'Cancelled', '2017-01-23 12:47:52', '2017-02-04 03:09:15'),
+(8, 1, 6, '4824FE5C5F', 'NA', 'NA', 'NA', 'NA', 'asdawd', 0, 0, 'NA', 'NA', 'asdasd', '123123', 'awcawdasd', 0, 'NA', 'awdwa', 123123, 'aweqa', 'Daily', 'awdad', 'awdawdw', 'Sanitary Landfill', 'NA', 0, 'NA', 'NA', 0, 0, 'NA', 'Deep Well', 'Active', '2017-02-02 13:05:07', '2017-02-08 14:25:03'),
+(9, 1, 4, 'D2D2E57657', 'NA', '02/03/2017', 'NA', '02/03/2017', 'qweqwe', 1, 1, 'Dust|Gas', 'Boiler|Furnace', 'wwww', '1212', 'qqqq', 1, '1121', 'aaaaa', 2222, 'qqqqq', 'Daily', 'rrrr', 'wewewewe', 'Sanitary Landfill', 'Reduction', 1, 'Open Canal', 'Public Drainage System', 1, 0, 'NA', 'Deep Well', 'Active', '2017-02-02 16:20:03', '2017-02-08 13:53:05'),
+(19, 1, 8, 'AE9054B21A', 'NA', 'NA', 'NA', 'NA', '', 0, 0, 'NA', 'NA', 'asdas', '123', 'asdas', 0, 'NA', 'asd', 123, 'asd', 'Daily', 'asd', 'asd', 'Sanitary Landfill', 'NA', 0, 'NA', 'NA', 0, 0, 'NA', 'Deep Well', 'For applicant visit', '2017-02-09 08:10:14', '2017-02-09 13:40:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `application_engineering`
+--
+
+CREATE TABLE IF NOT EXISTS `application_engineering` (
+  `applicationId` int(10) NOT NULL,
+  `userId` int(10) NOT NULL,
+  `businessId` int(10) NOT NULL,
+  `referenceNum` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `application_engineering`
+--
+
+INSERT INTO `application_engineering` (`applicationId`, `userId`, `businessId`, `referenceNum`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 6, '4824FE5C5F', 'Active', '2017-02-02 13:05:07', '2017-02-08 14:33:22'),
+(2, 1, 4, 'D2D2E57657', 'Active', '2017-02-02 16:20:03', '2017-02-08 13:54:11'),
+(12, 1, 8, 'AE9054B21A', 'For applicant visit', '2017-02-09 08:10:15', '2017-02-09 13:40:03');
 
 -- --------------------------------------------------------
 
@@ -123,15 +186,18 @@ CREATE TABLE IF NOT EXISTS `application_sanitary` (
   `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `application_sanitary`
 --
 
 INSERT INTO `application_sanitary` (`applicationId`, `referenceNum`, `userId`, `businessId`, `annualEmployeePhysicalExam`, `typeLevelOfWaterSource`, `status`, `createdAt`, `updatedAt`) VALUES
-(4, '9E9E1D64A2', 1, 1, 1, 'hehez', 'Active', '2017-01-23 12:43:22', '2017-01-24 11:33:34'),
-(5, '47B3DF6BF4', 1, 1, 0, 'asdasdas', 'standby', '2017-01-23 12:47:52', '2017-01-23 12:47:52');
+(4, '9E9E1D64A2', 1, 1, 1, 'hehez', 'Active', '2017-01-23 12:43:22', '2017-01-29 03:48:43'),
+(5, '47B3DF6BF4', 1, 1, 0, 'asdasdas', 'Cancelled', '2017-01-23 12:47:52', '2017-02-04 03:09:15'),
+(7, '4824FE5C5F', 1, 6, 1, 'sefsdfad', 'Active', '2017-02-02 13:05:07', '2017-02-08 14:26:24'),
+(8, 'D2D2E57657', 1, 4, 1, 'qweqweqw', 'Active', '2017-02-02 16:20:03', '2017-02-08 13:54:33'),
+(18, 'AE9054B21A', 1, 8, 1, 'asdas', 'For applicant visit', '2017-02-09 08:10:14', '2017-02-09 13:40:02');
 
 -- --------------------------------------------------------
 
@@ -144,20 +210,22 @@ CREATE TABLE IF NOT EXISTS `application_zoning` (
   `referenceNum` varchar(255) NOT NULL,
   `userId` int(5) NOT NULL,
   `businessId` int(10) NOT NULL,
-  `capitalInvested` int(255) NOT NULL,
   `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `application_zoning`
 --
 
-INSERT INTO `application_zoning` (`applicationId`, `referenceNum`, `userId`, `businessId`, `capitalInvested`, `status`, `createdAt`, `updatedAt`) VALUES
-(1, 'E4302995BD', 1, 1, 12321321, 'Cancelled', '2017-01-22 13:20:51', '2017-01-24 05:08:00'),
-(5, '9E9E1D64A2', 1, 1, 123213, 'Active', '2017-01-23 12:43:22', '2017-01-24 11:36:47'),
-(6, '47B3DF6BF4', 1, 1, 123123, 'For applicant visit', '2017-01-23 12:47:52', '2017-01-24 03:22:33');
+INSERT INTO `application_zoning` (`applicationId`, `referenceNum`, `userId`, `businessId`, `status`, `createdAt`, `updatedAt`) VALUES
+(1, 'E4302995BD', 1, 1, 'Cancelled', '2017-01-22 13:20:51', '2017-01-24 05:08:00'),
+(5, '9E9E1D64A2', 1, 1, 'Active', '2017-01-23 12:43:22', '2017-01-29 03:48:49'),
+(6, '47B3DF6BF4', 1, 1, 'Cancelled', '2017-01-23 12:47:52', '2017-02-04 03:09:15'),
+(8, '4824FE5C5F', 1, 6, 'Active', '2017-02-02 13:05:06', '2017-02-08 14:25:35'),
+(9, 'D2D2E57657', 1, 4, 'Active', '2017-02-02 16:20:03', '2017-02-08 13:51:50'),
+(19, 'AE9054B21A', 1, 8, 'For applicant visit', '2017-02-09 08:10:14', '2017-02-09 13:40:02');
 
 -- --------------------------------------------------------
 
@@ -173,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `approvals` (
   `staff` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `approvals`
@@ -183,11 +251,41 @@ INSERT INTO `approvals` (`approvalId`, `referenceNum`, `role`, `type`, `staff`, 
 (37, '9E9E1D64A2', 4, 'Validate', 'Rene Manabat', '2017-01-24 11:33:06', '2017-01-24 11:33:06'),
 (38, '9E9E1D64A2', 4, 'Approve', 'Rene Manabat', '2017-01-24 11:33:17', '2017-01-24 11:33:17'),
 (39, '9E9E1D64A2', 10, 'Validate', 'tester sanitary', '2017-01-24 11:33:26', '2017-01-24 11:33:26'),
-(40, '9E9E1D64A2', 10, 'Approve', 'tester sanitary', '2017-01-24 11:34:14', '2017-01-24 11:34:14'),
+(40, '9E9E1D64A2', 10, 'Approve', 'tester sanitary', '2017-01-24 11:34:14', '2017-01-29 03:48:13'),
 (41, '9E9E1D64A2', 7, 'Validate', 'tester cenro', '2017-01-24 11:34:41', '2017-01-24 11:34:41'),
-(42, '9E9E1D64A2', 7, 'Approve', 'tester cenro', '2017-01-24 11:36:15', '2017-01-24 11:36:15'),
-(43, '9E9E1D64A2', 8, 'Validate', 'zoning tester', '2017-01-24 11:36:38', '2017-01-24 11:36:38'),
-(44, '9E9E1D64A2', 8, 'Approve', 'zoning tester', '2017-01-24 11:36:47', '2017-01-24 11:36:47');
+(42, '9E9E1D64A2', 7, 'Approve', 'tester cenro', '2017-01-24 11:36:15', '2017-01-29 03:48:10'),
+(43, '9E9E1D64A2', 8, 'Validate', 'zoning tester', '2017-01-24 11:36:38', '2017-01-28 13:02:04'),
+(44, '9E9E1D64A2', 8, 'Approve', 'zoning tester', '2017-01-24 11:36:47', '2017-01-29 03:48:03'),
+(45, '9E9E1D64A2', 4, 'Issue', 'Rene Manabat', '2017-01-28 09:04:57', '2017-01-29 03:48:19'),
+(46, '47B3DF6BF4', 8, 'Validate', 'zoning tester', '2017-01-30 13:52:59', '2017-01-30 13:52:59'),
+(47, '47B3DF6BF4', 8, 'Approve', 'zoning tester', '2017-01-30 13:54:52', '2017-01-30 13:54:52'),
+(82, 'D2D2E57657', 8, 'Validate', 'tester zoning', '2017-02-08 13:51:40', '2017-02-08 13:51:40'),
+(83, 'D2D2E57657', 8, 'Approve', 'tester zoning', '2017-02-08 13:51:50', '2017-02-08 13:51:50'),
+(84, 'D2D2E57657', 5, 'Validate', 'tester bfp', '2017-02-08 13:52:25', '2017-02-08 13:52:25'),
+(85, 'D2D2E57657', 5, 'Approve', 'tester bfp', '2017-02-08 13:52:36', '2017-02-08 13:52:36'),
+(86, 'D2D2E57657', 7, 'Validate', 'tester cenro', '2017-02-08 13:52:56', '2017-02-08 13:52:56'),
+(87, 'D2D2E57657', 7, 'Approve', 'tester cenro', '2017-02-08 13:53:05', '2017-02-08 13:53:05'),
+(88, 'D2D2E57657', 9, 'Validate', 'tester engineering', '2017-02-08 13:54:05', '2017-02-08 13:54:05'),
+(89, 'D2D2E57657', 9, 'Approve', 'tester engineering', '2017-02-08 13:54:11', '2017-02-08 13:54:11'),
+(90, 'D2D2E57657', 10, 'Validate', 'tester sanitary', '2017-02-08 13:54:26', '2017-02-08 13:54:26'),
+(91, 'D2D2E57657', 10, 'Approve', 'tester sanitary', '2017-02-08 13:54:33', '2017-02-08 13:54:33'),
+(92, 'D2D2E57657', 4, 'Issue', 'tester bplo', '2017-02-08 14:07:35', '2017-02-08 14:07:35'),
+(93, 'D2D2E57657', 4, 'Issue', 'tester bplo', '2017-02-08 14:11:19', '2017-02-08 14:11:19'),
+(94, '4824FE5C5F', 4, 'Validate', 'tester bplo', '2017-02-08 14:24:23', '2017-02-08 14:24:23'),
+(95, '4824FE5C5F', 4, 'Approve', 'tester bplo', '2017-02-08 14:24:30', '2017-02-08 14:24:30'),
+(96, '4824FE5C5F', 7, 'Validate', 'tester cenro', '2017-02-08 14:24:54', '2017-02-08 14:24:54'),
+(97, '4824FE5C5F', 7, 'Approve', 'tester cenro', '2017-02-08 14:25:03', '2017-02-08 14:25:03'),
+(98, '4824FE5C5F', 8, 'Validate', 'tester zoning', '2017-02-08 14:25:24', '2017-02-08 14:25:24'),
+(99, '4824FE5C5F', 8, 'Approve', 'tester zoning', '2017-02-08 14:25:35', '2017-02-08 14:25:35'),
+(100, '4824FE5C5F', 10, 'Validate', 'tester sanitary', '2017-02-08 14:25:55', '2017-02-08 14:25:55'),
+(101, '4824FE5C5F', 10, 'Approve', 'tester sanitary', '2017-02-08 14:26:24', '2017-02-08 14:26:24'),
+(102, '4824FE5C5F', 5, 'Validate', 'tester bfp', '2017-02-08 14:32:12', '2017-02-08 14:32:12'),
+(103, '4824FE5C5F', 5, 'Approve', 'tester bfp', '2017-02-08 14:32:20', '2017-02-08 14:32:20'),
+(104, '4824FE5C5F', 9, 'Validate', 'tester engineering', '2017-02-08 14:33:12', '2017-02-08 14:33:12'),
+(105, '4824FE5C5F', 9, 'Approve', 'tester engineering', '2017-02-08 14:33:22', '2017-02-08 14:33:22'),
+(106, '4824FE5C5F', 4, 'Issue', 'tester bplo', '2017-02-08 14:34:05', '2017-02-08 14:34:05'),
+(107, 'AE9054B21A', 4, 'Validate', 'tester bplo', '2017-02-09 13:39:56', '2017-02-09 13:39:56'),
+(108, 'AE9054B21A', 4, 'Approve', 'tester bplo', '2017-02-09 13:40:03', '2017-02-09 13:40:03');
 
 -- --------------------------------------------------------
 
@@ -199,10 +297,21 @@ CREATE TABLE IF NOT EXISTS `assessments` (
   `assessmentId` int(10) NOT NULL,
   `referenceNum` varchar(255) NOT NULL,
   `amount` int(255) NOT NULL,
+  `paidUpTo` varchar(255) NOT NULL,
   `status` text NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `assessments`
+--
+
+INSERT INTO `assessments` (`assessmentId`, `referenceNum`, `amount`, `paidUpTo`, `status`, `createdAt`, `updatedAt`) VALUES
+(13, 'AE9054B21A', 12020, 'None', 'New', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(15, '9E9E1D64A2', 98728, 'None', 'New', '2017-02-09 13:22:41', '2017-02-09 13:22:41'),
+(16, '4824FE5C5F', 18422, 'None', 'New', '2017-02-09 13:23:06', '2017-02-09 13:23:06'),
+(17, 'D2D2E57657', 20168, 'None', 'Renew', '2017-02-09 13:23:16', '2017-02-09 13:23:16');
 
 -- --------------------------------------------------------
 
@@ -219,10 +328,10 @@ CREATE TABLE IF NOT EXISTS `businesses` (
   `companyName` varchar(255) NOT NULL,
   `tradeName` varchar(255) NOT NULL,
   `signageName` varchar(255) NOT NULL,
-  `natureOfBusiness` varchar(255) NOT NULL,
   `organizationType` varchar(255) NOT NULL,
   `corporationName` varchar(255) NOT NULL,
   `dateOfOperation` varchar(255) NOT NULL,
+  `zoneType` varchar(255) NOT NULL,
   `businessDesc` varchar(255) NOT NULL,
   `PIN` int(255) NOT NULL,
   `bldgName` varchar(255) NOT NULL,
@@ -233,6 +342,9 @@ CREATE TABLE IF NOT EXISTS `businesses` (
   `subdivision` varchar(255) NOT NULL,
   `cityMunicipality` varchar(255) NOT NULL,
   `province` varchar(255) NOT NULL,
+  `lat` varchar(255) NOT NULL,
+  `lng` varchar(255) NOT NULL,
+  `gmapAddress` varchar(255) NOT NULL,
   `telNum` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `pollutionControlOfficer` varchar(255) NOT NULL,
@@ -241,16 +353,25 @@ CREATE TABLE IF NOT EXISTS `businesses` (
   `PWDEmployees` int(255) NOT NULL,
   `businessArea` varchar(255) NOT NULL,
   `LGUResidingEmployees` int(255) NOT NULL,
+  `emergencyContactPerson` varchar(255) NOT NULL,
+  `emergencyTelNum` varchar(255) NOT NULL,
+  `emergencyEmail` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `businesses`
 --
 
-INSERT INTO `businesses` (`businessId`, `userId`, `ownerId`, `presidentTreasurerName`, `businessName`, `companyName`, `tradeName`, `signageName`, `natureOfBusiness`, `organizationType`, `corporationName`, `dateOfOperation`, `businessDesc`, `PIN`, `bldgName`, `houseBldgNum`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `telNum`, `email`, `pollutionControlOfficer`, `maleEmployees`, `femaleEmployees`, `PWDEmployees`, `businessArea`, `LGUResidingEmployees`, `createdAt`, `updatedAt`) VALUES
-(1, 1, 1, 'Labay Billy James', 'Mastermind IT Solutions', 'Mastermind', 'Mastermind', 'mastermind-signage', 'IT Solutions', 'Corporation', 'Jason Corp', '01/22/2017', 'description here', 23232, 'Mercury', 'Blk 29 Lot 19', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '0498393969', 'mastermind@yahoo.com', 'Jason Hernandez', 20, 15, 2, '22222', 10, '2017-01-21 17:07:12', '2017-01-23 11:13:00');
+INSERT INTO `businesses` (`businessId`, `userId`, `ownerId`, `presidentTreasurerName`, `businessName`, `companyName`, `tradeName`, `signageName`, `organizationType`, `corporationName`, `dateOfOperation`, `zoneType`, `businessDesc`, `PIN`, `bldgName`, `houseBldgNum`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `lat`, `lng`, `gmapAddress`, `telNum`, `email`, `pollutionControlOfficer`, `maleEmployees`, `femaleEmployees`, `PWDEmployees`, `businessArea`, `LGUResidingEmployees`, `emergencyContactPerson`, `emergencyTelNum`, `emergencyEmail`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 1, 'Labay Billy James', 'Mastermind IT Solutions', 'Mastermind', 'Mastermind', 'mastermind-signage', 'Corporation', 'Jason Corp', '01/22/2017', 'Single residential', 'description here', 23232, 'Mercury', 'Blk 29 Lot 19', '17', 'Dumaguete Street', 'Santo Tomas', 'South City Homes', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '0498393969', 'mastermind@yahoo.com', 'Jason Hernandez', 20, 15, 2, '22222', 10, '', '', '', '2017-01-21 17:07:12', '2017-02-09 15:24:55'),
+(4, 1, 1, 'Jason Hernandez', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Single', 'NA', '01/29/2017', 'Single residential', 'Test Business 10', 0, 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Test Business 10', 'Malaban', 'Test Business 10', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '2222', 'test@yahoo.com', 'Jason Hernandez', 1, 2, 3, '1212', 4, '', '', '', '2017-01-29 10:04:56', '2017-02-09 15:24:53'),
+(5, 18, 3, 'Jason Hernandez', 'Jason Business', 'Jason Company', 'Jason Jason', 'Jason Business', 'Single', 'NA', '01/30/2017', 'Single residential', 'Jason Desc', 0, 'w', 'q', 'e', 'r', 'San Jose', 'd', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '123123123', 'hernandez.jason@yahoo.com', '1', 2, 3, 4, '1', 5, '', '', '', '2017-01-30 15:37:56', '2017-02-09 15:24:51'),
+(6, 1, 6, 'test', 'test', 'test', 'test', 'test', 'Single', 'NA', '02/02/2017', 'Single residential', 'test', 0, '123', '123', '123', '123', 'Malaban', '123', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '123213', 'asd@yahoo.com', 'test', 22, 22, 22, '123', 22, 'emergencyTest', 'emergencyTest', 'emergencyTest', '2017-02-02 11:47:20', '2017-02-09 15:24:50'),
+(7, 1, 1, 'asda', '123', '123', '123', '123', 'Partnership', 'NA', '02/02/2017', 'Single residential', '123', 123, '123', '123', '123', '123', 'Canlalay', '123', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '123123', 'asda@yahoo.com', '123', 123, 123, 123, '123', 123, '', '', '', '2017-02-02 11:51:15', '2017-02-09 15:24:48'),
+(8, 1, 1, 'Test 42', 'Test 42', 'Test 42', 'Test 42', 'Test 42', 'Single', 'NA', '02/09/2017', 'Single residential', 'Test 42', 1121, 'Test 42', 'Test 42', 'Test 42', 'Test 42', 'Malaban', 'Test 42', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '12345', 'asdx@yahoo.com', 'Test 42', 5, 5, 5, '120', 5, 'Test 42', '12345', 'asdx@yahoo.com', '2017-02-09 05:32:18', '2017-02-09 15:24:46'),
+(9, 1, 1, 'Test 43', 'Test 43', 'Test 43', 'Test 43', 'Test 43', 'Partnership', 'NA', '02/09/2017', 'Commercial/Industrial kind', 'Test 43', 1522, 'Test 43', 'Test 43', 'Test 43', 'Test 43', 'Platero', 'Test 43', 'Biñan City', 'Laguna', '14.319602469400538', '121.07414245605469', 'Dumaguete St, Biñan, Laguna, Philippines', '123123', 'test43@yahoo.com', 'Test 43', 10, 10, 10, '255', 10, 'Test 43', '12312', 'test43@yahoo.com', '2017-02-09 15:24:03', '2017-02-09 15:24:03');
 
 -- --------------------------------------------------------
 
@@ -261,22 +382,27 @@ INSERT INTO `businesses` (`businessId`, `userId`, `ownerId`, `presidentTreasurer
 CREATE TABLE IF NOT EXISTS `business_activities` (
   `activityId` int(255) NOT NULL,
   `bploId` int(10) NOT NULL,
-  `code` varchar(255) DEFAULT NULL,
   `lineOfBusiness` varchar(255) DEFAULT NULL,
-  `numOfUnits` int(255) DEFAULT NULL,
   `capitalization` varchar(255) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `business_activities`
 --
 
-INSERT INTO `business_activities` (`activityId`, `bploId`, `code`, `lineOfBusiness`, `numOfUnits`, `capitalization`, `createdAt`, `updatedAt`) VALUES
-(1, 1, '123', '12321', 321321, '3213', '2017-01-22 13:20:51', '2017-01-22 13:20:51'),
-(5, 5, '1', '22', 33, '444', '2017-01-23 12:43:22', '2017-01-23 12:43:22'),
-(6, 6, '1', '2', 3, '4', '2017-01-23 12:47:52', '2017-01-23 12:47:52');
+INSERT INTO `business_activities` (`activityId`, `bploId`, `lineOfBusiness`, `capitalization`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 'Manufacturer Kind', '20000', '2017-01-22 13:20:51', '2017-02-09 13:22:27'),
+(5, 5, 'Manufacturer Kind', '20000', '2017-01-23 12:43:22', '2017-02-09 13:22:29'),
+(6, 6, 'Manufacturer Kind', '20000', '2017-01-23 12:47:52', '2017-02-09 13:22:31'),
+(7, 8, 'Manufacturer Kind', '20000', '2017-02-02 13:05:07', '2017-02-09 13:22:33'),
+(8, 8, 'Manufacturer Kind', '20000', '2017-02-02 13:05:07', '2017-02-09 13:22:35'),
+(9, 9, 'Manufacturer Kind', '15000', '2017-02-02 16:20:04', '2017-02-09 05:46:02'),
+(10, 9, 'Exporter kind', '300000', '2017-02-02 16:20:04', '2017-02-09 05:46:06'),
+(11, 9, 'Contractor', '5000000', '2017-02-02 16:20:04', '2017-02-09 05:46:11'),
+(21, 19, 'Manufacturer Kind', '20000', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(22, 19, 'Retailer', '500000', '2017-02-09 08:10:15', '2017-02-09 08:10:15');
 
 -- --------------------------------------------------------
 
@@ -286,12 +412,93 @@ INSERT INTO `business_activities` (`activityId`, `bploId`, `code`, `lineOfBusine
 
 CREATE TABLE IF NOT EXISTS `charges` (
   `chargeId` int(10) NOT NULL,
-  `referenceNum` varchar(255) NOT NULL,
-  `amount` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
+  `assessmentId` int(10) NOT NULL,
+  `due` varchar(255) NOT NULL,
+  `surcharge` int(11) NOT NULL,
+  `interest` int(11) NOT NULL,
+  `particulars` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `charges`
+--
+
+INSERT INTO `charges` (`chargeId`, `assessmentId`, `due`, `surcharge`, `interest`, `particulars`, `createdAt`, `updatedAt`) VALUES
+(62, 13, '3500', 0, 0, 'MAYOR''S PERMIT FEE (MANUFACTURER KIND)', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(63, 13, '350', 0, 0, 'TAX ON MANUFACTURER KIND', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(64, 13, '1500', 0, 0, 'MAYOR''S PERMIT FEE (RETAILER)', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(65, 13, '150', 0, 0, 'TAX ON RETAILER', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(66, 13, '1250', 0, 0, 'ENVIRONMENTAL CLEARANCE FEE', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(67, 13, '1140', 0, 0, 'ZONING/LOCATIONAL CLEARANCE FEE', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(68, 13, '1200', 0, 0, 'GARBAGE SERVICE FEE', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(69, 13, '400', 0, 0, 'ANNUAL INSPECTION FEE', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(70, 13, '200', 0, 0, 'BUSINESS INSPECTION FEE', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(71, 13, '350', 0, 0, 'BUSINESS PLATE & STICKER', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(72, 13, '1500', 0, 0, 'HEALTH CARD FEE', '2017-02-09 08:10:15', '2017-02-09 08:10:15'),
+(73, 13, '480', 0, 0, 'SANITARY PERMIT FEE', '2017-02-09 13:01:09', '2017-02-09 13:01:09'),
+(74, 15, '3500', 0, 0, 'MAYOR''S PERMIT FEE (MANUFACTURER KIND)', '2017-02-09 13:22:41', '2017-02-09 13:22:41'),
+(75, 15, '350', 0, 0, 'TAX ON MANUFACTURER KIND', '2017-02-09 13:22:42', '2017-02-09 13:22:42'),
+(76, 15, '500', 0, 0, 'ENVIRONMENTAL CLEARANCE FEE', '2017-02-09 13:22:42', '2017-02-09 13:22:42'),
+(77, 15, '240', 0, 0, 'ZONING/LOCATIONAL CLEARANCE FEE', '2017-02-09 13:22:42', '2017-02-09 13:22:42'),
+(78, 15, '600', 0, 0, 'GARBAGE SERVICE FEE', '2017-02-09 13:22:42', '2017-02-09 13:22:42'),
+(79, 15, '400', 0, 0, 'ANNUAL INSPECTION FEE', '2017-02-09 13:22:42', '2017-02-09 13:22:42'),
+(80, 15, '200', 0, 0, 'BUSINESS INSPECTION FEE', '2017-02-09 13:22:42', '2017-02-09 13:22:42'),
+(81, 15, '350', 0, 0, 'BUSINESS PLATE & STICKER', '2017-02-09 13:22:42', '2017-02-09 13:22:42'),
+(82, 15, '88888', 0, 0, 'SANITARY PERMIT FEE', '2017-02-09 13:22:42', '2017-02-09 13:22:42'),
+(83, 15, '3700', 0, 0, 'HEALTH CARD FEE', '2017-02-09 13:22:42', '2017-02-09 13:22:42'),
+(84, 16, '3500', 0, 0, 'MAYOR''S PERMIT FEE (MANUFACTURER KIND)', '2017-02-09 13:23:06', '2017-02-09 13:23:06'),
+(85, 16, '350', 0, 0, 'TAX ON MANUFACTURER KIND', '2017-02-09 13:23:07', '2017-02-09 13:23:07'),
+(86, 16, '3500', 0, 0, 'MAYOR''S PERMIT FEE (MANUFACTURER KIND)', '2017-02-09 13:23:07', '2017-02-09 13:23:07'),
+(87, 16, '350', 0, 0, 'TAX ON MANUFACTURER KIND', '2017-02-09 13:23:07', '2017-02-09 13:23:07'),
+(88, 16, '1000', 0, 0, 'ENVIRONMENTAL CLEARANCE FEE', '2017-02-09 13:23:07', '2017-02-09 13:23:07'),
+(89, 16, '480', 0, 0, 'ZONING/LOCATIONAL CLEARANCE FEE', '2017-02-09 13:23:07', '2017-02-09 13:23:07'),
+(90, 16, '1200', 0, 0, 'GARBAGE SERVICE FEE', '2017-02-09 13:23:07', '2017-02-09 13:23:07'),
+(91, 16, '400', 0, 0, 'ANNUAL INSPECTION FEE', '2017-02-09 13:23:07', '2017-02-09 13:23:07'),
+(92, 16, '200', 0, 0, 'BUSINESS INSPECTION FEE', '2017-02-09 13:23:07', '2017-02-09 13:23:07'),
+(93, 16, '350', 0, 0, 'BUSINESS PLATE & STICKER', '2017-02-09 13:23:07', '2017-02-09 13:23:07'),
+(94, 16, '492', 0, 0, 'SANITARY PERMIT FEE', '2017-02-09 13:23:07', '2017-02-09 13:23:07'),
+(95, 16, '6600', 0, 0, 'HEALTH CARD FEE', '2017-02-09 13:23:07', '2017-02-09 13:23:07'),
+(96, 17, '1000', 0, 0, 'MAYOR''S PERMIT FEE (MANUFACTURER KIND)', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(97, 17, '100', 0, 0, 'TAX ON MANUFACTURER KIND', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(98, 17, '800', 0, 0, 'MAYOR''S PERMIT FEE (EXPORTER KIND)', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(99, 17, '80', 0, 0, 'TAX ON EXPORTER KIND', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(100, 17, '1500', 0, 0, 'MAYOR''S PERMIT FEE (CONTRACTOR)', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(101, 17, '150', 0, 0, 'TAX ON CONTRACTOR', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(102, 17, '2000', 0, 0, 'ENVIRONMENTAL CLEARANCE FEE', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(103, 17, '6340', 0, 0, 'ZONING/LOCATIONAL CLEARANCE FEE', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(104, 17, '1800', 0, 0, 'GARBAGE SERVICE FEE', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(105, 17, '400', 0, 0, 'ANNUAL INSPECTION FEE', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(106, 17, '200', 0, 0, 'BUSINESS INSPECTION FEE', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(107, 17, '350', 0, 0, 'BUSINESS PLATE & STICKER', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(108, 17, '4848', 0, 0, 'SANITARY PERMIT FEE', '2017-02-09 13:23:17', '2017-02-09 13:23:17'),
+(109, 17, '600', 0, 0, 'HEALTH CARD FEE', '2017-02-09 13:23:17', '2017-02-09 13:23:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `grosses`
+--
+
+CREATE TABLE IF NOT EXISTS `grosses` (
+  `grossId` int(255) NOT NULL,
+  `activityId` int(255) NOT NULL,
+  `previousGross` int(255) NOT NULL,
+  `essentials` int(255) NOT NULL,
+  `nonEssentials` int(255) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `grosses`
+--
+
+INSERT INTO `grosses` (`grossId`, `activityId`, `previousGross`, `essentials`, `nonEssentials`, `createdAt`, `updatedAt`) VALUES
+(1, 9, 20000, 20000, 20000, '2017-02-07 14:17:40', '2017-02-07 14:17:40'),
+(2, 10, 20000, 20000, 20000, '2017-02-07 14:17:40', '2017-02-07 14:17:40'),
+(3, 11, 20000, 20000, 20000, '2017-02-07 14:17:40', '2017-02-07 14:17:40');
 
 -- --------------------------------------------------------
 
@@ -306,7 +513,7 @@ CREATE TABLE IF NOT EXISTS `issued_applications` (
   `type` varchar(30) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `issued_applications`
@@ -317,7 +524,41 @@ INSERT INTO `issued_applications` (`issueId`, `referenceNum`, `dept`, `type`, `c
 (3, '9E9E1D64A2', 'CENRO', 'New', '2017-01-24 11:36:15', '2017-01-24 15:33:16'),
 (4, '9E9E1D64A2', 'Zoning', 'New', '2017-01-24 11:36:47', '2017-01-24 15:33:19'),
 (5, '9E9E1D64A2', 'BPLO', 'New', '2017-01-24 15:35:35', '2017-01-24 15:59:32'),
-(7, '47B3DF6BF4', 'BPLO', 'Renew', '2017-01-24 15:35:35', '2017-01-24 15:59:32');
+(6, '47B3DF6BF4', 'Zoning', 'New', '2017-01-30 13:54:52', '2017-01-30 13:54:52'),
+(7, '4824FE5C5F', 'BFP', 'New', '2017-02-02 14:42:24', '2017-02-02 14:42:24'),
+(8, '4824FE5C5F', 'Engineering', 'New', '2017-02-02 14:52:17', '2017-02-02 14:52:17'),
+(9, 'D2D2E57657', 'CENRO', 'New', '2017-02-08 13:12:05', '2017-02-08 13:12:05'),
+(10, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:13:28', '2017-02-08 13:13:28'),
+(11, 'D2D2E57657', 'BFP', 'New', '2017-02-08 13:15:30', '2017-02-08 13:15:30'),
+(12, 'D2D2E57657', 'Engineering', 'New', '2017-02-08 13:17:56', '2017-02-08 13:17:56'),
+(13, 'D2D2E57657', 'CHO', 'New', '2017-02-08 13:20:39', '2017-02-08 13:20:39'),
+(14, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:34:42', '2017-02-08 13:34:42'),
+(15, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:35:09', '2017-02-08 13:35:09'),
+(16, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:37:29', '2017-02-08 13:37:29'),
+(17, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:40:25', '2017-02-08 13:40:25'),
+(18, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:40:31', '2017-02-08 13:40:31'),
+(19, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:40:59', '2017-02-08 13:40:59'),
+(20, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:42:40', '2017-02-08 13:42:40'),
+(21, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:42:59', '2017-02-08 13:42:59'),
+(22, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:45:26', '2017-02-08 13:45:26'),
+(23, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:46:49', '2017-02-08 13:46:49'),
+(24, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:47:16', '2017-02-08 13:47:16'),
+(25, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:48:20', '2017-02-08 13:48:20'),
+(26, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:48:27', '2017-02-08 13:48:27'),
+(27, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:48:42', '2017-02-08 13:48:42'),
+(28, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:49:14', '2017-02-08 13:49:14'),
+(29, 'D2D2E57657', 'Zoning', 'New', '2017-02-08 13:51:50', '2017-02-08 13:51:50'),
+(30, 'D2D2E57657', 'BFP', 'New', '2017-02-08 13:52:36', '2017-02-08 13:52:36'),
+(31, 'D2D2E57657', 'CENRO', 'New', '2017-02-08 13:53:05', '2017-02-08 13:53:05'),
+(32, 'D2D2E57657', 'Engineering', 'New', '2017-02-08 13:54:11', '2017-02-08 13:54:11'),
+(33, 'D2D2E57657', 'CHO', 'New', '2017-02-08 13:54:33', '2017-02-08 13:54:33'),
+(35, 'D2D2E57657', 'BPLO', 'Renew', '2017-02-08 14:11:20', '2017-02-08 14:11:20'),
+(36, '4824FE5C5F', 'CENRO', 'New', '2017-02-08 14:25:03', '2017-02-08 14:25:03'),
+(37, '4824FE5C5F', 'Zoning', 'New', '2017-02-08 14:25:35', '2017-02-08 14:25:35'),
+(38, '4824FE5C5F', 'CHO', 'New', '2017-02-08 14:26:24', '2017-02-08 14:26:24'),
+(39, '4824FE5C5F', 'BFP', 'New', '2017-02-08 14:32:20', '2017-02-08 14:32:20'),
+(40, '4824FE5C5F', 'Engineering', 'New', '2017-02-08 14:33:22', '2017-02-08 14:33:22'),
+(41, '4824FE5C5F', 'BPLO', 'New', '2017-02-08 14:34:05', '2017-02-08 14:34:05');
 
 -- --------------------------------------------------------
 
@@ -339,19 +580,18 @@ CREATE TABLE IF NOT EXISTS `lessors` (
   `monthlyRental` int(255) DEFAULT NULL,
   `telNum` int(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `emergencyContactPerson` varchar(255) DEFAULT NULL,
-  `emergencyTelNum` int(255) DEFAULT NULL,
-  `emergencyEmail` varchar(255) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `lessors`
 --
 
-INSERT INTO `lessors` (`lessorId`, `bploId`, `firstName`, `middleName`, `lastName`, `address`, `subdivision`, `barangay`, `cityMunicipality`, `province`, `monthlyRental`, `telNum`, `email`, `emergencyContactPerson`, `emergencyTelNum`, `emergencyEmail`, `createdAt`, `updatedAt`) VALUES
-(1, 1, '123', '213213', '123123', '213213', '21321321', '3213', '213213', '213', 123213, 3213, 'asdasd@yahoo.com', '12312', 3123, 'asda@yahoo.com', '2017-01-22 13:20:51', '2017-01-22 13:20:51');
+INSERT INTO `lessors` (`lessorId`, `bploId`, `firstName`, `middleName`, `lastName`, `address`, `subdivision`, `barangay`, `cityMunicipality`, `province`, `monthlyRental`, `telNum`, `email`, `createdAt`, `updatedAt`) VALUES
+(1, 1, '123', '213213', '123123', '213213', '21321321', '3213', '213213', '213', 123213, 3213, 'asdasd@yahoo.com', '2017-01-22 13:20:51', '2017-01-22 13:20:51'),
+(3, 8, 'test lessor', 'test lessor', 'test lessor', 'test lessor', 'test lessor', 'test lessor', 'test lessor', 'test lessor', 123213, 12321, 'test_lessor@yahoo.com', '2017-02-02 13:05:06', '2017-02-02 13:05:06'),
+(4, 9, 'hehez', 'e.', 'huhuz', 'address', 'asd', 'asd', 'asd', 'asd', 2222, 2323, 'hehez@yahoo.com', '2017-02-02 16:20:03', '2017-02-02 16:20:03');
 
 -- --------------------------------------------------------
 
@@ -367,7 +607,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `notifMessage` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=216 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `notifications`
@@ -375,11 +615,10 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 
 INSERT INTO `notifications` (`notificationId`, `referenceNum`, `status`, `role`, `notifMessage`, `createdAt`, `updatedAt`) VALUES
 (96, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been validated by Rene Manabat of BPLO. Please check your application status.', '2017-01-24 11:33:06', '2017-01-25 13:05:13'),
-(97, '9E9E1D64A2', 'Unread', 5, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:33:17'),
-(98, '9E9E1D64A2', 'Unread', 6, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:33:17'),
+(97, '9E9E1D64A2', 'Read', 5, 'Incoming', '2017-01-24 11:33:17', '2017-02-02 14:32:23'),
 (99, '9E9E1D64A2', 'Read', 7, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:34:36'),
 (100, '9E9E1D64A2', 'Read', 8, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:36:33'),
-(101, '9E9E1D64A2', 'Unread', 9, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:33:17'),
+(101, '9E9E1D64A2', 'Read', 9, 'Incoming', '2017-01-24 11:33:17', '2017-02-02 14:43:36'),
 (102, '9E9E1D64A2', 'Read', 10, 'Incoming', '2017-01-24 11:33:17', '2017-01-24 11:33:22'),
 (103, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been approved by Rene Manabat of BPLO. You can now go to other required offices to process your application.', '2017-01-24 11:33:17', '2017-01-25 13:05:13'),
 (104, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been validated by tester sanitary of City Health Office. Please check application status.', '2017-01-24 11:33:26', '2017-01-25 13:05:13'),
@@ -388,7 +627,80 @@ INSERT INTO `notifications` (`notificationId`, `referenceNum`, `status`, `role`,
 (107, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been approved by tester cenro of City Environment and Natural Resources.', '2017-01-24 11:36:15', '2017-01-25 13:05:13'),
 (108, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been validated by zoning tester of Zoning Department. Please check application status.', '2017-01-24 11:36:38', '2017-01-25 13:05:13'),
 (109, '9E9E1D64A2', 'Read', 4, 'Completed', '2017-01-24 11:36:47', '2017-01-24 14:49:35'),
-(110, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been approved by zoning tester of Zoning Department.', '2017-01-24 11:36:47', '2017-01-25 13:05:13');
+(110, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions has been approved by zoning tester of Zoning Department.', '2017-01-24 11:36:47', '2017-01-28 12:06:57'),
+(111, '9E9E1D64A2', 'Read', 3, ' Mastermind IT Solutions has expired, please check application details for renewal request.', '2017-01-28 12:17:00', '2017-01-28 12:23:04'),
+(112, '9E9E1D64A2', 'Read', 3, 'Mastermind IT Solutions application has expired, please check application details for renewal request.', '2017-01-28 13:14:26', '2017-01-29 04:02:37'),
+(113, 'E4302995BD', 'Read', 3, 'Mastermind IT Solutions application has expired, please check application details for renewal request.', '2017-01-29 09:08:52', '2017-01-29 09:48:10'),
+(114, '47B3DF6BF4', 'Read', 3, 'Mastermind IT Solutions has been validated by zoning tester of Zoning Department. Please check application status.', '2017-01-30 13:52:59', '2017-01-30 14:03:56'),
+(115, '47B3DF6BF4', 'Read', 3, 'Mastermind IT Solutions has been approved by zoning tester of Zoning Department.', '2017-01-30 13:54:52', '2017-01-30 14:03:56'),
+(116, '4824FE5C5F', 'Read', 4, 'Incoming', '2017-02-02 13:05:07', '2017-02-02 13:43:59'),
+(117, '4824FE5C5F', 'Read', 3, 'test has been validated by Rene Manabat of BPLO. Please check your application status.', '2017-02-02 13:52:07', '2017-02-02 16:00:00'),
+(118, '4824FE5C5F', 'Read', 5, 'Incoming', '2017-02-02 14:05:19', '2017-02-02 14:32:23'),
+(119, '4824FE5C5F', 'Read', 7, 'Incoming', '2017-02-02 14:05:19', '2017-02-08 13:11:33'),
+(120, '4824FE5C5F', 'Read', 8, 'Incoming', '2017-02-02 14:05:19', '2017-02-02 15:04:44'),
+(121, '4824FE5C5F', 'Read', 9, 'Incoming', '2017-02-02 14:05:19', '2017-02-02 14:43:36'),
+(122, '4824FE5C5F', 'Read', 10, 'Incoming', '2017-02-02 14:05:19', '2017-02-08 13:20:16'),
+(123, '4824FE5C5F', 'Read', 3, 'test has been approved by Rene Manabat of BPLO. You can now go to other required offices to process your application.', '2017-02-02 14:05:19', '2017-02-02 16:00:00'),
+(124, '4824FE5C5F', 'Read', 5, 'Incoming', '2017-02-02 14:11:34', '2017-02-02 14:32:23'),
+(125, '4824FE5C5F', 'Read', 7, 'Incoming', '2017-02-02 14:11:34', '2017-02-08 13:11:33'),
+(126, '4824FE5C5F', 'Read', 8, 'Incoming', '2017-02-02 14:11:34', '2017-02-02 15:04:44'),
+(127, '4824FE5C5F', 'Read', 9, 'Incoming', '2017-02-02 14:11:34', '2017-02-02 14:43:36'),
+(128, '4824FE5C5F', 'Read', 10, 'Incoming', '2017-02-02 14:11:34', '2017-02-08 13:20:16'),
+(129, '4824FE5C5F', 'Read', 3, 'test has been approved by Rene Manabat of BPLO. You can now go to other required offices to process your application.', '2017-02-02 14:11:34', '2017-02-02 16:00:00'),
+(130, '4824FE5C5F', 'Read', 3, 'test has been validated by tester bfp of Bureau of Fire Protection. Please check application status.', '2017-02-02 14:34:51', '2017-02-02 16:00:00'),
+(131, '4824FE5C5F', 'Read', 3, 'test has been approved by tester bfp of Bureau of Fire Protection.', '2017-02-02 14:42:24', '2017-02-02 16:00:00'),
+(132, '4824FE5C5F', 'Read', 3, 'test has been validated by tester engineering from the Office of the Building Official. Please check application status.', '2017-02-02 14:49:30', '2017-02-02 16:00:00'),
+(133, '4824FE5C5F', 'Read', 3, 'test has been approved by tester engineering from the Office of the Building Official.', '2017-02-02 14:52:17', '2017-02-02 16:00:00'),
+(134, 'D2D2E57657', 'Read', 4, 'Incoming', '2017-02-02 16:20:03', '2017-02-08 14:06:01'),
+(135, 'D2D2E57657', 'Read', 4, 'Renewal', '2017-02-07 14:17:41', '2017-02-08 13:08:07'),
+(136, 'D2D2E57657', 'Read', 5, 'Renewal', '2017-02-07 14:17:41', '2017-02-08 13:15:08'),
+(137, 'D2D2E57657', 'Read', 7, 'Renewal', '2017-02-07 14:17:41', '2017-02-08 13:11:33'),
+(138, 'D2D2E57657', 'Read', 8, 'Renewal', '2017-02-07 14:17:41', '2017-02-08 13:13:08'),
+(139, 'D2D2E57657', 'Read', 9, 'Renewal', '2017-02-07 14:17:41', '2017-02-08 13:17:36'),
+(140, 'D2D2E57657', 'Read', 10, 'Renewal', '2017-02-07 14:17:41', '2017-02-08 13:20:16'),
+(141, 'D2D2E57657', 'Read', 4, 'Renewal', '2017-02-07 14:33:28', '2017-02-08 13:08:07'),
+(142, 'D2D2E57657', 'Read', 5, 'Renewal', '2017-02-07 14:33:28', '2017-02-08 13:15:08'),
+(143, 'D2D2E57657', 'Read', 7, 'Renewal', '2017-02-07 14:33:28', '2017-02-08 13:11:33'),
+(144, 'D2D2E57657', 'Read', 8, 'Renewal', '2017-02-07 14:33:29', '2017-02-08 13:13:08'),
+(145, 'D2D2E57657', 'Read', 9, 'Renewal', '2017-02-07 14:33:29', '2017-02-08 13:17:36'),
+(146, 'D2D2E57657', 'Read', 10, 'Renewal', '2017-02-07 14:33:29', '2017-02-08 13:20:16'),
+(169, 'D2D2E57657', 'Read', 3, 'Test Business 10 has been validated by tester zoning of Zoning Department. Please check application status.', '2017-02-08 13:51:40', '2017-02-09 08:22:45'),
+(170, 'D2D2E57657', 'Read', 3, 'Test Business 10 has been approved by tester zoning of Zoning Department.', '2017-02-08 13:51:50', '2017-02-09 08:22:45'),
+(171, 'D2D2E57657', 'Read', 3, 'Test Business 10 has been validated by tester bfp of Bureau of Fire Protection. Please check application status.', '2017-02-08 13:52:25', '2017-02-09 08:22:45'),
+(172, 'D2D2E57657', 'Read', 3, 'Test Business 10 has been approved by tester bfp of Bureau of Fire Protection.', '2017-02-08 13:52:36', '2017-02-09 08:22:45'),
+(173, 'D2D2E57657', 'Read', 3, 'Test Business 10 has been validated by tester cenro of City Environment and Natural Resources. Please check application status.', '2017-02-08 13:52:56', '2017-02-09 08:22:45'),
+(174, 'D2D2E57657', 'Read', 3, 'Test Business 10 has been approved by tester cenro of City Environment and Natural Resources.', '2017-02-08 13:53:05', '2017-02-09 08:22:45'),
+(175, 'D2D2E57657', 'Read', 3, 'Test Business 10 has been validated by tester engineering from the Office of the Building Official. Please check application status.', '2017-02-08 13:54:05', '2017-02-09 08:22:45'),
+(176, 'D2D2E57657', 'Read', 3, 'Test Business 10 has been approved by tester engineering from the Office of the Building Official.', '2017-02-08 13:54:11', '2017-02-09 08:22:45'),
+(177, 'D2D2E57657', 'Read', 3, 'Test Business 10 has been validated by tester sanitary of City Health Office. Please check application status.', '2017-02-08 13:54:26', '2017-02-09 08:22:45'),
+(178, 'D2D2E57657', 'Read', 4, 'Completed', '2017-02-08 13:54:33', '2017-02-08 14:06:10'),
+(179, 'D2D2E57657', 'Read', 3, 'Test Business 10 has been approved by tester sanitary of City Health Office.', '2017-02-08 13:54:33', '2017-02-09 08:22:45'),
+(180, '4824FE5C5F', 'Read', 3, 'test has been validated by tester bplo of BPLO. Please check your application status.', '2017-02-08 14:24:23', '2017-02-09 02:24:13'),
+(181, '4824FE5C5F', 'Read', 5, 'Incoming', '2017-02-08 14:24:30', '2017-02-08 14:32:06'),
+(182, '4824FE5C5F', 'Read', 7, 'Incoming', '2017-02-08 14:24:30', '2017-02-08 14:24:51'),
+(183, '4824FE5C5F', 'Read', 8, 'Incoming', '2017-02-08 14:24:30', '2017-02-08 14:25:27'),
+(184, '4824FE5C5F', 'Read', 9, 'Incoming', '2017-02-08 14:24:30', '2017-02-08 14:33:09'),
+(185, '4824FE5C5F', 'Read', 10, 'Incoming', '2017-02-08 14:24:30', '2017-02-08 14:25:52'),
+(186, '4824FE5C5F', 'Read', 3, 'test has been approved by tester bplo of BPLO. You can now go to other required offices to process your application.', '2017-02-08 14:24:30', '2017-02-09 02:24:13'),
+(187, '4824FE5C5F', 'Read', 3, 'test has been validated by tester cenro of City Environment and Natural Resources. Please check application status.', '2017-02-08 14:24:54', '2017-02-09 02:24:13'),
+(188, '4824FE5C5F', 'Read', 3, 'test has been approved by tester cenro of City Environment and Natural Resources.', '2017-02-08 14:25:03', '2017-02-09 02:24:13'),
+(189, '4824FE5C5F', 'Read', 3, 'test has been validated by tester zoning of Zoning Department. Please check application status.', '2017-02-08 14:25:24', '2017-02-09 02:24:13'),
+(191, '4824FE5C5F', 'Read', 3, 'test has been approved by tester zoning of Zoning Department.', '2017-02-08 14:25:35', '2017-02-09 02:24:13'),
+(192, '4824FE5C5F', 'Read', 3, 'test has been validated by tester sanitary of City Health Office. Please check application status.', '2017-02-08 14:25:55', '2017-02-09 02:24:13'),
+(193, '4824FE5C5F', 'Read', 3, 'test has been approved by tester sanitary of City Health Office.', '2017-02-08 14:26:24', '2017-02-09 02:24:13'),
+(194, '4824FE5C5F', 'Read', 3, 'test has been validated by tester bfp of Bureau of Fire Protection. Please check application status.', '2017-02-08 14:32:12', '2017-02-09 02:24:13'),
+(195, '4824FE5C5F', 'Read', 3, 'test has been approved by tester bfp of Bureau of Fire Protection.', '2017-02-08 14:32:20', '2017-02-09 02:24:13'),
+(196, '4824FE5C5F', 'Read', 3, 'test has been validated by tester engineering from the Office of the Building Official. Please check application status.', '2017-02-08 14:33:12', '2017-02-09 02:24:13'),
+(197, '4824FE5C5F', 'Read', 4, 'Completed', '2017-02-08 14:33:23', '2017-02-08 14:33:51'),
+(198, '4824FE5C5F', 'Read', 3, 'test has been approved by tester engineering from the Office of the Building Official.', '2017-02-08 14:33:23', '2017-02-09 02:24:13'),
+(208, 'AE9054B21A', 'Read', 4, 'Incoming', '2017-02-09 08:10:15', '2017-02-09 08:36:01'),
+(209, 'AE9054B21A', 'Read', 3, 'Test 42 has been validated by tester bplo of BPLO. Please check your application status.', '2017-02-09 13:39:56', '2017-02-09 14:57:59'),
+(210, 'AE9054B21A', 'Read', 5, 'Incoming', '2017-02-09 13:40:03', '2017-02-09 13:45:23'),
+(211, 'AE9054B21A', 'Read', 7, 'Incoming', '2017-02-09 13:40:03', '2017-02-09 13:40:15'),
+(212, 'AE9054B21A', 'Read', 8, 'Incoming', '2017-02-09 13:40:03', '2017-02-09 13:42:42'),
+(213, 'AE9054B21A', 'Read', 9, 'Incoming', '2017-02-09 13:40:03', '2017-02-09 13:42:04'),
+(214, 'AE9054B21A', 'Read', 10, 'Incoming', '2017-02-09 13:40:03', '2017-02-09 13:41:20'),
+(215, 'AE9054B21A', 'Read', 3, 'Test 42 has been approved by tester bplo of BPLO. You can now go to other required offices to process your application.', '2017-02-09 13:40:03', '2017-02-09 14:57:59');
 
 -- --------------------------------------------------------
 
@@ -412,19 +724,23 @@ CREATE TABLE IF NOT EXISTS `owners` (
   `subdivision` varchar(255) DEFAULT NULL,
   `cityMunicipality` varchar(255) DEFAULT NULL,
   `province` varchar(255) DEFAULT NULL,
+  `PIN` varchar(255) NOT NULL,
   `contactNum` varchar(255) DEFAULT NULL,
   `telNum` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `owners`
 --
 
-INSERT INTO `owners` (`ownerId`, `userId`, `firstName`, `middleName`, `lastName`, `suffix`, `gender`, `houseBldgNo`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `contactNum`, `telNum`, `email`, `createdAt`, `updatedAt`) VALUES
-(1, 1, 'Renjo', 'Enriquez', 'Dolosa', '', 'Male', 'Blk 29 Lot 19', 'N/A', 'N/A', 'Dumaguete Street owner', 'Santo Tomas owner', 'South City Homes owner', 'Biñan City owner', 'Laguna owner', '09175138266', '8393969', 'dolosa.renjo@yahoo.com', '2017-01-21 15:07:36', '2017-01-23 11:03:59');
+INSERT INTO `owners` (`ownerId`, `userId`, `firstName`, `middleName`, `lastName`, `suffix`, `gender`, `houseBldgNo`, `bldgName`, `unitNum`, `street`, `barangay`, `subdivision`, `cityMunicipality`, `province`, `PIN`, `contactNum`, `telNum`, `email`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 'Renjo', 'Enriquez', 'Dolosa', '', 'Male', 'Blk 29 Lot 19', 'N/A', 'N/A', 'Dumaguete Street owner', 'Santo Tomas owner', 'South City Homes owner', 'Biñan City owner', 'Laguna owner', '1212', '09175138266', '8393969', 'dolosa.renjo@yahoo.com', '2017-01-21 15:07:36', '2017-02-01 15:08:22'),
+(3, 18, 'Jason', 'Tadeo', 'Hernandez', '', 'Male', 'q', 'w', 'e', 'r', 's', 'a', 'd', 'f', '1212', '123123', '123123', 'hernandez.jason@yahoo.com', '2017-01-30 15:34:47', '2017-02-01 15:08:25'),
+(5, 1, 'as', 'dasd', 'asd', 'asd', 'Male', 'as', 'dasd', 'asd', 'asd', 'asd', 'asd', 'asd', 'asd', '12321', '12321', '123123', 'asdasd@yahoo.com', '2017-02-02 11:52:50', '2017-02-02 11:52:50'),
+(6, 1, 'Owner 3', 'Owner 3', 'Owner 3', 'Owner 3', 'Female', 'Owner 3', 'Owner 3', 'Owner 3', 'Owner 3', 'Owner 3', 'Owner 3', 'Owner 3', 'Owner 3', '12312', '12321', '123123', 'asd@yahoo.com', '2017-02-02 11:57:23', '2017-02-08 14:35:48');
 
 -- --------------------------------------------------------
 
@@ -438,7 +754,7 @@ CREATE TABLE IF NOT EXISTS `reference_numbers` (
   `referenceNum` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `reference_numbers`
@@ -447,7 +763,31 @@ CREATE TABLE IF NOT EXISTS `reference_numbers` (
 INSERT INTO `reference_numbers` (`referenceId`, `userId`, `referenceNum`, `createdAt`, `updatedAt`) VALUES
 (1, 1, 'E4302995BD', '2017-01-22 13:20:51', '2017-01-22 13:20:51'),
 (5, 1, '9E9E1D64A2', '2017-01-23 12:43:22', '2017-01-23 12:43:22'),
-(6, 1, '47B3DF6BF4', '2017-01-23 12:47:51', '2017-01-23 12:47:51');
+(6, 1, '47B3DF6BF4', '2017-01-23 12:47:51', '2017-01-23 12:47:51'),
+(8, 1, '4824FE5C5F', '2017-02-02 13:05:06', '2017-02-02 13:05:06'),
+(9, 1, 'D2D2E57657', '2017-02-02 16:20:03', '2017-02-02 16:20:03'),
+(19, 1, 'AE9054B21A', '2017-02-09 08:10:14', '2017-02-09 08:10:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `renewals`
+--
+
+CREATE TABLE IF NOT EXISTS `renewals` (
+  `renewalId` int(10) NOT NULL,
+  `referenceNum` varchar(255) NOT NULL,
+  `year` int(11) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `renewals`
+--
+
+INSERT INTO `renewals` (`renewalId`, `referenceNum`, `year`, `createdAt`, `updatedAt`) VALUES
+(1, 'D2D2E57657', 2017, '2017-02-07 14:17:41', '2017-02-07 14:17:41');
 
 -- --------------------------------------------------------
 
@@ -472,7 +812,6 @@ INSERT INTO `roles` (`roleId`, `name`, `createdAt`, `updatedAt`) VALUES
 (3, 'Applicant', '2016-11-14 01:24:24', '0000-00-00 00:00:00'),
 (4, 'BPLO', '2016-11-18 00:53:01', '2016-11-18 00:53:01'),
 (5, 'BFP', '2017-01-02 07:13:28', '2017-01-02 07:13:28'),
-(6, 'Assessor', '2017-01-02 07:13:28', '2017-01-02 07:13:28'),
 (7, 'CENRO', '2017-01-02 07:13:28', '2017-01-02 07:13:28'),
 (8, 'Zoning', '2017-01-02 07:13:28', '2017-01-02 07:13:28'),
 (9, 'Engineering', '2017-01-02 07:13:28', '2017-01-02 07:13:28'),
@@ -493,28 +832,67 @@ CREATE TABLE IF NOT EXISTS `users` (
   `suffix` varchar(10) DEFAULT NULL,
   `gender` varchar(10) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `contactNum` int(20) NOT NULL,
   `civilStatus` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `birthDate` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userId`, `role`, `firstName`, `lastName`, `middleName`, `suffix`, `gender`, `email`, `civilStatus`, `password`, `birthDate`, `createdAt`, `updatedAt`) VALUES
-(1, 3, 'Renjo', 'Dolosa', 'Enriquez', '', 'Male', 'dolosa.renjo@yahoo.com', 'Single', '$2y$11$Wlkq3iwlkczgZjQAb5aUfuRUnEP0yxS220AmjkYyIUT75Ru8U5qeu', '02/17/1995', '2017-01-21 14:02:28', '2017-01-21 14:02:28'),
-(2, 3, 'Ida Julienne', 'Peñaflor', 'Mangaliman', '', 'Female', 'penaflor.ida@yahoo.com', 'Single', '$2y$11$sUsLgv1XBm.tp8wqO/EezubRAhoki2qkP..viHY1emnPTUsqLN4Yu', '08/10/1996', '2017-01-21 17:31:56', '2017-01-21 17:31:56'),
-(3, 4, 'Rene', 'Manabat', 'C', '', 'Male', 'manabat.rene@yahoo.com', 'Single', '$2y$11$siARsmYAQeaUes.lc6GGtuo4.Z064.hLHsjmfVXUrsMlLz2WWSNfi', '01/22/2017', '2017-01-22 15:21:10', '2017-01-22 15:21:19'),
-(4, 8, 'zoning', 'tester', '.', '', 'Female', 'zoning@yahoo.com', 'Single', '$2y$11$9AwRmguWvE7xxtbSmU0PI.5XJUt11WAo9V898EXJConqBItphzjkW', '01/23/2017', '2017-01-23 13:40:13', '2017-01-23 13:40:23'),
-(5, 7, 'tester', 'cenro', '.', '', 'Male', 'cenro@yahoo.com', 'Single', '$2y$11$U5jDMB/IcLbBfsGfVjXee..yvduqOlmGhpvtsaJ8xjkZFENQ8j45a', '01/24/2017', '2017-01-24 02:48:22', '2017-01-24 02:48:57'),
-(6, 10, 'tester', 'sanitary', '.', '', 'Female', 'sanitary@yahoo.com', 'Single', '$2y$11$8XrzAcPA81u740c160gZAOXPH72ANUhceakMT560.vsusgkAAWD/.', '01/24/2017', '2017-01-24 03:33:39', '2017-01-24 03:34:43');
+INSERT INTO `users` (`userId`, `role`, `firstName`, `lastName`, `middleName`, `suffix`, `gender`, `email`, `contactNum`, `civilStatus`, `password`, `birthDate`, `createdAt`, `updatedAt`) VALUES
+(1, 3, 'Renjo', 'Dolosa', 'Enriquez', '', 'Male', 'dolosa.renjo@yahoo.com', 1234, 'Single', '$2y$11$Wlkq3iwlkczgZjQAb5aUfuRUnEP0yxS220AmjkYyIUT75Ru8U5qeu', '02/17/1995', '2017-01-21 14:02:28', '2017-02-02 16:08:13'),
+(2, 3, 'Ida Julienne', 'Peñaflor', 'Mangaliman', '', 'Female', 'penaflor.ida@yahoo.com', 123, 'Single', '$2y$11$sUsLgv1XBm.tp8wqO/EezubRAhoki2qkP..viHY1emnPTUsqLN4Yu', '08/10/1996', '2017-01-21 17:31:56', '2017-02-02 11:06:11'),
+(3, 4, 'tester', 'bplo', '', '', 'Male', 'bplo@yahoo.com', 123, 'Single', '$2y$11$siARsmYAQeaUes.lc6GGtuo4.Z064.hLHsjmfVXUrsMlLz2WWSNfi', '01/22/2017', '2017-01-22 15:21:10', '2017-02-04 08:06:16'),
+(4, 8, 'tester', 'zoning', '.', '', 'Female', 'zoning@yahoo.com', 123, 'Single', '$2y$11$9AwRmguWvE7xxtbSmU0PI.5XJUt11WAo9V898EXJConqBItphzjkW', '01/23/2017', '2017-01-23 13:40:13', '2017-02-04 08:06:03'),
+(5, 7, 'tester', 'cenro', '.', '', 'Male', 'cenro@yahoo.com', 123, 'Single', '$2y$11$U5jDMB/IcLbBfsGfVjXee..yvduqOlmGhpvtsaJ8xjkZFENQ8j45a', '01/24/2017', '2017-01-24 02:48:22', '2017-02-02 11:06:18'),
+(6, 10, 'tester', 'sanitary', '.', '', 'Female', 'sanitary@yahoo.com', 123, 'Single', '$2y$11$8XrzAcPA81u740c160gZAOXPH72ANUhceakMT560.vsusgkAAWD/.', '01/24/2017', '2017-01-24 03:33:39', '2017-02-02 11:06:20'),
+(17, 3, 'Tester', 'Tester', '.', '', 'Male', 'dotraze@gmail.com', 123, 'Single', '$2y$11$xmsdTzVLqmjVl.CnzGPkL.OY6EcwT6z7oF8IMGUwMuYc87Q5piPBa', '01/28/2017', '2017-01-28 06:50:45', '2017-02-02 11:06:22'),
+(18, 3, 'Jason', 'Hernandez', '.', '', 'Male', 'hernandez.jason@yahoo.com', 123, 'Single', '$2y$11$13D4.WwANCm.qEwUDQ.Ebe6iRerxxYEMcw1r8kEvYSbOt6aV3JZwS', '01/30/2017', '2017-01-30 15:33:13', '2017-02-02 11:06:24'),
+(19, 5, 'tester', 'bfp', '.', '', 'male', 'bfp@yahoo.com', 123213, 'Single', '$2y$11$5DHPLvVINotpgFbSoT3azuZPViwN61LBiE9E/gnMWUHtfTHhw7gHi', '02/02/2017', '2017-02-02 14:19:03', '2017-02-02 14:22:08'),
+(20, 9, 'tester', 'engineering', '.', '', 'male', 'engineering@yahoo.com', 1231, 'Single', '$2y$11$V7fltHjfiyEXBRVWCc/3PeogLAmZvrnTE32/T5y8JPg9w8LRCAFLC', '02/02/2017', '2017-02-02 14:21:21', '2017-02-02 14:22:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `verifications`
+--
+
+CREATE TABLE IF NOT EXISTS `verifications` (
+  `verificationId` int(10) NOT NULL,
+  `userId` int(10) NOT NULL,
+  `code` varchar(10) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `verifications`
+--
+
+INSERT INTO `verifications` (`verificationId`, `userId`, `code`, `status`, `createdAt`, `updatedAt`) VALUES
+(8, 1, '0C18C0C597', 1, '2017-01-28 06:58:35', '2017-01-28 06:58:35'),
+(9, 18, 'CC983ED686', 1, '2017-01-30 15:33:36', '2017-01-30 15:33:36'),
+(10, 19, '7AD43140DB', 0, '2017-02-02 14:19:03', '0000-00-00 00:00:00'),
+(11, 20, 'ECFDC12D20', 0, '2017-02-02 14:21:21', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `application_bfp`
+--
+ALTER TABLE `application_bfp`
+  ADD PRIMARY KEY (`applicationId`),
+  ADD UNIQUE KEY `referenceNum` (`referenceNum`),
+  ADD KEY `userId` (`userId`),
+  ADD KEY `businessId` (`businessId`);
 
 --
 -- Indexes for table `application_bplo`
@@ -531,6 +909,15 @@ ALTER TABLE `application_bplo`
 ALTER TABLE `application_cenro`
   ADD PRIMARY KEY (`applicationId`),
   ADD UNIQUE KEY `independentReferenceNumber` (`referenceNum`),
+  ADD KEY `userId` (`userId`),
+  ADD KEY `businessId` (`businessId`);
+
+--
+-- Indexes for table `application_engineering`
+--
+ALTER TABLE `application_engineering`
+  ADD PRIMARY KEY (`applicationId`),
+  ADD UNIQUE KEY `referenceNum` (`referenceNum`),
   ADD KEY `userId` (`userId`),
   ADD KEY `businessId` (`businessId`);
 
@@ -589,7 +976,14 @@ ALTER TABLE `business_activities`
 --
 ALTER TABLE `charges`
   ADD PRIMARY KEY (`chargeId`),
-  ADD KEY `referenceNum` (`referenceNum`);
+  ADD KEY `assessmentId` (`assessmentId`);
+
+--
+-- Indexes for table `grosses`
+--
+ALTER TABLE `grosses`
+  ADD PRIMARY KEY (`grossId`),
+  ADD KEY `activityId` (`activityId`);
 
 --
 -- Indexes for table `issued_applications`
@@ -629,6 +1023,13 @@ ALTER TABLE `reference_numbers`
   ADD KEY `userId` (`userId`);
 
 --
+-- Indexes for table `renewals`
+--
+ALTER TABLE `renewals`
+  ADD PRIMARY KEY (`renewalId`),
+  ADD KEY `referenceNum` (`referenceNum`);
+
+--
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
@@ -642,79 +1043,106 @@ ALTER TABLE `users`
   ADD KEY `role` (`role`);
 
 --
+-- Indexes for table `verifications`
+--
+ALTER TABLE `verifications`
+  ADD PRIMARY KEY (`verificationId`),
+  ADD KEY `userId` (`userId`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
+-- AUTO_INCREMENT for table `application_bfp`
+--
+ALTER TABLE `application_bfp`
+  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+--
 -- AUTO_INCREMENT for table `application_bplo`
 --
 ALTER TABLE `application_bplo`
-  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `application_cenro`
 --
 ALTER TABLE `application_cenro`
-  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT for table `application_engineering`
+--
+ALTER TABLE `application_engineering`
+  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `application_sanitary`
 --
 ALTER TABLE `application_sanitary`
-  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `application_zoning`
 --
 ALTER TABLE `application_zoning`
-  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `approvals`
 --
 ALTER TABLE `approvals`
-  MODIFY `approvalId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
+  MODIFY `approvalId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=109;
 --
 -- AUTO_INCREMENT for table `assessments`
 --
 ALTER TABLE `assessments`
-  MODIFY `assessmentId` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `assessmentId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `businesses`
 --
 ALTER TABLE `businesses`
-  MODIFY `businessId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `businessId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `business_activities`
 --
 ALTER TABLE `business_activities`
-  MODIFY `activityId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `activityId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `charges`
 --
 ALTER TABLE `charges`
-  MODIFY `chargeId` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `chargeId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=110;
+--
+-- AUTO_INCREMENT for table `grosses`
+--
+ALTER TABLE `grosses`
+  MODIFY `grossId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `issued_applications`
 --
 ALTER TABLE `issued_applications`
-  MODIFY `issueId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `issueId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT for table `lessors`
 --
 ALTER TABLE `lessors`
-  MODIFY `lessorId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `lessorId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `notificationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=111;
+  MODIFY `notificationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=216;
 --
 -- AUTO_INCREMENT for table `owners`
 --
 ALTER TABLE `owners`
-  MODIFY `ownerId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `ownerId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `reference_numbers`
 --
 ALTER TABLE `reference_numbers`
-  MODIFY `referenceId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `referenceId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT for table `renewals`
+--
+ALTER TABLE `renewals`
+  MODIFY `renewalId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `roles`
 --
@@ -724,10 +1152,23 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `userId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT for table `verifications`
+--
+ALTER TABLE `verifications`
+  MODIFY `verificationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `application_bfp`
+--
+ALTER TABLE `application_bfp`
+  ADD CONSTRAINT `application_bfp_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `reference_numbers` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `application_bfp_ibfk_2` FOREIGN KEY (`businessId`) REFERENCES `businesses` (`businessId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `application_bfp_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `application_bplo`
@@ -744,6 +1185,14 @@ ALTER TABLE `application_cenro`
   ADD CONSTRAINT `application_cenro_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `application_cenro_ibfk_2` FOREIGN KEY (`referenceNum`) REFERENCES `reference_numbers` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `application_cenro_ibfk_3` FOREIGN KEY (`businessId`) REFERENCES `businesses` (`businessId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `application_engineering`
+--
+ALTER TABLE `application_engineering`
+  ADD CONSTRAINT `application_engineering_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `reference_numbers` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `application_engineering_ibfk_2` FOREIGN KEY (`businessId`) REFERENCES `businesses` (`businessId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `application_engineering_ibfk_3` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `application_sanitary`
@@ -791,7 +1240,13 @@ ALTER TABLE `business_activities`
 -- Constraints for table `charges`
 --
 ALTER TABLE `charges`
-  ADD CONSTRAINT `charges_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `reference_numbers` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `charges_ibfk_1` FOREIGN KEY (`assessmentId`) REFERENCES `assessments` (`assessmentId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `grosses`
+--
+ALTER TABLE `grosses`
+  ADD CONSTRAINT `grosses_ibfk_1` FOREIGN KEY (`activityId`) REFERENCES `business_activities` (`activityId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `issued_applications`
@@ -819,10 +1274,22 @@ ALTER TABLE `owners`
   ADD CONSTRAINT `owners_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `renewals`
+--
+ALTER TABLE `renewals`
+  ADD CONSTRAINT `renewals_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `reference_numbers` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role`) REFERENCES `roles` (`roleId`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `verifications`
+--
+ALTER TABLE `verifications`
+  ADD CONSTRAINT `verifications_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

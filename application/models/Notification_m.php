@@ -35,6 +35,15 @@ class Notification_m extends CI_Model {
     return $result->result();
   }
 
+  public function get_applicant_unread($roleId = null, $userId = null)
+  {
+    $this->db->where(['notifications.role' => $roleId, 'reference_numbers.userId' => $userId, 'notifications.status' => "Unread"]);
+    $this->db->select('notifications.referenceNum, notifications.notifMessage')->from($this->table)->join($this->reference, 'reference_numbers.referenceNum = notifications.referenceNum')->order_by("notifications.createdAt", "desc");
+    $result = $this->db->get();
+
+    return $result->result();
+  }
+
   public function update($query = null, $set = null)
   {
     $this->db->where($query);

@@ -12,6 +12,7 @@ class User {
 	private $civilStatus = null;
 	private $email = null;
 	private $birthDate = null;
+	private $contactNum = null;
 
 	public function __construct($userId = null){
 		$this->CI =& get_instance();
@@ -220,27 +221,25 @@ class User {
 			$mail->isSMTP();                            // Set mailer to use SMTP
 			$mail->Host = 'smtp.gmail.com';             // Specify main and backup SMTP servers
 			$mail->SMTPAuth = true;                     // Enable SMTP authentication
-			$mail->Username = 'dotraze2@gmail.com';          // SMTP username
+			$mail->Username = 'bposys.noreply@gmail.com';          // SMTP username
 			$mail->Password = '0seventeen'; // SMTP password
 			$mail->SMTPSecure = 'tls';                  // Enable TLS encryption, `ssl` also accepted
 			$mail->Port = 587;                          // TCP port to connect to
 
-			$mail->setFrom('dotraze2@gmail.com', 'TestMailer');
-			$mail->addReplyTo('dotraze2@gmail.com', 'TestMailer');
+			$mail->setFrom('bposys.noreply@gmail.com', 'Business Permit Online System');
+			$mail->addReplyTo('bposys.noreply@gmail.com', 'Business Permit Online System');
 			$mail->addAddress($this->email);   // Add a recipient
 			// $mail->addCC('cc@example.com');
 			// $mail->addBCC('bcc@example.com');
 
 			$mail->isHTML(true);  // Set email format to HTML
 
-			$body_email = $param['body'];
-
 			// $body_email = "Welcome to shoplocal this is your account<br/><br/><br/><br/>";
 			// $body_email .= "Username: ".$username." <br/>";
 			// $body_email .= "Password: ".$password." <br/>";
 			
-			$mail->Subject = "Business Permit Online System";
-			$mail->Body    = $body_email;
+			$mail->Subject = $param['subject'];
+			$mail->Body    = $param['body'];
 
 			$this->unset_CI();
 			if(!$mail->send()) 
@@ -287,6 +286,7 @@ class User {
 		$this->civilStatus = $param->civilStatus;
 		$this->email = $param->email;
 		$this->birthDate = $param->birthDate;
+		$this->contactNum = $param->contactNum;
 
 		$this->unset_CI();
 		return $this;
@@ -297,4 +297,28 @@ class User {
 		if(isset($this->CI))
 			unset($this->CI);
 	}
+
+    /**
+     * Gets the value of contactNum.
+     *
+     * @return mixed
+     */
+    public function get_ContactNum()
+    {
+    	return $this->contactNum;
+    }
+
+    /**
+     * Sets the value of contactNum.
+     *
+     * @param mixed $contactNum the contact num
+     *
+     * @return self
+     */
+    private function set_ContactNum($contactNum)
+    {
+    	$this->contactNum = $contactNum;
+
+    	return $this;
+    }
 }

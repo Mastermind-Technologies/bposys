@@ -18,6 +18,8 @@ class Owner {
 	private $owner_contactNum = null;
 	private $owner_telNum = null;
     private $owner_email = null;
+    private $owner_PIN = null;
+    private $isApplied = null;
 
 	public function __construct($owner_id = null)
 	{
@@ -32,11 +34,28 @@ class Owner {
         if(!isset($this->CI))
             $this->CI =& get_instance();
 		$query['ownerId'] = $id;
-		$result = $this->CI->Owner_m->get_all_owners($query);
-		$this->set_owner_all($result[0]);
 
-		$this->unset_CI();
-		return $this;
+        if($this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['role']) == 'Applicant')
+        {
+            $query['userId'] = $this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['userId']);
+        }
+
+		$result = $this->CI->Owner_m->get_all_owners($query);
+
+        if(count($result) > 0)
+        {
+    		$this->set_owner_all($result[0]);
+            $this->unset_CI();
+            return $this;
+        }
+        else
+        {
+            $this->CI->session->set_flashdata('failed', 'Invalid Inputt');
+            $this->unset_CI();
+            redirect('Home');
+        }
+
+		
 	}
 
 	public function set_owner_all($param = null)
@@ -56,6 +75,7 @@ class Owner {
 		$this->owner_subdivision = $param->subdivision;
 		$this->owner_cityMunicipality = $param->cityMunicipality;
 		$this->owner_province = $param->province;
+        $this->owner_PIN = $param->PIN;
 		$this->owner_contactNum = $param->contactNum;
 		$this->owner_telNum = $param->telNum;
         $this->owner_email = $param->email;
@@ -395,5 +415,63 @@ class Owner {
     private function set_OwnerEmail($owner_email)
     {
         $this->owner_email = $owner_email;
+    }
+
+    /**
+     * Gets the value of isApplied.
+     *
+     * @return mixed
+     */
+    public function get_IsApplied()
+    {
+        return $this->isApplied;
+    }
+
+    /**
+     * Sets the value of isApplied.
+     *
+     * @param mixed $isApplied the is applied
+     *
+     * @return self
+     */
+    public function set_IsApplied($isApplied)
+    {
+        $this->isApplied = $isApplied;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of isApplied.
+     *
+     * @return mixed
+     */
+    public function getIsApplied()
+    {
+        return $this->isApplied;
+    }
+
+    /**
+     * Gets the value of owner_PIN.
+     *
+     * @return mixed
+     */
+    public function get_OwnerPIN()
+    {
+        return $this->owner_PIN;
+    }
+
+    /**
+     * Sets the value of owner_PIN.
+     *
+     * @param mixed $owner_PIN the owner
+     *
+     * @return self
+     */
+    private function set_OwnerPIN($owner_PIN)
+    {
+        $this->owner_PIN = $owner_PIN;
+
+        return $this;
     }
 }//END OF CLASS

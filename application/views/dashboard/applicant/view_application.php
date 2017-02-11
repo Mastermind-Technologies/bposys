@@ -9,31 +9,53 @@
 				</div>
 			<?php endif; ?>
 
-			<h2>Reference Number: <strong class="text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></h2>
-			<h3>Status: <?php $status = $application->get_status();
-				if($status == "Expired")
-				{
-					echo "<strong style='color:red'>".$status."</strong>";
-				}
-				else
-				{
-					echo "<strong>".$status."</strong>";
-				} ?></h3>
-				<div class="row">
-					<?php if ($application->get_status() == "Expired"): ?>
-						<div class="col-sm-3">
-							<a type="button" class="btn btn-danger btn-block" href="<?php echo base_url('form/renew/'.bin2hex($this->encryption->encrypt($this->encryption->decrypt($application->get_applicationId()).'|'.$this->encryption->decrypt($application->get_referenceNum()), $custom_crypto))); ?>">Renew</a>
-						</div>
-						<div class="col-sm-3">
-							<input type="button" class="btn btn-warning btn-block" value="Edit Application">
-						</div>
-					<?php else: ?>
-						<div class="col-sm-3">
-							<input type="button" class="btn btn-warning btn-block" value="Edit Application">
-						</div>
-					<?php endif ?>
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3>Application Details</h3>
 				</div>
-				<br>
+				<div class="panel-body">
+
+					<h2>Reference Number: <strong class="text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></h2>
+					<h3>Status: <?php $status = $application->get_status();
+						if($status == "Expired")
+						{
+							echo "<strong style='color:red'>".$status."</strong>";
+						}
+						else
+						{
+							echo "<strong>".$status."</strong>";
+						} ?></h3>
+						<div class="row">
+							<?php if ($application->get_status() == "Expired"): ?>
+								<div class="col-sm-3">
+									<a type="button" class="btn btn-danger btn-block" href="<?php echo base_url('form/renew/'.bin2hex($this->encryption->encrypt($this->encryption->decrypt($application->get_applicationId()).'|'.$this->encryption->decrypt($application->get_referenceNum()), $custom_crypto))); ?>">Renew</a>
+								</div>
+								<div class="col-sm-3">
+									<input type="button" class="btn btn-warning btn-block" value="Edit Application">
+								</div>
+							<?php else: ?>
+								<div class="col-sm-3">
+									<input type="button" class="btn btn-warning btn-block" value="Edit Application">
+								</div>
+							<?php endif ?>
+						</div>
+						<br>
+				</div>
+				<!-- /.panel-body -->
+			</div>
+
+
+				<!-- <div class="boxes">
+				  <input type="checkbox" id="box-1">
+				  <label for="box-1">Billy Pogi</label>
+
+				  <input type="checkbox" id="box-2" checked>
+				  <label for="box-2">Billy mas pogi </label>
+
+				  <input type="checkbox" id="box-3">
+				  <label for="box-3">Billy super pogi</label>
+				</div> -->
+
 				<h4>Select form to view:</h4>
 				<div class="row" style="margin:0">
 					<ul  class="nav nav-tabs">
@@ -61,6 +83,45 @@
 									<h3>BPLO Application Form</h3>
 								</div>
 								<div class="panel-body">
+
+									<div class="mdl-card mdl-shadow--2dp">
+
+										<div class="mdl-card__supporting-text">
+
+											<div class="mdl-stepper-horizontal-alternative">
+												<div class="mdl-stepper-step active-step step-done">
+													<div class="mdl-stepper-circle"><span>1</span></div>
+													<div class="mdl-stepper-title">Setup an appointment with BPLO</div>
+													<div class="mdl-stepper-bar-left"></div>
+													<div class="mdl-stepper-bar-right"></div>
+												</div>
+												<div class="mdl-stepper-step active-step">
+													<div class="mdl-stepper-circle"><span>2</span></div>
+													<div class="mdl-stepper-title">Visit BPLO for assessment and interview</div>
+													<div class="mdl-stepper-optional"></div>
+													<div class="mdl-stepper-bar-left"></div>
+													<div class="mdl-stepper-bar-right"></div>
+												</div>
+												<div class="mdl-stepper-step"> <!-- <div class="mdl-stepper-step active-step"> -->
+													<div class="mdl-stepper-circle"><span>3</span></div>
+													<div class="mdl-stepper-title">Complete requirements</div>
+													<div class="mdl-stepper-optional"></div>
+													<div class="mdl-stepper-bar-left"></div>
+													<div class="mdl-stepper-bar-right"></div>
+												</div>
+												<div class="mdl-stepper-step">
+													<div class="mdl-stepper-circle"><span>4</span></div>
+													<div class="mdl-stepper-title">Claim Business Permit</div>
+													<div class="mdl-stepper-optional"></div>
+													<div class="mdl-stepper-bar-left"></div>
+													<div class="mdl-stepper-bar-right"></div>
+												</div>
+											</div>
+
+										</div>
+
+									</div>
+
 									<div class="application-form">
 										<table class="application-form-table">
 											<tr class="application-form-table-row">

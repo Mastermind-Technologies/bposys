@@ -16,6 +16,19 @@ $(document).ready(function()
 
   $('[data-toggle="tooltip"]').tooltip();
 
+  $('#certify').click(function(){
+    if($('#certify').is(':checked'))
+    {
+      $('#s1-proceed').removeAttr('disabled');
+      $('#s1-proceed').prop('href','#step2');
+    }
+    else
+    {
+      $('#s1-proceed').attr('disabled',true);
+      $('#s1-proceed').removeAttr('href');
+    }
+  });
+
   $('#cnc').click(function(){
     if($('#cnc').is(':checked'))
     {
@@ -270,7 +283,22 @@ $(document).ready(function()
   $('#btn-add-bus-activity').click(function(){
     rowCount++;
     console.log(rowCount);
-    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td></tr>");
+    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><select required class=form-control>"+
+      "<option selected disabled>Select Line of Business</option>"+
+      "<option value='Manufacturer Kind'>Manufacturer Kind</option>"+
+      "<option value='Wholesaler kind'>Wholesaler kind</option>"+
+      "<option value='Exporter kind'>Exporter kind</option>"+
+      "<option value='Retailer'>Retailer</option>"+
+      "<option value='Contractor'>Contractor</option>"+
+      "<option value='Bank'>Bank</option>"+
+      "<option value='Lessor (Renting)'>Lessor (Rentals)</option>"+
+      "<option value='Peddlers'>Peddlers</option>"+
+      "<option value='Amusement devices/places'>Amusement devices/places</option>"+
+      "<option value='Retail Dealers (liquors)'>Retail Dealers (liquors)</option>"+
+      "<option value='Retail Dealers (tobaccos)'>Retail Dealers (tobaccos)</option>"+
+      "<option value='Display areas of products'>Display areas of products</option>"+
+      "<option value='Others'>Others</option>"+
+      "</select></td><td><input type='text' required data-parsley-type='digits' class=form-control></td></tr>");
 
   });
 
@@ -305,16 +333,15 @@ $(document).ready(function()
 
   function process_business_activity(reference_number)
   {
+
     var ctr = 0;
     var total_rows = count_business_activities();
     $("#bus-activity tbody .data").each(function() {
       ctr++;
-      var code = $(this).find("td:nth-child(1) input").val();
-      var lineOfBusiness = $(this).find("td:nth-child(2) input").val();
-      var numOfUnits = $(this).find("td:nth-child(3) input").val();
-      var capitalization = $(this).find("td:nth-child(4) input").val();
+      var lineOfBusiness = $(this).find("td:nth-child(1) select").val();
+      var capitalization = $(this).find("td:nth-child(2) input").val();
 
-      if(code == '' || lineOfBusiness == '' || numOfUnits == '' || capitalization == '')
+      if(lineOfBusiness == '' || capitalization == '')
       {
         //do nothing
       }
@@ -324,15 +351,14 @@ $(document).ready(function()
           type:"POST",
           url:base_url+"dashboard/store_business_activity",
           dataType:'json',
-          data:{ctr:ctr, total_rows:total_rows, code:code, lineOfBusiness:lineOfBusiness, numOfUnits:numOfUnits, capitalization:capitalization, referenceNum:reference_number},
+          data:{ctr:ctr, total_rows:total_rows, lineOfBusiness:lineOfBusiness, capitalization:capitalization, referenceNum:reference_number},
           success: function(o){
             if(o == "success")
             {
-              console.log("Success!");
-              console.log("Redirecting...");
-              window.setTimeout(function() { 
-                window.location = base_url+"dashboard"; 
-              },2000);
+              // window.setTimeout(function() { 
+              //   window.location = base_url+"dashboard"; 
+              // },2000);
+              process_order_of_payment(reference_number);
             }
             else
             {
@@ -347,6 +373,27 @@ $(document).ready(function()
 
       // }
     });
+  }
+
+  function process_order_of_payment(reference_number)
+  {
+    console.log('Processing...');
+    $.ajax({
+      type:"POST",
+      url:base_url+"dashboard/process_assessments",
+      dataType:"JSON",
+      data:{referenceNum: reference_number},
+      success: function(data){
+        if(data == "success")
+        {
+          console.log("Success!");
+          console.log("Redirecting...");
+          window.setTimeout(function() { 
+            window.location = base_url+"dashboard"; 
+          },2000);
+        }
+      }
+    })
   }
 
   $('#business').change(function(event){
@@ -367,7 +414,6 @@ $(document).ready(function()
         $('#business-name').html(data.businessName);
         $('#trade-name').html(data.tradeName);
         $('#signage-name').html(data.signageName);
-        $('#nature-of-business').html(data.natureOfBusiness);
         $('#organization-type').html(data.organizationType);
         $('#corporation-name').html(data.corporationName);
         $('#pin').html(data.PIN);
@@ -385,6 +431,22 @@ $(document).ready(function()
         $('#tel-num').html(data.telNum);
         $('#email').html(data.email);
         $('#lgu-employees').html(data.LGUResidingEmployees);
+        $('#gmaps-address').html(data.gmapAddress);
+        var map;
+
+        latlang = new google.maps.LatLng(data.lat,data.lng);
+        map = new google.maps.Map(document.getElementById('gmaps'), {
+          center: latlang,
+          zoom: 15
+
+        });
+        var geocoder = new google.maps.Geocoder();
+        var marker = new google.maps.Marker({
+          position: latlang,
+        });
+
+        marker.setMap(map);
+        
       }
     });
   });
@@ -429,9 +491,68 @@ $(document).ready(function()
       return false;
   });
 
-  function check_notifications()
-  {
-    //
-  }
+  //VALIDATE WIZARD FORM
+  var $sections = $('.tab-pane');
+  // Next button goes forward if current block validates
+  var index = 1;
+  $('.form-navigation .next').click(function() {
+    if ($('#new_application_form, .renewal-form').parsley().validate({group: 'block-' + index}))
+    {
+      $('.tab-pane').eq(index).removeClass('active');
+      index++;
+      $('.tab-pane').eq(index).addClass('active');
+      console.log(index);
+    }
+  });
 
+  $('.form-navigation .previous').click(function() {
+    $('.tab-pane').eq(index).removeClass('active');
+    index--;
+    $('.tab-pane').eq(index).addClass('active');
+    console.log(index);
+  });
+
+  // Prepare sections by setting the `data-parsley-group` attribute to 'block-0', 'block-1', etc.
+  $sections.each(function(index, section) {
+    $(section).find(':input[type=text], select').attr('data-parsley-group', 'block-' + index);
+  });
+
+  var map;
+  window.initMap = function(){
+    latlang = new google.maps.LatLng(14.315036717630743,121.07954978942871);
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: latlang,
+      zoom: 15
+
+    });
+    var geocoder = new google.maps.Geocoder();
+    var marker = new google.maps.Marker({
+      position: latlang,
+    });
+
+    marker.setMap(map);
+
+    google.maps.event.addListener(map, 'click', function( event ){
+      var newPos = {lat:event.latLng.lat() , lng:event.latLng.lng()};
+      // console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng() );
+      document.getElementById('lat').value = event.latLng.lat();
+      document.getElementById('lng').value = event.latLng.lng();
+
+      marker.setPosition(newPos);
+
+      geocoder.geocode({
+        'latLng': event.latLng
+      }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (results[0]) {
+            document.getElementById('gmaps-address').innerHTML = results[0].formatted_address;
+            document.getElementById('g-address').value =  results[0].formatted_address;
+            // alert(results[0].formatted_address);
+          }
+        }
+          });//end of geodecoder
+
+    });
+  }
+  
 }); //End of Jquery

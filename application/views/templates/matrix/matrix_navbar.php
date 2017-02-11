@@ -26,17 +26,26 @@
     <li class="<?= $active=="Dashboard" ? "active" : '' ?>"><a href="<?php echo base_url() ?>dashboard"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
     <li class="submenu <?= $active=="Applications" ? "active" : '' ?>"> <a href="#"><i class="icon icon-th-list"></i> <span>Applications</span> <span class="label label-important"><?= $total>0 ? $total : "" ?></span></a>
       <ul>
-        <li><a href="<?php echo base_url(); ?>dashboard/incoming_applications"><span>For Validation</span><span class="label label-important" style="float:right; margin-right:20px"><?= $incoming>0 ? $incoming : ""?></span></a></li>
-        <?php if ($this->encryption->decrypt($this->session->userdata['userdata']['role']) == "BPLO" ): ?>
+        <?php if ($this->encryption->decrypt($this->session->userdata['userdata']['role']) == "BPLO"): ?>
+          <li><a href="<?php echo base_url(); ?>dashboard/incoming_applications"><span>For Validation</span><span class="label label-important" style="float:right; margin-right:20px"><?= $incoming>0 ? $incoming : ""?></span></a></li>
+
           <li><a href="<?php echo base_url(); ?>dashboard/pending_applications"><span>Pending</span><span class="label label-important" style="float:right; margin-right:20px"><?= $pending>0 ? $pending : ""?></span></a></li>
-        <?php endif ?>
-        
-        <li><a href="<?php echo base_url(); ?>dashboard/on_process_applications"><span>On Process</span><span class="label label-important" style="float:right; margin-right:20px"><?= $process>0 ? $process : "" ?></span></a></li>
-        <?php if ($this->encryption->decrypt($this->session->userdata['userdata']['role']) == "BPLO" ): ?>
+
+          <li><a href="<?php echo base_url(); ?>dashboard/on_process_applications"><span>On Process</span><span class="label label-important" style="float:right; margin-right:20px"><?= $process>0 ? $process : "" ?></span></a></li>
+
           <li><a href="<?php echo base_url(); ?>dashboard/completed_applications"><span>Complete Requirements</span><span class="label label-important" style="float:right; margin-right:20px"><?= $complete>0 ? $complete : ""?></span></a></li>
+
+          <li><a href="<?php echo base_url(); ?>dashboard/issued_applications"><span>Issued</span><span class="label label-important" style="float:right; margin-right:20px"><?= $issued>0 ? $issued : ""?></span></a></li>
+
+        <?php else: ?>
+
+          <li><a href="<?php echo base_url(); ?>dashboard/incoming_applications"><span>Incoming Applications</span><span class="label label-important" style="float:right; margin-right:20px"><?= $incoming>0 ? $incoming : ""?></span></a></li>
+
+          <li><a href="<?php echo base_url(); ?>dashboard/on_process_applications"><span>On Process</span><span class="label label-important" style="float:right; margin-right:20px"><?= $process>0 ? $process : "" ?></span></a></li>
+
+          <li><a href="<?php echo base_url(); ?>dashboard/issued_applications"><span>Issued</span><span class="label label-important" style="float:right; margin-right:20px"><?= $issued>0 ? $issued : ""?></span></a></li>
+
         <?php endif ?>
-        
-        <li><a href="<?php echo base_url(); ?>dashboard/issued_applications"><span>Issued</span><span class="label label-important" style="float:right; margin-right:20px"><?= $issued>0 ? $issued : ""?></span></a></li>
       </ul>
     </li>
     <li class="<?= $active=="Reports" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>reports"><i class="icon icon-signal"></i> <span>View Reports</span></a> </li>

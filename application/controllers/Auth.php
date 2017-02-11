@@ -8,6 +8,7 @@ class Auth extends CI_Controller {
     parent::__construct();
     $this->load->library('form_validation');
     $this->load->model('User_m');
+    $this->load->model('Verification_m');
 
     //object
     $this->load->library('User');
@@ -50,49 +51,78 @@ class Auth extends CI_Controller {
       // $fields['userId'] = $this->encryption->encrypt($check[0]->userId);
       $user_id = $check[0]->userId;
 
-      // echo "<pre>";
-      // print_r($check[0]->userId);
-      // echo "</pre>";
-      // exit();
-
       if($check)
       {
-        $query = array(
-          'userId' => $user_id
-          );
-        $data['user'] = $this->User_m->get_all_users($query);
+        if($check[0]->role == 3)
+        {
+          $query = array(
+            'userId' => $user_id,
+            'status' => 1,
+            );
+          $check_verify = $this->Verification_m->check_verification($query);
 
-        $data['role'] = $this->User_m->check_user_role($data['user'][0]->role);
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
-        // exit();
-        $session_data = array(
-          'userId' => $this->encryption->encrypt($data['user'][0]->userId),
-          'firstName' => $data['user'][0]->firstName,
-          'lastName' => $data['user'][0]->lastName,
-          'middleName' => $data['user'][0]->middleName,
-          'email' => $this->encryption->encrypt($data['user'][0]->email),
-          'role' => $this->encryption->encrypt($data['role'][0]->name)
-          );
+          if($check_verify)
+          {
+            $query = array(
+              'userId' => $user_id
+              );
+            $data['user'] = $this->User_m->get_all_users($query);
+
+            $data['role'] = $this->User_m->check_user_role($data['user'][0]->role);
+
+            $session_data = array(
+              'userId' => $this->encryption->encrypt($data['user'][0]->userId),
+              'firstName' => $data['user'][0]->firstName,
+              'lastName' => $data['user'][0]->lastName,
+              'middleName' => $data['user'][0]->middleName,
+              'email' => $this->encryption->encrypt($data['user'][0]->email),
+              'role' => $this->encryption->encrypt($data['role'][0]->name)
+              );
           // Add user data in session
-        $this->session->set_userdata('userdata', $session_data);
+            $this->session->set_userdata('userdata', $session_data);
 
-        // echo "<pre>";
-        // print_r($this->session->userdata['userdata']['role']);
-        // $user_id = $this->session->userdata['userdata']['userId'];
-        // echo"<br>";
-        // print_r($this->encryption->decrypt($this->session->userdata['userdata']['role']));
-        // echo "</pre>";
-        // exit();
+            redirect("dashboard");
+          }
+          else
+          {
+            $this->session->set_flashdata('failed','Please verify your account first.');
+            redirect('home');
+          }
+        }
+        else
+        {
+          $query = array(
+            'userId' => $user_id
+            );
+          $data['user'] = $this->User_m->get_all_users($query);
 
-        redirect("dashboard");
+          $data['role'] = $this->User_m->check_user_role($data['user'][0]->role);
+
+          $session_data = array(
+            'userId' => $this->encryption->encrypt($data['user'][0]->userId),
+            'firstName' => $data['user'][0]->firstName,
+            'lastName' => $data['user'][0]->lastName,
+            'middleName' => $data['user'][0]->middleName,
+            'email' => $this->encryption->encrypt($data['user'][0]->email),
+            'role' => $this->encryption->encrypt($data['role'][0]->name)
+            );
+          // Add user data in session
+          $this->session->set_userdata('userdata', $session_data);
+
+          redirect("dashboard");
+        }
       }
       else
       {
         $this->session->set_flashdata('failed','Invalid username or password');
         redirect('home');
       }
+
+
+
+      
+
+      
     }
 
   }
@@ -117,6 +147,7 @@ class Auth extends CI_Controller {
     $this->form_validation->set_rules('password', 'Password', 'required');
     $this->form_validation->set_rules('civil-status', 'Civil Status', 'required');
     $this->form_validation->set_rules('birth-date', 'Birth Date', 'required');
+    $this->form_validation->set_rules('contact-number', 'Contact Number', 'required');
     $this->form_validation->set_rules('confirm-password', 'Confirm Password', 'required|matches[password]');
 
     if($this->form_validation->run() == FALSE)
@@ -141,19 +172,33 @@ class Auth extends CI_Controller {
         'gender' => $this->input->post('gender'),
         'email' => $this->input->post('email'),
         'civilStatus' => $this->input->post('civil-status'),
+        'contactNum' => $this->input->post('contact-number'),
         'role' => '3',
         'password' => password_hash($raw_pw, PASSWORD_BCRYPT, $options),
         'birthDate' => $this->input->post('birth-date')
         );
 
-      if($this->User_m->register_user($fields))
+      $user_id = $this->User_m->register_user($fields);
+      if($user_id)
       {
-        $this->session->set_flashdata('success','Registration Successful!');
+        $code_param = array(
+          'firstName' => $this->input->post('fname'),
+          'lastName' => $this->input->post('lname'),
+          'userId' => $user_id,
+          );
+        $code = $this->encryption->encrypt($this->Verification_m->generate_verification_code($code_param));
+        $user = new User($user_id);
+
+        $mail_param['subject'] = "Verify Email Address";
+        $mail_param['body']= 'To finish setting up your account, we just need to make sure email address is yours. Please click the verification link below to proceed.<br><br>
+        <a href="'.base_url('auth/verify?e='.$code).'">'.base_url('auth/verify?e='.$code).'</a><br><br>If you didn\'t make this account, <a href="#">click here</a> to cancel.<br><br>Thanks,<br>BPLO';
+        $user->send_mail($mail_param);
+        $this->session->set_flashdata('success','Registration Successful! We now need to verify your email address. We\'ve sent an email to '.$this->input->post('email').' to verify your address. Please click the confirmation link in the email to activate your account.');
         redirect('home');
       }
       else
       {
-        $this->session->set_flashdata('failed','Registration Failed!');
+        $this->session->set_flashdata('error','Email is already used.');
         redirect('register');
       }
     }
@@ -172,5 +217,43 @@ class Auth extends CI_Controller {
     $this->session->unset_userdata('userdata', $sess_array);
     //$data['message_display'] = 'Successfully Logout';
     redirect('home');
+  }
+
+  public function verify()
+  {
+    $code = $this->encryption->decrypt($this->input->get('e'));
+    $query['code'] = $code;
+    $verified = $this->Verification_m->verify($query);
+    if($verified)
+    {
+      unset($query);
+      $query = array(
+        'userId' => $verified,
+        );
+      $data['user'] = $this->User_m->get_all_users($query);
+
+      $data['role'] = $this->User_m->check_user_role($data['user'][0]->role);
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        // exit();
+      $session_data = array(
+        'userId' => $this->encryption->encrypt($data['user'][0]->userId),
+        'firstName' => $data['user'][0]->firstName,
+        'lastName' => $data['user'][0]->lastName,
+        'middleName' => $data['user'][0]->middleName,
+        'email' => $this->encryption->encrypt($data['user'][0]->email),
+        'role' => $this->encryption->encrypt($data['role'][0]->name)
+        );
+          // Add user data in session
+      $this->session->set_userdata('userdata', $session_data);
+
+      redirect("dashboard");
+    }
+    else
+    {
+      $this->session->set_flashdata('message', 'Verification failed.');
+      redirect('home');
+    }
   }
 }

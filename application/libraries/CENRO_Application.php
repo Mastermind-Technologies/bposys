@@ -37,12 +37,25 @@ class CENRO_Application extends Business {
     private $sewerageDischargeLocation = null;
     private $waterSupply = null;
 	private $status = null;
+    private $applicationType = null;
 	
 	public function __construct($reference_num = null)
     {
 		$this->CI =& get_instance();
 		$this->CI->load->model('Application_m');
 		$this->CI->load->model('Notification_m');
+        $this->CI->load->model('Renewal_m');
+
+        $isExisting = $this->CI->Renewal_m->check_application($reference_num);
+
+        if($isExisting)
+        {
+            $this->applicationType = "Renew";
+        }
+        else
+        {
+            $this->applicationType = "New";
+        }
 		if(isset($reference_num))
 			return $this->get_application($reference_num);
 	}
@@ -51,8 +64,11 @@ class CENRO_Application extends Business {
 	{
 		$query['referenceNum'] = $reference_num;
 		$application = $this->CI->Application_m->get_all_cenro_applications($query);
-		$this->set_application_all($application[0]);
-		$this->get_business_information($application[0]->businessId);
+        if(count($application) > 0)
+        {
+            $this->set_application_all($application[0]);
+            $this->get_business_information($application[0]->businessId);
+        }
 		$this->unset_CI();
 		return $this;
 	}
@@ -87,21 +103,19 @@ class CENRO_Application extends Business {
 		//check if status is active
 		if($this->status == 'Active')
 		{
+            $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
+            $query = array(
+                'referenceNum' => $reference_num,
+                'role' => 7,
+                'type' => 'Approve',
+                );
+            $approval = $this->CI->Approval_m->get_latest_approval($query);
 			//if this year is greater than application date, expire application
-			if(date('Y') > date('Y', strtotime($this->applicationDate)))
+			if(date('Y') > date('Y', strtotime($approval[0]->createdAt)))
 			{
 				$reference_num = $this->CI->encryption->decrypt($this->referenceNum);
 				$this->change_status($reference_num, 'Expired');
 				$this->status = 'Expired';
-				$query = array(
-					'referenceNum' => $reference_num,
-					'status' => 'Unread',
-					'role' => '3',
-					'notifMessage' => $this->businessName . " application has expired, please check application details for renewal request.",
-					);
-				$var = get_instance();
-				$var->Notification_m->insert($query);
-				unset($var);
 			}
 		}
 		$this->unset_CI();
@@ -111,6 +125,10 @@ class CENRO_Application extends Business {
 	{
 		if(!isset($this->CI))
 			$this->CI =& get_instance();
+
+        $fugitive_particulates = $param->fugitiveParticulates!=null ? explode('|', $param->fugitiveParticulates) : [];
+        $steam_generator = $param->steamGenerator!=null ? explode('|', $param->steamGenerator) : [];
+        $waste_minimization = $param->wasteMinimizationMethod!=null ? explode('|', $param->wasteMinimizationMethod) : [];
 
         $this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
         $this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
@@ -123,8 +141,8 @@ class CENRO_Application extends Business {
         $this->productsAndByProducts = $param->productsAndByProducts;
         $this->smokeEmission = $param->smokeEmission;
         $this->volatileCompound = $param->volatileCompound;
-        $this->fugitiveParticulates = $param->fugitiveParticulates;
-        $this->steamGenerator = $param->steamGenerator;
+        $this->fugitiveParticulates = $fugitive_particulates;//$param->fugitiveParticulates;
+        $this->steamGenerator = $steam_generator;//$param->steamGenerator;
         $this->APCD = $param->APCD;
         $this->stackHeight = $param->stackHeight;
         $this->wastewaterTreatmentFacility = $param->wastewaterTreatmentFacility;
@@ -137,7 +155,7 @@ class CENRO_Application extends Business {
         $this->wasteCollector = $param->wasteCollector;
         $this->collectorAddress = $param->collectorAddress;
         $this->garbageDisposalMethod = $param->garbageDisposalMethod;
-        $this->wasteMinimizationMethod = $param->wasteMinimizationMethod;
+        $this->wasteMinimizationMethod = $waste_minimization;//$param->wasteMinimizationMethod;
         $this->drainageSystem = $param->drainageSystem;
         $this->drainageType = $param->drainageType;
         $this->drainageDischargeLocation = $param->drainageDischargeLocation;
@@ -967,6 +985,30 @@ class CENRO_Application extends Business {
     public function set_Status($status)
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of applicationType.
+     *
+     * @return mixed
+     */
+    public function get_ApplicationType()
+    {
+        return $this->applicationType;
+    }
+
+    /**
+     * Sets the value of applicationType.
+     *
+     * @param mixed $applicationType the application type
+     *
+     * @return self
+     */
+    public function set_ApplicationType($applicationType)
+    {
+        $this->applicationType = $applicationType;
 
         return $this;
     }
