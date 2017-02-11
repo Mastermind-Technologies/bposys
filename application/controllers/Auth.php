@@ -147,6 +147,7 @@ class Auth extends CI_Controller {
     $this->form_validation->set_rules('password', 'Password', 'required');
     $this->form_validation->set_rules('civil-status', 'Civil Status', 'required');
     $this->form_validation->set_rules('birth-date', 'Birth Date', 'required');
+    $this->form_validation->set_rules('contact-number', 'Contact Number', 'required');
     $this->form_validation->set_rules('confirm-password', 'Confirm Password', 'required|matches[password]');
 
     if($this->form_validation->run() == FALSE)
@@ -171,6 +172,7 @@ class Auth extends CI_Controller {
         'gender' => $this->input->post('gender'),
         'email' => $this->input->post('email'),
         'civilStatus' => $this->input->post('civil-status'),
+        'contactNum' => $this->input->post('contact-number'),
         'role' => '3',
         'password' => password_hash($raw_pw, PASSWORD_BCRYPT, $options),
         'birthDate' => $this->input->post('birth-date')
@@ -196,7 +198,7 @@ class Auth extends CI_Controller {
       }
       else
       {
-        $this->session->set_flashdata('failed','Registration Failed!');
+        $this->session->set_flashdata('error','Email is already used.');
         redirect('register');
       }
     }

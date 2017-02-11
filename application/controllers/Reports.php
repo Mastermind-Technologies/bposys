@@ -162,7 +162,13 @@ class Reports extends CI_Controller {
 		unset($query);
 		$query['dept'] = 'BPLO';
 		$query['type'] = 'New';
-		$data['issued'] = count($this->Issued_Application_m->get_all($query));
+		$new = count($this->Issued_Application_m->get_all($query));
+
+		$query['dept'] = 'BPLO';
+		$query['type'] = 'Renew';
+		$renew = count($this->Issued_Application_m->get_all($query));
+
+		$data['issued'] = $new + $renew;
 
 		unset($query);
 		$query['status'] = 'Expired';
@@ -181,6 +187,11 @@ class Reports extends CI_Controller {
 		unset($query);
 		$data['male'] = $this->Owner_m->count_male_owners();
 		$data['female'] = $this->Owner_m->count_female_owners();
+		// echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
+		// exit();
+
 
 		//BY BARANGAY
 		$barangay = $this->Business_m->count_businesses_by_barangay();

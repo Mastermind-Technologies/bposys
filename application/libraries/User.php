@@ -12,6 +12,7 @@ class User {
 	private $civilStatus = null;
 	private $email = null;
 	private $birthDate = null;
+	private $contactNum = null;
 
 	public function __construct($userId = null){
 		$this->CI =& get_instance();
@@ -285,6 +286,7 @@ class User {
 		$this->civilStatus = $param->civilStatus;
 		$this->email = $param->email;
 		$this->birthDate = $param->birthDate;
+		$this->contactNum = $param->contactNum;
 
 		$this->unset_CI();
 		return $this;
@@ -295,4 +297,28 @@ class User {
 		if(isset($this->CI))
 			unset($this->CI);
 	}
+
+    /**
+     * Gets the value of contactNum.
+     *
+     * @return mixed
+     */
+    public function get_ContactNum()
+    {
+    	return $this->contactNum;
+    }
+
+    /**
+     * Sets the value of contactNum.
+     *
+     * @param mixed $contactNum the contact num
+     *
+     * @return self
+     */
+    private function set_ContactNum($contactNum)
+    {
+    	$this->contactNum = $contactNum;
+
+    	return $this;
+    }
 }

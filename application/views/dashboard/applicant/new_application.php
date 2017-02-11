@@ -13,93 +13,169 @@
 
 					<div class="panel panel-primary">
 						<div class="panel-heading">
-							New Application
+							<h3>New Application</h3>
 						</div>
 						<div class="panel-body">
-							<!-- action="<?php echo base_url() ?>dashboard/submit_application" -->
+
 							<form id="new_application_form" method="post" data-parsley-validate="">
 								<div class="row">
-									<div class="col-sm-12">
-										<h3 class="panel-header">Unified Application Form for Business Permit</h3>
-										<div class="row">
-											<div class="col-sm-4">
-												<label for="tax-year">Tax Year:</label>
-												<h3><strong><?= date('Y') ?></strong></h3>
-												<input type="hidden" name="tax-year" id="tax-year" value="<?= date('Y') ?>">
-											</div>
-											<div class="col-sm-4">
-												<label for="application-date">Date of Application</label>
-												<h3><?= date('F j, Y') ?></h3>
-												<input type="hidden" id="application-date" name="application-date" value="<?= date('F j, Y') ?>">
-											</div>
-										</div>
-										<hr>
-										<div class="row">
-											<div class="col-sm-4">
-												<label for="DTISECCDA_RegNum">DTI/SEC/CDA Registration Number*</label>
-												<input type="text" required name="DTISECCDA_RegNum" data-parsley-type="digits" class="form-control">
-											</div>
-											<div class="col-sm-4">
-												<label for="DTISECCDA_Date">DTI/SEC/CDA Date of Registration*</label>
-												<div class="input-group">
-													<input required type="text" name="DTISECCDA_Date" id="DTISECCDA_Date" class="form-control">  <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<label for="brgy-clearance-date-issued">Barangay Clearance Date Issued</label>
-												<div class="input-group">
-													<input type="text" required="" name="brgy-clearance-date-issued" class="form-control date-field"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>	
-												</div>
-											</div>
-										</div>
-										<hr>
-
-										<div class="row">
-											<div class="col-sm-4">
-												<label for="ctc-number">CTC Number*</label>
-												<input required type="text" name="ctc-number" data-parsley-type="digits" class="form-control">
-											</div>
-											<div class="col-sm-4">
-												<label for="tin">TIN*</label>
-												<input required type="text" name="tin" class="form-control">
-											</div>
-										</div>
-										<hr>
-										<div class="row">
+									<div class="tab-content clearfix">
+										<div class="tab-pane active" id='step1'>
+											<h2 class=panel-header>Terms of Use</h2>
 											<div class="col-sm-12">
-												<div class="form-group">
-													<input type="checkbox" id="tax-incentive" name="tax-incentive" data-toggle="tooltip" title="Please specify entity below">
-													<label for="tax-incentive">Are you enjoying tax incentive from any Government Entity?</label>
+												<div class="well well-lg">
+													<p>Text here...</p>
+													<p>and maybe here too</p>
+													<br>
+													<p>By accessing or using this Site etc etc</p>
 												</div>
 
-											</div>
-											<div class="col-sm-4">
 												<div class="form-group">
-													<label for="entity">Specify Entity*</label>
-													<input type="text" disabled id="entity" name="entity" class="form-control">
+													<div class="checkbox">
+														<label>
+															<input type="checkbox" id="certify" name="certify"><strong>I certify that all information is true and correct to the best of my knowledge. I understand that any incorrect, false or misleading statement is punishable by law.</strong>
+														</label>
+													</div>
+												</div>
+												<div class="col-sm-4 col-sm-offset-4">
+													<a data-toggle='tab' id='s1-proceed' disabled class='btn btn-success btn-block'>Proceed</a>
 												</div>
 											</div>
 										</div>
-										<hr>
-										<h4>Applying Business</h4>
-										<div class="row">
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label for="business">Select Business Profile</label>
-													<select name="business" required id="business" class="form-control">
-														<option disabled selected>Select Business</option>
-														<?php foreach ($business as $b): ?>
-															<option value="<?= $this->encryption->encrypt($b->businessId) ?>"><?= $b->businessName ?></option>
-														<?php endforeach ?>
-													</select>
+										<div class="tab-pane" id='step2'>
+											<h2 class="text-center">Unified Application Form for Business Permit</h2>
+											<h4 class="text-center"><strong>Tax Year <?= date('Y') ?></strong></h4>
+											<h4 class="text-center"><strong>CITY OF BIÑAN</strong></h4>
+											<input type="hidden" name="tax-year" id="tax-year" value="<?= date('Y') ?>">
+											<!-- <hr> -->
+											<div class="col-sm-12">
+												<!-- <div class="row">
+													<div class="col-sm-4">
+														<div class="col-sm-12 text-center">
+															<label for="application-date">Date of Application</label>
+														</div>
+														<div class="col-sm-12 text-center">
+															<h3 style="margin-top:0"></h3>
+														</div>
+													</div>
+												</div> -->
+												<!-- <hr> -->
+												<br>
+												<h3 class='panel-header'>Basic Information</h3>
+												<div class="row">
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="">Date of Application</label>
+															<h5 style='margin-top:0'><strong><?= date('F j, Y') ?></strong></h5>
+															<input type="hidden" id="application-date" name="application-date" value="<?= date('F j, Y') ?>">
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="mode-of-payment">Mode of Payment</label>
+															<select name="mode-of-payment" required id="mode-of-payment" class='form-control'>
+																<option selected disabled>Select mode of payment</option>
+																<option value="Anually">Anually (Every year)</option>
+																<option value="Semi-Anually">Semi-Anually (Every 6 months)</option>
+																<option value="Quarterly">Quarterly (Every 3 months)</option>
+															</select>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="id-presented">ID Presented</label>
+															<input type="text" name="id-presented" required="" id="id-presented" class="form-control" placeholder='i.e.: Student ID - 123456789'>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="DTISECCDA_RegNum">DTI/SEC/CDA Registration Number*</label>
+															<input type="text" required name="DTISECCDA_RegNum" data-parsley-type="digits" class="form-control">
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="DTISECCDA_Date">DTI/SEC/CDA Date of Registration*</label>
+															<div class="input-group">
+																<input required type="text" name="DTISECCDA_Date" id="DTISECCDA_Date" class="form-control">  <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="brgy-clearance-date-issued">Barangay Clearance Date Issued</label>
+															<div class="input-group">
+																<input type="text" required="" name="brgy-clearance-date-issued" class="form-control date-field"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>	
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="ctc-number">CTC Number*</label>
+															<input required type="text" name="ctc-number" data-parsley-type="digits" class="form-control">
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="tin">TIN*</label>
+															<input required type="text" name="tin" class="form-control">
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="occupancy-permit-number">Occupany Permit Number</label>
+															<input type="text" required="" name="occupancy-permit-number" class="form-control">
+														</div>
+													</div>
+												</div>
+												<hr>
+												<div class="row">
+													<div class="col-sm-12">
+														<div class="form-group">
+															<input type="checkbox" id="tax-incentive" name="tax-incentive" data-toggle="tooltip" title="Please specify entity below">
+															<label for="tax-incentive">Are you enjoying tax incentive from any Government Entity?</label>
+														</div>
+
+													</div>
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="entity">Specify Entity*</label>
+															<input type="text" disabled id="entity" name="entity" class="form-control">
+														</div>
+													</div>
+												</div>
+												<hr>
+												<div class="col-sm-3 pull-right form-navigation">
+													<!-- <a href="#step1" data-toggle='tab' class='btn btn-success previous'>Back</a> -->
+													<a data-toggle='tab' class='btn btn-success next'>Next 1/6</a>
 												</div>
 											</div>
-											<div class="col-sm-3">
+										</div>
+										<div class="tab-pane" id='step3'>
+											<h2 class="panel-header">Applying Business</h2>
+											<div class="col-sm-12">
+												<div class="row">
+													<div class="col-sm-3">
+														<div class="form-group">
+															<label for="business">Select Business Profile</label>
+															<select name="business" required id="business" class="form-control">
+																<option disabled selected>Select Business</option>
+																<?php foreach ($business as $b): ?>
+																	<option value="<?= $this->encryption->encrypt($b->businessId) ?>"><?= $b->businessName ?></option>
+																<?php endforeach ?>
+															</select>
+														</div>
+													</div>
+											<!-- <div class="col-sm-3">
 												<div class="form-group">
 													<label>Capital Invested</label>
 													<input type="text" name="capital-invested" required data-parsley-type="digits" id="capital-invested" class="form-control">
 												</div>
-											</div>
+											</div> -->
 										</div>
 										<div class="row">
 											<div class="col-sm-3">
@@ -206,15 +282,6 @@
 											</div>
 											<div class="col-sm-4">
 												<div class="form-group">
-													<label>Nature of Business</label>
-													<br>
-													<span id='nature-of-business'>N/A</span>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
 													<label>Organization Type</label>
 													<br>
 													<span id='organization-type'>N/A</span>
@@ -228,11 +295,13 @@
 													<span id='corporation-name'>N/A</span>
 												</div>
 											</div>
-											<div class="col-sm-4">
-												<label>Property Index Number (PIN)</label>
-												<br>
-												<span id='pin'>N/A</span>
-											</div>
+	<!-- 										<div class="col-sm-4">
+												<div class="form-group">
+													<label>Nature of Business</label>
+													<br>
+													<span id='nature-of-business'>N/A</span>
+												</div>
+											</div> -->
 										</div>
 										<div class="row">
 											<div class="col-sm-4">
@@ -320,6 +389,48 @@
 													<span id='business-area'>N/A</span>
 												</div>
 											</div>
+											<div class="col-sm-3">
+												<label>Zip/Postal Code (PIN)</label>
+												<br>
+												<span id='pin'>N/A</span>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label for="">Map Location (Click to replace marker)</label>
+													<br>
+													<span><strong>Google Maps Address: </strong> <span id='gmaps-address'>NA</span></span>
+													<div id="gmaps" style="height:400px; width:100%; background-color: gray"></div>
+												</div>
+												
+											</div>
+										</div>
+										<hr>
+										<div class="row">
+											<div class="col-sm-12">
+												<h4>Building Details</h4>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="storeys">No. of Storeys</label>
+													<input type="text" class='form-control' name='storeys' required>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="portion-occupied">Portion Occupied</label>
+													<input type="text" name="portion-occupied" class="form-control" required>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="area-per-floor">Area per Floor (in sq. m.)</label>
+													<input type="text" name="area-per-floor" data-parsley-type='digits' class="form-control" required>
+												</div>
+											</div>
 										</div>
 										<hr>
 										<div class="row">
@@ -338,116 +449,102 @@
 												<span id='email'>N/A</span>
 											</div>
 										</div>
-										<hr>
+									</div>
+									<hr>
+									<div class="col-sm-3 pull-right form-navigation">
+										<a data-toggle='tab' class='btn btn-success previous'>Back</a>
+										<a data-toggle='tab' class='btn btn-success next'>Next 2/6</a>
+									</div>
+								</div>
+								<div class="tab-pane" id='step4'>
+									<h2 class="panel-header">Lessor Details (if rented)</h2>
+									<div class="col-sm-12 lessor-controls">
 										<div class="row">
 											<div class="col-sm-12">
-												<h4>Lessor Details</h4>
+												<input type="checkbox" name='rented' id='rented' data-toggle="tooltip" title="Please identify lessor's information below if yes">
+												<label for="rented">Is the business place rented?</label>
 											</div>
-										</div>
-										
-										<div class="lessor-controls">
-											<div class="row">
-												<div class="col-sm-12">
-													<input type="checkbox" name='rented' id='rented' data-toggle="tooltip" title="Please identify lessor's information below if yes">
-													<label for="rented">Is the business place rented?</label>
-												</div>
-												<div class="col-sm-4">
-													<div class="form-group">
-														<label for="lessor-first-name">First Name*</label>
-														<input type="text" disabled class="form-control" name='lessor-first-name'>
-													</div>
-												</div>
-												<div class="col-sm-4">
-													<div class="form-group">
-														<label for="lessor-middle-name">Middle Name*</label>
-														<input type="text" disabled class="form-control" name='lessor-middle-name'>
-													</div>
-												</div>
-												<div class="col-sm-4">
-													<div class="form-group">
-														<label for="lessor-last-name">Last Name*</label>
-														<input type="text" disabled class="form-control" name='lessor-last-name'>
-													</div>
-												</div>
-												<div class="col-sm-4">
-													<div class="form-group">
-														<label for="lessor-address">Lessor's Address*</label>
-														<textarea name="lessor-address" id="lessor-address" disabled rows="1" class='form-control' placeholder="House No./Bldg.No/Street"></textarea>
-													</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="lessor-first-name">First Name*</label>
+													<input type="text" disabled class="form-control" name='lessor-first-name'>
 												</div>
 											</div>
-											<div class="row">
-												<div class="col-sm-3">
-													<div class="form-group">
-														<label for="lessor-subdivision">Subdivision*</label>
-														<input type="text" disabled class="form-control" name="lessor-subdivision">
-													</div>
-												</div>
-												<div class="col-sm-3">
-													<div class="form-group">
-														<label for="lessor-barangay">Barangay*</label>
-														<input type="text" disabled class="form-control" name="lessor-barangay">
-													</div>
-												</div>
-												<div class="col-sm-3">
-													<div class="form-group">
-														<label for="lessor-city-municipality">City/Municipality*</label>
-														<input type="text" disabled class="form-control" name="lessor-city-municipality">
-													</div>
-												</div>
-												<div class="col-sm-3">
-													<div class="form-group">
-														<label for="lessor-province">Province*</label>
-														<input type="text" disabled class="form-control" name="lessor-province">
-													</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="lessor-middle-name">Middle Name*</label>
+													<input type="text" disabled class="form-control" name='lessor-middle-name'>
 												</div>
 											</div>
-											<div class="row">
-												<div class="col-sm-3">
-													<div class="form-group">
-														<label for="lessor-monthly-rental">Monthly Rental*</label>
-														<input type="text" disabled class="form-control" data-parsley-type="digits" name="lessor-monthly-rental">
-													</div>
-												</div>
-												<div class="col-sm-3">
-													<div class="form-group">
-														<label for="lessor-tel-cel-no">Tel No./Cel No.*</label>
-														<input type="text" disabled class="form-control" data-parsley-type="digits" name="lessor-tel-cel-no">
-													</div>
-												</div>
-												<div class="col-sm-3">
-													<div class="form-group">
-														<label for="">Email Address*</label>
-														<input type="email" disabled class="form-control" name="lessor-email">
-													</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="lessor-last-name">Last Name*</label>
+													<input type="text" disabled class="form-control" name='lessor-last-name'>
 												</div>
 											</div>
-											<div class="row">
-												<div class="col-sm-12">
-													<h4>In case of emergency</h4>
-												</div>
-												<div class="col-sm-4">
-													<div class="form-group">
-														<label for="contact-name">Contact Person Name*</label>
-														<input type="text" disabled name="emergency-contact-name" class="form-control">
-													</div>
-												</div>
-												<div class="col-sm-4">
-													<div class="form-group">
-														<label for="emergency-tel-cel-no">Tel No./Cel No.*</label>
-														<input type="text" disabled name="emergency-tel-cel-no" data-parsley-type="digits" class="form-control">
-													</div>
-												</div>
-												<div class="col-sm-4">
-													<div class="form-group">
-														<label for="emergency-email">Email Address*</label>
-														<input type="email" disabled name="emergency-email" class="form-control">
-													</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="lessor-address">Lessor's Address*</label>
+													<textarea name="lessor-address" id="lessor-address" disabled rows="1" class='form-control' placeholder="House No./Bldg.No/Street"></textarea>
 												</div>
 											</div>
 										</div>
-										<hr>
-										<h4>Issued Certificates/Permits</h4>
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label for="lessor-subdivision">Subdivision*</label>
+													<input type="text" disabled class="form-control" name="lessor-subdivision">
+												</div>
+											</div>
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label for="lessor-barangay">Barangay*</label>
+													<input type="text" disabled class="form-control" name="lessor-barangay">
+												</div>
+											</div>
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label for="lessor-city-municipality">City/Municipality*</label>
+													<input type="text" disabled class="form-control" name="lessor-city-municipality">
+												</div>
+											</div>
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label for="lessor-province">Province*</label>
+													<input type="text" disabled class="form-control" name="lessor-province">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label for="lessor-monthly-rental">Monthly Rental*</label>
+													<input type="text" disabled class="form-control" data-parsley-type="digits" name="lessor-monthly-rental">
+												</div>
+											</div>
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label for="lessor-tel-cel-no">Tel No./Cel No.*</label>
+													<input type="text" disabled class="form-control" data-parsley-type="digits" name="lessor-tel-cel-no">
+												</div>
+											</div>
+											<div class="col-sm-3">
+												<div class="form-group">
+													<label for="">Email Address*</label>
+													<input type="email" disabled class="form-control" name="lessor-email">
+												</div>
+											</div>
+										</div>
+									</div>
+									<hr>
+									<div class="col-sm-3 pull-right form-navigation">
+										<a data-toggle='tab' class='btn btn-success previous'>Back</a>
+										<a data-toggle='tab' class='btn btn-success next'>Next 3/6</a>
+									</div>
+								</div>
+								<div class="tab-pane" id='step5'>
+									<h2 class="panel-header">Issued Certificates/Permits</h2>
+									<div class="col-sm-12">
 										<small>Click the checkbox if specific permit is issued.</small>
 										<div class="form-group">
 											<div class="row">
@@ -474,7 +571,7 @@
 													<div class="input-group">
 														<input type="text" disabled="" class="form-control" name="llda-date-issued" id="llda-date-issued"><span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
 													</div>
-													
+
 												</div>
 											</div>
 
@@ -510,12 +607,20 @@
 											<div class="col-sm-4">
 												<div class="form-group">
 													<label for="products-by-products">Products and By-Products</label>
-													<input type="text" id="products-by-products" name="products-by-products" class="form-control" value="???">
+													<input type="text" id="products-by-products" name="products-by-products" class="form-control">
 												</div>
 											</div>
 										</div>
-										<!-- END CERTIFICATES -->
-										<hr>
+									</div>
+									<hr>
+									<div class="col-sm-3 pull-right form-navigation">
+										<a data-toggle='tab' class='btn btn-success previous'>Back</a>
+										<a data-toggle='tab' class='btn btn-success next'>Next 4/6</a>
+									</div>
+								</div>
+								<div class="tab-pane" id='step6'>
+									<h2 class="panel-header">Environmental Details</h2>
+									<div class="col-sm-12">
 										<h4>Air Pollutants</h4>
 										<div class="row">
 											<div class="col-sm-5">
@@ -807,58 +912,126 @@
 											<hr>
 											<h4>Hazardous Waste Treater/Transporter</h4>
 											???
-
-											<hr>
-											<div class="row">
-												<div class="col-sm-12">
-													<h4>Business Activity</h4>
-												</div>
-											</div>
+										</div>
+										<hr>
+										<div class="col-sm-3 pull-right form-navigation">
+											<a data-toggle='tab' class='btn btn-success previous'>Back</a>
+											<a data-toggle='tab' class='btn btn-success next'>Next 5/6</a>
+										</div>
+									</div>
+									<div class="tab-pane" id='step7'>
+										<h2 class="panel-header">Business Activities</h2>
+										<div class="col-sm-10 col-sm-offset-1 well well-lg">
+											<h3><strong>Information on Line of Businesses</strong></h3>
+											<br>
+											<br>
+											1.) <strong>Manufacturer Kind</strong> - Manufacturers, assemblers, repackers, processors, brewers, distillers, rectifiers and compounders, or whatever kind or nature.
+											<br>
+											<br>
+											2.) <strong>Wholesaler Kind</strong> - Wholesalers, distributors, or dealers or whatever kind or nature.
+											<br>
+											<br>
+											3.) <strong>Exporter Kind</strong> - Exporters, and/or manufacturers, millers, producers, wholesalers, distributors, dealers or retailers of essential commodities, and millers of commodities other than rice and corn, operators of coffee or meat grinders or coconut grater.
+											<br>
+											<br>
+											4.) <strong>Retailer</strong> - Retailers of all other commodities not classified as essential.
+											<br>
+											<br>
+											5.) <strong>Contractors</strong> - Contractors and other independent contractors, Restaurants, cafes, cafeterias, carinderias, eateries, food caterers, ice cream and refreshment parlors, soda fountains, Amusement places and other establishments whose activity consists essentially of sales of services for a fee.
+											<br>
+											<br>
+											6.) <strong>Banks</strong> - Banks and other financial institutions.
+											<br>
+											<br>
+											7.) <strong>Lessor (Rentals)</strong> - Lessors of real estate including apartments for rent, boarding houses, Privately owned public markets, subdivision operators, or real estate developers, private cemeteries or memorial parks.
+											<br>
+											<br>
+											8.) <strong>Peddlers</strong>
+											<br>
+											<br>
+											9.) <strong>Amusement devices/places</strong> - Proprietors of amusement devices/places for a fee.
+											<br>
+											<br>
+											10.) <strong>Retail Dealers (liquors)</strong> - Retailers in liquors or wines whether imported from other countries or locally manufactured including fermented liquors (beers), tuba, basi and other distilled spirits.
+											<br>
+											<br>
+											11.) <strong>Retail Dealers (tobaccos)</strong> - Retail dealers or retailers of manufactured tobacco or snuff including cigars and cigarettes.
+											<br>
+											<br>
+											12.) <strong>Display areas of products</strong> - Offices used as display areas of the products or where no stocks or items are stored for sale but receives orders for the products; and warehouses being utilized as storage of products and which does not accept orders or issue sales invoice.
+											<br>
+											<br>
+											13.) <strong>Others</strong> - Other businesses, trades or commercial undertakings not herein expressly specified.
+										</div>
+										<div class="col-sm-8 col-sm-offset-2">
 											<table id='bus-activity' class="table table-bordered">
-												<th>Code</th>
 												<th>Line of Business</th>
-												<th>No. of Units</th>
 												<th>Capitalization</th>
 												<!-- <th></th> -->
 												<tbody class="table-body">
 													<tr class="data">
-														<td><input id="code" name="code" type="text" required class=form-control></td>
-														<td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td>
-														<td><input id="num-of-units" name="num-of-units" type="text" required class=form-control></td>
-														<td><input id="capitalization" name="capitalization" type="text" required class=form-control></td>
+														<!-- <td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td> -->
+														<td><select name='line-of-business' id='line-of-business' required class="form-control">
+															<option selected disabled>Select Line of Business</option>
+															<option value='Manufacturer Kind'>Manufacturer Kind</option>
+															<option value='Wholesaler kind'>Wholesaler kind</option>
+															<option value='Exporter kind'>Exporter kind</option>
+															<option value='Retailer'>Retailer</option>
+															<option value='Contractor'>Contractor</option>
+															<option value='Bank'>Bank</option>
+															<option value='Lessor (Renting)'>Lessor (Rentals)</option>
+															<option value='Peddlers'>Peddlers</option>
+															<option value='Amusement devices/places'>Amusement devices/places</option>
+															<option value='Retail Dealers (liquors)'>Retail Dealers (liquors)</option>
+															<option value='Retail Dealers (tobaccos)'>Retail Dealers (tobaccos)</option>
+															<option value='Display areas of products'>Display areas of products</option>
+															<option value='Others'>Others</option>
+														</select></td>
+														<td><input id='capitalization' name="capitalization" type="text" required data-parsley-type='digits' class=form-control></td>
 														<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
 													</tr>
 												</tbody>
 											</table>
-
-											<div class="row">
-												<div class="col-sm-4 col-sm-offset-4">
-													<a id="btn-add-bus-activity" class="btn btn-primary btn-block"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
-												</div>
-											</div>
-
 										</div>
-									</div>
-									<div class="row">
-										<hr>
+
+
 										<div class="row">
-											<div class="col-sm-3 col-sm-offset-3">
-												<button type="submit" id="btn-submit" class="btn btn-success btn-block"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Save</button>
+											<div class="col-sm-4 col-sm-offset-4">
+												<a id="btn-add-bus-activity" class="btn btn-primary btn-block"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
 											</div>
-											<div class="col-sm-3">
-												<a href="<?php echo base_url() ?>dashboard" class="btn btn-danger btn-block"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
-											</div>
+										</div>
+										<hr>
+										<div class="col-sm-4 pull-right form-navigation">
+											<a data-toggle='tab' class='btn btn-success previous'>Back</a>
+											<button type="submit" id="btn-submit" class="btn btn-success"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Submit Application</button>
 										</div>
 									</div>
 								</div>
-							</form>
-						</div>
-						<!-- /.panel-body -->
+							</div>
+						</form>
 					</div>
+					<!-- /.panel-body -->
 				</div>
-				<!-- /.col-lg-12 -->
 			</div>
-			<!-- /.row -->
+			<!-- /.col-lg-12 -->
 		</div>
-		<!-- /.container-fluid -->
+		<!-- /.row -->
 	</div>
+	<!-- /.container-fluid -->
+</div>
+
+<!-- <div id="modalLineOfBusiness" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Choose Line of Business</h4>
+			</div>
+			<div class="modal-body">
+
+			</div>
+		</div>
+	</div>
+</div> -->

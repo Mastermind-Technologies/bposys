@@ -62,6 +62,19 @@
 										<h5><?= $user->get_civilStatus() ?></h5>
 									</div>
 								</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<h3 class="panel-header">Contact Information</h3>
+									</div>
+									<div class="col-sm-3">
+										<label for="email">Email</label>
+										<h5><?= $user->get_email() ?></h5>
+									</div>
+									<div class="col-sm-3">
+										<label for="contact-number">Contact Number</label>
+										<h5><?= $user->get_ContactNum() ?></h5>
+									</div>
+								</div>
 								<hr>
 								<div class="row">
 									<div class="col-sm-4 col-sm-offset-4">
@@ -70,6 +83,7 @@
 								</div>
 							</div>
 						</div>
+						
 
 					</div>
 					<!-- /.panel-body

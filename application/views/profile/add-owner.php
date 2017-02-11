@@ -128,6 +128,14 @@
 											</div>
 										</div>
 									</div>
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label for="PIN">Zip/Postal Code</label>
+												<input type="text" required class="form-control" name="PIN" value="">
+											</div>
+										</div>
+									</div>
 									
 									<h4 class="page-header">Contact Details</h4>
 									<div class="row">

@@ -96,16 +96,23 @@ $(document).ready(function(){
 		    	// afterClose: function() {},
 		    	onCloseClick: function() {
 		    		//ajax
+		    		if(type == "information")
+		    			var notifType = 'Incoming';
+		    		else if(type == "success")
+		    			var notifType = 'Completed';
 		    		$.ajax({
 		    			type:'POST',
-		    			url:base_url+'dashboard/update_notif',
+		    			url:base_url+'dashboard/update_notif/'+notifType,
 		    			success: function(data)
 		    			{
 		    				if(info_active)
 		    					info_active = false;
 		    				if(success_active)
 		    					success_active = false;
-		    				window.location = base_url+"dashboard/incoming_applications";
+		    				if(type == "success")
+		    					window.location = base_url+"dashboard/completed_applications";
+		    				else if(type == "information")
+		    					window.location = base_url+"dashboard/incoming_applications";
 		    			}
 		    		});
 		    	},
@@ -134,16 +141,15 @@ $(document).ready(function(){
 	});
 
 	$('.count').each(function () {
-    $(this).prop('Counter',0).animate({
-        Counter: $(this).text()
-    }, {
-        duration: 3000,
-        easing: 'swing',
-        step: function (now) {
-            $(this).text(Math.ceil(now));
-        }
-    });
-});
-
+		$(this).prop('Counter',0).animate({
+			Counter: $(this).text()
+		}, {
+			duration: 3000,
+			easing: 'swing',
+			step: function (now) {
+				$(this).text(Math.ceil(now));
+			}
+		});
+	});
 
 });//End of Jquery

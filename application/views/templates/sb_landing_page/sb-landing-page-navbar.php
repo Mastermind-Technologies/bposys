@@ -12,30 +12,29 @@
                 </button>
                 <a style="color: white" class="navbar-brand topnav" href="<?php echo base_url();?>home"><img src="<?php echo base_url(); ?>assets/landing-page/img/bposys-logo.png" height="200%" style="margin-top: -10px" alt=""></a>
             </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="<?= $selected=='howto' ? 'active' : '' ?>">
+          <a href="<?php echo base_url(); ?>home/guide"  style="color: #FFF">How to</a>
+        </li>
+        <li class="<?= $selected=='contact' ? 'active' : '' ?>">
+          <a href="<?php echo base_url(); ?>home#banner"  style="color: #FFF">Contact Us</a>
+        </li>
+        <li class="<?= $selected=='register' ? 'active' : '' ?>">
+          <a href="<?php echo base_url(); ?>register" style="color: #FFF">Register</a>
+        </li>
+        <li class="<?= $selected=='login' ? 'active' : '' ?>">
+          <a href="#" data-toggle="modal" data-target="#modalLogin" style="color: #FFF">Login</a>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                  <li class="<?= $selected=='howto' ? 'active' : '' ?>">
-                      <a href="<?php echo base_url(); ?>home/guide"  style="color: #FFF">How to</a>
-                  </li>
-                    <li class="<?= $selected=='contact' ? 'active' : '' ?>">
-                        <a href="<?php echo base_url(); ?>home#banner"  style="color: #FFF">Contact Us</a>
-                    </li>
-                    <li class="<?= $selected=='register' ? 'active' : '' ?>">
-                        <a href="<?php echo base_url(); ?>register" style="color: #FFF">Register</a>
-                    </li>
-                    <li class="<?= $selected=='login' ? 'active' : '' ?>">
-                        <a href="#" data-toggle="modal" data-target="#modalLogin" style="color: #FFF">Login</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
-    <!-- Modal -->
+<!-- Modal -->
 <div id="modalLogin" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -68,7 +67,7 @@
           </div>
         </div>
 
-      <hr>
+        <hr>
 
       </form>
 

@@ -9,6 +9,8 @@ class BPLO_Application extends Business {
 	private $taxYear = null;
     private $businessId = null;
 	private $applicationDate = null;
+    private $modeOfPayment = null;
+    private $idPresented = null;
 	private $DTISECCDA_RegNum = null;
 	private $DTISECCDA_Date = null;
     private $brgyClearanceDateIssued = null;
@@ -19,6 +21,12 @@ class BPLO_Application extends Business {
 	private $businessActivities = null;
 	private $lessors = null;
 	private $dateStarted = null;
+    private $dateIssued = null;
+    private $applicationType = null;
+    private $assessment = null;
+    private $charges = null;
+    private $lineOfBusiness = null;
+    private $capital = null;
 	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
@@ -27,6 +35,20 @@ class BPLO_Application extends Business {
 		$this->CI->load->model('Business_Activity_m');
 		$this->CI->load->model('Lessor_m');
 		$this->CI->load->model('Notification_m');
+        $this->CI->load->model('Renewal_m');
+        $this->CI->load->model('Assessment_m');
+
+        $isExisting = $this->CI->Renewal_m->check_application($reference_num);
+
+        if($isExisting)
+        {
+            $this->applicationType = "Renew";
+        }
+        else
+        {
+            $this->applicationType = "New";
+        }
+
 		if(isset($reference_num))
 			return $this->get_application($reference_num);
 	}
@@ -122,6 +144,27 @@ class BPLO_Application extends Business {
 		$query['bploId'] = $param->applicationId;
 		$lessors = $this->CI->Lessor_m->get_all_lessor($query);
 		$business_activities = $this->CI->Business_Activity_m->get_all_business_activity($query);
+        $lineOfBusiness = "";
+        $total_capital = 0;
+
+            for ($i=0; $i < count($business_activities) ; $i++) { 
+                if($i == count($lineOfBusiness))
+                    $lineOfBusiness .= $business_activities[$i]->lineOfBusiness;
+                else
+                    $lineOfBusiness .= $business_activities[$i]->lineOfBusiness.", ";
+                $total_capital += $business_activities[$i]->capitalization;
+            }
+
+        unset($query);
+        $assessment = $this->CI->Assessment_m->get_assessment(['referenceNum' => $param->referenceNum]);
+
+        if(count($assessment) > 0)
+            $charges = $this->CI->Assessment_m->get_charges(['assessmentId' => $assessment[0]->assessmentId]);
+
+        // echo "<pre>";
+        // print_r($charges);
+        // echo "</pre>";
+        // exit();
 
 		unset($query);
 
@@ -141,20 +184,27 @@ class BPLO_Application extends Business {
         $this->businessId = $this->CI->encryption->encrypt($param->businessId);
 		$this->taxYear = $param->taxYear;
 		$this->applicationDate = $param->applicationDate;
+        $this->modeOfPayment = $param->modeOfPayment;
+        $this->idPresented = $param->idPresented;
 		$this->DTISECCDA_RegNum = $param->DTISECCDA_RegNum;
 		$this->DTISECCDA_Date = $param->DTISECCDA_Date;
         $this->brgyClearanceDateIssued = $param->brgyClearanceDateIssued;
-		// $this->typeOfOrganization = $param->typeOfOrganization;
 		$this->CTCNum = $param->CTCNum;
 		$this->TIN = $param->TIN;
 		$this->entityName = $param->entityName;
 		$this->status = $param->status;
 		$this->businessActivities = $business_activities;
 		$this->dateStarted = $param->createdAt;
+        $this->lineOfBusiness = $lineOfBusiness;
+        $this->capital = $total_capital;
+        if(count($assessment) > 0)
+        {
+            $this->assessment = $assessment[0];
+            $this->charges = $charges;
+        }
+
 		if($lessors != null)
 			$this->lessors = $lessors[0];
-		else
-			unset($this->lessors);
 
 		$this->unset_CI();
 		return $this;
@@ -499,5 +549,221 @@ class BPLO_Application extends Business {
     public function set_BrgyClearanceDateIssued($brgyClearanceDateIssued)
     {
         $this->brgyClearanceDateIssued = $brgyClearanceDateIssued;
+    }
+
+    /**
+     * Gets the value of data_issued.
+     *
+     * @return mixed
+     */
+    public function getDataIssued()
+    {
+        return $this->data_issued;
+    }
+
+    /**
+     * Sets the value of data_issued.
+     *
+     * @param mixed $data_issued the data issued
+     *
+     * @return self
+     */
+    private function _setDataIssued($data_issued)
+    {
+        $this->data_issued = $data_issued;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of date_issued.
+     *
+     * @return mixed
+     */
+    public function get_DateIssued()
+    {
+        return $this->date_issued;
+    }
+
+    /**
+     * Sets the value of date_issued.
+     *
+     * @param mixed $date_issued the date issued
+     *
+     * @return self
+     */
+    public function set_DateIssued($date_issued)
+    {
+        $this->date_issued = $date_issued;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of modeOfPayment.
+     *
+     * @return mixed
+     */
+    public function get_ModeOfPayment()
+    {
+        return $this->modeOfPayment;
+    }
+
+    /**
+     * Sets the value of modeOfPayment.
+     *
+     * @param mixed $modeOfPayment the mode of payment
+     *
+     * @return self
+     */
+    public function set_ModeOfPayment($modeOfPayment)
+    {
+        $this->modeOfPayment = $modeOfPayment;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of idPresented.
+     *
+     * @return mixed
+     */
+    public function get_IdPresented()
+    {
+        return $this->idPresented;
+    }
+
+    /**
+     * Sets the value of idPresented.
+     *
+     * @param mixed $idPresented the id presented
+     *
+     * @return self
+     */
+    public function set_IdPresented($idPresented)
+    {
+        $this->idPresented = $idPresented;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of applicationType.
+     *
+     * @return mixed
+     */
+    public function get_ApplicationType()
+    {
+        return $this->applicationType;
+    }
+
+    /**
+     * Sets the value of applicationType.
+     *
+     * @param mixed $applicationType the application type
+     *
+     * @return self
+     */
+    public function set_ApplicationType($applicationType)
+    {
+        $this->applicationType = $applicationType;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of assessment.
+     *
+     * @return mixed
+     */
+    public function get_Assessment()
+    {
+        return $this->assessment;
+    }
+
+    /**
+     * Sets the value of assessment.
+     *
+     * @param mixed $assessment the assessment
+     *
+     * @return self
+     */
+    public function set_Assessment($assessment)
+    {
+        $this->assessment = $assessment;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of charges.
+     *
+     * @return mixed
+     */
+    public function get_Charges()
+    {
+        return $this->charges;
+    }
+
+    /**
+     * Sets the value of charges.
+     *
+     * @param mixed $charges the charges
+     *
+     * @return self
+     */
+    public function set_Charges($charges)
+    {
+        $this->charges = $charges;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of lineOfBusiness.
+     *
+     * @return mixed
+     */
+    public function get_LineOfBusiness()
+    {
+        return $this->lineOfBusiness;
+    }
+
+    /**
+     * Sets the value of lineOfBusiness.
+     *
+     * @param mixed $lineOfBusiness the line of business
+     *
+     * @return self
+     */
+    public function set_LineOfBusiness($lineOfBusiness)
+    {
+        $this->lineOfBusiness = $lineOfBusiness;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of capital.
+     *
+     * @return mixed
+     */
+    public function get_Capital()
+    {
+        return $this->capital;
+    }
+
+    /**
+     * Sets the value of capital.
+     *
+     * @param mixed $capital the capital
+     *
+     * @return self
+     */
+    public function set_Capital($capital)
+    {
+        $this->capital = $capital;
+
+        return $this;
     }
 }//END OF CLASS

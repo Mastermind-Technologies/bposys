@@ -8,7 +8,6 @@ class Business extends Owner {
 	private $companyName = null;
 	private $tradeName = null;
 	private $signageName = null;
-	private $natureOfBusiness = null;
 	private $organizationType = null;
 	private $corporationName = null;
 	private $dateOfOperation = null;
@@ -31,6 +30,16 @@ class Business extends Owner {
     private $LGUEmployees = null;
     private $businessArea = null;
     private $isApplied = null;
+    private $emergencyContactPerson = null;
+    private $emergencyTelNum = null;
+    private $emergencyEmail = null;
+    private $zoneType = null;
+    private $lat = null;
+    private $lng = null;
+    private $gmapAddress = null;
+
+    // private $natureOfBusiness = null;
+    // private $capitalInvested = null;
 
     public function __construct($business_id = null)
     {
@@ -177,10 +186,10 @@ class Business extends Owner {
      *
      * @return mixed
      */
-    public function get_NatureOfBusiness()
-    {
-    	return $this->natureOfBusiness;
-    }
+    // public function get_NatureOfBusiness()
+    // {
+    // 	return $this->natureOfBusiness;
+    // }
 
     /**
      * Sets the value of natureOfBusiness.
@@ -189,10 +198,10 @@ class Business extends Owner {
      *
      * @return self
      */
-    public function set_NatureOfBusiness($natureOfBusiness)
-    {
-    	$this->natureOfBusiness = $natureOfBusiness;
-    }
+    // public function set_NatureOfBusiness($natureOfBusiness)
+    // {
+    // 	$this->natureOfBusiness = $natureOfBusiness;
+    // }
 
     /**
      * get_s the value of organizationType.
@@ -699,6 +708,77 @@ class Business extends Owner {
 
         return $this;
     }
+        /**
+     * Gets the value of emergencyContactPerson.
+     *
+     * @return mixed
+     */
+    public function get_EmergencyContactPerson()
+    {
+        return $this->emergencyContactPerson;
+    }
+
+    /**
+     * Sets the value of emergencyContactPerson.
+     *
+     * @param mixed $emergencyContactPerson the emergency contact person
+     *
+     * @return self
+     */
+    public function set_EmergencyContactPerson($emergencyContactPerson)
+    {
+        $this->emergencyContactPerson = $emergencyContactPerson;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of emergencyTelNum.
+     *
+     * @return mixed
+     */
+    public function get_EmergencyTelNum()
+    {
+        return $this->emergencyTelNum;
+    }
+
+    /**
+     * Sets the value of emergencyTelNum.
+     *
+     * @param mixed $emergencyTelNum the emergency tel num
+     *
+     * @return self
+     */
+    public function set_EmergencyTelNum($emergencyTelNum)
+    {
+        $this->emergencyTelNum = $emergencyTelNum;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of emergencyEmail.
+     *
+     * @return mixed
+     */
+    public function get_EmergencyEmail()
+    {
+        return $this->emergencyEmail;
+    }
+
+    /**
+     * Sets the value of emergencyEmail.
+     *
+     * @param mixed $emergencyEmail the emergency email
+     *
+     * @return self
+     */
+    public function set_EmergencyEmail($emergencyEmail)
+    {
+        $this->emergencyEmail = $emergencyEmail;
+
+        return $this;
+    }
 
     public function set_all($param = null)
     {
@@ -710,7 +790,7 @@ class Business extends Owner {
     	$this->companyName = $param->companyName;
     	$this->tradeName = $param->tradeName;
     	$this->signageName = $param->signageName;
-    	$this->natureOfBusiness = $param->natureOfBusiness;
+    	// $this->natureOfBusiness = $param->natureOfBusiness;
     	$this->organizationType = $param->organizationType;
     	$this->corporationName = $param->corporationName;
     	$this->dateOfOperation = $param->dateOfOperation;
@@ -732,8 +812,111 @@ class Business extends Owner {
         $this->PWDEmployees = $param->PWDEmployees;
         $this->LGUEmployees = $param->LGUResidingEmployees;
         $this->businessArea = $param->businessArea;
+        $this->emergencyContactPerson = $param->emergencyContactPerson;
+        $this->emergencyTelNum = $param->emergencyTelNum;
+        $this->emergencyEmail = $param->emergencyEmail;
+        $this->zoneType = $param->zoneType;
+        $this->lng = $param->lng;
+        $this->lat = $param->lat;
+        $this->gmapAddress = $param->gmapAddress;
 
         $this->unset_CI();
+        return $this;
+    }
+
+    /**
+     * Gets the value of zoneType.
+     *
+     * @return mixed
+     */
+    public function get_ZoneType()
+    {
+        return $this->zoneType;
+    }
+
+    /**
+     * Sets the value of zoneType.
+     *
+     * @param mixed $zoneType the zone type
+     *
+     * @return self
+     */
+    public function set_ZoneType($zoneType)
+    {
+        $this->zoneType = $zoneType;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of lat.
+     *
+     * @return mixed
+     */
+    public function get_Lat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Sets the value of lat.
+     *
+     * @param mixed $lat the lat
+     *
+     * @return self
+     */
+    public function set_Lat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of lng.
+     *
+     * @return mixed
+     */
+    public function get_Lng()
+    {
+        return $this->lng;
+    }
+
+    /**
+     * Sets the value of lng.
+     *
+     * @param mixed $lng the lng
+     *
+     * @return self
+     */
+    public function set_Lng($lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of gmapAddress.
+     *
+     * @return mixed
+     */
+    public function get_GmapAddress()
+    {
+        return $this->gmapAddress;
+    }
+
+    /**
+     * Sets the value of gmapAddress.
+     *
+     * @param mixed $gmapAddress the gmap address
+     *
+     * @return self
+     */
+    public function set_GmapAddress($gmapAddress)
+    {
+        $this->gmapAddress = $gmapAddress;
+
         return $this;
     }
 }//END OF CLASS
