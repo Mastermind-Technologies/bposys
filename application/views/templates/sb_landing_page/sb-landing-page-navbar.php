@@ -10,7 +10,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a style="color: white" class="navbar-brand topnav" href="<?php echo base_url();?>home">BPOSys</a>
+                <a style="color: white" class="navbar-brand topnav" href="<?php echo base_url();?>home"><img src="<?php echo base_url(); ?>assets/landing-page/img/bposys-logo.png" height="200%" style="margin-top: -10px" alt=""></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
