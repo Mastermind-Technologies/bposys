@@ -1835,76 +1835,76 @@ class Dashboard extends CI_Controller {
 	// 	$this->load->view('dashboard/bplo/generatePDF');
 	// }
 
-	public function get_bplo_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+		public function get_bplo_info()
+		{
+			$data['application'] = $this->Application_m->get_all_bplo_applications();
+			$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/bplo/bplo_printable',$data);
-	}
+			$this->load->view('dashboard/bplo/bplo_printable',$data);
+		}
 
-	public function get_sanitary_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+		public function get_sanitary_info()
+		{
+			$data['application'] = $this->Application_m->get_all_bplo_applications();
+			$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/cho/sanitary_printable',$data);
-	}
+			$this->load->view('dashboard/cho/sanitary_printable',$data);
+		}
 
-	public function get_bfp_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+		public function get_bfp_info()
+		{
+			$data['application'] = $this->Application_m->get_all_bplo_applications();
+			$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/bfp/bfp_printable',$data);
-	}
+			$this->load->view('dashboard/bfp/bfp_printable',$data);
+		}
 
 
-	public function get_bplo_renewal_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+		public function get_bplo_renewal_info()
+		{
+			$data['application'] = $this->Application_m->get_all_bplo_applications();
+			$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/bplo/bpaf_renewal_printable',$data);
-	}
+			$this->load->view('dashboard/bplo/bpaf_renewal_printable',$data);
+		}
 
-	public function get_zoning_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+		public function get_zoning_info()
+		{
+			$data['application'] = $this->Application_m->get_all_bplo_applications();
+			$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/zoning/zoning_printable',$data);
-	}
+			$this->load->view('dashboard/zoning/zoning_printable',$data);
+		}
 
-	public function get_cenro_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+		public function get_cenro_info()
+		{
+			$data['application'] = $this->Application_m->get_all_bplo_applications();
+			$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/cenro/cenro_printable',$data);
-	}
+			$this->load->view('dashboard/cenro/cenro_printable',$data);
+		}
 
-	public function get_bplo_form_info()
-	{
-		$this->_init_matrix();
-		$this->load->view('dashboard/bplo/bplo_form_printable');
-	}
+		public function get_bplo_form_info()
+		{
+			$this->_init_matrix();
+			$this->load->view('dashboard/bplo/bplo_form_printable');
+		}
 
-	public function get_cert_closure_info()
-	{
+		public function get_cert_closure_info()
+		{
 
-		$this->load->view('dashboard/bplo/cert_closure_printable');
-	}
+			$this->load->view('dashboard/bplo/cert_closure_printable');
+		}
 
-	public function get_bplo_certificate_info()
-	{
+		public function get_bplo_certificate_info()
+		{
 
-		$this->load->view('dashboard/bplo/bplo_certificate_printable');
-	}
+			$this->load->view('dashboard/bplo/bplo_certificate_printable');
+		}
 
-	public function get_assessment_form_info()
-	{
+		public function get_assessment_form_info()
+		{
 
-		$this->load->view('dashboard/bplo/assessment_form_printable');
-	}
+			$this->load->view('dashboard/bplo/assessment_form_printable');
+		}
 }//END OF CLASS,
