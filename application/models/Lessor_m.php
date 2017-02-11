@@ -14,6 +14,12 @@ class Lessor_m extends CI_Model {
   	$this->db->insert($this->_table_name, $fields);
   }
 
+  public function update_lessor($fields)
+  {
+    $this->db->where(['bploId' => $fields['bploId']]);
+    $this->db->update($this->_table_name, $fields);
+  }
+
   public function get_all_lessor($query = null)
   {
     if($query != null)
@@ -31,9 +37,4 @@ class Lessor_m extends CI_Model {
 
   // 	return $result->result();
   // }
-
-  public function update_lessor()
-  {
-
-  }
 }

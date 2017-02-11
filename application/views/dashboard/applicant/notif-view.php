@@ -1,4 +1,4 @@
-<?php if (sizeof($notifications) > 0): ?>
+<?php if (count($notifications) > 0): ?>
     <?php foreach ($notifications as $notification): ?>
         <li>
             <a href="#">

@@ -40,7 +40,7 @@ class Role_m extends CI_Model {
   //   return $result->result();
   // }
 
-  // public function get_all_applications($query = null)
+  // public function get_all_bplo_applications($query = null)
   // {
   //   if($query != null)
   //     $this->db->where($query);

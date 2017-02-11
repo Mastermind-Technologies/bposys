@@ -16,6 +16,214 @@ $(document).ready(function()
 
   $('[data-toggle="tooltip"]').tooltip();
 
+  $('#certify').click(function(){
+    if($('#certify').is(':checked'))
+    {
+      $('#s1-proceed').removeAttr('disabled');
+      $('#s1-proceed').prop('href','#step2');
+    }
+    else
+    {
+      $('#s1-proceed').attr('disabled',true);
+      $('#s1-proceed').removeAttr('href');
+    }
+  });
+
+  $('#cnc').click(function(){
+    if($('#cnc').is(':checked'))
+    {
+      $('#cnc-date-issued').prop('disabled',false);
+      $('#cnc-date-issued').prop('required',true);
+    }
+    else
+    {
+      $('#cnc-date-issued').prop('disabled',true);
+      $('#cnc-date-issued').prop('required',false);
+      $('#cnc-date-issued').val("");
+    }
+  });
+
+  $('#llda').click(function(){
+    if($('#llda').is(':checked'))
+    {
+      $('#llda-date-issued').prop('disabled',false);
+      $('#llda-date-issued').prop('required',true);
+    }
+    else
+    {
+      $('#llda-date-issued').prop('disabled',true);
+      $('#llda-date-issued').prop('required',false);
+      $('#llda-date-issued').val("");
+    }
+  });
+
+  $('#discharge-permit').click(function(){
+    if($('#discharge-permit').is(':checked'))
+    {
+      $('#discharge-permit-date-issued').prop('disabled',false);
+      $('#discharge-permit-date-issued').prop('required',true);
+    }
+    else
+    {
+      $('#discharge-permit-date-issued').prop('disabled',true);
+      $('#discharge-permit-date-issued').prop('required',false);
+      $('#discharge-permit-date-issued').val("");
+    }
+  });
+
+  $('#apsci').click(function(){
+    if($('#apsci').is(':checked'))
+    {
+      $('#apsci-date-issued').prop('disabled',false);
+      $('#apsci-date-issued').prop('required',true);
+    }
+    else
+    {
+      $('#apsci-date-issued').prop('disabled',true);
+      $('#apsci-date-issued').prop('required',false);
+      $('#apsci-date-issued').val("");
+    }
+  });
+
+  $('#steam-generator-others').click(function(){
+    if($('#steam-generator-others').is(':checked'))
+    {
+      $('#steam-generator-specify').prop('disabled',false);
+      $('#steam-generator-specify').prop('required',true);
+    }
+    else
+    {
+      $('#steam-generator-specify').prop('disabled',true);
+      $('#steam-generator-specify').prop('required',false);
+      $('#steam-generator-specify').val("");
+    }
+  });
+
+  $('#steam-generator-specify').change(function(){
+    $('#steam-generator-others').val($('#steam-generator-specify').val());
+  });
+
+  $('#pending-llda-case').click(function(){
+    if($('#pending-llda-case').is(':checked'))
+    {
+      $('#llda-case-no').prop('disabled',false);
+      $('#llda-case-no').prop('required',true);
+    }
+    else
+    {
+      $('#llda-case-no').prop('disabled',true);
+      $('#llda-case-no').prop('required',false);
+      $('#llda-case-no').val("");
+    }
+  });
+
+  $('#garbage-radio input').on('change',function(){
+    // console.log($('input[name=garbage-collection-frequency]:checked').val());
+    if($('#garbage-collection-others').is(':checked'))
+    {
+      $('#garbage-collection-specify').prop('disabled',false);
+      $('#garbage-collection-specify').prop('required',true);
+    }
+    else
+    {
+      $('#garbage-collection-specify').prop('disabled',true);
+      $('#garbage-collection-specify').prop('required',false);
+      $('#garbage-collection-specify').val("");
+    }
+  });
+
+
+  $('#garbage-collection-specify').change(function(){
+    $('#garbage-collection-others').val($('#garbage-collection-specify').val());
+    // console.log($('#garbage-collection-others').val());
+  });
+
+  $('#drainage-system').click(function(){
+    if($('#drainage-system').is(':checked'))
+    {
+      $('#drainage-system-type1').prop('disabled',false);
+      $('#drainage-system-type1').prop('checked',true);
+      $('#drainage-system-type2').prop('disabled',false);
+
+      $('#drainage-where-discharged1').prop('disabled',false);
+      $('#drainage-where-discharged1').prop('checked',true);
+      $('#drainage-where-discharged2').prop('disabled',false);
+    }
+    else
+    {
+      $('#drainage-system-type1').prop('disabled',true);
+      $('#drainage-system-type1').prop('checked',false);
+      $('#drainage-system-type2').prop('disabled',true);
+
+      $('#drainage-where-discharged1').prop('disabled',true);
+      $('#drainage-where-discharged1').prop('checked',false);
+      $('#drainage-where-discharged2').prop('disabled',true);
+    }
+  });
+
+  $('#septic-tank').click(function(){
+    if($('#septic-tank').is(':checked'))
+    {
+      $('#sewerage-where-discharged1').prop('disabled',false);
+      $('#sewerage-where-discharged1').prop('checked',true);
+      $('#sewerage-where-discharged2').prop('disabled',false);
+    }
+    else
+    {
+      $('#sewerage-where-discharged1').prop('disabled',true);
+      $('#sewerage-where-discharged1').prop('checked',false);
+      $('#sewerage-where-discharged2').prop('disabled',true);
+    }
+  });
+
+  $('#date-of-operation').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('.date-field').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#cnc-date-issued').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#llda-date-issued').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#discharge-permit-date-issued').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#apsci-date-issued').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#DTISECCDA_Date').datetimepicker({
+    format: 'MM/DD/YYYY',
+    viewMode: 'years'
+  });
+
+  $('#organization-type').change(function(event){
+    if($('#organization-type').val() == 'Corporation')
+    {
+      $('#corporation-name').prop('disabled',false);
+      $('#corporation-name').prop('required',true);
+    }
+    else
+    {
+      $('#corporation-name').prop('disabled',true);
+      $('#corporation-name').prop('required',false);
+    }
+  });
+
   $('#btn-male').click(function(event)
   {
     $('#btn-male').addClass('active');
@@ -64,7 +272,7 @@ $(document).ready(function()
     }
     else
     {
-      $('.lessor-controls input[type=text], textarea, input[type=email]').each(function() {
+      $('.lessor-controls input[type=text], textarea[name=lessor-address], input[type=email]').each(function() {
         $(this).prop('disabled', true);
         $(this).prop('required', false);
       });
@@ -75,7 +283,22 @@ $(document).ready(function()
   $('#btn-add-bus-activity').click(function(){
     rowCount++;
     console.log(rowCount);
-    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td><td><input type='text' required class=form-control></td></tr>");
+    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><select required class=form-control>"+
+      "<option selected disabled>Select Line of Business</option>"+
+      "<option value='Manufacturer Kind'>Manufacturer Kind</option>"+
+      "<option value='Wholesaler kind'>Wholesaler kind</option>"+
+      "<option value='Exporter kind'>Exporter kind</option>"+
+      "<option value='Retailer'>Retailer</option>"+
+      "<option value='Contractor'>Contractor</option>"+
+      "<option value='Bank'>Bank</option>"+
+      "<option value='Lessor (Renting)'>Lessor (Rentals)</option>"+
+      "<option value='Peddlers'>Peddlers</option>"+
+      "<option value='Amusement devices/places'>Amusement devices/places</option>"+
+      "<option value='Retail Dealers (liquors)'>Retail Dealers (liquors)</option>"+
+      "<option value='Retail Dealers (tobaccos)'>Retail Dealers (tobaccos)</option>"+
+      "<option value='Display areas of products'>Display areas of products</option>"+
+      "<option value='Others'>Others</option>"+
+      "</select></td><td><input type='text' required data-parsley-type='digits' class=form-control></td></tr>");
 
   });
 
@@ -103,7 +326,6 @@ $(document).ready(function()
         {
           process_business_activity(data.referenceNum);
         }
-        
       }
     });
     return false;
@@ -111,16 +333,15 @@ $(document).ready(function()
 
   function process_business_activity(reference_number)
   {
+
     var ctr = 0;
     var total_rows = count_business_activities();
     $("#bus-activity tbody .data").each(function() {
       ctr++;
-      var code = $(this).find("td:nth-child(1) input").val();
-      var lineOfBusiness = $(this).find("td:nth-child(2) input").val();
-      var numOfUnits = $(this).find("td:nth-child(3) input").val();
-      var capitalization = $(this).find("td:nth-child(4) input").val();
+      var lineOfBusiness = $(this).find("td:nth-child(1) select").val();
+      var capitalization = $(this).find("td:nth-child(2) input").val();
 
-      if(code == '' || lineOfBusiness == '' || numOfUnits == '' || capitalization == '')
+      if(lineOfBusiness == '' || capitalization == '')
       {
         //do nothing
       }
@@ -130,15 +351,14 @@ $(document).ready(function()
           type:"POST",
           url:base_url+"dashboard/store_business_activity",
           dataType:'json',
-          data:{ctr:ctr, total_rows:total_rows, code:code, lineOfBusiness:lineOfBusiness, numOfUnits:numOfUnits, capitalization:capitalization, referenceNum:reference_number},
+          data:{ctr:ctr, total_rows:total_rows, lineOfBusiness:lineOfBusiness, capitalization:capitalization, referenceNum:reference_number},
           success: function(o){
             if(o == "success")
             {
-              console.log("Success!");
-              console.log("Redirecting...");
-              window.setTimeout(function() { 
-                window.location = base_url+"dashboard"; 
-              },2000);
+              // window.setTimeout(function() { 
+              //   window.location = base_url+"dashboard"; 
+              // },2000);
+              process_order_of_payment(reference_number);
             }
             else
             {
@@ -154,6 +374,82 @@ $(document).ready(function()
       // }
     });
   }
+
+  function process_order_of_payment(reference_number)
+  {
+    console.log('Processing...');
+    $.ajax({
+      type:"POST",
+      url:base_url+"dashboard/process_assessments",
+      dataType:"JSON",
+      data:{referenceNum: reference_number},
+      success: function(data){
+        if(data == "success")
+        {
+          console.log("Success!");
+          console.log("Redirecting...");
+          window.setTimeout(function() { 
+            window.location = base_url+"dashboard"; 
+          },2000);
+        }
+      }
+    })
+  }
+
+  $('#business').change(function(event){
+    $.ajax({
+      type:"GET",
+      dataType:"JSON",
+      url:base_url+"dashboard/get_business_profile",
+      data:{id:$('#business').val()},
+      success:function(data){
+        // console.log(data);
+        $('#tax-payer-name').html(data.lastName + ", " + data.firstName + " (" + data.middleName + ")");
+        $('#president-treasurer-name').html(data.presidentTreasurerName);
+        $('#pollution-control-officer').html(data.pollutionControlOfficer);
+        $('#male-employees').html(data.maleEmployees);
+        $('#female-employees').html(data.femaleEmployees);
+        $('#pwd-employees').html(data.PWDEmployees);
+        $('#company-name').html(data.companyName);
+        $('#business-name').html(data.businessName);
+        $('#trade-name').html(data.tradeName);
+        $('#signage-name').html(data.signageName);
+        $('#organization-type').html(data.organizationType);
+        $('#corporation-name').html(data.corporationName);
+        $('#pin').html(data.PIN);
+        $('#date-of-operation-text').html(data.dateOfOperation);
+        $('#business-desc').html(data.businessDesc);
+        $('#house-bldg-no').html(data.houseBldgNum);
+        $('#unit-no').html(data.unitNum);
+        $('#subdivision').html(data.subdivision);
+        $('#province').html(data.province);
+        $('#street').html(data.street);
+        $('#city-municipality').html(data.cityMunicipality);
+        $('#barangay').html(data.barangay);
+        $('#bldg-name').html(data.bldgName);
+        $('#business-area').html(data.businessArea);
+        $('#tel-num').html(data.telNum);
+        $('#email').html(data.email);
+        $('#lgu-employees').html(data.LGUResidingEmployees);
+        $('#gmaps-address').html(data.gmapAddress);
+        var map;
+
+        latlang = new google.maps.LatLng(data.lat,data.lng);
+        map = new google.maps.Map(document.getElementById('gmaps'), {
+          center: latlang,
+          zoom: 15
+
+        });
+        var geocoder = new google.maps.Geocoder();
+        var marker = new google.maps.Marker({
+          position: latlang,
+        });
+
+        marker.setMap(map);
+        
+      }
+    });
+  });
 
   function count_business_activities()
   {
@@ -195,9 +491,68 @@ $(document).ready(function()
       return false;
   });
 
-  function check_notifications()
-  {
-    //
-  }
+  //VALIDATE WIZARD FORM
+  var $sections = $('.tab-pane');
+  // Next button goes forward if current block validates
+  var index = 1;
+  $('.form-navigation .next').click(function() {
+    if ($('#new_application_form, .renewal-form').parsley().validate({group: 'block-' + index}))
+    {
+      $('.tab-pane').eq(index).removeClass('active');
+      index++;
+      $('.tab-pane').eq(index).addClass('active');
+      console.log(index);
+    }
+  });
 
+  $('.form-navigation .previous').click(function() {
+    $('.tab-pane').eq(index).removeClass('active');
+    index--;
+    $('.tab-pane').eq(index).addClass('active');
+    console.log(index);
+  });
+
+  // Prepare sections by setting the `data-parsley-group` attribute to 'block-0', 'block-1', etc.
+  $sections.each(function(index, section) {
+    $(section).find(':input[type=text], select').attr('data-parsley-group', 'block-' + index);
+  });
+
+  var map;
+  window.initMap = function(){
+    latlang = new google.maps.LatLng(14.315036717630743,121.07954978942871);
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: latlang,
+      zoom: 15
+
+    });
+    var geocoder = new google.maps.Geocoder();
+    var marker = new google.maps.Marker({
+      position: latlang,
+    });
+
+    marker.setMap(map);
+
+    google.maps.event.addListener(map, 'click', function( event ){
+      var newPos = {lat:event.latLng.lat() , lng:event.latLng.lng()};
+      // console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng() );
+      document.getElementById('lat').value = event.latLng.lat();
+      document.getElementById('lng').value = event.latLng.lng();
+
+      marker.setPosition(newPos);
+
+      geocoder.geocode({
+        'latLng': event.latLng
+      }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (results[0]) {
+            document.getElementById('gmaps-address').innerHTML = results[0].formatted_address;
+            document.getElementById('g-address').value =  results[0].formatted_address;
+            // alert(results[0].formatted_address);
+          }
+        }
+          });//end of geodecoder
+
+    });
+  }
+  
 }); //End of Jquery

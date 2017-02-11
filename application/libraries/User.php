@@ -12,6 +12,7 @@ class User {
 	private $civilStatus = null;
 	private $email = null;
 	private $birthDate = null;
+	private $contactNum = null;
 
 	public function __construct($userId = null){
 		$this->CI =& get_instance();
@@ -149,7 +150,7 @@ class User {
 			$query = array(
 				'userId' => $var->encryption->decrypt($var->session->userdata['userdata']['userId']),
 				);
-			$applications = $var->Application_m->get_all_applications($query);
+			$applications = $var->Application_m->get_all_bplo_applications($query);
 			//get applicant notifications
 			foreach($applications as $application)
 			{
@@ -173,12 +174,34 @@ class User {
 		else
 		{
 			$query = array(
+				'notifMessage' => 'Incoming',
 				'status' => "Unread",
 				'role' => $role_id,
 				);
 			$data = $var->Notification_m->get_all($query);
+
+			unset($var);
 			return $data;
 		}
+	}
+
+	public static function get_complete_notifications()
+	{
+		$var = get_instance();
+		$role = $var->encryption->decrypt($var->session->userdata['userdata']['role']);
+
+		$role_id = $var->Role_m->get_roleId($role);
+		$role_id = $role_id->roleId;
+		$query = array(
+			'status' => "Unread",
+			'notifMessage' => "Completed",
+			'role' => $role_id,
+			);
+		$data = $var->Notification_m->get_all($query);
+
+		unset($var);
+		return $data;
+		
 	}
 
 	public function send_mail($param = null)
@@ -198,27 +221,25 @@ class User {
 			$mail->isSMTP();                            // Set mailer to use SMTP
 			$mail->Host = 'smtp.gmail.com';             // Specify main and backup SMTP servers
 			$mail->SMTPAuth = true;                     // Enable SMTP authentication
-			$mail->Username = 'dotraze2@gmail.com';          // SMTP username
+			$mail->Username = 'bposys.noreply@gmail.com';          // SMTP username
 			$mail->Password = '0seventeen'; // SMTP password
 			$mail->SMTPSecure = 'tls';                  // Enable TLS encryption, `ssl` also accepted
 			$mail->Port = 587;                          // TCP port to connect to
 
-			$mail->setFrom('dotraze2@gmail.com', 'TestMailer');
-			$mail->addReplyTo('dotraze2@gmail.com', 'TestMailer');
+			$mail->setFrom('bposys.noreply@gmail.com', 'Business Permit Online System');
+			$mail->addReplyTo('bposys.noreply@gmail.com', 'Business Permit Online System');
 			$mail->addAddress($this->email);   // Add a recipient
 			// $mail->addCC('cc@example.com');
 			// $mail->addBCC('bcc@example.com');
 
 			$mail->isHTML(true);  // Set email format to HTML
 
-			$body_email = $param['body'];
-
 			// $body_email = "Welcome to shoplocal this is your account<br/><br/><br/><br/>";
 			// $body_email .= "Username: ".$username." <br/>";
 			// $body_email .= "Password: ".$password." <br/>";
 			
-			$mail->Subject = "Business Permit Online System";
-			$mail->Body    = $body_email;
+			$mail->Subject = $param['subject'];
+			$mail->Body    = $param['body'];
 
 			$this->unset_CI();
 			if(!$mail->send()) 
@@ -232,7 +253,7 @@ class User {
 			}
 		}
 
-}
+	}
 
 	// public function register($query = null)
 	// {
@@ -242,37 +263,62 @@ class User {
 	// 	return $response;
 	// }
 
-protected function set_user_all($param = null)
-{
-	if(!isset($this->CI))
-		$this->CI =& get_instance();
-	$role = "";
-	switch($param->role)
+	protected function set_user_all($param = null)
 	{
-		case 1: $role = "Master Admin"; break;
-		case 2: $role = "User Admin"; break;
-		case 3: $role = "Applicant"; break;
-		case 4: $role = "BPLO"; break;
+		if(!isset($this->CI))
+			$this->CI =& get_instance();
+		$role = "";
+		switch($param->role)
+		{
+			case 1: $role = "Master Admin"; break;
+			case 2: $role = "User Admin"; break;
+			case 3: $role = "Applicant"; break;
+			case 4: $role = "BPLO"; break;
+		}
+
+		$this->userId = $this->CI->encryption->encrypt($param->userId);
+		$this->firstName = $param->firstName;
+		$this->middleName = $param->middleName;
+		$this->lastName = $param->lastName;
+		$this->role = $role;
+		$this->suffix = $param->suffix;
+		$this->gender = $param->gender;
+		$this->civilStatus = $param->civilStatus;
+		$this->email = $param->email;
+		$this->birthDate = $param->birthDate;
+		$this->contactNum = $param->contactNum;
+
+		$this->unset_CI();
+		return $this;
 	}
 
-	$this->userId = $this->CI->encryption->encrypt($param->userId);
-	$this->firstName = $param->firstName;
-	$this->middleName = $param->middleName;
-	$this->lastName = $param->lastName;
-	$this->role = $role;
-	$this->suffix = $param->suffix;
-	$this->gender = $param->gender;
-	$this->civilStatus = $param->civilStatus;
-	$this->email = $param->email;
-	$this->birthDate = $param->birthDate;
+	protected function unset_CI()
+	{
+		if(isset($this->CI))
+			unset($this->CI);
+	}
 
-	$this->unset_CI();
-	return $this;
-}
+    /**
+     * Gets the value of contactNum.
+     *
+     * @return mixed
+     */
+    public function get_ContactNum()
+    {
+    	return $this->contactNum;
+    }
 
-protected function unset_CI()
-{
-	if(isset($this->CI))
-		unset($this->CI);
-}
+    /**
+     * Sets the value of contactNum.
+     *
+     * @param mixed $contactNum the contact num
+     *
+     * @return self
+     */
+    private function set_ContactNum($contactNum)
+    {
+    	$this->contactNum = $contactNum;
+
+    	return $this;
+    }
 }
