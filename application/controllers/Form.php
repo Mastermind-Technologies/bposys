@@ -105,8 +105,17 @@ class Form extends CI_Controller {
 		$data['cenro'] = new CENRO_Application($referenceNum);
 		$data['business'] = new Business($this->encryption->decrypt($data['application']->get_BusinessID()));
 		$data['sanitary'] = new Sanitary_Application($referenceNum);
+
+		// if($data['application']->get_lessors()->lessorId == null)
+		// {
+		// 	$test = "null";
+		// }
+		// else
+		// {
+		// 	$test = "1";
+		// }
 		// echo "<pre>";
-		// print_r($data['application']);
+		// print_r($test);
 		// echo "</pre>";
 		// exit();
 
@@ -454,6 +463,7 @@ class Form extends CI_Controller {
 				);
 			$this->Renewal_m->insert($renewal_field);
 			$this->session->set_flashdata('message', 'Renewal request has been sent successfully!');
+
 			redirect('dashboard');
 		}
 	}//END OF SUBMIT RENEWAL APPLICATION
