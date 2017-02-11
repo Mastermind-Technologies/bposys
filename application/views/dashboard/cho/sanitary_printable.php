@@ -19,7 +19,7 @@ $bldg = $application->get_bldgName();
 $brgy = $application->get_barangay();
 // $regOwner = $application->get_owner_name();
 // $contactNum = $application->get_
-$natBusi = $application->get_NatureOfBusiness();
+//$natBusi = $application->get_NatureOfBusiness();
 //
 $maleEmp = $application->get_MaleEmployees();
 $femaleEmp = $application->get_FemaleEmployees();
