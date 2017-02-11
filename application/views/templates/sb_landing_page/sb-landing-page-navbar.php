@@ -1,18 +1,17 @@
 <!-- Navigation -->
 <title>BPOSys | <?= $title ?></title>
-<nav class="navbar-default topnav" role="navigation"  style="background-color: #212121">
-  <div class="container topnav">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header" >
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a style="color: white" class="navbar-brand topnav" href="<?php echo base_url();?>home">BPOSys</a>
-    </div>
-
+    <nav class="navbar-default topnav" role="navigation"  style="background-color: #212121">
+        <div class="container topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header" >
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a style="color: white" class="navbar-brand topnav" href="<?php echo base_url();?>home"><img src="<?php echo base_url(); ?>assets/landing-page/img/bposys-logo.png" height="200%" style="margin-top: -10px" alt=""></a>
+            </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
