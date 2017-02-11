@@ -1,16 +1,16 @@
 <div id="content">
   <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> 
-      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
+    <div id="breadcrumb">
+      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
       <?php if ($application->get_status() == "For validation..."): ?>
-        <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a> 
+        <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a>
       <?php elseif ($application->get_status() == "For applicant visit"): ?>
-        <a href="<?php echo base_url(); ?>dashboard/pending_applications">Pending Applications</a> 
+        <a href="<?php echo base_url(); ?>dashboard/pending_applications">Pending Applications</a>
       <?php elseif ($application->get_status() == "On process"): ?>
-        <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a> 
+        <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a>
       <?php endif ?>
-      
+
       <a href="#" class="current">View</a>
     </div>
     <!--End-breadcrumbs-->
@@ -236,7 +236,7 @@
           <tr>
             <td colspan="2">
               <label for="lessors_name">Lessor's Name</label>
-              <h5><?= isset($application->lessors) ? 
+              <h5><?= isset($application->lessors) ?
                 $application->get_lessors()->lastName.", ".
                 $application->get_lessors()->firstName." (".
                 $application->get_lessors()->middleName.")" : "NA" ?></h5>
@@ -245,7 +245,7 @@
             <tr>
               <td colspan="2">
                 <label for="lessors_address">Lessor's Address</label>
-                <h5><?= isset($application->lessors) ? 
+                <h5><?= isset($application->lessors) ?
                   $application->get_lessors()->address.", "
                   .$application->get_lessors()->subdivision.", "
                   .$application->get_lessors()->barangay.", "
@@ -270,7 +270,7 @@
                 </td>
                 <td>
                   <label for="lessor_in_case_of_emergency">In case of emergency (Contact Person | Tel No./Cel No. | Email)</label>
-                  <h5><?= isset($application->lessors) ? 
+                  <h5><?= isset($application->lessors) ?
                     $application->get_lessors()->emergencyContactPerson." | ".
                     $application->get_lessors()->emergencyTelNum." | ".
                     $application->get_lessors()->emergencyEmail : "NA" ?></h5>
@@ -315,6 +315,23 @@
                 <?php endforeach ?>
               </tbody>
             </table>
+            <a href="<?php echo base_url(); ?>dashboard/get_bplo_form_info" class="btn btn-info btn-large">Print BPLO Form</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="<?php echo base_url(); ?>dashboard/get_sanitary_info" class="btn btn-info btn-large">Print Sanitary Permit</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="<?php echo base_url(); ?>dashboard/get_bfp_info" class="btn btn-info btn-large">Print BFP Form</a>
+            <br><br>
+            <a href="<?php echo base_url(); ?>dashboard/get_bplo_renewal_info" class="btn btn-info btn-large">Print BPLO Renewal</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="<?php echo base_url(); ?>dashboard/get_zoning_info" class="btn btn-info btn-large">Print Zoning Clearance</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="<?php echo base_url(); ?>dashboard/get_cenro_info" class="btn btn-info btn-large">Print CENRO Form</a>
+            <br><br>
+            <a href="<?php echo base_url(); ?>dashboard/get_cert_closure_info" class="btn btn-info btn-large">Print Certificate Closure</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="<?php echo base_url(); ?>dashboard/get_bplo_certificate_info" class="btn btn-info btn-large">Print BPLO Certificate</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="<?php echo base_url(); ?>dashboard/get_assessment_form_info" class="btn btn-info btn-large">Print Assessment Form</a>
             <?php if ($application->get_status() == "Completed" || $application->get_status() == "Active"): ?>
               <table class="table table-bordered">
                 <thead>

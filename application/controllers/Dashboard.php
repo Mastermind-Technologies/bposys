@@ -87,7 +87,7 @@ class Dashboard extends CI_Controller {
 
 				//get applicant notifications
 				$nav_data['notifications'] = User::get_notifications();
-				
+
 				//custom encryption credentials for URL encryption
 				$data['custom_encrypt'] = array(
 					'cipher' => 'blowfish',
@@ -116,7 +116,7 @@ class Dashboard extends CI_Controller {
 			//CHECK EXPIRY
 			// $bplo = $this->Application_m->get_all_bplo_applications();
 			// if(count($bplo) > 0)
-			// {	
+			// {
 			// 	foreach ($bplo as $application) {
 			// 		$application_obj = new BPLO_Application($application->referenceNum);
 			// 		$application_obj->check_expiry();
@@ -415,7 +415,7 @@ class Dashboard extends CI_Controller {
 
 			$reference_num = $this->Reference_Number_m->generate_reference_number();
 			$business_id = $this->encryption->decrypt($this->input->post('business'));
-			
+
 			//START BPLO FORM
 			$data['application_fields'] = array(
 				'referenceNum' => $reference_num,
@@ -819,7 +819,7 @@ class Dashboard extends CI_Controller {
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 		$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $reference_num));
-		
+
 		BPLO_Application::update_status($reference_num, 'Active');
 
 		$fields = array(
@@ -845,7 +845,7 @@ class Dashboard extends CI_Controller {
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 
 		$query['status'] = 'Active';
-		
+
 
 		if($role == "BPLO")
 		{
@@ -983,7 +983,7 @@ class Dashboard extends CI_Controller {
 				$notif_message = $application->get_businessName() . " has been approved by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of BPLO. You can now go to other required offices to process your application.";
 
 				//notify all departments
-				for ($i=5; $i <= 10 ; $i++) { 
+				for ($i=5; $i <= 10 ; $i++) {
 					$query = array(
 						'referenceNum' => $referenceNum,
 						'status' => 'Unread',
@@ -1022,7 +1022,7 @@ class Dashboard extends CI_Controller {
 					);
 				$this->Issued_Application_m->insert($fields);
 			}
-			
+
 			//approvals
 			$query = array(
 				'referenceNum' => $referenceNum,
@@ -1066,7 +1066,7 @@ class Dashboard extends CI_Controller {
 		{
 			$this->session->set_flashdata('message', 'ERROR: Invalid action!');
 			redirect('dashboard/pending_applications');
-		}	
+		}
 	}
 
 	public function cancel_application($reference_num = null)
@@ -1114,10 +1114,15 @@ class Dashboard extends CI_Controller {
 		if($role == 'BPLO')
 		{
 			//get application using model then map to application object
-			
+
 			$data['application'] = $this->Application_m->get_all_bplo_applications($query);
 			//map to application object
 			$data['application'] = new BPLO_Application($data['application'][0]->referenceNum);
+			// echo "<pre>";
+			// print_r($data['application']);
+			// echo "</pre>";
+			// exit();
+
 			if($data['application']->get_status() == 'Completed' || $data['application']->get_status() == 'Active')
 			{
 				$reference_num = $this->encryption->decrypt($data['application']->get_referenceNum());
@@ -1289,4 +1294,80 @@ class Dashboard extends CI_Controller {
 		echo json_encode($result);
 	}
 
+	// public function print_bplo()
+	// {
+	// 	$this->load->view('dashboard/bplo/generatePDF');
+	// }
+
+	public function get_bplo_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+
+		$this->load->view('dashboard/bplo/bplo_printable',$data);
+	}
+
+	public function get_sanitary_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+
+		$this->load->view('dashboard/cho/sanitary_printable',$data);
+	}
+
+	public function get_bfp_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+
+		$this->load->view('dashboard/bfp/bfp_printable',$data);
+	}
+
+	public function get_bplo_renewal_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+
+		$this->load->view('dashboard/bplo/bpaf_renewal_printable',$data);
+	}
+
+	public function get_zoning_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+
+		$this->load->view('dashboard/zoning/zoning_printable',$data);
+	}
+
+	public function get_cenro_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+	  $data['application'] = new BPLO_Application('9E9E1D64A2');
+
+		$this->load->view('dashboard/cenro/cenro_printable',$data);
+	}
+
+	public function get_bplo_form_info()
+	{
+		$this->_init_matrix();
+		$this->load->view('dashboard/bplo/bplo_form_printable');
+	}
+
+	public function get_cert_closure_info()
+	{
+
+		$this->load->view('dashboard/bplo/cert_closure_printable');
+	}
+
+	public function get_bplo_certificate_info()
+	{
+
+		$this->load->view('dashboard/bplo/bplo_certificate_printable');
+	}
+
+	public function get_assessment_form_info()
+	{
+
+		$this->load->view('dashboard/bplo/assessment_form_printable');
+	}
 }//END OF CLASS,
