@@ -290,7 +290,6 @@
                       <th rowspan="2" style="width: 30%">
                         <label for="business_activity_line_of_business">Line of Business</label>
                       </th>
-
                       <th rowspan="2" style="width: 20%">
                         <label for="business_activity_capitalization">Capitalization</label>
                       </th>
@@ -434,7 +433,7 @@
                         <td><?= $charge->surcharge ?></td>
                         <td><?= $charge->interest ?></td>
                         <td><?php $t = $charge->due + $charge->surcharge + $charge->interest;
-                          echo $t;
+                          echo $t; 
                           $total += $t; ?></td>
                         </tr>
                       <?php endforeach ?>

@@ -108,6 +108,7 @@ class Dashboard extends CI_Controller {
 
 			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
 		}
+
 		else if($role == "Engineering")
 		{
 			$query['status'] = 'For applicant visit';
@@ -121,7 +122,6 @@ class Dashboard extends CI_Controller {
 
 			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
 		}
-
 
 		$this->load->view('templates/matrix/matrix_includes');
 		$this->load->view('templates/matrix/matrix_navbar', $data);
@@ -185,6 +185,7 @@ class Dashboard extends CI_Controller {
 		}
 		else if($role == 'BPLO')
 		{
+			//CHECK EXPIRY
 			$reference_numbers = $this->Reference_Number_m->get_all_reference_numbers();
 			if(count($reference_numbers) > 0)
 			{
@@ -205,6 +206,7 @@ class Dashboard extends CI_Controller {
 				}
 				unset($application);
 			}
+
 			$navdata['title'] = 'BPLO Dashboard';
 			$navdata['active'] = 'Dashboard';
 			//get notifications
@@ -1276,6 +1278,7 @@ class Dashboard extends CI_Controller {
 		// 	$this->session->set_flashdata('message', 'ERROR: Invalid action!');
 		// 	redirect('dashboard/pending_applications');
 		// }
+
 		}
 
 		public function cancel_application($reference_num = null)
@@ -1457,6 +1460,7 @@ class Dashboard extends CI_Controller {
 
 					$query['dept'] = 'CHO';
 					$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+
 
 					$query['dept'] = 'BFP';
 					$data['bfp'] = $this->Issued_Application_m->get_all($query);
@@ -1854,6 +1858,7 @@ class Dashboard extends CI_Controller {
 
 		$this->load->view('dashboard/bfp/bfp_printable',$data);
 	}
+
 
 	public function get_bplo_renewal_info()
 	{
