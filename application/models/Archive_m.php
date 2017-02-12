@@ -15,6 +15,7 @@ class Archive_m extends CI_Model {
   public function insert_application($fields)
   {
   	$this->db->insert($this->table_applications, $fields);
+    return $this->db->insert_id();
   }
 
   public function insert_business_activity($fields)

@@ -380,6 +380,318 @@ class Dashboard extends CI_Controller {
 		$this->load->view('dashboard/applicant/new_application');
 	}
 
+	public function delete_draft($reference_num)
+	{
+		$this->isLogin();
+		$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $reference_num));
+
+		$isDraft = $this->Application_m->check_drafted_application($reference_num);
+		if($isDraft)
+		{
+			$this->Reference_Number_m->delete_reference_number($reference_num);
+		}
+
+		redirect('Dashboard');
+	}
+
+	public function save_draft()
+	{
+		$this->isLogin();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		if($this->input->post('tax-incentive'))
+		{
+			$entity = $this->input->post('entity');
+		}
+		else
+		{
+			$entity = "NA";
+		}
+
+		$tax_payer_name = $this->input->post('tax-first-name') . " " . $this->input->post('tax-middle-name') . ", " . $this->input->post('tax-last-name');
+		$president_treasurer_name = $this->input->post('pt-first-name') . " " . $this->input->post('pt-middle-name') . ", " . $this->input->post('pt-last-name');
+
+		//check if application is existing or not
+		if($this->input->post('ref'))
+		{
+			$isExisting = true;
+			$reference_num = $this->encryption->decrypt($this->input->post('ref'));
+		}
+		else
+		{
+			$isExisting = false;
+			//generate reference_number
+			$reference_num = $this->Reference_Number_m->generate_reference_number();
+		}
+		
+
+		if($this->input->post('business')==null)
+		{
+			$business_id = null;
+		}
+		else
+		{
+			$business_id = $this->encryption->decrypt($this->input->post('business'));
+		}
+		
+
+		//START BPLO FORM
+		$data['application_fields'] = array(
+			'referenceNum' => $reference_num,
+			'userId' => $user_id,
+			'businessId' => $business_id,
+			'taxYear' => $this->input->post('tax-year'),
+			'applicationDate' => $this->input->post('application-date'),
+			'modeOfPayment' => $this->input->post('mode-of-payment'),
+			'idPresented' => $this->input->post('id-presented'),
+			'DTISECCDA_RegNum' => $this->input->post('DTISECCDA_RegNum'),
+			'DTISECCDA_Date' => $this->input->post('DTISECCDA_Date'),
+			'brgyClearanceDateIssued' => $this->input->post('brgy-clearance-date-issued'),
+			'CTCNum' => $this->input->post('ctc-number'),
+			'TIN' => $this->input->post('tin'),
+			'entityName' => $entity,
+			'status' => 'Draft'
+			);
+		//END BPLO FORM
+
+		//START ZONING
+		$zoning_fields = array(
+			'userId' => $user_id,
+			'referenceNum' => $reference_num,
+			'businessId' =>$business_id,
+				// 'capitalInvested' => 0,
+			'status' => 'Draft',
+			);
+		//END ZONING
+
+		//START CENRO
+		if($this->input->post('fugitive-particulates'))
+		{
+			$fugitive_particulates = "";
+			$result = $this->input->post('fugitive-particulates');
+			foreach ($result as $r) {
+				$fugitive_particulates = $fugitive_particulates."|".$r;
+			}
+			$fugitive_particulates = substr($fugitive_particulates, 1);
+		}
+		else
+		{
+			$fugitive_particulates = "NA";
+		}
+
+		if($this->input->post('steam-generators'))
+		{
+			$steam_generator = "";
+			$result = $this->input->post('steam-generators');
+			foreach ($result as $r) {
+				$steam_generator = $steam_generator."|".$r;
+			}
+			$steam_generator = substr($steam_generator, 1);
+		}
+		else
+		{
+			$steam_generator = "NA";
+		}
+
+		if($this->input->post('waste-minimization'))
+		{
+			$waste_minimization = "";
+			$result = $this->input->post('waste-minimization');
+			foreach ($result as $r) {
+				$waste_minimization = $waste_minimization."|".$r;
+			}
+			$waste_minimization = substr($waste_minimization, 1);
+		}
+		else
+		{
+			$waste_minimization = "NA";
+		}
+
+		$cenro_fields = array(
+			'userId' => $user_id,
+			'referenceNum' => $reference_num,
+			'businessId' => $business_id,
+			'CNC' => $this->input->post('cnc') ? $this->input->post('cnc-date-issued') : 'NA',
+			'LLDAClearance' => $this->input->post('llda') ? $this->input->post('llda-date-issued') : 'NA',
+			'dischargePermit' => $this->input->post('discharge-permit') ? $this->input->post('discharge-permit-date-issued') : 'NA',
+			'apsci' => $this->input->post('apsci') ? $this->input->post('apsci-date-issued') : "NA",
+			'productsAndByProducts' => $this->input->post('products-by-products'),
+			'smokeEmission' => $this->input->post('smoke-emission') ? 1 : 0,
+			'volatileCompound' => $this->input->post('volatile-compound') ? 1 : 0,
+			'fugitiveParticulates' => $fugitive_particulates,
+			'steamGenerator' => $steam_generator,
+			'APCD' => $this->input->post('air-pollution-control-devices'),
+			'stackHeight' => $this->input->post('stack-height'),
+			'wastewaterTreatmentFacility' => $this->input->post('wastewater-treatment-facility'),
+			'wastewaterTreatmentOperationAndProcess' => $this->input->post('wastewater-treatment-operation') ? 1 : 0,
+			'pendingCaseWithLLDA' => $this->input->post('pending-llda-case') ? $this->input->post('llda-case-no') : "NA",
+			'typeOfSolidWastesGenerated' => $this->input->post('type-of-solid-wastes'),
+			'qtyPerDay' => $this->input->post('qty-per-day'),
+			'garbageCollectionMethod' => $this->input->post('method-of-garbage-collection'),
+			'frequencyOfGarbageCollection' => $this->input->post('garbage-collection-frequency'),
+			'wasteCollector' => $this->input->post('collector'),
+			'collectorAddress' => $this->input->post('collector-address'),
+			'garbageDisposalMethod' => $this->input->post('garbage-disposal-method'),
+			'wasteMinimizationMethod' => $waste_minimization,
+			'drainageSystem' => $this->input->post('drainage-system') ? 1 : 0,
+			'drainageType' => $this->input->post('drainage-system') ? $this->input->post('drainage-system-type') : "NA",
+			'drainageDischargeLocation' => $this->input->post('drainage-system') ? $this->input->post('drainage-where-discharged') : "NA",
+			'sewerageSystem' => $this->input->post('sewerage-system') ? 1 : 0,
+			'septicTank' => $this->input->post('septic-tank') ? 1 : 0,
+			'sewerageDischargeLocation' => $this->input->post('septic-tank') ? $this->input->post('sewerage-where-discharged') : "NA",
+			'waterSupply' => $this->input->post('water-supply'),
+			'status' => 'Draft',
+			);
+		//END CENRO
+
+		//SANITARY
+		$sanitary_fields = array(
+			'referenceNum' => $reference_num,
+			'userId' =>  $user_id,
+			'businessId' => $business_id,
+			'annualEmployeePhysicalExam' => $this->input->post('annual-exams')=="Yes" ? 1 : 0,
+			'typeLevelOfWaterSource' => $this->input->post('water-supply-type'),
+			'status' => 'Draft',
+			);
+		//END OF SANITARY
+
+		//BFP
+		$bfp_fields = array(
+			'referenceNum' => $reference_num,
+			'userId' => $user_id,
+			'businessId' => $business_id,
+			'applicationDate' => $this->input->post('application-date'),
+			'storeys'  => $this->input->post('storeys'),
+			'occupiedPortion' => $this->input->post('portion-occupied'),
+			'areaPerFloor' => $this->input->post('area-per-floor'),
+			'occupancyPermitNum' => $this->input->post('occupancy-permit-number'),
+			'status' => 'Draft',
+			);
+		//END OF BFP
+
+		//ENGINEERING
+		$engineering_fields = array(
+			'referenceNum' => $reference_num,
+			'userId' => $user_id,
+			'businessId' => $business_id,
+			'status' => 'Draft',
+			);
+		//END ENGINEERING
+
+		if(!$isExisting)
+		{
+			$bplo_id = $this->Application_m->insert_bplo($data['application_fields']);
+			if ($this->input->post('rented')) {
+				$data['lessor_fields'] = array(
+					'bploId' => $bplo_id,
+					'firstName' => $this->input->post('lessor-first-name'),
+					'middleName' => $this->input->post('lessor-middle-name')==''?'NA':$this->input->post('lessor-middle-name'),
+					'lastName' => $this->input->post('lessor-last-name'),
+					'address' => $this->input->post('lessor-address'),
+					'subdivision' => $this->input->post('lessor-subdivision'),
+					'barangay' => $this->input->post('lessor-barangay'),
+					'cityMunicipality' => $this->input->post('lessor-city-municipality'),
+					'province' => $this->input->post('lessor-province'),
+					'monthlyRental' => $this->input->post('lessor-monthly-rental'),
+					'telNum' => $this->input->post('lessor-tel-cel-no'),
+					'email' => $this->input->post('lessor-email'),
+					);
+				$this->Lessor_m->insert_lessor($data['lessor_fields']);
+			}
+			$this->Application_m->insert_zoning($zoning_fields);
+			$this->Application_m->insert_cenro($cenro_fields);
+			$this->Application_m->insert_sanitary($sanitary_fields);
+			$this->Application_m->insert_bfp($bfp_fields);
+			$this->Application_m->insert_engineering($engineering_fields);
+		}
+		else
+		{
+			$bplo_id = $this->Application_m->update_bplo($data['application_fields']);
+			if ($this->input->post('rented')) 
+			{
+				$data['lessor_fields'] = array(
+					'bploId' => $bplo_id,
+					'firstName' => $this->input->post('lessor-first-name'),
+					'middleName' => $this->input->post('lessor-middle-name')==''?'NA':$this->input->post('lessor-middle-name'),
+					'lastName' => $this->input->post('lessor-last-name'),
+					'address' => $this->input->post('lessor-address'),
+					'subdivision' => $this->input->post('lessor-subdivision'),
+					'barangay' => $this->input->post('lessor-barangay'),
+					'cityMunicipality' => $this->input->post('lessor-city-municipality'),
+					'province' => $this->input->post('lessor-province'),
+					'monthlyRental' => $this->input->post('lessor-monthly-rental'),
+					'telNum' => $this->input->post('lessor-tel-cel-no'),
+					'email' => $this->input->post('lessor-email'),
+					);
+				$isExisting = $this->Lessor_m->check_existing_lessor($bplo_id);
+				if($isExisting)
+				{
+					$this->Lessor_m->update_lessor($data['lessor_fields']);
+				}
+				else
+				{
+					$this->Lessor_m->insert_lessor($data['lessor_fields']);
+				}	
+			}
+			else
+			{
+				$isExisting = $this->Lessor_m->check_existing_lessor($bplo_id);
+				if($isExisting)
+				{
+					$this->Lessor_m->delete_lessor($bplo_id);
+				}
+			}
+			$this->Application_m->update_zoning($zoning_fields);
+			$this->Application_m->update_cenro($cenro_fields);
+			$this->Application_m->update_sanitary($sanitary_fields);
+			$this->Application_m->update_bfp($bfp_fields);
+			$this->Application_m->update_engineering($engineering_fields);
+		}
+
+		echo json_encode("success");
+
+	}//END OF DRAFT_APPLICATION
+
+	public function draft_application($reference_num)
+	{
+		$this->isLogin();//generate reference_number
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		if($reference_num == null)
+		{
+			redirect('dashboard');
+		}
+
+		$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $reference_num));
+		// echo "<pre>";
+		// var_dump($reference_num);
+		// echo "</pre>";
+		// exit();
+
+			//get notifications
+		$nav_data['notifications'] = User::get_notifications();
+		if($nav_data['notifications'] == "")
+			$this->_init();
+		else
+			$this->_init($nav_data);
+
+		$data['application'] = new BPLO_Application($reference_num);
+		$data['bfp'] = new BFP_Application($reference_num);
+		$data['cenro'] = new CENRO_Application($reference_num);
+		$data['sanitary'] = new Sanitary_Application($reference_num);
+		if($this->encryption->decrypt($data['application']->get_BusinessID()) != "")
+			$data['business'] = new Business($this->encryption->decrypt($data['application']->get_BusinessID()));
+		$data['businesses'] = $this->Business_m->get_all_unapplied_businesses($user_id);
+
+		// echo "<pre>";
+		// print_r($data['application']->get_entityName());
+		// echo "</pre>";
+		// exit();
+
+
+		$this->load->view('dashboard/applicant/draft-application', $data);
+	}
+
 	public function submit_application()
 	{
 		$this->isLogin();

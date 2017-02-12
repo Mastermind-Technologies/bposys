@@ -27,6 +27,7 @@ class BPLO_Application extends Business {
     private $charges = null;
     private $lineOfBusiness = null;
     private $capital = null;
+    private $lastEdited = null;
 	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
@@ -61,7 +62,10 @@ class BPLO_Application extends Business {
         if(count($application) > 0)
         {
             $this->set_application_all($application[0]);
-            $this->get_business_information($application[0]->businessId);        
+            if($application[0]->businessId != null)
+            {
+                $this->get_business_information($application[0]->businessId);
+            }
         }
 		$this->unset_CI();
 		return $this;
@@ -197,6 +201,7 @@ class BPLO_Application extends Business {
 		$this->dateStarted = $param->createdAt;
         $this->lineOfBusiness = $lineOfBusiness;
         $this->capital = $total_capital;
+        $this->lastEdited = $param->updatedAt;
         if(count($assessment) > 0)
         {
             $this->assessment = $assessment[0];
@@ -765,5 +770,29 @@ class BPLO_Application extends Business {
         $this->capital = $capital;
 
         return $this;
+    }
+
+    /**
+     * Sets the value of lastEdited.
+     *
+     * @param mixed $lastEdited the last edited
+     *
+     * @return self
+     */
+    private function set_LastEdited($lastEdited)
+    {
+        $this->lastEdited = $lastEdited;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of lastEdited.
+     *
+     * @return mixed
+     */
+    public function get_LastEdited()
+    {
+        return $this->lastEdited;
     }
 }//END OF CLASS

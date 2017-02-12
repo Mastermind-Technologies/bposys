@@ -193,11 +193,11 @@ class Tester extends CI_Controller {
 			'annualEmployeePhysicalExam' => $sanitary->get_AnnualEmployeePhysicalExam(), 
 			'typeLevelOfWaterSource' => $sanitary->get_typeLevelOfWaterSource()
 			);
-		$this->Archive_m->insert_application($archive_application_field);
+		$archive_application_id = $this->Archive_m->insert_application($archive_application_field);
 
 		foreach ($bplo->get_BusinessActivities() as $key => $activity) {
 			$business_activity_field = array(
-				'referenceNum' => $reference_num,
+				'archiveApplicationId' => $archive_application_id,
 				'lineOfBusiness' => $activity->lineOfBusiness,
 				'capitalization' => $activity->capitalization,
 				);	
@@ -207,7 +207,7 @@ class Tester extends CI_Controller {
 		if($bplo->get_lessors() != null)
 		{
 			$lessors_field = array(
-				'referenceNum' => $reference_num,
+				'archiveApplicationId' => $archive_application_id,
 				'firstName' => $bplo->get_lessors()->firstName,
 				'middleName' => $bplo->get_lessors()->middleName,
 				'lastName' => $bplo->get_lessors()->lastName,

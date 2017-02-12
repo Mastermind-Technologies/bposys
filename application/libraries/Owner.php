@@ -50,7 +50,7 @@ class Owner {
         }
         else
         {
-            $this->CI->session->set_flashdata('failed', 'Invalid Inputt');
+            $this->CI->session->set_flashdata('failed', 'Invalid Input');
             $this->unset_CI();
             redirect('Home');
         }
