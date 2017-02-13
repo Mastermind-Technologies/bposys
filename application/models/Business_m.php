@@ -31,7 +31,7 @@ class Business_m extends CI_Model {
 	public function get_all_unapplied_businesses($user_id)
 	{
 		//SELECT * FROM `businesses` left join application_bplo ON businesses.businessId = application_bplo.businessId where application_bplo.businessId IS NULL 
-		$this->db->select('businesses.businessId, businesses.businessName')->from($this->table)->join($this->table_bplo, 'businesses.businessId = application_bplo.businessId', 'left')->where([$this->table_bplo.".businessId" => NULL, 'businesses.userId' => $user_id]);
+		$this->db->select('businesses.businessId, businesses.businessName')->from($this->table)->join($this->table_bplo, 'businesses.businessId = application_bplo.businessId', 'left')->where([$this->table_bplo.".businessId" => NULL, 'businesses.userId' => $user_id])->or_where([$this->table_bplo.".status" => 'Draft'])->group_by('businesses.businessName');
 
 		return $this->db->get()->result();
 	}

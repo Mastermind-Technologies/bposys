@@ -33,4 +33,10 @@ class Reference_Number_m extends CI_Model {
 
 		return $result->result();
 	}
+
+	public function delete_reference_number($reference_num)
+	{
+		$this->db->where(['referenceNum' => $reference_num]);
+		$this->db->delete($this->reference);
+	}
 }//END OF CLASS

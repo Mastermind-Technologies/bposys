@@ -121,9 +121,11 @@
 													</div>
 												</div>
 												<hr>
+												<div class="col-sm-3 pull-left">
+													<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+												</div>
 												<div class="col-sm-3 pull-right form-navigation">
-													<!-- <a href="#step1" data-toggle='tab' class='btn btn-success previous'>Back</a> -->
-													<a data-toggle='tab' class='btn btn-success next'>Next 1/6</a>
+													<a data-toggle='tab' class='btn btn-success next pull-right'>Next 1/6</a>
 												</div>
 											</div>
 										</div>
@@ -394,12 +396,17 @@
 														<span id='email'><?= $business->get_email() ?></span>
 													</div>
 												</div>
+												<hr>
+												<div class="col-sm-3 pull-left">
+													<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+												</div>
+												<div class="col-sm-3 pull-right form-navigation">
+													<a data-toggle='tab' class='btn btn-success next pull-right'>Next 2/6</a>
+													<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
+													
+												</div>
 											</div>
-											<hr>
-											<div class="col-sm-3 pull-right form-navigation">
-												<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-												<a data-toggle='tab' class='btn btn-success next'>Next 2/6</a>
-											</div>
+
 										</div>
 										<div class="tab-pane" id='step4'>
 											<h2 class="panel-header">Lessor Details (if rented)</h2>
@@ -412,25 +419,25 @@
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-first-name">First Name*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name='lessor-first-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->firstName : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name='lessor-first-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->firstName : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-middle-name">Middle Name*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name='lessor-middle-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->middleName : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name='lessor-middle-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->middleName : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-last-name">Last Name*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name='lessor-last-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->lastName : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name='lessor-last-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->lastName : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-address">Lessor's Address*</label>
-															<textarea name="lessor-address" id="lessor-address" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> rows="1" class='form-control' placeholder="House No./Bldg.No/Street"><?= $application->get_lessors()!=null ? $application->get_lessors()->address : '' ?></textarea>
+															<textarea name="lessor-address" id="lessor-address" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> rows="1" class='form-control' placeholder="House No./Bldg.No/Street"><?= $application->get_lessors()!=null ? $application->get_lessors()->address : '' ?></textarea>
 														</div>
 													</div>
 												</div>
@@ -438,25 +445,25 @@
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-subdivision">Subdivision*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-subdivision" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->subdivision : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name="lessor-subdivision" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->subdivision : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-barangay">Barangay*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-barangay" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->barangay : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name="lessor-barangay" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->barangay : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-city-municipality">City/Municipality*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-city-municipality" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->cityMunicipality : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name="lessor-city-municipality" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->cityMunicipality : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-province">Province*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-province" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->province : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name="lessor-province" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->province : '' ?>">
 														</div>
 													</div>
 												</div>
@@ -464,28 +471,33 @@
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-monthly-rental">Monthly Rental*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-monthly-rental" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->monthlyRental : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-monthly-rental" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->monthlyRental : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-tel-cel-no">Tel No./Cel No.*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-tel-cel-no" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->telNum : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-tel-cel-no" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->telNum : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="">Email Address*</label>
-															<input type="email" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-email" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->email : '' ?>">
+															<input type="email" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name="lessor-email" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->email : '' ?>">
 														</div>
 													</div>
 												</div>
+												<hr>
+												<div class="col-sm-3 pull-left">
+													<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+												</div>
+												<div class="col-sm-3 pull-right form-navigation">
+													<a data-toggle='tab' class='btn btn-success next pull-right'>Next 3/6</a>
+													<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
+													
+												</div>
 											</div>
-											<hr>
-											<div class="col-sm-3 pull-right form-navigation">
-												<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-												<a data-toggle='tab' class='btn btn-success next'>Next 3/6</a>
-											</div>
+											
 										</div>
 										<div class="tab-pane" id='step5'>
 											<h2 class="panel-header">Issued Certificates/Permits</h2>
@@ -556,12 +568,17 @@
 														</div>
 													</div>
 												</div>
+												<hr>
+												<div class="col-sm-3 pull-left">
+													<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+												</div>
+												<div class="col-sm-3 pull-right form-navigation">
+													<a data-toggle='tab' class='btn btn-success next pull-right'>Next 4/6</a>
+													<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
+													
+												</div>
 											</div>
-											<hr>
-											<div class="col-sm-3 pull-right form-navigation">
-												<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-												<a data-toggle='tab' class='btn btn-success next'>Next 4/6</a>
-											</div>
+											
 										</div>
 										<div class="tab-pane" id='step6'>
 											<h2 class="panel-header">Environmental Details</h2>
@@ -647,14 +664,14 @@
 												<div class="row">
 													<div class="col-sm-3">
 														<div class="checkbox">
-															<label><input type="checkbox" <?= $cenro->get_pendingCaseWithLLDA()!=null ? 'checked' : '' ?> name="pending-llda-case" id="pending-llda-case"><strong>Pending Case with LLDA?</strong></label>
+															<label><input type="checkbox" <?= $cenro->get_pendingCaseWithLLDA()!="NA" ? 'checked' : '' ?> name="pending-llda-case" id="pending-llda-case"><strong>Pending Case with LLDA?</strong></label>
 														</div>
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-sm-3">
 														<label for="case-no">Case No.</label>
-														<input type="text" name="llda-case-no" <?= $cenro->get_pendingCaseWithLLDA()!=null ? 'required '.'value='.$cenro->get_pendingCaseWithLLDA() : 'disabled' ?> data-parsley-type="digits" id="llda-case-no" class="form-control">
+														<input type="text" name="llda-case-no" <?= $cenro->get_pendingCaseWithLLDA()!="NA" ? 'required '.'value='.$cenro->get_pendingCaseWithLLDA() : 'disabled' ?> data-parsley-type="digits" id="llda-case-no" class="form-control">
 													</div>
 												</div>
 												<!-- END OF WASTEWATER -->
@@ -944,13 +961,20 @@
 																			<!-- END OF WATER SUPPLY/SOURCE -->
 																			<hr>
 																			<h4>Hazardous Waste Treater/Transporter</h4>
-																			???
+																			<div class="row">
+																				???
+																			</div>
+																			<hr>
+																			<div class="col-sm-3 pull-left">
+																				<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+																			</div>
+																			
+																			<div class="col-sm-3 pull-right form-navigation">
+																				<a data-toggle='tab' class='btn btn-success next pull-right'>Next 5/6</a>
+																				<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
+																			</div>
 																		</div>
-																		<hr>
-																		<div class="col-sm-3 pull-right form-navigation">
-																			<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-																			<a data-toggle='tab' class='btn btn-success next'>Next 5/6</a>
-																		</div>
+																		
 																	</div>
 																	<div class="tab-pane" id='step7'>
 																		<h2 class="panel-header">Business Activities</h2>
@@ -999,9 +1023,13 @@
 																			</div>
 																		</div> -->
 																		<hr>
+																		<div class="col-sm-3 pull-left">
+																			<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+																		</div>
 																		<div class="col-sm-3 pull-right form-navigation">
-																			<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-																			<button type="submit" class="btn btn-success"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Submit</button>
+																			<button type="submit" class="btn btn-success pull-right"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Submit</button>
+																			<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
+																			
 																		</div>
 																	</div>
 																</div>

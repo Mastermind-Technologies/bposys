@@ -275,6 +275,8 @@ $(document).ready(function()
       $('.lessor-controls input[type=text], textarea[name=lessor-address], input[type=email]').each(function() {
         $(this).prop('disabled', true);
         $(this).prop('required', false);
+        $(this).val("");
+        $(this).html("");
       });
     }    
   });
@@ -302,29 +304,72 @@ $(document).ready(function()
 
   });
 
+  var draft = false;
+
+  $('.btn-draft').click(function(){
+    $sections.each(function(index, section) {
+      $(section).find(':input[type=text], select').removeAttr('data-parsley-group');
+      $(section).find(':input[type=text], select').removeAttr('required');
+    });
+    draft = true;
+  })
+
   $('#new_application_form').submit(function(e){
-    $("#btn-submit").prop('disabled', true);
-    $("#btn-add-bus-activity").prop('disabled', true);
-    $("#fa-submit").removeClass('fa-check');
-    $("#fa-submit").addClass('fa-circle-o-notch fa-spin');
+    if(draft == true)
+    {
+      var url = base_url+"dashboard/save_draft";
+      $(".btn-draft").prop('disabled', true);
+      $("#btn-add-bus-activity").prop('disabled', true);
+      $('.fa-draft-icon').removeClass('fa-pencil-square-o');
+      $('.fa-draft-icon').addClass('fa-circle-o-notch fa-spin');
+      // console.log(url);
+    }
+    else
+    {
+      // console.log('false');
+      var url = base_url+"dashboard/submit_application";
+      $("#btn-submit").prop('disabled', true);
+      $("#btn-add-bus-activity").prop('disabled', true);
+      $("#fa-submit").removeClass('fa-check');
+      $("#fa-submit").addClass('fa-circle-o-notch fa-spin');
+    }
+    // console.log('here');
     e.preventDefault();
     jQuery.ajax({
       type:"POST",
       dataType:'json',
-      url:base_url+"dashboard/submit_application",
+      url:url,
       data:$('form#new_application_form').serialize(),
       success: function(data) {
-        if(data.error)
+        if(draft == false)
         {
-          console.log(data.error);
-          $("#btn-submit").prop('disabled', false);
-          $("#btn-add-bus-activity").prop('disabled', false);
-          $("#fa-submit").removeClass('fa-circle-o-notch fa-spin');
-          $("#fa-submit").addClass('fa-check');
+          if(data.error)
+          {
+            console.log(data.error);
+            $("#btn-submit").prop('disabled', false);
+            $("#btn-add-bus-activity").prop('disabled', false);
+            $("#fa-submit").removeClass('fa-circle-o-notch fa-spin');
+            $("#fa-submit").addClass('fa-check');
+          }
+          else
+          {
+            process_business_activity(data.referenceNum);
+          }
         }
         else
         {
-          process_business_activity(data.referenceNum);
+          if(data == 'success')
+          {
+            window.location = base_url+"dashboard"; 
+          }
+          else
+          {
+            $(".btn-draft").prop('disabled', false);
+            $("#btn-add-bus-activity").prop('disabled', false);
+            $('.fa-draft-icon').removeClass('fa-circle-o-notch fa-spin');
+            $('.fa-draft-icon').addClass('fa-pencil-square-o');
+          }
+          
         }
       }
     });
@@ -491,6 +536,15 @@ $(document).ready(function()
       return false;
   });
 
+  $('.btn-delete').click(function(){
+    console.log('test');
+    var r = confirm('Are you sure you want to delete this drafted application?');
+    if(r==true)
+      window.location = this.id;
+    else
+      return false;
+  });
+
   //VALIDATE WIZARD FORM
   var $sections = $('.tab-pane');
   // Next button goes forward if current block validates
@@ -514,7 +568,7 @@ $(document).ready(function()
 
   // Prepare sections by setting the `data-parsley-group` attribute to 'block-0', 'block-1', etc.
   $sections.each(function(index, section) {
-    $(section).find(':input[type=text], select').attr('data-parsley-group', 'block-' + index);
+    $(section).find(':input[type=text], :input[type=email], select, textarea').attr('data-parsley-group', 'block-' + index);
   });
 
   var map;
