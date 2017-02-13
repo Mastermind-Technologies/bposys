@@ -5,7 +5,7 @@
     </script>
   <?php endif; ?>
 
-  <div class="container-fluid">
+  <div class="container-fluid container-register">
     <div class="row">
       <div class="col-sm-6 col-sm-offset-3">
         <?php if($this->session->flashdata('error')): ?>
@@ -86,7 +86,7 @@
                 <option value="Single Parent">Single Parent</option>
               </select>
             </div>
-          </div>     
+          </div>
         </div>
       </div>
 

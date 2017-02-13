@@ -2,11 +2,11 @@
 	<?php if ($application->get_status() != "Cancelled"): ?>
 		<tr>
 			<td style="width:30%;"><p style="margin-top:13%" id="referenceNumber" class="lead text-center text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></p></td>
-			<td style="width:45%;" class='text-center'>
+			<td style="width:45%;" class='text-left'>
 				<div style="margin-top:2%" class="row">
 					<div class="col-sm-12">
 						<span>Business Name: <strong><?= $application->get_businessName()?></strong></span>
-						
+
 					</div>
 				</div>
 				<div class="row">
@@ -28,7 +28,7 @@
 						<span>Application Type: <strong><?= $application->get_applicationType() ?></strong></span>
 					</div>
 				</div>
-				<div class="row">
+				<!-- <div class="row">
 					<div class="col-sm-4" style="padding-right:0;">
 						<span class="text-muted"> 80% Complete</span>
 					</div>
@@ -39,7 +39,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</td>
 			<td style="width:25%;">
 				<div style="margin-top:15%" class="block text-center">

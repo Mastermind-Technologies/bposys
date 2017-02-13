@@ -204,3 +204,6 @@
   right: 50%;
   margin-right: 20px;
 }
+
+.colored-tooltip + .tooltip > .tooltip-inner {background-color: #0099CC;}
+.colored-tooltip + .tooltip > .tooltip-arrow { border-bottom-color:#0099CC; }
