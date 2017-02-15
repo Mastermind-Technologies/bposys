@@ -795,8 +795,28 @@ class Dashboard extends CI_Controller {
 			$tax_payer_name = $this->input->post('tax-first-name') . " " . $this->input->post('tax-middle-name') . ", " . $this->input->post('tax-last-name');
 			$president_treasurer_name = $this->input->post('pt-first-name') . " " . $this->input->post('pt-middle-name') . ", " . $this->input->post('pt-last-name');
 
-			$reference_num = $this->Reference_Number_m->generate_reference_number();
-			$business_id = $this->encryption->decrypt($this->input->post('business'));
+			//check if application is existing or not
+			if($this->input->post('ref'))
+			{
+				$isExisting = true;
+				$reference_num = $this->encryption->decrypt($this->input->post('ref'));
+			}
+			else
+			{
+				$isExisting = false;
+				//generate reference_number
+				$reference_num = $this->Reference_Number_m->generate_reference_number();
+			}
+
+
+			if($this->input->post('business')==null)
+			{
+				$business_id = null;
+			}
+			else
+			{
+				$business_id = $this->encryption->decrypt($this->input->post('business'));
+			}
 
 			//START BPLO FORM
 			$data['application_fields'] = array(
@@ -815,29 +835,6 @@ class Dashboard extends CI_Controller {
 				'entityName' => $entity,
 				'status' => 'For validation...'
 				);
-
-			$bplo_id = $this->Application_m->insert_bplo($data['application_fields']);
-
-			if($this->input->post('rented'))
-			{
-				$data['lessor_fields'] = array(
-					'bploId' => $bplo_id,
-					'firstName' => $this->input->post('lessor-first-name'),
-					'middleName' => $this->input->post('lessor-middle-name')==''?'NA':$this->input->post('lessor-middle-name'),
-					'lastName' => $this->input->post('lessor-last-name'),
-					'address' => $this->input->post('lessor-address'),
-					'subdivision' => $this->input->post('lessor-subdivision'),
-					'barangay' => $this->input->post('lessor-barangay'),
-					'cityMunicipality' => $this->input->post('lessor-city-municipality'),
-					'province' => $this->input->post('lessor-province'),
-					'monthlyRental' => $this->input->post('lessor-monthly-rental'),
-					'telNum' => $this->input->post('lessor-tel-cel-no'),
-					'email' => $this->input->post('lessor-email'),
-					);
-
-				$this->Lessor_m->insert_lessor($data['lessor_fields']);
-			}
-
 			//END BPLO FORM
 
 			//START ZONING
@@ -845,10 +842,8 @@ class Dashboard extends CI_Controller {
 				'userId' => $user_id,
 				'referenceNum' => $reference_num,
 				'businessId' =>$business_id,
-				// 'capitalInvested' => 0,
 				'status' => 'standby',
 				);
-			$this->Application_m->insert_zoning($zoning_fields);
 			//END ZONING
 
 			//START CENRO
@@ -929,7 +924,6 @@ class Dashboard extends CI_Controller {
 				'waterSupply' => $this->input->post('water-supply'),
 				'status' => 'standby',
 				);
-			$this->Application_m->insert_cenro($cenro_fields);
 			//END CENRO
 
 			//SANITARY
@@ -941,7 +935,6 @@ class Dashboard extends CI_Controller {
 				'typeLevelOfWaterSource' => $this->input->post('water-supply-type'),
 				'status' => 'standby',
 				);
-			$this->Application_m->insert_sanitary($sanitary_fields);
 			//END OF SANITARY
 
 			//BFP
@@ -956,7 +949,6 @@ class Dashboard extends CI_Controller {
 				'occupancyPermitNum' => $this->input->post('occupancy-permit-number'),
 				'status' => 'standby',
 				);
-			$this->Application_m->insert_bfp($bfp_fields);
 			//END OF BFP
 
 			//ENGINEERING
@@ -966,8 +958,78 @@ class Dashboard extends CI_Controller {
 				'businessId' => $business_id,
 				'status' => 'standby',
 				);
-			$this->Application_m->insert_engineering($engineering_fields);
 			//END ENGINEERING
+
+			//SUBMIT FIELDS
+			if(!$isExisting)
+			{
+				$bplo_id = $this->Application_m->insert_bplo($data['application_fields']);
+				if ($this->input->post('rented')) {
+					$data['lessor_fields'] = array(
+						'bploId' => $bplo_id,
+						'firstName' => $this->input->post('lessor-first-name'),
+						'middleName' => $this->input->post('lessor-middle-name')==''?'NA':$this->input->post('lessor-middle-name'),
+						'lastName' => $this->input->post('lessor-last-name'),
+						'address' => $this->input->post('lessor-address'),
+						'subdivision' => $this->input->post('lessor-subdivision'),
+						'barangay' => $this->input->post('lessor-barangay'),
+						'cityMunicipality' => $this->input->post('lessor-city-municipality'),
+						'province' => $this->input->post('lessor-province'),
+						'monthlyRental' => $this->input->post('lessor-monthly-rental'),
+						'telNum' => $this->input->post('lessor-tel-cel-no'),
+						'email' => $this->input->post('lessor-email'),
+						);
+					$this->Lessor_m->insert_lessor($data['lessor_fields']);
+				}
+				$this->Application_m->insert_zoning($zoning_fields);
+				$this->Application_m->insert_cenro($cenro_fields);
+				$this->Application_m->insert_sanitary($sanitary_fields);
+				$this->Application_m->insert_bfp($bfp_fields);
+				$this->Application_m->insert_engineering($engineering_fields);
+			}
+			else
+			{
+				$bplo_id = $this->Application_m->update_bplo($data['application_fields']);
+				if ($this->input->post('rented')) 
+				{
+					$data['lessor_fields'] = array(
+						'bploId' => $bplo_id,
+						'firstName' => $this->input->post('lessor-first-name'),
+						'middleName' => $this->input->post('lessor-middle-name')==''?'NA':$this->input->post('lessor-middle-name'),
+						'lastName' => $this->input->post('lessor-last-name'),
+						'address' => $this->input->post('lessor-address'),
+						'subdivision' => $this->input->post('lessor-subdivision'),
+						'barangay' => $this->input->post('lessor-barangay'),
+						'cityMunicipality' => $this->input->post('lessor-city-municipality'),
+						'province' => $this->input->post('lessor-province'),
+						'monthlyRental' => $this->input->post('lessor-monthly-rental'),
+						'telNum' => $this->input->post('lessor-tel-cel-no'),
+						'email' => $this->input->post('lessor-email'),
+						);
+					$isExisting = $this->Lessor_m->check_existing_lessor($bplo_id);
+					if($isExisting)
+					{
+						$this->Lessor_m->update_lessor($data['lessor_fields']);
+					}
+					else
+					{
+						$this->Lessor_m->insert_lessor($data['lessor_fields']);
+					}	
+				}
+				else
+				{
+					$isExisting = $this->Lessor_m->check_existing_lessor($bplo_id);
+					if($isExisting)
+					{
+						$this->Lessor_m->delete_lessor($bplo_id);
+					}
+				}
+				$this->Application_m->update_zoning($zoning_fields);
+				$this->Application_m->update_cenro($cenro_fields);
+				$this->Application_m->update_sanitary($sanitary_fields);
+				$this->Application_m->update_bfp($bfp_fields);
+				$this->Application_m->update_engineering($engineering_fields);
+			}//END SUBMIT FIELDS
 
 			//SEND NOTIFICATION TO BPLO
 			$query = array(
@@ -1007,16 +1069,20 @@ class Dashboard extends CI_Controller {
 	public function incoming_applications()
 	{
 		$this->isLogin();
+
 		$navdata['title'] = 'Incoming Applications';
 		$navdata['active'] = 'Applications';
+
+		//Update notification
+		// $role_id = $this->Role_m->get_roleId($role);
+		// $query['role'] = $role_id->roleId;
+		// $set['status'] = 'Read';
+		// $this->Notification_m->update($query, $set);
+		$this->update_notif("Incoming");
+
 		$navdata['notifications'] = User::get_notifications();
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 		$this->_init_matrix($navdata);
-
-		// var_dump($this->encryption->decrypt($this->session->userdata['userdata']['role']));
-		// exit();
-
-		$this->update_notif();
 
 		if($role == "BPLO")
 		{
@@ -1084,6 +1150,7 @@ class Dashboard extends CI_Controller {
 				$data['incoming'][$key]->set_applicationId($this->encryption->decrypt($data['incoming'][$key]->get_applicationId()));
 			}
 		}
+
 		//custom encryption credentials for URL encryption
 		$data['custom_encrypt'] = array(
 			'cipher' => 'blowfish',
@@ -1115,17 +1182,6 @@ class Dashboard extends CI_Controller {
 			//decrypting appId property for custom encryption
 				$data['pending'][$key]->set_applicationId($this->encryption->decrypt($data['pending'][$key]->get_applicationId()));
 			}
-		}
-		else if ($role == "Zoning")
-		{
-			// $query['status'] = 'On process';
-			// $applications = $this->Application_m->get_all_zoning_applications($query);
-
-			// foreach ($applications as $key => $value) {
-			// 	$data['pending'][$key] = new Zoning_Application($value->referenceNum);
-			// //decrypting appId property for custom encryption
-			// 	$data['pending'][$key]->set_applicationId($this->encryption->decrypt($data['pending'][$key]->get_applicationId()));
-			// }
 		}
 
 		//custom encryption credentials for URL encryption
@@ -1233,6 +1289,7 @@ class Dashboard extends CI_Controller {
 	public function completed_applications()
 	{
 		$this->isLogin();
+		$this->update_notif('Completed');
 		$navdata['title'] = "Complete Requirements";
 		$navdata['active'] = 'Applications';
 		$navdata['notifications'] = User::get_notifications();
@@ -1438,7 +1495,7 @@ class Dashboard extends CI_Controller {
 		$this->Notification_m->insert($query);
 
 		$this->session->set_flashdata('message', 'Application validated successfully!');
-		redirect('dashboard/incoming_applications');
+		redirect('dashboard');
 	}
 
 	public function approve_application($referenceNum = null)

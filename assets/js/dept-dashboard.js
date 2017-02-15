@@ -67,6 +67,7 @@ $(document).ready(function(){
 					else
 						$('#success_message').html('<strong>'+data.complete+'</strong> new incoming application');
 				}
+				//Realtime update for quick action badges [code not updated]
 				$('.badge-incoming').html(data.incoming>0 ? data.incoming : "");
 				$('.badge-pending').html(data.pending>0 ? data.pending : "");
 				$('.badge-process').html(data.process>0 ? data.process : "");
@@ -86,7 +87,7 @@ $(document).ready(function(){
 		        easing: 'swing', // easing
 		        speed: 500 // opening & closing animation speed
 		    },
-		    timeout: 30000,
+		    //timeout: 30000,
 		    theme: 'metroui',
 		    template: '<div class="noty_message"><img src="http://localhost/bposys/assets/matrix/img/demo/envelope.png"/> <span class="noty_text" id="'+(type=='information' ? 'info_message' : 'success_message')+'"></span><div class="noty_close"></div></div>',
 		    callback: {
@@ -150,6 +151,11 @@ $(document).ready(function(){
 				$(this).text(Math.ceil(now));
 			}
 		});
+	});
+
+	$('.paid-up-to').click(function(){
+		$('#hidden-paid-up-to').val($(this).val());
+		console.log($('#hidden-paid-up-to').val());
 	});
 
 });//End of Jquery

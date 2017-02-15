@@ -8,19 +8,19 @@ class BPLO_Application extends Business {
 	private $userId = null;
 	private $taxYear = null;
     private $businessId = null;
-	private $applicationDate = null;
+    private $applicationDate = null;
     private $modeOfPayment = null;
     private $idPresented = null;
-	private $DTISECCDA_RegNum = null;
-	private $DTISECCDA_Date = null;
+    private $DTISECCDA_RegNum = null;
+    private $DTISECCDA_Date = null;
     private $brgyClearanceDateIssued = null;
-	private $CTCNum = null;
-	private $TIN = null;
-	private $entityName = null;
-	private $status = null;
-	private $businessActivities = null;
-	private $lessors = null;
-	private $dateStarted = null;
+    private $CTCNum = null;
+    private $TIN = null;
+    private $entityName = null;
+    private $status = null;
+    private $businessActivities = null;
+    private $lessors = null;
+    private $dateStarted = null;
     private $dateIssued = null;
     private $applicationType = null;
     private $assessment = null;
@@ -28,71 +28,72 @@ class BPLO_Application extends Business {
     private $lineOfBusiness = null;
     private $capital = null;
     private $lastEdited = null;
-	
-	public function __construct($reference_num = null){
-		$this->CI =& get_instance();
-		$this->CI->load->model('Application_m');
-        $this->CI->load->model('Approval_m');
-		$this->CI->load->model('Business_Activity_m');
-		$this->CI->load->model('Lessor_m');
-		$this->CI->load->model('Notification_m');
-        $this->CI->load->model('Renewal_m');
-        $this->CI->load->model('Assessment_m');
+    private $totalAssessment = null;
 
-        $isExisting = $this->CI->Renewal_m->check_application($reference_num);
+    public function __construct($reference_num = null){
+      $this->CI =& get_instance();
+      $this->CI->load->model('Application_m');
+      $this->CI->load->model('Approval_m');
+      $this->CI->load->model('Business_Activity_m');
+      $this->CI->load->model('Lessor_m');
+      $this->CI->load->model('Notification_m');
+      $this->CI->load->model('Renewal_m');
+      $this->CI->load->model('Assessment_m');
 
-        if($isExisting)
-        {
-            $this->applicationType = "Renew";
-        }
-        else
-        {
-            $this->applicationType = "New";
-        }
+      $isExisting = $this->CI->Renewal_m->check_application($reference_num);
 
-		if(isset($reference_num))
-			return $this->get_application($reference_num);
-	}
-
-	public function get_application($reference_num = null)
-	{
-		$query['referenceNum'] = $reference_num;
-
-		$application = $this->CI->Application_m->get_all_bplo_applications($query);
-        if(count($application) > 0)
-        {
-            $this->set_application_all($application[0]);
-            if($application[0]->businessId != null)
-            {
-                $this->get_business_information($application[0]->businessId);
-            }
-        }
-		$this->unset_CI();
-		return $this;
-	}
-
-	public function change_status($referenceNum = null, $status = null)
-	{
-		$this->CI =& get_instance();
-		$query = array(
-			'referenceNum' => $referenceNum,
-			'status' => $status,
-			);
-		$this->CI->Application_m->update_application($query, 'bplo');
-		$this->status = $status;
-		$this->unset_CI();
-	}
-
-    public static function update_status($reference_num = null, $status = null)
-    {
-        $var = get_instance();
-        $query = array(
-            'referenceNum' => $reference_num,
-            'status' => $status,
-            );
-        $var->Application_m->update_application($query, 'bplo');
-        unset($var);
+      if($isExisting)
+      {
+        $this->applicationType = "Renew";
     }
+    else
+    {
+        $this->applicationType = "New";
+    }
+
+    if(isset($reference_num))
+     return $this->get_application($reference_num);
+}
+
+public function get_application($reference_num = null)
+{
+  $query['referenceNum'] = $reference_num;
+
+  $application = $this->CI->Application_m->get_all_bplo_applications($query);
+  if(count($application) > 0)
+  {
+    $this->set_application_all($application[0]);
+    if($application[0]->businessId != null)
+    {
+        $this->get_business_information($application[0]->businessId);
+    }
+}
+$this->unset_CI();
+return $this;
+}
+
+public function change_status($referenceNum = null, $status = null)
+{
+  $this->CI =& get_instance();
+  $query = array(
+     'referenceNum' => $referenceNum,
+     'status' => $status,
+     );
+  $this->CI->Application_m->update_application($query, 'bplo');
+  $this->status = $status;
+  $this->unset_CI();
+}
+
+public static function update_status($reference_num = null, $status = null)
+{
+    $var = get_instance();
+    $query = array(
+        'referenceNum' => $reference_num,
+        'status' => $status,
+        );
+    $var->Application_m->update_application($query, 'bplo');
+    unset($var);
+}
 
     // public static function check_status($reference_num)
     // {
@@ -101,120 +102,126 @@ class BPLO_Application extends Business {
     //     return $status;
     // }
 
-	public function check_expiry()
-	{
-		if(!isset($this->CI))
-			$this->CI =& get_instance();
+public function check_expiry()
+{
+  if(!isset($this->CI))
+     $this->CI =& get_instance();
 		//check if status is active
-		if($this->status == 'Active')
-		{
-            $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
-            $query = array(
-                'referenceNum' => $reference_num,
-                'role' => 4,
-                'type' => 'Issue',
-                );
-            $approval = $this->CI->Approval_m->get_latest_approval($query);
+ if($this->status == 'Active')
+ {
+    $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
+    $query = array(
+        'referenceNum' => $reference_num,
+        'role' => 4,
+        'type' => 'Issue',
+        );
+    $approval = $this->CI->Approval_m->get_latest_approval($query);
 			//if this year is greater than application date, expire application
-			if(date('Y') > date('Y', strtotime($approval[0]->createdAt)))
-			{
-				$reference_num = $this->CI->encryption->decrypt($this->referenceNum);
-				$this->change_status($reference_num, 'Expired');
-				$this->status = 'Expired';
-				$query = array(
-					'referenceNum' => $reference_num,
-					'status' => 'Unread',
-					'role' => '3',
-					'notifMessage' => $this->businessName . " application has expired, please check application details for renewal request.",
-					);
-				$var = get_instance();
-				$var->Notification_m->insert($query);
-				unset($var);
-			}
-		}
-		$this->unset_CI();
-	}
+    if(date('Y') > date('Y', strtotime($approval[0]->createdAt)))
+    {
+        $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
+        $this->change_status($reference_num, 'Expired');
+        $this->status = 'Expired';
+        $query = array(
+           'referenceNum' => $reference_num,
+           'status' => 'Unread',
+           'role' => '3',
+           'notifMessage' => $this->businessName . " application has expired, please check application details for renewal request.",
+           );
+        $var = get_instance();
+        $var->Notification_m->insert($query);
+        unset($var);
+    }
+}
+$this->unset_CI();
+}
 
-	public function set_application_all($param = null)
-	{
-		// echo "<pre>";
-		// print_r($param);
-		// echo "</pre>";
-		// exit();
+public function set_application_all($param = null)
+{
+  if(!isset($this->CI))
+     $this->CI =& get_instance();
 
-		if(!isset($this->CI))
-			$this->CI =& get_instance();
+ $query['bploId'] = $param->applicationId;
+ $lessors = $this->CI->Lessor_m->get_all_lessor($query);
+ $business_activities = $this->CI->Business_Activity_m->get_all_business_activity($query);
+ $lineOfBusiness = "";
+ $total_capital = 0;
 
-		$query['bploId'] = $param->applicationId;
-		$lessors = $this->CI->Lessor_m->get_all_lessor($query);
-		$business_activities = $this->CI->Business_Activity_m->get_all_business_activity($query);
-        $lineOfBusiness = "";
-        $total_capital = 0;
+ for ($i=0; $i < count($business_activities) ; $i++) { 
+    // if($i == count($lineOfBusiness))
+    //     $lineOfBusiness .= $business_activities[$i]->lineOfBusiness;
+    // else
+    $lineOfBusiness .= ", ".$business_activities[$i]->lineOfBusiness;
+    $total_capital += $business_activities[$i]->capitalization;
+}
+$lineOfBusiness = substr($lineOfBusiness, 1);
 
-            for ($i=0; $i < count($business_activities) ; $i++) { 
-                if($i == count($lineOfBusiness))
-                    $lineOfBusiness .= $business_activities[$i]->lineOfBusiness;
-                else
-                    $lineOfBusiness .= $business_activities[$i]->lineOfBusiness.", ";
-                $total_capital += $business_activities[$i]->capitalization;
-            }
+unset($query);
+$assessment = $this->CI->Assessment_m->get_assessment(['referenceNum' => $param->referenceNum]);
 
-        unset($query);
-        $assessment = $this->CI->Assessment_m->get_assessment(['referenceNum' => $param->referenceNum]);
-
-        if(count($assessment) > 0)
-            $charges = $this->CI->Assessment_m->get_charges(['assessmentId' => $assessment[0]->assessmentId]);
-
-        // echo "<pre>";
-        // print_r($charges);
-        // echo "</pre>";
-        // exit();
-
-		unset($query);
-
-		foreach ($lessors as $lessor) {
-			$lessor->lessorId = $this->CI->encryption->encrypt($lessor->lessorId);
-			unset($lessor->referenceNum);
-		}
-
-		foreach ($business_activities as $business_activity) {
-			$business_activity->activityId = $this->CI->encryption->encrypt($business_activity->activityId);
-			unset($business_activity->referenceNum);
-		}
-
-		$this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
-		$this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
-		$this->userId = $this->CI->encryption->encrypt($param->userId);
-        $this->businessId = $this->CI->encryption->encrypt($param->businessId);
-		$this->taxYear = $param->taxYear;
-		$this->applicationDate = $param->applicationDate;
-        $this->modeOfPayment = $param->modeOfPayment;
-        $this->idPresented = $param->idPresented;
-		$this->DTISECCDA_RegNum = $param->DTISECCDA_RegNum;
-		$this->DTISECCDA_Date = $param->DTISECCDA_Date;
-        $this->brgyClearanceDateIssued = $param->brgyClearanceDateIssued;
-		$this->CTCNum = $param->CTCNum;
-		$this->TIN = $param->TIN;
-		$this->entityName = $param->entityName;
-		$this->status = $param->status;
-		$this->businessActivities = $business_activities;
-		$this->dateStarted = $param->createdAt;
-        $this->lineOfBusiness = $lineOfBusiness;
-        $this->capital = $total_capital;
-        $this->lastEdited = $param->updatedAt;
-        if(count($assessment) > 0)
-        {
-            $this->assessment = $assessment[0];
-            $this->charges = $charges;
+if(count($assessment) > 0)
+{
+    $charges = $this->CI->Assessment_m->get_charges(['assessmentId' => $assessment[0]->assessmentId]);
+    $totalCharges = 0;
+    if(count($charges) > 0)
+    {
+        foreach ($charges as $key => $c) {
+            $totalCharges += (double)$c->due;
+            $totalCharges += (double)$c->surcharge;
+            $totalCharges += (double)$c->interest;
         }
+    }
+}
 
-		if($lessors != null)
-			$this->lessors = $lessors[0];
 
-		$this->unset_CI();
-		return $this;
-	}
-    
+
+unset($query);
+
+foreach ($lessors as $lessor) {
+ $lessor->lessorId = $this->CI->encryption->encrypt($lessor->lessorId);
+ unset($lessor->referenceNum);
+}
+
+foreach ($business_activities as $business_activity) {
+ $business_activity->activityId = $this->CI->encryption->encrypt($business_activity->activityId);
+ unset($business_activity->referenceNum);
+}
+
+$this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
+$this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
+$this->userId = $this->CI->encryption->encrypt($param->userId);
+$this->businessId = $this->CI->encryption->encrypt($param->businessId);
+$this->taxYear = $param->taxYear;
+$this->applicationDate = $param->applicationDate;
+$this->modeOfPayment = $param->modeOfPayment;
+$this->idPresented = $param->idPresented;
+$this->DTISECCDA_RegNum = $param->DTISECCDA_RegNum;
+$this->DTISECCDA_Date = $param->DTISECCDA_Date;
+$this->brgyClearanceDateIssued = $param->brgyClearanceDateIssued;
+$this->CTCNum = $param->CTCNum;
+$this->TIN = $param->TIN;
+$this->entityName = $param->entityName;
+$this->status = $param->status;
+$this->businessActivities = $business_activities;
+$this->dateStarted = $param->createdAt;
+$this->lineOfBusiness = $lineOfBusiness;
+$this->capital = $total_capital;
+$this->lastEdited = $param->updatedAt;
+if(isset($totalCharges))
+    $this->totalAssessment = $totalCharges;
+if(count($assessment) > 0)
+{
+    $this->assessment = $assessment[0];
+    $this->charges = $charges;
+}
+
+if($lessors != null)
+ $this->lessors = $lessors[0];
+
+$this->unset_CI();
+return $this;
+}
+
 
     /**
      * Gets the value of applicationId.
@@ -794,5 +801,29 @@ class BPLO_Application extends Business {
     public function get_LastEdited()
     {
         return $this->lastEdited;
+    }
+
+    /**
+     * Gets the value of totalAssessment.
+     *
+     * @return mixed
+     */
+    public function get_TotalAssessment()
+    {
+        return $this->totalAssessment;
+    }
+
+    /**
+     * Sets the value of totalAssessment.
+     *
+     * @param mixed $totalAssessment the total assessment
+     *
+     * @return self
+     */
+    private function set_TotalAssessment($totalAssessment)
+    {
+        $this->totalAssessment = $totalAssessment;
+
+        return $this;
     }
 }//END OF CLASS

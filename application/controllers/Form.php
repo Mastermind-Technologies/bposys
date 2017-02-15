@@ -17,6 +17,8 @@ class Form extends CI_Controller {
 		$this->load->model('Archive_m');
 		$this->load->model('Notification_m');
 		$this->load->model('Renewal_m');
+		$this->load->model('Payment_m');
+		$this->load->model('Issued_Application_m');
 		$this->load->library('form_validation');
 	}
 
@@ -27,6 +29,100 @@ class Form extends CI_Controller {
 		else
 			$this->load->view('templates/sb_admin2/sb_admin2_navbar');
 		$this->load->view('templates/sb_admin2/sb_admin2_includes');
+	}
+
+	public function _init_matrix($data = null)
+	{
+		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+
+		if($role == "BPLO")
+		{
+			$query['status'] = 'For validation...';
+			$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
+
+			$query['status'] = 'For applicant visit';
+			$data['pending'] = count($this->Application_m->get_all_bplo_applications($query));
+
+			$query['status'] = 'On process';
+			$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
+
+			$query['status'] = 'Completed';
+			$data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
+
+			$query['status'] = 'Active';
+			$data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
+
+			$data['total'] = $data['incoming']+$data['pending']+$data['process']+$data['complete']+$data['issued'];
+		}
+		else if($role == 'Zoning')
+		{
+			$query['status'] = 'For applicant visit';
+			$data['incoming'] = count($this->Application_m->get_all_zoning_applications($query));
+
+			$query['status'] = 'On process';
+			$data['process'] = count($this->Application_m->get_all_zoning_applications($query));
+
+			$query['status'] = 'Active';
+			$data['issued'] = count($this->Application_m->get_all_zoning_applications($query));
+
+			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+		}
+		else if($role == 'BFP')
+		{
+			$query['status'] = 'For applicant visit';
+			$data['incoming'] = count($this->Application_m->get_all_bfp_applications($query));
+
+			$query['status'] = 'On process';
+			$data['process'] = count($this->Application_m->get_all_bfp_applications($query));
+
+			$query['status'] = 'Active';
+			$data['issued'] = count($this->Application_m->get_all_bfp_applications($query));
+
+			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+		}
+		else if($role == 'CENRO')
+		{
+			$query['status'] = 'For applicant visit';
+			$data['incoming'] = count($this->Application_m->get_all_cenro_applications($query));
+
+			$query['status'] = 'On process';
+			$data['process'] = count($this->Application_m->get_all_cenro_applications($query));
+
+			$query['status'] = 'Active';
+			$data['issued'] = count($this->Application_m->get_all_cenro_applications($query));
+
+			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+		}
+		else if($role == "CHO")
+		{
+			$query['status'] = 'For applicant visit';
+			$data['incoming'] = count($this->Application_m->get_all_sanitary_applications($query));
+
+			$query['status'] = 'On process';
+			$data['process'] = count($this->Application_m->get_all_sanitary_applications($query));
+
+			$query['status'] = 'Active';
+			$data['issued'] = count($this->Application_m->get_all_sanitary_applications($query));
+
+			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+		}
+
+		else if($role == "Engineering")
+		{
+			$query['status'] = 'For applicant visit';
+			$data['incoming'] = count($this->Application_m->get_all_engineering_applications($query));
+
+			$query['status'] = 'On process';
+			$data['process'] = count($this->Application_m->get_all_engineering_applications($query));
+
+			$query['status'] = 'Active';
+			$data['issued'] = count($this->Application_m->get_all_engineering_applications($query));
+
+			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+		}
+
+		$this->load->view('templates/matrix/matrix_includes');
+		$this->load->view('templates/matrix/matrix_navbar', $data);
 	}
 
 	public function isLogin()
@@ -596,37 +692,113 @@ class Form extends CI_Controller {
 			'occupiedPortion' => $bfp->get_OccupiedPortion(), 
 			'areaPerFloor' => $bfp->get_AreaPerFloor(), 
 			'occupancyPermitNum' => $bfp->get_OccupancyPermitNum(), 
-			'annualEmployeePhysicalExam' => $sanitary->get_AnnualEmployeePhysicalExam(), 
+			'annualEmployeePhysicalExam' => $sanitary->get_AnnualEmployeePhysicalExam(),
 			'typeLevelOfWaterSource' => $sanitary->get_typeLevelOfWaterSource()
 			);
-		$archive_application_id = $this->Archive_m->insert_application($archive_application_field);
+$archive_application_id = $this->Archive_m->insert_application($archive_application_field);
 
-		foreach ($bplo->get_BusinessActivities() as $key => $activity) {
-			$business_activity_field = array(
-				'archiveApplicationId' => $archive_application_id,
-				'lineOfBusiness' => $activity->lineOfBusiness,
-				'capitalization' => $activity->capitalization,
-				);	
-			$this->Archive_m->insert_business_activity($business_activity_field);
-		}
+foreach ($bplo->get_BusinessActivities() as $key => $activity) {
+	$business_activity_field = array(
+		'archiveApplicationId' => $archive_application_id,
+		'lineOfBusiness' => $activity->lineOfBusiness,
+		'capitalization' => $activity->capitalization,
+		);	
+	$this->Archive_m->insert_business_activity($business_activity_field);
+}
 
-		if($bplo->get_lessors() != null)
-		{
-			$lessors_field = array(
-				'archiveApplicationId' => $archive_application_id,
-				'firstName' => $bplo->get_lessors()->firstName,
-				'middleName' => $bplo->get_lessors()->middleName,
-				'lastName' => $bplo->get_lessors()->lastName,
-				'address' => $bplo->get_lessors()->address,
-				'subdivision' => $bplo->get_lessors()->subdivision,
-				'barangay' => $bplo->get_lessors()->barangay,
-				'cityMunicipality' => $bplo->get_lessors()->cityMunicipality,
-				'province' => $bplo->get_lessors()->province,
-				'monthlyRental' => $bplo->get_lessors()->monthlyRental,
-				'telNum' => $bplo->get_lessors()->telNum,
-				'email' => $bplo->get_lessors()->email,
-				);
-			$this->Archive_m->insert_lessor($lessors_field);
-		}
+if($bplo->get_lessors() != null)
+{
+	$lessors_field = array(
+		'archiveApplicationId' => $archive_application_id,
+		'firstName' => $bplo->get_lessors()->firstName,
+		'middleName' => $bplo->get_lessors()->middleName,
+		'lastName' => $bplo->get_lessors()->lastName,
+		'address' => $bplo->get_lessors()->address,
+		'subdivision' => $bplo->get_lessors()->subdivision,
+		'barangay' => $bplo->get_lessors()->barangay,
+		'cityMunicipality' => $bplo->get_lessors()->cityMunicipality,
+		'province' => $bplo->get_lessors()->province,
+		'monthlyRental' => $bplo->get_lessors()->monthlyRental,
+		'telNum' => $bplo->get_lessors()->telNum,
+		'email' => $bplo->get_lessors()->email,
+		);
+	$this->Archive_m->insert_lessor($lessors_field);
+}
+}
+
+public function finalize($reference_num)
+{
+	$this->isLogin();
+	echo script_tag('assets/js/jquery.min.js');
+	echo script_tag('assets/js/parsley.min.js');
+	$navdata['title'] = 'BPLO - Finalize';
+	$navdata['active'] = 'Applications';
+				//get notifications
+	$navdata['notifications'] = User::get_notifications();
+	$navdata['completed'] = User::get_complete_notifications();
+	$this->_init_matrix($navdata);
+	$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+	$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $reference_num));
+
+	$data['application'] = new BPLO_Application($reference_num);
+
+	$this->load->view('dashboard/bplo/finalization', $data);
+}
+
+public function submit_finalization()
+{
+	$this->isLogin();
+
+	$this->form_validation->set_rules('hidden-paid-up-to', 'Paid Up To','required');
+	$this->form_validation->set_rules('or-number', 'OR Number','required');
+	$this->form_validation->set_rules('amount-paid', 'Amount Paid', 'required|numeric');
+
+	if($this->form_validation->run() == false)
+	{
+		$reference_num = str_replace(['/','+','='], ['-','_','='], $this->input->post('ref'));
+		$this->session->set_flashdata('error', validation_errors());
+		redirect("form/finalize/".$reference_num);
 	}
+	else
+	{
+		$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->post('ref')));
+
+		$query['referenceNum'] = $reference_num;
+		$this->Assessment_m->update_assessment($query, $this->input->post('amount-paid'), $this->input->post('hidden-paid-up-to'));
+
+		$payment_field = array(
+			'referenceNum' => $reference_num,
+			'orNumber' =>  $this->input->post('or-number'),
+			'amountPaid' => $this->input->post('amount-paid'),
+			'quarterPaid' => $this->input->post('hidden-paid-up-to'),
+			);
+		$this->Payment_m->insert_payment($payment_field);
+
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+		$role_Id = $this->Role_m->get_roleId($role);
+		BPLO_Application::update_status($reference_num, 'Active');
+
+		$query = array(
+			'referenceNum' => $reference_num,
+			'role' => $role_Id->roleId,
+			'type' => "Issue",
+			'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
+			);
+		$this->Approval_m->insert($query);
+
+		$bplo = new BPLO_Application($reference_num);
+		$fields = array(
+			'referenceNum' => $reference_num,
+			'dept' => $role,
+			'type' => $bplo->get_ApplicationType()=="New" ? 'New' : 'Renew',
+			);
+		$this->Issued_Application_m->insert($fields);
+
+		$this->session->set_flashdata('message', 'Payment validated, applicant can now claim his/her business permit and business plate');
+
+		redirect('dashboard');
+	}
+}
 }//END OF CLASS
