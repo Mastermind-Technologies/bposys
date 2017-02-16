@@ -12,7 +12,8 @@
       <a href="#" class="current">View</a>
     </div>
     <!--End-breadcrumbs-->
-    <h1>View Application</h1>
+    <h1>Business Name: <strong><?= $application->get_businessName() ?></strong></h1>
+    <h4 style="padding-left: 20px;">Status: <span class="text-warning"><?= $application->get_status() ?></span></h4>
     <hr>
   </div>
 

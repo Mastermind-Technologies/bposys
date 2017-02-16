@@ -59,7 +59,7 @@
                 </div>
               </div>
               <div class="form-actions">
-                <button type="submit" class="btn btn-success pull-right">Finalize/Issue Business Permit</button>
+                <button type="submit" class="btn btn-success btn-large pull-right">Issue Business Permit</button>
               </div>
             </form>
           </div>

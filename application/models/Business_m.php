@@ -50,6 +50,11 @@ class Business_m extends CI_Model {
 		$this->db->join($this->table_bplo, 'businesses.businessId = application_bplo.businessId', 'left');
 		$this->db->where(['application_bplo.status' => 'active'])->or_where('application_bplo.status', 'expired');
 		$this->db->group_by('businesses.barangay');
+		// echo "<pre>";
+		// print_r($this->db->get()->result());
+		// echo "</pre>";
+		// exit();
+
 
 		return $this->db->get()->result();
 	}
@@ -60,6 +65,11 @@ class Business_m extends CI_Model {
 		$this->db->join($this->table_bplo, 'businesses.businessId = application_bplo.businessId', 'left');
 		$this->db->where(['application_bplo.status' => 'expired']);
 		$this->db->group_by('businesses.barangay');
+		// echo "<pre>";
+		// print_r($this->db->get()->result());
+		// echo "</pre>";
+		// exit();
+		
 
 		return $this->db->get()->result();
 	}

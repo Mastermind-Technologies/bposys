@@ -26,6 +26,42 @@ class Assessment_m extends CI_Model {
     return $result->result();
   }
 
+  public function update_assessment_status($query, $status)
+  {
+    $this->db->where($query);
+    $this->db->update($this->table, ['status' => $status]);
+  }
+
+
+  public function refresh_assessment_amount($query)
+  {
+    //get assessment for specific application
+    $assessment = $this->get_assessment($query);
+    unset($query);
+
+    //get uncomputed charges for retrieved assessment
+    $query['assessmentId'] = $assessment[0]->assessmentId;
+    $query['computed'] = 0;
+    $charges = $this->get_charges($query);
+
+    //compute total
+    $total = 0;
+    foreach ($charges as $key => $charge) {
+      $total += $charge->due;
+      $total += $charge->surcharge;
+      $total += $charge->interest;
+
+      $this->db->where(['chargeId' => $charge->chargeId]);
+      $this->db->update($this->table_charge, ['computed' => 1]);
+    }
+
+    //update amount
+    unset($query);
+    $query['assessmentId'] = $assessment[0]->assessmentId;
+    $this->db->where($query);
+    $this->db->update($this->table, ['amount' => $total]);
+  }
+
   public function update_assessment($query, $amount_paid, $paid_up_to)
   {
     //get latest assessment to be updated

@@ -703,7 +703,7 @@
 									</div>
 									<div class="col-sm-4 pull-right form-navigation">
 										<a data-toggle='tab' class='btn btn-success next pull-right'>Next 2/6</a>
-										<a href="#step1" data-toggle='tab' class='btn btn-success previous pull-right' style='margin-right:10px;'>Back</a>
+										<a data-toggle='tab' class='btn btn-success previous pull-right' style='margin-right:10px;'>Back</a>
 										<button class="btn btn-warning pull-right btn-draft" style='margin-right:10px;' id='save-as-draft' data-toggle="tooltip" title="Save as draft so you can continue later." type="submit"><i class="fa fa-pencil-square-o fa-draft-icon" aria-hidden="true"></i>
 											Save as Draft</button>
 										</div>
@@ -795,7 +795,7 @@
 										</div>
 										<div class="col-sm-4 pull-right form-navigation">
 											<a data-toggle='tab' class='btn btn-success next pull-right'>Next 3/6</a>
-											<a href="#step1" data-toggle='tab' class='btn btn-success previous pull-right' style='margin-right:10px;'>Back</a>
+											<a data-toggle='tab' class='btn btn-success previous pull-right' style='margin-right:10px;'>Back</a>
 											<button class="btn btn-warning pull-right btn-draft" style='margin-right:10px;' id='save-as-draft' data-toggle="tooltip" title="Save as draft so you can continue later." type="submit"><i class="fa fa-pencil-square-o fa-draft-icon" aria-hidden="true"></i>
 												Save as Draft</button>
 											</div>
@@ -877,7 +877,7 @@
 											</div>
 											<div class="col-sm-4 pull-right form-navigation">
 												<a data-toggle='tab' class='btn btn-success next pull-right'>Next 4/6</a>
-												<a href="#step1" data-toggle='tab' class='btn btn-success previous pull-right' style='margin-right:10px;'>Back</a>
+												<a data-toggle='tab' class='btn btn-success previous pull-right' style='margin-right:10px;'>Back</a>
 												<button class="btn btn-warning pull-right btn-draft" style='margin-right:10px;' id='save-as-draft' data-toggle="tooltip" title="Save as draft so you can continue later." type="submit"><i class="fa fa-pencil-square-o fa-draft-icon" aria-hidden="true"></i>
 													Save as Draft</button>
 												</div>
@@ -1274,7 +1274,7 @@
 																			</div>
 																			<div class="col-sm-4 pull-right form-navigation">
 																				<a data-toggle='tab' class='btn btn-success next pull-right'>Next 5/6</a>
-																				<a href="#step1" data-toggle='tab' class='btn btn-success previous pull-right' style='margin-right:10px;'>Back</a>
+																				<a data-toggle='tab' class='btn btn-success previous pull-right' style='margin-right:10px;'>Back</a>
 																				<button class="btn btn-warning pull-right btn-draft" style='margin-right:10px;' id='save-as-draft' data-toggle="tooltip" title="Save as draft so you can continue later." type="submit"><i class="fa fa-pencil-square-o fa-draft-icon" aria-hidden="true"></i>
 																					Save as Draft</button>
 																				</div>

@@ -15,10 +15,11 @@
         <a href="<?php echo base_url(); ?>dashboard/issued_applications">Issued Applications</a>
       <?php endif ?>
 
-      <a href="#" class="current">View</a>
+      <a href="#" class="current">View Application</a>
     </div>
     <!--End-breadcrumbs-->
-    <h1>View Application</h1>
+    <h1>Business Name: <strong><?= $application->get_businessName() ?></strong></h1>
+    <h4 style="padding-left: 20px;">Status: <span class="text-warning"><?= $application->get_status() ?></span></h4>
     <hr>
 
   </div>
@@ -283,33 +284,67 @@
                   </tr>
                 </tbody>
               </table>
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <td colspan="5" style="text-align:center">
-                      <h4 class=text-center>Business Activities</h4>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th rowspan="2" style="width: 30%">
-                      <label for="business_activity_line_of_business">Line of Business</label>
-                    </th>
-                    <th rowspan="2" style="width: 20%">
-                      <label for="business_activity_capitalization">Capitalization</label>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($application->get_businessActivities() as $activity): ?>
+              <?php if ($application->get_status() == 'Completed'): ?>
+                <form action="<?php echo base_url(); ?>dashboard/approve_capitalization/<?= str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()) ?>" method="post">
+              <?php endif ?>
+
+                <table class="table table-bordered">
+                  <thead>
                     <tr>
-                      <!-- <td><?= $activity->code ?></td> -->
-                      <td><?= $activity->lineOfBusiness ?></td>
-                      <!-- <td><?= $activity->numOfUnits ?></td> -->
-                      <td><?= $activity->capitalization ?></td>
+                      <td colspan="5" style="text-align:center">
+                        <h4 class=text-center>Business Activities</h4>
+                      </td>
                     </tr>
-                  <?php endforeach ?>
-                </tbody>
-              </table>
+                    <tr>
+                      <th rowspan="2" style="width: 30%">
+                        <label for="business_activity_line_of_business">Line of Business</label>
+                      </th>
+                      <th rowspan="2" style="width: 20%">
+                        <label for="business_activity_capitalization">Capitalization</label>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php if ($application->get_status() == "Completed"): ?>
+
+                      <?php foreach ($application->get_businessActivities() as $activity): ?>
+                        <tr>
+                          <!-- <td><?= $activity->code ?></td> -->
+                          <td>
+                            <?= $activity->lineOfBusiness ?>
+                            <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>">  
+                          </td>
+                          <!-- <td><?= $activity->numOfUnits ?></td> -->
+                          <td>
+                            <input type="number" name="capitalization[]" required class="form-control" value="<?= $activity->capitalization ?>">
+                          </td>
+                        </tr>
+                      <?php endforeach ?>
+
+                    <?php else: ?>
+                      <?php foreach ($application->get_businessActivities() as $activity): ?>
+                        <tr>
+                          <!-- <td><?= $activity->code ?></td> -->
+                          <td><?= $activity->lineOfBusiness ?></td>
+                          <!-- <td><?= $activity->numOfUnits ?></td> -->
+                          <td>
+                            <?= $activity->capitalization ?>
+                          </td>
+                        </tr>
+                      <?php endforeach ?>
+                    <?php endif ?>
+                  </tbody>
+                </table>
+                <?php if ($application->get_status() == 'Completed'): ?>
+                  <div class="row-fluid text-center">
+                    <div class="span4 offset4">
+                      <div class="control-group">
+                        <button type="submit" class="btn btn-success">Approve Capitalization</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              <?php endif ?>
               <?php if ($application->get_status() == "Completed" || $application->get_status() == "Active" || $application->get_status() == "On process"): ?>
                 <table class="table table-bordered">
                   <thead>
@@ -361,15 +396,7 @@
               <div class="form-actions">
                 <!-- <a href="<?php echo base_url(); ?>dashboard/get_cert_closure_info" class="btn btn-info btn-large">Print Certificate Closure</a> -->
                 <div class="row text-center">
-                  <?php if ($application->get_status() == "For validation..."): ?>
-                    <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
-                    <a href="#" class="btn btn-danger btn-lg">Message Registrant</a>
-                  <?php elseif ($application->get_status() == "For applicant visit"): ?>
-                    <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
-                    <!-- <a href="#" class="btn btn-warning btn-lg">Edit information</a> -->
-                  <?php elseif ($application->get_status() == "On Process"): ?>
-                    <!-- none -->
-                  <?php elseif ($application->get_status() == "Completed"): ?>
+                  <?php if ($application->get_status() == "For finalization"): ?>
                     <a href="<?php echo base_url(); ?>form/finalize/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Proceed to Finalization</a>
                     <!-- <a href="<?php echo base_url(); ?>dashboard/issue_permit/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Issue Business Permit</a> -->
                   <?php elseif ($application->get_status() == "Active"): ?>

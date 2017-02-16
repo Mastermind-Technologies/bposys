@@ -48,8 +48,9 @@ class Business_Activity_m extends CI_Model {
   // 	return $result->result();
   // }
 
-  public function update_business_activity()
+  public function update_business_activity($activity_id, $fields)
   {
-
+    $this->db->where(['activityId' => $activity_id]);
+    $this->db->update($this->table, $fields);
   }
 }
