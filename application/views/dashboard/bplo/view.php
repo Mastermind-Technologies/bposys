@@ -34,7 +34,7 @@
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#tab1">BPLO Form</a></li>
         <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
-        <li><a data-toggle="tab" href="#tab3">Business Location</a></li>
+        <li><a data-toggle="tab" onclick="initMap()" href="#tab3">Business Location</a></li>
       </ul>
     </div>
     <div class="widget-content tab-content">
@@ -286,7 +286,7 @@
               </table>
               <?php if ($application->get_status() == 'Completed'): ?>
                 <form action="<?php echo base_url(); ?>dashboard/approve_capitalization/<?= str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()) ?>" method="post">
-              <?php endif ?>
+                <?php endif ?>
 
                 <table class="table table-bordered">
                   <thead>
@@ -482,7 +482,9 @@
                 </div>
               </div>
               <div id="tab3" class='tab-pane'>
-                <div id="gmaps" style="width:100%; height:500px; background-color: gray"></div>
+                <div id="gmaps" style="width:100%; height:500px; background-color: gray">
+                  
+                </div>
               </div>
             </div>
           </div>
@@ -491,23 +493,26 @@
       </div>
     </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8"
     async defer></script>
-
     <script>
       var map;
-// console.log(<?= $application->get_lng() ?>);
-function initMap(){
-  latlang = new google.maps.LatLng(<?= $application->get_lat() ?>,<?= $application->get_lng() ?>);
-  map = new google.maps.Map(document.getElementById('gmaps'), {
-    center: latlang,
-    zoom: 15
+      var loaded = false;
+      function initMap(){
+        if(loaded == false)
+        {
+          loaded = true;
+          latlang = new google.maps.LatLng(<?= $application->get_lat() ?>,<?= $application->get_lng() ?>);
+          map = new google.maps.Map(document.getElementById('gmaps'), {
+            center: latlang,
+            zoom: 15
 
-  });
-  var marker = new google.maps.Marker({
-    position: latlang,
-  });
+          });
+          var marker = new google.maps.Marker({
+            position: latlang,
+          });
 
-  marker.setMap(map);
-}
-</script>
+          marker.setMap(map);
+        }
+      }
+    </script>
