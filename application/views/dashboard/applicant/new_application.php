@@ -1058,6 +1058,27 @@
 			<!-- /.container-fluid -->
 		</div>
 
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8" async defer></script>
+
+		<script>
+		
+			// function initMap(){
+				
+			// 	var map;
+			// 	latlang = new google.maps.LatLng(14.315036717630743,121.07954978942871);
+			// 	map = new google.maps.Map(document.getElementById('gmaps'), {
+			// 		center: latlang,
+			// 		zoom: 8
+
+			// 	});
+			// 	var marker = new google.maps.Marker({
+			// 		position: latlang,
+			// 	});
+
+			// 	marker.setMap(map);
+			// }
+		</script>
+
 <!-- <div id="modalLineOfBusiness" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 
