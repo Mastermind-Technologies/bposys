@@ -400,10 +400,12 @@ $(document).ready(function()
           success: function(o){
             if(o == "success")
             {
-              // window.setTimeout(function() { 
-              //   window.location = base_url+"dashboard"; 
-              // },2000);
-              process_order_of_payment(reference_number);
+              console.log("Success!");
+              console.log("Redirecting...");
+              window.setTimeout(function() { 
+                window.location = base_url+"dashboard"; 
+              },2000);
+              // process_order_of_payment(reference_number);
             }
             else
             {
@@ -420,26 +422,26 @@ $(document).ready(function()
     });
   }
 
-  function process_order_of_payment(reference_number)
-  {
-    console.log('Processing...');
-    $.ajax({
-      type:"POST",
-      url:base_url+"dashboard/process_assessments",
-      dataType:"JSON",
-      data:{referenceNum: reference_number},
-      success: function(data){
-        if(data == "success")
-        {
-          console.log("Success!");
-          console.log("Redirecting...");
-          window.setTimeout(function() { 
-            window.location = base_url+"dashboard"; 
-          },2000);
-        }
-      }
-    })
-  }
+  // function process_order_of_payment(reference_number)
+  // {
+  //   console.log('Processing...');
+  //   $.ajax({
+  //     type:"POST",
+  //     url:base_url+"dashboard/process_assessments",
+  //     dataType:"JSON",
+  //     data:{referenceNum: reference_number},
+  //     success: function(data){
+  //       if(data == "success")
+  //       {
+  //         console.log("Success!");
+  //         console.log("Redirecting...");
+  //         window.setTimeout(function() { 
+  //           window.location = base_url+"dashboard"; 
+  //         },2000);
+  //       }
+  //     }
+  //   })
+  // }
 
   $('#business').change(function(event){
     $.ajax({

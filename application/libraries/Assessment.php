@@ -332,7 +332,7 @@ class Assessment{
 	*/
 	public static function get_fixed_fees($work_force)
 	{
-		$data['annual_inspection'] = 400;
+		// $data['annual_inspection'] = 400;
 		$data['business_inspection'] = 200;
 		$data['business_plate_sticker'] = 350;
 		$data['health_card_fee'] = 100 * $work_force;

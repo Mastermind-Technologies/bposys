@@ -9,12 +9,17 @@
         <a href="<?php echo base_url(); ?>dashboard/pending_applications">Pending Applications</a>
       <?php elseif ($application->get_status() == "On process"): ?>
         <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a>
+      <?php elseif ($application->get_status() == "Completed"): ?>
+        <a href="<?php echo base_url(); ?>dashboard/completed_applications">Complete Applications</a>
+      <?php elseif ($application->get_status() == "Active"): ?>
+        <a href="<?php echo base_url(); ?>dashboard/issued_applications">Issued Applications</a>
       <?php endif ?>
 
-      <a href="#" class="current">View</a>
+      <a href="#" class="current">View Application</a>
     </div>
     <!--End-breadcrumbs-->
-    <h1>View Application</h1>
+    <h1>Business Name: <strong><?= $application->get_businessName() ?></strong></h1>
+    <h4 style="padding-left: 20px;">Status: <span class="text-warning"><?= $application->get_status() ?></span></h4>
     <hr>
 
   </div>
@@ -238,243 +243,259 @@
               <td colspan="2">
                 <label for="lessors_name">Lessor's Name</label>
                 <h5><?= isset($application->lessors) ?
-                $application->get_lessors()->lastName.", ".
-                $application->get_lessors()->firstName." (".
-                $application->get_lessors()->middleName.")" : "NA" ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <label for="lessors_address">Lessor's Address</label>
-                <h5><?= isset($application->lessors) ?
-                $application->get_lessors()->address.", "
-                .$application->get_lessors()->subdivision.", "
-                .$application->get_lessors()->barangay.", "
-                .$application->get_lessors()->cityMunicipality.", "
-                .$application->get_lessors()->province : "NA" ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="lessor_monthly_rental">Monthly Rental</label>
-                <h5><?= isset($application->lessors) ? $application->get_lessors()->monthlyRental : "NA" ?></h5>
-              </td>
-              <td>
-                <label for="lessor_tel_cel_no">Tel No./ Cel.No.</label>
-                <h5><?= isset($application->lessors) ? $application->get_lessors()->telNum : "NA" ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="lessor_email_address">Email Address</label>
-                <h5><?= isset($application->lessors) ? $application->get_lessors()->email : "NA" ?></h5>
-              </td>
-              <td>
-                <label for="lessor_in_case_of_emergency">In case of emergency (Contact Person | Tel No./Cel No. | Email)</label>
-                <h5><?=
-                $application->get_emergencyContactPerson()." | ".
-                $application->get_emergencyTelNum()." | ".
-                $application->get_emergencyEmail() ?></h5>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <td colspan="5" style="text-align:center">
-                <h4 class=text-center>Business Activities</h4>
-              </td>
-            </tr>
-            <tr>
-              <th rowspan="2" style="width: 30%">
-                <label for="business_activity_line_of_business">Line of Business</label>
-              </th>
-              <th rowspan="2" style="width: 20%">
-                <label for="business_activity_capitalization">Capitalization</label>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($application->get_businessActivities() as $activity): ?>
-              <tr>
-                <!-- <td><?= $activity->code ?></td> -->
-                <td><?= $activity->lineOfBusiness ?></td>
-                <!-- <td><?= $activity->numOfUnits ?></td> -->
-                <td><?= $activity->capitalization ?></td>
-              </tr>
-            <?php endforeach ?>
-          </tbody>
-        </table>
-        <?php if ($application->get_status() == "Completed" || $application->get_status() == "Active" || $application->get_status() == "On process"): ?>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <td colspan="3">
-                  <h4 class='text-center'>Verification of Documents</h4>
+                  $application->get_lessors()->lastName.", ".
+                  $application->get_lessors()->firstName." (".
+                  $application->get_lessors()->middleName.")" : "NA" ?></h5>
                 </td>
               </tr>
               <tr>
-                <th>Description</th>
-                <th>Office/Agency</th>
-                <th>Date Issued</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Barangay Clearance</td>
-                <td>Barangay</td>
-                <td><?= date('F j, o',strtotime($application->get_BrgyClearanceDateIssued())) ?></td>
-              </tr>
-              <tr>
-                <td>Zoning Clearance</td>
-                <td>City Planning and Development Office</td>
-                <td><?= isset($zoning[0]->createdAt) ? date('F j, o',strtotime($zoning[0]->createdAt)) : '' ?></td>
-              </tr>
-              <tr>
-                <td>Sanitary Permit / Health Clearance</td>
-                <td>City Health Office</td>
-                <td><?= isset($sanitary[0]->createdAt) ? date('F j, o',strtotime($sanitary[0]->createdAt)) : '' ?></td>
-              </tr>
-              <tr>
-                <td>City Environmental Certificate</td>
-                <td>City Environment and Natural Resources Office</td>
-                <td><?= isset($cenro[0]->createdAt) ? date('F j, o',strtotime($cenro[0]->createdAt)) : '' ?></td>
-              </tr>
-              <tr>
-                <td>Engineering Clearance</td>
-                <td>Office of the Building Official</td>
-                <td><?= isset($engineering[0]->createdAt) ? date('F j, o',strtotime($engineering[0]->createdAt)) : '' ?></td>
-              </tr>
-              <tr>
-                <td>Valid Fire Safety Inspection Certificate</td>
-                <td>Bureau of Fire Protection</td>
-                <td><?= isset($bfp[0]->createdAt) ? date('F j, o',strtotime($bfp[0]->createdAt)) : '' ?></td>
-              </tr>
-            </tbody>
-          </table>
-        <?php endif ?>
-        <div class="form-actions">
-          <a href="<?php echo base_url(); ?>dashboard/get_bplo_form_info" class="btn btn-info btn-large">Print BPLO Form</a>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="<?php echo base_url(); ?>dashboard/get_sanitary_info" class="btn btn-info btn-large">Print Sanitary Permit</a>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="<?php echo base_url(); ?>dashboard/get_bfp_info" class="btn btn-info btn-large">Print BFP Form</a>
-          <br><br>
-          <a href="<?php echo base_url(); ?>dashboard/get_bplo_renewal_info" class="btn btn-info btn-large">Print BPLO Renewal</a>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="<?php echo base_url(); ?>dashboard/get_zoning_info" class="btn btn-info btn-large">Print Zoning Clearance</a>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="<?php echo base_url(); ?>dashboard/get_cenro_info" class="btn btn-info btn-large">Print CENRO Form</a>
-          <br><br>
-          <a href="<?php echo base_url(); ?>dashboard/get_cert_closure_info" class="btn btn-info btn-large">Print Certificate Closure</a>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="<?php echo base_url(); ?>dashboard/get_bplo_certificate_info" class="btn btn-info btn-large">Print BPLO Certificate</a>
-          <div class="row text-center">
-            <?php if ($application->get_status() == "For validation..."): ?>
-              <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
-              <a href="#" class="btn btn-danger btn-lg">Message Registrant</a>
-            <?php elseif ($application->get_status() == "For applicant visit"): ?>
-              <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
-              <!-- <a href="#" class="btn btn-warning btn-lg">Edit information</a> -->
-            <?php elseif ($application->get_status() == "On Process"): ?>
-              <!-- none -->
-            <?php elseif ($application->get_status() == "Completed"): ?>
-              <a href="<?php echo base_url(); ?>dashboard/issue_permit/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Issue Business Permit</a>
-            <?php elseif ($application->get_status() == "Active"): ?>
-              <a href="#" class="btn btn-info btn-large">Print Business Permit</a>
-            <?php endif ?>
+                <td colspan="2">
+                  <label for="lessors_address">Lessor's Address</label>
+                  <h5><?= isset($application->lessors) ?
+                    $application->get_lessors()->address.", "
+                    .$application->get_lessors()->subdivision.", "
+                    .$application->get_lessors()->barangay.", "
+                    .$application->get_lessors()->cityMunicipality.", "
+                    .$application->get_lessors()->province : "NA" ?></h5>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="lessor_monthly_rental">Monthly Rental</label>
+                    <h5><?= isset($application->lessors) ? $application->get_lessors()->monthlyRental : "NA" ?></h5>
+                  </td>
+                  <td>
+                    <label for="lessor_tel_cel_no">Tel No./ Cel.No.</label>
+                    <h5><?= isset($application->lessors) ? $application->get_lessors()->telNum : "NA" ?></h5>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="lessor_email_address">Email Address</label>
+                    <h5><?= isset($application->lessors) ? $application->get_lessors()->email : "NA" ?></h5>
+                  </td>
+                  <td>
+                    <label for="lessor_in_case_of_emergency">In case of emergency (Contact Person | Tel No./Cel No. | Email)</label>
+                    <h5><?=
+                      $application->get_emergencyContactPerson()." | ".
+                      $application->get_emergencyTelNum()." | ".
+                      $application->get_emergencyEmail() ?></h5>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <?php if ($application->get_status() == 'Completed'): ?>
+                <form action="<?php echo base_url(); ?>dashboard/approve_capitalization/<?= str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()) ?>" method="post">
+              <?php endif ?>
+
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <td colspan="5" style="text-align:center">
+                        <h4 class=text-center>Business Activities</h4>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th rowspan="2" style="width: 30%">
+                        <label for="business_activity_line_of_business">Line of Business</label>
+                      </th>
+                      <th rowspan="2" style="width: 20%">
+                        <label for="business_activity_capitalization">Capitalization</label>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php if ($application->get_status() == "Completed"): ?>
+
+                      <?php foreach ($application->get_businessActivities() as $activity): ?>
+                        <tr>
+                          <!-- <td><?= $activity->code ?></td> -->
+                          <td>
+                            <?= $activity->lineOfBusiness ?>
+                            <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>">  
+                          </td>
+                          <!-- <td><?= $activity->numOfUnits ?></td> -->
+                          <td>
+                            <input type="number" name="capitalization[]" required class="form-control" value="<?= $activity->capitalization ?>">
+                          </td>
+                        </tr>
+                      <?php endforeach ?>
+
+                    <?php else: ?>
+                      <?php foreach ($application->get_businessActivities() as $activity): ?>
+                        <tr>
+                          <!-- <td><?= $activity->code ?></td> -->
+                          <td><?= $activity->lineOfBusiness ?></td>
+                          <!-- <td><?= $activity->numOfUnits ?></td> -->
+                          <td>
+                            <?= $activity->capitalization ?>
+                          </td>
+                        </tr>
+                      <?php endforeach ?>
+                    <?php endif ?>
+                  </tbody>
+                </table>
+                <?php if ($application->get_status() == 'Completed'): ?>
+                  <div class="row-fluid text-center">
+                    <div class="span4 offset4">
+                      <div class="control-group">
+                        <button type="submit" class="btn btn-success">Approve Capitalization</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              <?php endif ?>
+              <?php if ($application->get_status() == "Completed" || $application->get_status() == "Active" || $application->get_status() == "On process"): ?>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <td colspan="3">
+                        <h4 class='text-center'>Verification of Documents</h4>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Description</th>
+                      <th>Office/Agency</th>
+                      <th>Date Issued</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Barangay Clearance</td>
+                      <td>Barangay</td>
+                      <td><?= date('F j, o',strtotime($application->get_BrgyClearanceDateIssued())) ?></td>
+                    </tr>
+                    <tr>
+                      <td>Zoning Clearance</td>
+                      <td>City Planning and Development Office</td>
+                      <td><?= isset($zoning[0]->createdAt) ? date('F j, o',strtotime($zoning[0]->createdAt)) : '' ?></td>
+                    </tr>
+                    <tr>
+                      <td>Sanitary Permit / Health Clearance</td>
+                      <td>City Health Office</td>
+                      <td><?= isset($sanitary[0]->createdAt) ? date('F j, o',strtotime($sanitary[0]->createdAt)) : '' ?></td>
+                    </tr>
+                    <tr>
+                      <td>City Environmental Certificate</td>
+                      <td>City Environment and Natural Resources Office</td>
+                      <td><?= isset($cenro[0]->createdAt) ? date('F j, o',strtotime($cenro[0]->createdAt)) : '' ?></td>
+                    </tr>
+                    <tr>
+                      <td>Engineering Clearance</td>
+                      <td>Office of the Building Official</td>
+                      <td><?= isset($engineering[0]->createdAt) ? date('F j, o',strtotime($engineering[0]->createdAt)) : '' ?></td>
+                    </tr>
+                    <tr>
+                      <td>Valid Fire Safety Inspection Certificate</td>
+                      <td>Bureau of Fire Protection</td>
+                      <td><?= isset($bfp[0]->createdAt) ? date('F j, o',strtotime($bfp[0]->createdAt)) : '' ?></td>
+                    </tr>
+                  </tbody>
+                </table>
+              <?php endif ?>
+              <div class="form-actions">
+                <!-- <a href="<?php echo base_url(); ?>dashboard/get_cert_closure_info" class="btn btn-info btn-large">Print Certificate Closure</a> -->
+                <div class="row text-center">
+                  <?php if ($application->get_status() == "For finalization"): ?>
+                    <a href="<?php echo base_url(); ?>form/finalize/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Proceed to Finalization</a>
+                    <!-- <a href="<?php echo base_url(); ?>dashboard/issue_permit/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Issue Business Permit</a> -->
+                  <?php elseif ($application->get_status() == "Active"): ?>
+                    <a href="<?php echo base_url(); ?>dashboard/get_bplo_certificate_info" class="btn btn-success btn-large">Print BPLO Certificate</a>
+                  <?php endif ?>
+                </div>
+              </div>
+            </div>
+            <div id="tab2" class="tab-pane">
+              <h3 class='text-center'>Tax Order of Payment</h3>
+              <div class="row">
+                <div class="span2">
+                  <label for=""><strong>Name of Business</strong></label>
+                  <span><?= $application->get_BusinessName() ?></span>
+                </div>
+                <div class="span2">
+                  <label for=""><strong>Line of Business</strong></label>
+                  <span><?= $application->get_LineOfBusiness() ?></span>
+                </div>
+                <div class="span2">
+                  <label for=""><strong>Status</strong></label>
+                  <span><?= $application->get_ApplicationType() ?></span>
+                </div>
+                <div class="span2">
+                  <label for=""><strong>Bill No.</strong></label>
+                  <span><?= $application->get_Assessment()->assessmentId ?></span>
+                </div>
+                <div class="span2">
+                  <label for=""><strong>Year</strong></label>
+                  <span><?= date('Y', strtotime($application->get_Assessment()->createdAt)) ?></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="span2">
+                  <label for=""><strong>Owner/Taxpayer</strong></label>
+                  <span><?= $application->get_FirstName()." ".strtoupper(substr($application->get_MiddleName(),0,1)).". ".$application->get_LastName() ?></span>
+                </div>
+                <div class="span2">
+                  <label for=""><strong>Business Address</strong></label>
+                  <span><?= $application->get_barangay().", Biñan City, Laguna" ?></span>
+                </div>
+                <div class="span2">
+                  <label for=""><strong>Capital</strong></label>
+                  <span><?= "PHP ".$application->get_capital() ?></span>
+                </div>
+                <div class="span2">
+                  <label for=""><strong>Date Issued</strong></label>
+                  <span><?= date('F j, o',strtotime($application->get_Assessment()->createdAt)) ?></span>
+                </div>
+              </div>
+              <table class="table table-bordered">
+                <thead>
+                  <th>Year</th>
+                  <th>Particulars</th>
+                  <th>Due</th>
+                  <th>Surcharge</th>
+                  <th>Interest</th>
+                  <th>Total</th>
+                </thead>
+                <tbody>
+                  <?php $total = 0; ?>
+                  <?php foreach ($application->get_Charges() as $key => $charge): ?>
+                    <tr>
+                      <td><?= date('Y', strtotime($charge->createdAt)) ?></td>
+                      <td><?= $charge->particulars ?></td>
+                      <td><?= $charge->due ?></td>
+                      <td><?= $charge->surcharge ?></td>
+                      <td><?= $charge->interest ?></td>
+                      <td><?php $t = $charge->due + $charge->surcharge + $charge->interest;
+                        echo $t;
+                        $total += $t; ?></td>
+                      </tr>
+                    <?php endforeach ?>
+                  </tbody>
+                </table>
+                <div class="row">
+                  <div class="span2 offset6">
+                    <label for="">Total: <?= $application->get_totalAssessment() ?></label>
+                  </div>
+                  <div class="span2 offset6">
+                    <label for="">Balance: <?= $application->get_Assessment()->amount ?></label>
+                  </div>
+                </div>
+              </div>
+              <div id="tab3" class='tab-pane'>
+                <div id="gmaps" style="width:100%; height:500px; background-color: gray"></div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div id="tab2" class="tab-pane">
-        <h3 class='text-center'>Tax Order of Payment</h3>
-        <div class="row">
-          <div class="span2">
-            <label for=""><strong>Name of Business</strong></label>
-            <span><?= $application->get_BusinessName() ?></span>
-          </div>
-          <div class="span2">
-            <label for=""><strong>Line of Business</strong></label>
-            <span><?= $application->get_LineOfBusiness() ?></span>
-          </div>
-          <div class="span2">
-            <label for=""><strong>Status</strong></label>
-            <span><?= $application->get_ApplicationType() ?></span>
-          </div>
-          <div class="span2">
-            <label for=""><strong>Bill No.</strong></label>
-            <span><?= $application->get_Assessment()->assessmentId ?></span>
-          </div>
-          <div class="span2">
-            <label for=""><strong>Year</strong></label>
-            <span><?= date('Y', strtotime($application->get_Assessment()->createdAt)) ?></span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="span2">
-            <label for=""><strong>Owner/Taxpayer</strong></label>
-            <span><?= $application->get_FirstName()." ".strtoupper(substr($application->get_MiddleName(),0,1)).". ".$application->get_LastName() ?></span>
-          </div>
-          <div class="span2">
-            <label for=""><strong>Business Address</strong></label>
-            <span><?= $application->get_barangay().", Biñan City, Laguna" ?></span>
-          </div>
-          <div class="span2">
-            <label for=""><strong>Capital</strong></label>
-            <span><?= "PHP ".$application->get_capital() ?></span>
-          </div>
-          <div class="span2">
-            <label for=""><strong>Date Issued</strong></label>
-            <span><?= date('F j, o',strtotime($application->get_Assessment()->createdAt)) ?></span>
-          </div>
-        </div>
-        <table class="table table-bordered">
-          <thead>
-            <th>Year</th>
-            <th>Particulars</th>
-            <th>Due</th>
-            <th>Surcharge</th>
-            <th>Interest</th>
-            <th>Total</th>
-          </thead>
-          <tbody>
-            <?php $total = 0; ?>
-            <?php foreach ($application->get_Charges() as $key => $charge): ?>
-              <tr>
-                <td><?= date('Y', strtotime($charge->createdAt)) ?></td>
-                <td><?= $charge->particulars ?></td>
-                <td><?= $charge->due ?></td>
-                <td><?= $charge->surcharge ?></td>
-                <td><?= $charge->interest ?></td>
-                <td><?php $t = $charge->due + $charge->surcharge + $charge->interest;
-                echo $t;
-                $total += $t; ?></td>
-              </tr>
-            <?php endforeach ?>
-          </tbody>
-        </table>
-        <div class="row">
-          <div class="span2 offset6">
-            <label for="">Total: <?= $application->get_assessment()->amount ?></label>
-          </div>
-        </div>
-      </div>
-      <div id="tab3" class='tab-pane'>
-        <div id="gmaps" style="width:100%; height:500px; background-color: gray"></div>
+        <!-- End Container Fluid -->
       </div>
     </div>
-  </div>
-</div>
-<!-- End Container Fluid -->
-</div>
-</div>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8&callback=initMap"
-async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8&callback=initMap"
+    async defer></script>
 
-<script>
-var map;
+    <script>
+      var map;
 // console.log(<?= $application->get_lng() ?>);
 function initMap(){
   latlang = new google.maps.LatLng(<?= $application->get_lat() ?>,<?= $application->get_lng() ?>);

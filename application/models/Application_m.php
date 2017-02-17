@@ -92,7 +92,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->bplo);
+    $this->db->select('*')->from($this->bplo)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();
@@ -114,7 +114,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->zoning);
+    $this->db->select('*')->from($this->zoning)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();
@@ -125,7 +125,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->cenro);
+    $this->db->select('*')->from($this->cenro)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();
@@ -136,7 +136,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->sanitary);
+    $this->db->select('*')->from($this->sanitary)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();
@@ -147,7 +147,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->bfp);
+    $this->db->select('*')->from($this->bfp)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();
@@ -158,7 +158,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->engineering);
+    $this->db->select('*')->from($this->engineering)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();

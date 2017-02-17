@@ -173,8 +173,12 @@ class User {
 		}
 		else
 		{
+			if($role_id == 4)
+				$notif_message = "New";
+			else
+				$notif_message = "Incoming";
 			$query = array(
-				'notifMessage' => 'Incoming',
+				'notifMessage' => $notif_message,
 				'status' => "Unread",
 				'role' => $role_id,
 				);
