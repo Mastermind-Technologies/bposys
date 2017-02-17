@@ -144,17 +144,17 @@ public function set_application_all($param = null)
  $query['bploId'] = $param->applicationId;
  $lessors = $this->CI->Lessor_m->get_all_lessor($query);
  $business_activities = $this->CI->Business_Activity_m->get_all_business_activity($query);
- $lineOfBusiness = "";
+// $lineOfBusiness = "";
  $total_capital = 0;
 
  for ($i=0; $i < count($business_activities) ; $i++) { 
     // if($i == count($lineOfBusiness))
     //     $lineOfBusiness .= $business_activities[$i]->lineOfBusiness;
     // else
-    $lineOfBusiness .= ", ".$business_activities[$i]->lineOfBusiness;
+    // $lineOfBusiness .= ", ".$business_activities[$i]->lineOfBusiness;
     $total_capital += $business_activities[$i]->capitalization;
 }
-$lineOfBusiness = substr($lineOfBusiness, 1);
+$lineOfBusiness = $business_activities[0]->lineOfBusiness;// = substr($lineOfBusiness, 1);
 
 unset($query);
 $assessment = $this->CI->Assessment_m->get_assessment(['referenceNum' => $param->referenceNum]);

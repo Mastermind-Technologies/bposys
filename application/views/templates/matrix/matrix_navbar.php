@@ -7,6 +7,7 @@
 
 <!--top-Header-menu-->
 <div id="user-nav" class="navbar navbar-inverse">
+<input type="hidden" id="new-count" value="<?= isset($new) ? count($new) : '-' ?>">
   <input type="hidden" id="notif-count" value="<?= isset($notifications) ? count($notifications) : '-' ?>">
   <input type="hidden" id="completed-count" value="<?= isset($completed) ? count($completed) : '-' ?>">
   <ul class="nav">

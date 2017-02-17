@@ -129,7 +129,7 @@ class Form extends CI_Controller {
 	{
 		if(!isset($this->session->userdata['userdata']))
 		{
-			$this->session->set_flashdata('failed', 'You are not logged in!');
+			// $this->session->set_flashdata('failed', 'You are not logged in!');
 			redirect('home');
 		}
 	}
