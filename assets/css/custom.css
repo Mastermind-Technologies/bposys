@@ -207,3 +207,8 @@
 
 .colored-tooltip + .tooltip > .tooltip-inner {background-color: #0099CC;}
 .colored-tooltip + .tooltip > .tooltip-arrow { border-bottom-color:#0099CC; }
+
+/*OWNER INFORMATION*/
+
+.label-information{ font-size: 20px; width: 100%; border-bottom: 1px solid gray }
+.label-style{font-size: 11px; color: gray}

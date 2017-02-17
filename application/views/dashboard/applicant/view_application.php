@@ -14,9 +14,9 @@
 							<h3>Application Details
 							<?php if ($application->get_status() == "Expired"): ?>
 									<button type="button" href="<?php echo base_url('form/renew/'.bin2hex($this->encryption->encrypt($this->encryption->decrypt($application->get_applicationId()).'|'.$this->encryption->decrypt($application->get_referenceNum()), $custom_crypto))); ?>" class="btn btn-danger"><span style="text-align:center" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Renew</button>
-									<button type="button" class="btn btn-primary"><span style="text-align:center" class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button>
+									<button type="button" class="btn btn-primary"><span style="text-align:center" class="fa fa-pencil" aria-hidden="true"></span> Edit</button>
 							<?php else: ?>
-									<button type="button" class="btn btn-warning"><span style="text-align:center" class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button>
+									<button type="button" class="btn btn-warning"><span style="text-align:center" class="fa fa-pencil" aria-hidden="true"></span> Edit</button>
 							<?php endif ?>
 						</h3>
 				</div>

@@ -2,7 +2,7 @@
 	<?php if ($application->get_status() != "Cancelled"): ?>
 		<tr>
 			<td style="width:30%;"><p style="margin-top:13%" id="referenceNumber" class="lead text-center text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></p></td>
-			<td style="width:45%;" class='text-center'>
+			<td style="width:45%;">
 				<?php if ($application->get_status() == "Draft"): ?>
 					<div style="margin-top:2%" class="row">
 						<div class="col-sm-12">
@@ -27,30 +27,18 @@
 							<span>Status: <?php $status = $application->get_status();
 								if($status == "Expired")
 								{
-									echo "<strong style='color:red'>".$status."</strong>";
+									echo "<span class='label label-danger' style='font-size:13px'>><$status</span>";
 								}
 								else
 								{
-									echo "<strong>".$status."</strong>";
-								} ?>
+									echo "<span class='label label-info' style='font-size:14px'>$status</span>";
+							} ?>
 							</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-12">
-							<span>Application Type: <strong><?= $application->get_applicationType() ?></strong></span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-4" style="padding-right:0;">
-							<span class="text-muted"> 80% Complete</span>
-						</div>
-						<div class="col-sm-8" style="padding-left:0;">
-							<div class="progress progress-striped">
-								<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-									<span class="sr-only">80%</span>
-								</div>
-							</div>
+							<span>Application Type: <span class='label label-info' style='font-size:14px'><?= $application->get_applicationType() ?></span></span>
 						</div>
 					</div>
 				<?php endif ?>
