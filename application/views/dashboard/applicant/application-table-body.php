@@ -27,20 +27,20 @@
 							<span>Status: <?php $status = $application->get_status();
 								if($status == "Expired")
 								{
-									echo "<span class='label label-danger' style='font-size:13px'>><$status</span>";
+									echo "<span class='label label-danger' style='font-size:13px'>$status</span>";
 								}
 								else
 								{
-									echo "<span class='label label-info' style='font-size:14px'>$status</span>";
+									echo "<span class='label label-info' style='font-size:13px'>$status</span>";
 							} ?>
 							</span>
 						</div>
 					</div>
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-sm-12">
 							<span>Application Type: <span class='label label-info' style='font-size:14px'><?= $application->get_applicationType() ?></span></span>
 						</div>
-					</div>
+					</div> -->
 				<?php endif ?>
 			</td>
 			<td style="width:25%;">
