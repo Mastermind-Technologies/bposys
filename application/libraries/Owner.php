@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Owner {
@@ -21,6 +21,7 @@ class Owner {
     private $owner_PIN = null;
     private $isApplied = null;
     private $owner_gender = null;
+		private $owner_suffix = null;
 
 	public function __construct($owner_id = null)
 	{
@@ -56,14 +57,14 @@ class Owner {
             redirect('Home');
         }
 
-		
+
 	}
 
 	public function set_owner_all($param = null)
 	{
 		if(!isset($this->CI))
 			$this->CI =& get_instance();
-        
+
 		$this->ownerId = $this->CI->encryption->encrypt($param->ownerId);
 		$this->firstName = $param->firstName;
 		$this->middleName = $param->middleName;
@@ -500,4 +501,23 @@ class Owner {
 
         return $this;
     }
+
+		public function get_OwnerSuffix()
+		{
+				return $this->owner_suffix;
+		}
+
+		/**
+		 * Sets the value of owner_gender.
+		 *
+		 * @param mixed $owner_gender the owner gender
+		 *
+		 * @return self
+		 */
+		public function set_OwnerSuffix($owner_suffix)
+		{
+				$this->owner_suffix = $owner_suffix;
+
+				return $this;
+		}
 }//END OF CLASS

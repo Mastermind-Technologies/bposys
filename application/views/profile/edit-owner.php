@@ -29,26 +29,26 @@
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="fname">First Name</label>
-												<input type="text" required class="form-control" name="fname" value="">
+												<input type="text" required class="form-control" name="fname" value="<?= $owner->get_FirstName() ?>">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="mname">Middle Name</label>
-												<input type="text" class="form-control" name="mname" value="">
+												<input type="text" class="form-control" name="mname" value="<?= $owner->get_MiddleName() ?>">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="lname">Last Name</label>
-												<input type="text" required class="form-control" name="lname" value="">
+												<input type="text" required class="form-control" name="lname" value="<?= $owner->get_LastName() ?>">
 											</div>
 
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="suffix">Suffix</label>
-												<input type="text" class="form-control" name="suffix" value="">
+												<input type="text" class="form-control" name="suffix" value="<?= $owner->get_OwnerSuffix() ?>">
 											</div>
 										</div>
 									</div>
@@ -76,28 +76,28 @@
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="house-bldg-no">House No./Bldg No.</label>
-												<input type="text" required class="form-control" name="house-bldg-no" value="">
+												<input type="text" required class="form-control" name="house-bldg-no" value="<?= $owner->get_OwnerHouseBldgNo() ?>">
 											</div>
 
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="bldg-name">Building Name</label>
-												<input type="text" required class="form-control" name="bldg-name" value="">
+												<input type="text" required class="form-control" name="bldg-name" value="<?= $owner->get_OwnerBldgName() ?>">
 											</div>
 
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="unit-no">Unit Number</label>
-												<input type="text" required class="form-control" name="unit-no" value="">
+												<input type="text" required class="form-control" name="unit-no" value="<?= $owner->get_OwnerUnitNum() ?>">
 											</div>
 
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="street">Street</label>
-												<input type="text" required class="form-control" name="street" value="">
+												<input type="text" required class="form-control" name="street" value="<?= $owner->get_OwnerStreet() ?>">
 											</div>
 
 										</div>
@@ -106,25 +106,25 @@
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="subdivision">Subdivision</label>
-												<input type="text" required class="form-control" name="subdivision" value="">
+												<input type="text" required class="form-control" name="subdivision" value="<?= $owner->get_OwnerSubdivision() ?>">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="barangay">Barangay</label>
-												<input type="text" required class="form-control" name="barangay" value="">
+												<input type="text" required class="form-control" name="barangay" value="<?= $owner->get_OwnerBarangay() ?>">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="city-municipality">City/Municipality</label>
-												<input type="text" required class="form-control" name="city-municipality" value="">
+												<input type="text" required class="form-control" name="city-municipality" value="<?= $owner->get_OwnerCityMunicipality() ?>">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="province">Province</label>
-												<input type="text" required class="form-control" name="province" value="">
+												<input type="text" required class="form-control" name="province" value="<?= $owner->get_OwnerProvince() ?>">
 											</div>
 										</div>
 									</div>
@@ -132,7 +132,7 @@
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="PIN">Zip/Postal Code</label>
-												<input type="text" required class="form-control" name="PIN" value="">
+												<input type="text" required class="form-control" name="PIN" value="<?= $owner->get_OwnerPIN() ?>">
 											</div>
 										</div>
 									</div>
@@ -142,19 +142,19 @@
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="email">Email</label>
-												<input type="text" class="form-control" name="email" value="">
+												<input type="text" class="form-control" name="email" value="<?= $owner->get_OwnerEmail() ?>">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="contact-number">Contact Number</label>
-												<input type="text" required class="form-control" name="contact-number" value="">
+												<input type="text" required class="form-control" name="contact-number" value="<?= $owner->get_OwnerContactNum() ?>">
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="telephone-number">Telephone Number (Landline)</label>
-												<input type="text" class="form-control" name="telephone-number" value="">
+												<input type="text" class="form-control" name="telephone-number" value="<?= $owner->get_OwnerTelNum() ?>">
 											</div>
 										</div>
 									</div>
