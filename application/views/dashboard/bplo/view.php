@@ -370,6 +370,8 @@
           <a href="<?php echo base_url(); ?>dashboard/get_cert_closure_info" class="btn btn-info btn-large">Print Certificate Closure</a>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <a href="<?php echo base_url(); ?>dashboard/get_bplo_certificate_info" class="btn btn-info btn-large">Print BPLO Certificate</a>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a href="<?php echo base_url(); ?>dashboard/get_reference_info" class="btn btn-info btn-large">Print Reference Information</a>
           <div class="row text-center">
             <?php if ($application->get_status() == "For validation..."): ?>
               <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
