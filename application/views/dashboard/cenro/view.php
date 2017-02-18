@@ -1,14 +1,14 @@
 <div id="content">
   <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> 
-      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
+    <div id="breadcrumb">
+      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
       <?php if ($application->get_status() == "On process"): ?>
-        <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a> 
+        <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a>
       <?php elseif ($application->get_status() == "For applicant visit"): ?>
-        <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a> 
+        <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a>
       <?php endif ?>
-      
+
       <a href="#" class="current">View Application</a>
     </div>
     <!--End-breadcrumbs-->
@@ -30,9 +30,240 @@
       </div>
       <div class="widget-content tab-content">
         <div id="tab1" class="tab-pane active">
-          <pre>
+          <!-- <pre>
             <?php print_r($application); ?>
-          </pre>
+          </pre> -->
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                  <label for="name_of_company">Name of Company:</label>
+                  <h5><?=$application->get_companyName()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="complete_address">Complete Address:</label>
+                  <h5><?=$application->get_bldgName() ." ". $application->get_houseBldgNum() ." ". $application->get_unitNum() ." ".  $application->get_street() ." ". $application->get_Subdivision() ." ". $application->get_barangay() ." ". $application->get_cityMunicipality() ." ". $application->get_province()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="nature_of_business">Nature of Business:</label>
+                  <h5><?=$application->get_LineOfBusiness()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="pollution_control_officer">Pollution Control Officer:</label>
+                  <h5><?=$application->get_pollutionControlOfficer()?></h5>
+                </td>
+                <td>
+                  <label for="office_phone_number">Office Phone Number:</label>
+                  <h5><?=$application->get_telNum()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="environmental_compliance_certificate">Environmental Compliance Certificate / CNC:
+                  <input type="checkbox" disabled <?= $application->get_CNC()!= "NA" ? 'checked' : '' ?> name="radios" />YES<input type="checkbox" disabled <?= $application->get_CNC()=="NA" ? 'checked' : '' ?> name="radios" />NONE</label>
+                </td>
+                <td>
+                  <label for="date_issued_cnc">Date Issued:</label>
+                  <h5><?=$application->get_CNC()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="llda_clearance">LLDA Clearance / Certificate of Exemption: <input type="checkbox" disabled <?= $application->get_LLDAClearance()!= "NA" ? 'checked' : '' ?> name="radios" />YES<input type="checkbox" disabled <?= $application->get_LLDAClearance()=="NA" ? 'checked' : '' ?> name="radios" />NONE</label>
+                </td>
+                <td>
+                  <label for="date_issued_llda">Date Issued: </label>
+                  <h5><?=$application->get_LLDAClearance()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="discharge_permit">Discharge Permit: <input type="checkbox" disabled <?= $application->get_dischargePermit()!= "NA" ? 'checked' : '' ?> name="radios" />YES<input type="checkbox" disabled <?= $application->get_dischargePermit()=="NA" ? 'checked' : '' ?> name="radios" />NONE</label>
+                </td>
+                <td>
+                  <label for="date_issued_discharge_permit">Date Issued: </label>
+                  <h5><?=$application->get_dischargePermit()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="permit_to_operate">Permit to Operate/APSCI <input type="checkbox" disabled <?= $application->get_Apsci()!= "NA" ? 'checked' : '' ?> name="radios" />YES<input type="checkbox" disabled <?= $application->get_Apsci()=="NA" ? 'checked' : '' ?> name="radios" />NONE</label>
+                </td>
+                <td>
+                  <label for="date_issued_apsci">Date Issued: </label>
+                  <h5><?=$application->get_Apsci()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="products_and_by_products">Products and By-Products</label>
+                  <h5><?=$application->get_productsAndByProducts()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <th colspan="2">
+                  <h4 class=text-left>A. Air Pollutants</h4>
+                </th>
+              </tr>
+              <tr>
+                <td>
+                  <label for="smoke_or_emission">a. Smoke / Emission <input type="checkbox" disabled <?= $application->get_smokeEmission()==1 ? 'checked' : '' ?> name="radios" /></label>
+                </td>
+                <td>
+                  <label for="fugitive_particulates">c. Fugitive Particulates <input type="checkbox" disabled <?= in_array('Dust', $application->get_FugitiveParticulates()) ? "checked" : "" ?> name="radios" />Dust <input type="checkbox" disabled <?= in_array('Mist', $application->get_FugitiveParticulates()) ? "checked" : "" ?> name="radios" />Mist <input type="checkbox" disabled <?= in_array('Gas', $application->get_FugitiveParticulates()) ? "checked" : "" ?> name="radios" />Gas</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="volatile_compound">b. Volatile Compound <input type="checkbox" disabled <?= $application->get_smokeEmission()==1 ? 'checked' : '' ?> name="radios" /></label>
+                </td>
+                <td>
+                  <label for="steam_generator">d. Steam Generator <input type="checkbox" disabled <?= in_array('Boiler', $application->get_SteamGenerator()) ? "checked" : "" ?> name="radios" />Boiler <input type="checkbox" disabled <?= in_array('Furnace', $application->get_SteamGenerator()) ? "checked" : "" ?> name="radios" />Furnace </label>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="air_pollution_control_devices">Air Pollution Control Devices being used: </label>
+                  <h5><?=$application->get_APCD()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <th colspan="2">
+                  <h4 class=text-left>B. Wastewater</h4>
+                </th>
+                <tr>
+                  <td colspan="2">
+                    <label for="wastewater_treatment_facility">Wastewater Treatment Facility</label>
+                    <h5><?=$application->get_WasteWaterTreatmentFacility()?></h5>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <label for="wastewater_treatment_operaion_process">Wastewater Treatment Operation and Process <input type="checkbox" disabled <?= $application->get_WasteWaterTreatmentOperationAndProcess()== 0 ? 'checked' : '' ?> name="radios" />YES<input type="checkbox" disabled <?= $application->get_WasteWaterTreatmentOperationAndProcess()== 1 ? 'checked' : '' ?> name="radios" />NONE</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <label for="latest_wastewater_labtest_results">Note: Furnish copy of latest wastewater laboratory test results</label>
+                    <h5>???</h5>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <label for="pending_case_with_llda">Pending case with LLDA? <input type="checkbox" disabled <?= $application->get_PendingCaseWithLLDA()!= "NA" ? 'checked' : '' ?> name="radios" />YES, Case No. <?= $application->get_PendingCaseWithLLDA()?> <input type="checkbox" disabled <?= $application->get_PendingCaseWithLLDA()== "NA" ? 'checked' : '' ?> name="radios" />NONE</label>
+                  </td>
+                </tr>
+              </tr>
+              <tr>
+                <th colspan="2">
+                  <h4 class=text-left>C. Solid Wastes</h4>
+                </th>
+              </tr>
+              <tr>
+                <td>
+                  <label for="type_solid_waste_generated">Type of Solid Wastes Generated: </label>
+                  <h5><?= $application->get_TypeOfSolidWastesGenerated()?></h5>
+                </td>
+                <td>
+                  <label for="quantity_per_day">Quantity per day: </label>
+                  <h5><?= $application->get_QtyPerDay()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="method_garbage_collection">Method of Garbage Collection: </label>
+                  <h5><?= $application->get_GarbageCollectionMethod()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="frequency_garbage_collection">Frequency of Garbage Collection: <input type="checkbox" disabled <?= $application->get_FrequencyOfGarbageCollection()== "Daily" ? 'checked' : '' ?> name="radios" />Daily <input type="checkbox" disabled <?= $application->get_FrequencyOfGarbageCollection()== "Weekly" ? 'checked' : '' ?> name="radios" />Weekly <input type="checkbox" disabled <?= $application->get_FrequencyOfGarbageCollection()!= "Daily" && $application->get_FrequencyOfGarbageCollection()!= "Weekly" ? 'checked' : '' ?> name="radios" />Others/Specify <?=$application->get_FrequencyOfGarbageCollection()?></label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="company_collection_solid_wastes">Person / Company Collection Solid Wastes: </label>
+                  <h5><?= $application->get_WasteCollector()?></h5>
+                </td>
+                <td>
+                  <label for="ccsw_address">Address: </label>
+                  <h5><?= $application->get_CollectorAddress()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="method_garbage_disposal">Method of Garbage Disposal: <input type="checkbox" disabled <?= $application->get_GarbageDisposalMethod()== "Sanitary Landfill" ? 'checked' : '' ?> name="radios" />Sanitary Landfill <input type="checkbox" disabled <?= $application->get_GarbageDisposalMethod()== "Controlled Dumpsite" ? 'checked' : '' ?> name="radios" />Controlled Dumpsite</label>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="method_waste_minimization">Method of Waste Minimization <input type="checkbox" disabled <?= $application->get_WasteMinimizationMethod()== 0 ? 'checked' : '' ?> name="radios" />Recycling <input type="checkbox" disabled <?= $application->get_WasteMinimizationMethod()== 1 ? 'checked' : '' ?> name="radios" />Reduction <input type="checkbox" disabled <?= $application->get_WasteMinimizationMethod()== 2 ? 'checked' : '' ?> name="radios" />Re-use</label>
+                </td>
+              </tr>
+              <tr>
+                <th colspan="2">
+                  <h4 class=text-left>D. Drainage</h4>
+                </th>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="drainage_system">Drainage System: <input type="checkbox" disabled <?= $application->get_DrainageSystem()== 0 ? 'checked' : '' ?> name="radios" />YES <input type="checkbox" disabled <?= $application->get_DrainageSystem()== 1 ? 'checked' : '' ?> name="radios" />NONE</label>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="drainage_type">Type: <input type="checkbox" disabled <?= $application->get_DrainageType()== 0 ? 'checked' : '' ?> name="radios" />Closed Underground <input type="checkbox" disabled <?= $application->get_DrainageType()== 1 ? 'checked' : '' ?> name="radios" />Open Canal</label>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="where_discharged_drainage">Where Discharged: <input type="checkbox" disabled <?= $application->get_DrainageDischargeLocation()== 0 ? 'checked' : '' ?> name="radios" />Public Drainage System <input type="checkbox" disabled <?= $application->get_DrainageDischargeLocation()== 1 ? 'checked' : '' ?> name="radios" />Natural Outfall/Waterbody</label>
+                </td>
+              </tr>
+              <tr>
+                <th colspan="2">
+                  <h4 class=text-left>E. Sewerage</h4>
+                </th>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="sewerage_system">Sewerage System: <input type="checkbox" disabled <?= $application->get_SewerageSystem()== 0 ? 'checked' : '' ?> name="radios" />YES <input type="checkbox" disabled <?= $application->get_SewerageSystem()== 1 ? 'checked' : '' ?> name="radios" />NONE</label>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="septic_tank">Septic Tank: <input type="checkbox" disabled <?= $application->get_SepticTank()== 0 ? 'checked' : '' ?> name="radios" />YES <input type="checkbox" disabled <?= $application->get_SepticTank()== 1 ? 'checked' : '' ?> name="radios" />NONE</label>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="where_discharged_sewerage">Where Discharged: <input type="checkbox" disabled <?= $application->get_SewerageDischargeLocation()== 0 ? 'checked' : '' ?> name="radios" />Public Drainage System <input type="checkbox" disabled <?= $application->get_SewerageDischargeLocation()== 1 ? 'checked' : '' ?> name="radios" />Natural Outfall/Waterbody</label>
+                </td>
+              </tr>
+              <tr>
+                <th colspan="2">
+                  <h4 class=text-left>F. Water Supply/ Source</h4>
+                </th>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="water_supply"><input type="checkbox" disabled <?= $application->get_WaterSupply()== "Deep Well" ? 'checked' : '' ?> name="radios" />Deep Well <input type="checkbox" disabled <?= $application->get_WaterSupply()== "Local Water Utility" ? 'checked' : '' ?> name="radios" />Local Water Utility <input type="checkbox" disabled <?= $application->get_WaterSupply()== "Surface Water" ? 'checked' : '' ?> name="radios" />Surface Water</label>
+                </td>
+              </tr>
+              <tr>
+                <th colspan="2">
+                  <h4 class=text-left>G. Hazardous Waste Treater / Transporter</h4>
+                </th>
+              </tr>
+
+            </tbody>
+          </table>
           <div class="form-action">
             <?php if ($application->get_status() != "Active"): ?>
               <div class="row text-center">
@@ -251,7 +482,7 @@
               <tr>
                 <td colspan="2">
                   <label for="lessors_name">Lessor's Name</label>
-                  <h5><?= isset($bplo->lessors) ? 
+                  <h5><?= isset($bplo->lessors) ?
                     $bplo->get_lessors()->lastName.", ".
                     $bplo->get_lessors()->firstName." (".
                     $bplo->get_lessors()->middleName.")" : "NA" ?></h5>
@@ -260,7 +491,7 @@
                 <tr>
                   <td colspan="2">
                     <label for="lessors_address">Lessor's Address</label>
-                    <h5><?= isset($bplo->lessors) ? 
+                    <h5><?= isset($bplo->lessors) ?
                       $bplo->get_lessors()->address.", "
                       .$bplo->get_lessors()->subdivision.", "
                       .$bplo->get_lessors()->barangay.", "
@@ -285,7 +516,7 @@
                     </td>
                     <td>
                       <label for="lessor_in_case_of_emergency">In case of emergency (Contact Person | Tel No./Cel No. | Email)</label>
-                      <h5><?= 
+                      <h5><?=
                         $bplo->get_emergencyContactPerson()." | ".
                         $bplo->get_emergencyTelNum()." | ".
                         $bplo->get_emergencyEmail() ?></h5>
@@ -431,7 +662,7 @@
                         <td><?= $charge->surcharge ?></td>
                         <td><?= $charge->interest ?></td>
                         <td><?php $t = $charge->due + $charge->surcharge + $charge->interest;
-                          echo $t; 
+                          echo $t;
                           $total += $t; ?></td>
                         </tr>
                       <?php endforeach ?>

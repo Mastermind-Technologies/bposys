@@ -313,7 +313,7 @@
                           <td>
                             <?= $activity->lineOfBusiness ?>
 
-                            <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>"> 
+                            <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>">
                           </td>
                           <!-- <td><?= $activity->numOfUnits ?></td> -->
                           <td>
