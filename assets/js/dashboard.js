@@ -275,6 +275,8 @@ $(document).ready(function()
       $('.lessor-controls input[type=text], textarea[name=lessor-address], input[type=email]').each(function() {
         $(this).prop('disabled', true);
         $(this).prop('required', false);
+        $(this).val("");
+        $(this).html("");
       });
     }    
   });
@@ -302,29 +304,72 @@ $(document).ready(function()
 
   });
 
+  var draft = false;
+
+  $('.btn-draft').click(function(){
+    $sections.each(function(index, section) {
+      $(section).find(':input[type=text], select').removeAttr('data-parsley-group');
+      $(section).find(':input[type=text], select').removeAttr('required');
+    });
+    draft = true;
+  })
+
   $('#new_application_form').submit(function(e){
-    $("#btn-submit").prop('disabled', true);
-    $("#btn-add-bus-activity").prop('disabled', true);
-    $("#fa-submit").removeClass('fa-check');
-    $("#fa-submit").addClass('fa-circle-o-notch fa-spin');
+    if(draft == true)
+    {
+      var url = base_url+"dashboard/save_draft";
+      $(".btn-draft").prop('disabled', true);
+      $("#btn-add-bus-activity").prop('disabled', true);
+      $('.fa-draft-icon').removeClass('fa-pencil-square-o');
+      $('.fa-draft-icon').addClass('fa-circle-o-notch fa-spin');
+      // console.log(url);
+    }
+    else
+    {
+      // console.log('false');
+      var url = base_url+"dashboard/submit_application";
+      $("#btn-submit").prop('disabled', true);
+      $("#btn-add-bus-activity").prop('disabled', true);
+      $("#fa-submit").removeClass('fa-check');
+      $("#fa-submit").addClass('fa-circle-o-notch fa-spin');
+    }
+    // console.log('here');
     e.preventDefault();
     jQuery.ajax({
       type:"POST",
       dataType:'json',
-      url:base_url+"dashboard/submit_application",
+      url:url,
       data:$('form#new_application_form').serialize(),
       success: function(data) {
-        if(data.error)
+        if(draft == false)
         {
-          console.log(data.error);
-          $("#btn-submit").prop('disabled', false);
-          $("#btn-add-bus-activity").prop('disabled', false);
-          $("#fa-submit").removeClass('fa-circle-o-notch fa-spin');
-          $("#fa-submit").addClass('fa-check');
+          if(data.error)
+          {
+            console.log(data.error);
+            $("#btn-submit").prop('disabled', false);
+            $("#btn-add-bus-activity").prop('disabled', false);
+            $("#fa-submit").removeClass('fa-circle-o-notch fa-spin');
+            $("#fa-submit").addClass('fa-check');
+          }
+          else
+          {
+            process_business_activity(data.referenceNum);
+          }
         }
         else
         {
-          process_business_activity(data.referenceNum);
+          if(data == 'success')
+          {
+            window.location = base_url+"dashboard"; 
+          }
+          else
+          {
+            $(".btn-draft").prop('disabled', false);
+            $("#btn-add-bus-activity").prop('disabled', false);
+            $('.fa-draft-icon').removeClass('fa-circle-o-notch fa-spin');
+            $('.fa-draft-icon').addClass('fa-pencil-square-o');
+          }
+          
         }
       }
     });
@@ -355,10 +400,12 @@ $(document).ready(function()
           success: function(o){
             if(o == "success")
             {
-              // window.setTimeout(function() { 
-              //   window.location = base_url+"dashboard"; 
-              // },2000);
-              process_order_of_payment(reference_number);
+              console.log("Success!");
+              console.log("Redirecting...");
+              window.setTimeout(function() { 
+                window.location = base_url+"dashboard"; 
+              },2000);
+              // process_order_of_payment(reference_number);
             }
             else
             {
@@ -375,26 +422,26 @@ $(document).ready(function()
     });
   }
 
-  function process_order_of_payment(reference_number)
-  {
-    console.log('Processing...');
-    $.ajax({
-      type:"POST",
-      url:base_url+"dashboard/process_assessments",
-      dataType:"JSON",
-      data:{referenceNum: reference_number},
-      success: function(data){
-        if(data == "success")
-        {
-          console.log("Success!");
-          console.log("Redirecting...");
-          window.setTimeout(function() { 
-            window.location = base_url+"dashboard"; 
-          },2000);
-        }
-      }
-    })
-  }
+  // function process_order_of_payment(reference_number)
+  // {
+  //   console.log('Processing...');
+  //   $.ajax({
+  //     type:"POST",
+  //     url:base_url+"dashboard/process_assessments",
+  //     dataType:"JSON",
+  //     data:{referenceNum: reference_number},
+  //     success: function(data){
+  //       if(data == "success")
+  //       {
+  //         console.log("Success!");
+  //         console.log("Redirecting...");
+  //         window.setTimeout(function() { 
+  //           window.location = base_url+"dashboard"; 
+  //         },2000);
+  //       }
+  //     }
+  //   })
+  // }
 
   $('#business').change(function(event){
     $.ajax({
@@ -432,24 +479,29 @@ $(document).ready(function()
         $('#email').html(data.email);
         $('#lgu-employees').html(data.LGUResidingEmployees);
         $('#gmaps-address').html(data.gmapAddress);
-        var map;
 
-        latlang = new google.maps.LatLng(data.lat,data.lng);
-        map = new google.maps.Map(document.getElementById('gmaps'), {
-          center: latlang,
-          zoom: 15
+        initMap(data.lat, data.lng);
 
-        });
-        var geocoder = new google.maps.Geocoder();
-        var marker = new google.maps.Marker({
-          position: latlang,
-        });
-
-        marker.setMap(map);
         
       }
     });
   });
+
+  function initMap(lat,lng){
+
+    var map;
+    latlang = new google.maps.LatLng(lat,lng);
+    map = new google.maps.Map(document.getElementById('gmaps'), {
+      center: latlang,
+      zoom: 15
+
+    });
+    var marker = new google.maps.Marker({
+      position: latlang,
+    });
+
+    marker.setMap(map);
+  }
 
   function count_business_activities()
   {
@@ -462,29 +514,60 @@ $(document).ready(function()
 
   function check_application_status()
   {
-    if($('#application-table').length != 0)
-    {
-      $.ajax({
-        type:'POST',
-        url:base_url+'dashboard/check_application_status',
-        data:{user_id:$('#user-id').val()},
-        success:function(data){
-          $('#application-table-body').html(data);
+
+    var business_object = [];
+    $('.hidden-business-id').each(function(index, result){
+      var bus_obj = {id: $(result).val(), status: $(".status").eq(index).html()}
+      business_object.push(bus_obj);
+    });
+    $.ajax({
+      type:'POST',
+      dataType:'JSON',
+      url:base_url+'dashboard/check_app_status',
+      data:{application_object: business_object},
+      success:function(data){
+          // console.log(data.status_array.length);
+          if($('#application-table').length != 0)
+          {
+            // console.log(data.status_array);
+            $(data.status_array).each(function(index,result){
+              // console.log(data.buttons);
+            // console.log(result.status);
+            if(result == "Expired")
+            {
+              $(".status").eq(index).html("Status: <span class='label label-danger' style='font-size:14px'>"+result+"</span>");
+            }
+            else
+            {
+              $(".status").eq(index).html("Status: <span class='label label-info' style='font-size:14px'>"+result+"</span>");
+            }
+            $(".button-container").eq(index).html(data.buttons[index]);
+          });
+          }
+          if(data.notifications != "")
+          {
+            $('#notif-container').html("<span class='notif-count'>"+data.notifications.length+"</span>")
+          }
         },
-        error:function()
+        error:function(error)
         {
+          console.log(error.message);
           clearInterval(interval);
         }
       });
-    }
-    else
-    {
-      clearInterval(interval);
-    }
   }
 
   $('.btn-cancel').click(function(){
     var r = confirm('Are you sure you want to cancel this application?');
+    if(r==true)
+      window.location = this.id;
+    else
+      return false;
+  });
+
+  $('.btn-delete').click(function(){
+    console.log('test');
+    var r = confirm('Are you sure you want to delete this drafted application?');
     if(r==true)
       window.location = this.id;
     else
@@ -514,45 +597,7 @@ $(document).ready(function()
 
   // Prepare sections by setting the `data-parsley-group` attribute to 'block-0', 'block-1', etc.
   $sections.each(function(index, section) {
-    $(section).find(':input[type=text], select').attr('data-parsley-group', 'block-' + index);
+    $(section).find(':input[type=text], :input[type=email], select, textarea').attr('data-parsley-group', 'block-' + index);
   });
-
-  var map;
-  window.initMap = function(){
-    latlang = new google.maps.LatLng(14.315036717630743,121.07954978942871);
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: latlang,
-      zoom: 15
-
-    });
-    var geocoder = new google.maps.Geocoder();
-    var marker = new google.maps.Marker({
-      position: latlang,
-    });
-
-    marker.setMap(map);
-
-    google.maps.event.addListener(map, 'click', function( event ){
-      var newPos = {lat:event.latLng.lat() , lng:event.latLng.lng()};
-      // console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng() );
-      document.getElementById('lat').value = event.latLng.lat();
-      document.getElementById('lng').value = event.latLng.lng();
-
-      marker.setPosition(newPos);
-
-      geocoder.geocode({
-        'latLng': event.latLng
-      }, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          if (results[0]) {
-            document.getElementById('gmaps-address').innerHTML = results[0].formatted_address;
-            document.getElementById('g-address').value =  results[0].formatted_address;
-            // alert(results[0].formatted_address);
-          }
-        }
-          });//end of geodecoder
-
-    });
-  }
   
 }); //End of Jquery

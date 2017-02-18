@@ -9,16 +9,21 @@ class Profile extends CI_Controller {
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
 		$this->load->model('Business_m');
+		$this->load->model('Role_m');
 		$this->load->library('form_validation');
 
 		$this->load->model('Business_Address_m');
 	}
 
-	public function _init()
+	public function _init($data = null)
 	{
+		if($data != null)
+			$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
+		else
+			$this->load->view('templates/sb_admin2/sb_admin2_navbar');
 		$this->load->view('templates/sb_admin2/sb_admin2_includes');
-		$this->load->view('templates/sb_admin2/sb_admin2_navbar');
 	}
+
 
 	public function index()
 	{
@@ -27,7 +32,7 @@ class Profile extends CI_Controller {
 		$this->_init();
 
 		$data['user'] = new User($this->encryption->decrypt($this->session->userdata['userdata']['userId']));
-		
+
 		$this->load->view('profile/index', $data);
 	}
 
@@ -103,14 +108,16 @@ class Profile extends CI_Controller {
 	public function owners()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "owner";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
 		$query['userId'] = $user_id;
 		$owner = $this->Owner_m->get_all_owners($query);
 		$unapplied = $this->Owner_m->get_unapplied_business_owners($user_id);
 
-		foreach ($owner as $key => $o) 
+		foreach ($owner as $key => $o)
 		{
 			$data['owner'][$key] = new Owner($o->ownerId);
 			if(count($unapplied) != 0)
@@ -140,12 +147,14 @@ class Profile extends CI_Controller {
 
 		$this->load->view('profile/manage_owners', $data);
 	}
-	
+
 
 	public function view_owner()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "owner";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$owner_id = $this->input->get('n');
 
@@ -157,7 +166,9 @@ class Profile extends CI_Controller {
 	public function edit_owner()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "owner";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$owner_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->get('ownr')));
 
@@ -169,7 +180,9 @@ class Profile extends CI_Controller {
 	public function add_owner()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "dashboard";
+		$this->_init($owner);
 		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
 		if($this->input->get('ft') == "1")
@@ -239,7 +252,9 @@ class Profile extends CI_Controller {
 	public function businesses()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "business";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
 		$query['userId'] = $user_id;
@@ -276,7 +291,9 @@ class Profile extends CI_Controller {
 	public function view_business()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "business";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$business_id = $this->input->get("n");
 
@@ -288,11 +305,15 @@ class Profile extends CI_Controller {
 	public function edit_business()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "business";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$business_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->get('app')));
 
 		$data['business'] = new Business($business_id);
+		$query['userId'] = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$data['owner'] = $this->Owner_m->get_all_owners($query);
 
 		$this->load->view('profile/edit-business', $data);
 	}
@@ -300,7 +321,9 @@ class Profile extends CI_Controller {
 	public function add_business()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "business";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		if($this->input->get('ft') == 1)
 		{
@@ -343,7 +366,7 @@ class Profile extends CI_Controller {
 		$this->form_validation->set_rules('street','Street','required');
 		$this->form_validation->set_rules('subdivision','Subdivision','required');
 		$this->form_validation->set_rules('barangay','Barangay','required');
-		$this->form_validation->set_rules('g-address', 'Please point your business location on google maps.', 'required');
+		// $this->form_validation->set_rules('g-address', 'Please point your business location on google maps.', 'required');
 		$this->form_validation->set_rules('email','Email','required');
 		$this->form_validation->set_rules('PIN','Zip/Postal Code','required');
 		$this->form_validation->set_rules('telephone-number','Telephone Number','required');
@@ -367,31 +390,31 @@ class Profile extends CI_Controller {
 			$barangay = $this->encryption->decrypt($this->input->post('barangay'));
 			switch($barangay)
 			{
-				case "Biñan": break; 
-				case "Bungahan": break; 
-				case "Canlalay": break; 
-				case "Casile": break; 
-				case "Dela Paz": break; 
-				case "Ganado": break; 
-				case "Langkiwa": break; 
-				case "Loma": break; 
-				case "Malaban": break; 
-				case "Malamig": break; 
-				case "Mampalasan": break; 
-				case "Platero": break; 
-				case "Poblacion": break; 
-				case "San Antonio": break; 
-				case "San Francisco (Halang)": break; 
-				case "San Jose": break; 
-				case "San Vicente": break; 
-				case "Santo Domingo": break; 
-				case "Soro-Soro": break; 
-				case "Sto. Niño": break; 
-				case "Sto. Tomas (Calabuso)": break; 
-				case "Timbao": break; 
-				case "Tubigan": break; 
-				case "Zapote": break; 
-				default: 
+				case "Biñan": break;
+				case "Bungahan": break;
+				case "Canlalay": break;
+				case "Casile": break;
+				case "Dela Paz": break;
+				case "Ganado": break;
+				case "Langkiwa": break;
+				case "Loma": break;
+				case "Malaban": break;
+				case "Malamig": break;
+				case "Mampalasan": break;
+				case "Platero": break;
+				case "Poblacion": break;
+				case "San Antonio": break;
+				case "San Francisco (Halang)": break;
+				case "San Jose": break;
+				case "San Vicente": break;
+				case "Santo Domingo": break;
+				case "Soro-Soro": break;
+				case "Sto. Niño": break;
+				case "Sto. Tomas (Calabuso)": break;
+				case "Timbao": break;
+				case "Tubigan": break;
+				case "Zapote": break;
+				default:
 				$this->session->set_flashdata('error', 'Invalid Barangay!');
 				redirect('profile/add_business');
 				break;
@@ -418,9 +441,9 @@ class Profile extends CI_Controller {
 				'subdivision' => $this->input->post('subdivision'),
 				'cityMunicipality' => "Biñan City",
 				'province' => "Laguna",
-				'lat' => $this->input->post('lat'),
-				'lng' => $this->input->post('lng'),
-				'gmapAddress' => $this->input->post('g-address'),
+				'lat' => $this->input->post('lat') == "" ? "NA" : $this->input->post('lat'),
+				'lng' => $this->input->post('lng') == "" ? "NA" : $this->input->post('lng'),
+				'gmapAddress' => $this->input->post('g-address') == "" ? "NA" : $this->input->post('g-address'),
 				'PIN' => $this->input->post('PIN'),
 				'telNum' => $this->input->post('telephone-number'),
 				'email' => $this->input->post('email'),
@@ -473,7 +496,7 @@ class Profile extends CI_Controller {
 	// 	$this->form_validation->set_rules('province', 'Province', 'required');
 
 	// 	if($this->form_validation->run() == false)
-	// 	{	
+	// 	{
 	// 		$this->session->set_flashdata('error', validation_errors());
 	// 		redirect('profile/manage_business_address');
 	// 	}

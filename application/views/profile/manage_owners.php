@@ -18,7 +18,7 @@
 
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						<h3>Manage Owners <a href="<?php echo base_url(); ?>profile/add_owner" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</a></h3>
+						<h3>Manage Owners <a href="<?php echo base_url(); ?>profile/add_owner" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Owner</a></h3>
 					</div>
 					<div class="panel-body">
 						<table class="table">

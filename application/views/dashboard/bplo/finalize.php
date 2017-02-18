@@ -3,9 +3,9 @@
   <div id="content-header">
     <div id="breadcrumb"> 
       <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
-      <a href="#" class="current">Complete Applications</a>
+      <a href="<?php echo base_url(); ?>dashboard/pending_applications" class="current">Finalize Applications</a>
     </div>
-    <h1>Applications with Complete Requirements</h1>
+    <h1>Applications for Finalization </h1>
     <hr>
   </div>
   <!--End-breadcrumbs-->
@@ -22,29 +22,22 @@
             <tr>
               <th>Reference Number</th>
               <th>Business Name</th>
-              <th>Application Type</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <?php if (is_array($complete) || is_object($complete)): ?>
-             <?php foreach ($complete as $application): ?>
+            <?php foreach ($finalize as $application): ?>
               <tr>
                 <td><?= $this->encryption->decrypt($application->get_referenceNum()) ?></td>
                 <td><?= $application->get_businessName() ?></td>
-                <td><?= $application->get_ApplicationType() ?></td>
-                <td>
-                  <a href="<?php echo base_url(); ?>dashboard/view_application/<?= bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt)) ?>" class="btn btn-info btn-block">Show Details</a>
-                  <a href="<?php echo base_url(); ?>dashboard/get_bplo_form_info" class="btn btn-info btn-block">Print BPLO Form</a>
-                </td>
+                <td><a href="<?php echo base_url(); ?>dashboard/view_application/<?= bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt)) ?>" class="btn btn-info btn-block">Show Details</a></td>
               </tr>
             <?php endforeach; ?>
-          <?php endif ?>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
 <!--     <div class="block center-block">
     	<label for="">Test Noty</label>
     	<button class="btn btn-primary" id="btn-test-noty">Noty</button>

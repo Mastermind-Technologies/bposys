@@ -20,6 +20,7 @@ class Owner {
     private $owner_email = null;
     private $owner_PIN = null;
     private $isApplied = null;
+    private $owner_gender = null;
 
 	public function __construct($owner_id = null)
 	{
@@ -50,7 +51,7 @@ class Owner {
         }
         else
         {
-            $this->CI->session->set_flashdata('failed', 'Invalid Inputt');
+            $this->CI->session->set_flashdata('failed', 'Invalid Input');
             $this->unset_CI();
             redirect('Home');
         }
@@ -79,6 +80,7 @@ class Owner {
 		$this->owner_contactNum = $param->contactNum;
 		$this->owner_telNum = $param->telNum;
         $this->owner_email = $param->email;
+        $this->owner_gender = $param->gender;
 
 		$this->unset_CI();
 		return $this;
@@ -471,6 +473,30 @@ class Owner {
     private function set_OwnerPIN($owner_PIN)
     {
         $this->owner_PIN = $owner_PIN;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of owner_gender.
+     *
+     * @return mixed
+     */
+    public function get_OwnerGender()
+    {
+        return $this->owner_gender;
+    }
+
+    /**
+     * Sets the value of owner_gender.
+     *
+     * @param mixed $owner_gender the owner gender
+     *
+     * @return self
+     */
+    public function set_OwnerGender($owner_gender)
+    {
+        $this->owner_gender = $owner_gender;
 
         return $this;
     }

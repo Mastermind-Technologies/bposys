@@ -92,7 +92,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->bplo);
+    $this->db->select('*')->from($this->bplo)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();
@@ -114,7 +114,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->zoning);
+    $this->db->select('*')->from($this->zoning)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();
@@ -125,7 +125,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->cenro);
+    $this->db->select('*')->from($this->cenro)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();
@@ -136,7 +136,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->sanitary);
+    $this->db->select('*')->from($this->sanitary)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();
@@ -147,7 +147,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->bfp);
+    $this->db->select('*')->from($this->bfp)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();
@@ -158,66 +158,10 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->engineering);
+    $this->db->select('*')->from($this->engineering)->order_by('createdAt', 'desc');
     $result = $this->db->get();
 
     return $result->result();
-  }
-
-  //OLD FUNCTIONS
-  public function insert_application($fields = null)
-  {
-  	$this->db->insert($this->_table_name, $fields);
-  }
-
-  // public function get_application_details($reference_number = null)
-  // {
-  // 	$this->db->select('*')->from($this->_table_name)->where(['referenceNum' => $reference_number])->or_where(['applicationId' => $reference_number])->limit(1);
-  // 	$result = $this->db->get();
-
-  // 	return $result->result();
-  // }
-
-  public function get_all_applications_full($query = null)
-  {
-    $this->db->select('*')->from($this->bplo)->join($this->lessor, 'applications.referenceNum = lessors.referenceNum')->join($this->business_activity, 'applications.referenceNum = business_activities.referenceNum');
-    $result = $this->db->get();
-
-    return $result->result();
-  }
-
-  // public function get_all_bplo_applications($query = null)
-  // {
-  //   if($query != null)
-  //     $this->db->where($query);
-  // 	$this->db->select('*')->from($this->_table_name);
-  //   $result = $this->db->get();
-
-  //   return $result->result();
-  // }
-
-  public function update_application_reference_number($user_id = null)
-  {
-  	$this->db->select('applicationId')->from($this->_table_name)->where(['userId' => $user_id, 'referenceNum' => 'Processing_'.$user_id])->limit(1);
-  	$result = $this->db->get();
-
-  	//applicationId
-  	$applicationId = $result->result()[0]->applicationId;
-
-  	//concatenate items
-  	$raw_reference = $this->session->userdata['userdata']['firstName'].$this->session->userdata['userdata']['lastName'].$applicationId;
-
-  	//encrypt raw reference
-  	$encrypted_reference = $this->encryption->encrypt($raw_reference);
-
-  	//get first 10 characters of encrpyted reference
-  	$reference_number = strtoupper(substr($encrypted_reference, 0, 10));
-
-  	//update reference number of application
-  	$this->db->where(['applicationId' => $applicationId]);
-  	$this->db->update($this->_table_name, ['referenceNum' => $reference_number]);
-
-  	return $reference_number;
   }
 
   public function update_application($query = null, $application = null)
@@ -249,6 +193,25 @@ class Application_m extends CI_Model {
     }
     $result = $this->db->get();
     return $result->result()[0]->status;
+  }
+
+  public function check_drafted_application($reference_num)
+  {
+    $this->db->select('*')->from($this->bplo)->where(['status' => 'Draft', 'referenceNum' => $reference_num])->limit(1);
+    if($this->db->get()->num_rows() > 0)
+    {
+      return true; 
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  public function get_status($query)
+  {
+    $this->db->select('status')->from($this->bplo)->where($query);
+    return $this->db->get()->result()[0];
   }
 
 

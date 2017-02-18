@@ -41,7 +41,8 @@ class Sanitary_Application extends Business {
         if(count($application) > 0)
         {
           $this->set_application_all($application[0]);
-          $this->get_business_information($application[0]->businessId);
+          if($application[0]->businessId != null)
+              $this->get_business_information($application[0]->businessId);
         }
       $this->unset_CI();
       return $this;

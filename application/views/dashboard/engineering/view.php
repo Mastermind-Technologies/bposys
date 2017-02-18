@@ -9,10 +9,11 @@
         <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a> 
       <?php endif ?>
       
-      <a href="#" class="current">View</a>
+      <a href="#" class="current">View Application</a>
     </div>
     <!--End-breadcrumbs-->
-    <h1><?= $application->get_businessName() ?></h1>
+    <h1>Business Name: <strong><?= $application->get_businessName() ?></strong></h1>
+    <h4 style="padding-left: 20px;">Status: <span class="text-warning"><?= $application->get_status() ?></span></h4>
     <hr>
   </div>
 
@@ -22,8 +23,8 @@
       <div class="widget-title">
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#tab1">BPLO Form</a></li>
-          <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
-          <li><a data-toggle="tab" href="#tab3">Business Location</a></li>
+          <!-- <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li> -->
+          <li><a data-toggle="tab" onclick="initMap()" href="#tab3">Business Location</a></li>
         </ul>
       </div>
       <div class="widget-content tab-content">
@@ -356,14 +357,30 @@
                         <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
                         <!-- <a href="#" class="btn btn-danger btn-lg">Reject</a> -->
                       <?php elseif ($application->get_status() == "On process"): ?>
-                        <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
+                        <form action="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" method="post">
+                          <div class="row-fluid center">
+                            <div class="span4 offset4">
+                              <div class="control-group">
+                                <label for="annual-inspection-fee">Annual Insepction Fee</label>
+                                <div class="control">
+                                  <input type="number" required="" id="annual-inspection-fee" name="annual-inspection-fee" class="form-control text-center" placeholder="0">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <button type="submit" class='btn btn-success'>Approve</button>
+                        </form>
+
+                        
+                        <!-- <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a> -->
+
                         <!-- <a href="#" class="btn btn-warning btn-lg">Edit information</a> -->
                       <?php endif ?>
                     </div>
                   <?php endif ?>
                 </div>
               </div>
-              <div id="tab2" class="tab-pane">
+              <!-- <div id="tab2" class="tab-pane">
                 <h3 class='text-center'>Tax Order of Payment</h3>
                 <div class="row">
                   <div class="span2">
@@ -435,7 +452,7 @@
                       <label for="">Total: <?= $bplo->get_assessment()->amount ?></label>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div id="tab3" class="tab-pane">
                   <div id="gmaps" style="width:100%; height:500px; background-color: gray"></div>
                 </div>
@@ -445,23 +462,26 @@
           </div>
         </div>
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8&callback=initMap"
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8"
         async defer></script>
-
         <script>
           var map;
-        // console.log(<?= $application->get_lng() ?>);
-        function initMap(){
-          latlang = new google.maps.LatLng(<?= $bplo->get_lat() ?>,<?= $bplo->get_lng() ?>);
-          map = new google.maps.Map(document.getElementById('gmaps'), {
-            center: latlang,
-            zoom: 15
+          var loaded = false;
+          function initMap(){
+            if(loaded == false)
+            {
+              loaded = true;
+              latlang = new google.maps.LatLng(<?= $application->get_lat() ?>,<?= $application->get_lng() ?>);
+              map = new google.maps.Map(document.getElementById('gmaps'), {
+                center: latlang,
+                zoom: 15
 
-          });
-          var marker = new google.maps.Marker({
-            position: latlang,
-          });
+              });
+              var marker = new google.maps.Marker({
+                position: latlang,
+              });
 
-          marker.setMap(map);
-        }
-      </script>
+              marker.setMap(map);
+            }
+          }
+        </script>
