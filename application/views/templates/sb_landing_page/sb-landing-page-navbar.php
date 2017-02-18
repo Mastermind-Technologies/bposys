@@ -10,11 +10,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a style="color: white" class="navbar-brand topnav" href="<?php echo base_url();?>home"><img src="<?php echo base_url(); ?>assets/landing-page/img/bposys-logo.png" height="200%" style="margin-top: -10px" alt=""></a>
+
             </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="<?php echo base_url(); ?>home"  style="color: #FFF">Home</a>
+        </li>
         <li class="<?= $selected=='howto' ? 'active' : '' ?>">
           <a href="<?php echo base_url(); ?>home/guide"  style="color: #FFF">How to</a>
         </li>
