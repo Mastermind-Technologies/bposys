@@ -312,7 +312,8 @@
                           <!-- <td><?= $activity->code ?></td> -->
                           <td>
                             <?= $activity->lineOfBusiness ?>
-                            <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>">  
+
+                            <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>"> 
                           </td>
                           <!-- <td><?= $activity->numOfUnits ?></td> -->
                           <td>
@@ -483,7 +484,6 @@
               </div>
               <div id="tab3" class='tab-pane'>
                 <div id="gmaps" style="width:100%; height:500px; background-color: gray">
-                  
                 </div>
               </div>
             </div>
