@@ -19,6 +19,7 @@ class Dashboard extends CI_Controller {
 		$this->load->model('Approval_m');
 		$this->load->model('Notification_m');
 		$this->load->model('Assessment_m');
+		$this->load->model('Requirement_m');
 		$this->load->library('form_validation');
 
 		$this->load->model('Business_Address_m');
@@ -1810,10 +1811,6 @@ class Dashboard extends CI_Controller {
 			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 			//instantiate Owner of this application
 			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
-			// echo "<pre>";
-			// print_r($data['application']);
-			// echo "</pre>";
-			// exit();
 
 			$this->load->view('dashboard/bplo/view',$data);
 		}
@@ -2020,11 +2017,21 @@ class Dashboard extends CI_Controller {
 		{
 			$activity_id = $this->input->post('activityId');
 			$capitalization = $this->input->post('capitalization');
+			$submitted_requirements = $this->input->post('requirements');
+
 			foreach ($activity_id as $key => $id) {
 				$business_activity_fields = array(
 					'capitalization' => $capitalization[$key],
 					);
 				$this->Business_Activity_m->update_business_activity($this->encryption->decrypt($id), $business_activity_fields);
+			}
+
+			foreach ($submitted_requirements as $key => $requirement) {
+				$submitted_requirements_field = array(
+					'referenceNum' => $reference_num,
+					'requirementId' => $this->encryption->decrypt($requirement),
+				);
+				$this->Requirement_m->insert_submitted_requirements($submitted_requirements_field);
 			}
 
 			$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
