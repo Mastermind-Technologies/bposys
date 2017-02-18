@@ -488,20 +488,20 @@ $(document).ready(function()
   });
 
   function initMap(lat,lng){
-        
-        var map;
-        latlang = new google.maps.LatLng(lat,lng);
-        map = new google.maps.Map(document.getElementById('gmaps'), {
-          center: latlang,
-          zoom: 15
 
-        });
-        var marker = new google.maps.Marker({
-          position: latlang,
-        });
+    var map;
+    latlang = new google.maps.LatLng(lat,lng);
+    map = new google.maps.Map(document.getElementById('gmaps'), {
+      center: latlang,
+      zoom: 15
 
-        marker.setMap(map);
-      }
+    });
+    var marker = new google.maps.Marker({
+      position: latlang,
+    });
+
+    marker.setMap(map);
+  }
 
   function count_business_activities()
   {
@@ -514,25 +514,47 @@ $(document).ready(function()
 
   function check_application_status()
   {
-    if($('#application-table').length != 0)
-    {
-      $.ajax({
-        type:'POST',
-        url:base_url+'dashboard/check_application_status',
-        data:{user_id:$('#user-id').val()},
-        success:function(data){
-          $('#application-table-body').html(data);
+
+    var business_object = [];
+    $('.hidden-business-id').each(function(index, result){
+      var bus_obj = {id: $(result).val(), status: $(".status").eq(index).html()}
+      business_object.push(bus_obj);
+    });
+    $.ajax({
+      type:'POST',
+      dataType:'JSON',
+      url:base_url+'dashboard/check_app_status',
+      data:{application_object: business_object},
+      success:function(data){
+          // console.log(data.status_array.length);
+          if($('#application-table').length != 0)
+          {
+            // console.log(data.status_array);
+            $(data.status_array).each(function(index,result){
+              // console.log(data.buttons);
+            // console.log(result.status);
+            if(result == "Expired")
+            {
+              $(".status").eq(index).html("Status: <span class='label label-danger' style='font-size:14px'>"+result+"</span>");
+            }
+            else
+            {
+              $(".status").eq(index).html("Status: <span class='label label-info' style='font-size:14px'>"+result+"</span>");
+            }
+            $(".button-container").eq(index).html(data.buttons[index]);
+          });
+          }
+          if(data.notifications != "")
+          {
+            $('#notif-container').html("<span class='notif-count'>"+data.notifications.length+"</span>")
+          }
         },
-        error:function()
+        error:function(error)
         {
+          console.log(error.message);
           clearInterval(interval);
         }
       });
-    }
-    else
-    {
-      clearInterval(interval);
-    }
   }
 
   $('.btn-cancel').click(function(){
