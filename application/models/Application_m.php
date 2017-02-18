@@ -208,5 +208,11 @@ class Application_m extends CI_Model {
     }
   }
 
+  public function get_status($query)
+  {
+    $this->db->select('status')->from($this->bplo)->where($query);
+    return $this->db->get()->result()[0];
+  }
+
 
 }//END OF CLASS

@@ -9,16 +9,21 @@ class Profile extends CI_Controller {
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
 		$this->load->model('Business_m');
+		$this->load->model('Role_m');
 		$this->load->library('form_validation');
 
 		$this->load->model('Business_Address_m');
 	}
 
-	public function _init()
+	public function _init($data = null)
 	{
+		if($data != null)
+			$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
+		else
+			$this->load->view('templates/sb_admin2/sb_admin2_navbar');
 		$this->load->view('templates/sb_admin2/sb_admin2_includes');
-		$this->load->view('templates/sb_admin2/sb_admin2_navbar');
 	}
+
 
 	public function index()
 	{
@@ -103,7 +108,9 @@ class Profile extends CI_Controller {
 	public function owners()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "owner";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
 		$query['userId'] = $user_id;
@@ -145,7 +152,9 @@ class Profile extends CI_Controller {
 	public function view_owner()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "owner";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$owner_id = $this->input->get('n');
 
@@ -157,7 +166,9 @@ class Profile extends CI_Controller {
 	public function edit_owner()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "owner";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$owner_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->get('ownr')));
 
@@ -169,7 +180,9 @@ class Profile extends CI_Controller {
 	public function add_owner()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "dashboard";
+		$this->_init($owner);
 		$userId = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
 		if($this->input->get('ft') == "1")
@@ -239,7 +252,9 @@ class Profile extends CI_Controller {
 	public function businesses()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "business";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
 		$query['userId'] = $user_id;
@@ -276,7 +291,9 @@ class Profile extends CI_Controller {
 	public function view_business()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "business";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$business_id = $this->input->get("n");
 
@@ -288,7 +305,9 @@ class Profile extends CI_Controller {
 	public function edit_business()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "business";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		$business_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->get('app')));
 
@@ -300,7 +319,9 @@ class Profile extends CI_Controller {
 	public function add_business()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "business";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 		if($this->input->get('ft') == 1)
 		{

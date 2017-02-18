@@ -141,10 +141,8 @@ class Form extends CI_Controller {
 
 		//get notifications
 		$nav_data['notifications'] = User::get_notifications();
-		if($nav_data['notifications'] == "")
-			$this->_init();
-		else
-			$this->_init($nav_data);
+		$nav_data['title'] = 'dashboard';
+		$this->_init($nav_data);
 
 		
 		//decrypt application_param
@@ -176,10 +174,8 @@ class Form extends CI_Controller {
 
 			//get notifications
 		$nav_data['notifications'] = User::get_notifications();
-		if($nav_data['notifications'] == "")
-			$this->_init();
-		else
-			$this->_init($nav_data);
+		$nav_data['title'] = 'dashboard';
+		$this->_init($nav_data);
 
 		//decrypt application_param
 		$custom_decrypt = array(

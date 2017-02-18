@@ -159,6 +159,7 @@ class Dashboard extends CI_Controller {
 
 				//get applicant notifications
 				$nav_data['notifications'] = User::get_notifications();
+				$nav_data['title'] = "dashboard";
 
 				//custom encryption credentials for URL encryption
 				$data['custom_encrypt'] = array(
@@ -167,10 +168,15 @@ class Dashboard extends CI_Controller {
 					'key' => $this->config->item('encryption_key'),
 					'hmac' => false
 					);
-				if($nav_data['notifications'] == "")
-					$this->_init();
-				else
-					$this->_init($nav_data);
+				// if($nav_data['notifications'] == "")
+				// 	$this->_init();
+				// else
+				// echo "<pre>";
+				// print_r($nav_data);
+				// echo "</pre>";
+				// exit();
+
+				$this->_init($nav_data);
 
 				if($this->Business_m->count_businesses() > 0)
 					$this->load->view('dashboard/applicant/index', $data);
@@ -2159,13 +2165,9 @@ class Dashboard extends CI_Controller {
 	public function check_notif()
 	{
 		$this->isLogin();
-		$role_id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
-		// $query = array(
-		// 	'status' => "Unread",
-		// 	'role' => $role_id->roleId,
-		// 	);
-		// $data['notifications'] = count($this->Notification_m->get_all($query));
-		// unset($query);
+		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+		$role_id = $this->Role_m->get_roleId($role);
+
 		if($role_id->roleId == 4)
 		{
 			$data['new'] = count(User::get_notifications());
@@ -2180,15 +2182,19 @@ class Dashboard extends CI_Controller {
 		else 
 		{
 			$data['notifications'] = count(User::get_notifications());
-
 			$query['status'] = 'For applicant visit';
-			$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
+
+			if($role=="Zoning")
+				$data['incoming'] = count($this->Application_m->get_all_zoning_applications($query));
+			else if($role == "BFP")
+				$data['incoming'] = count($this->Application_m->get_all_bfp_applications($query));
+			else if($role == "CHO")
+				$data['incoming'] = count($this->Application_m->get_all_sanitary_applications($query));
+			else if($role == "CENRO")
+				$data['incoming'] = count($this->Application_m->get_all_cenro_applications($query));
+			else if($role == "Engineering")
+				$data['incoming'] = coutn($this->Application_m->get_all_engineering_applications($query));
 		}
-
-
-
-		// $query['status'] = 'For validation...';
-		// $data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
 
 		echo json_encode($data);
 	}
@@ -2222,6 +2228,84 @@ class Dashboard extends CI_Controller {
 			);
 
 		$this->load->view('dashboard/applicant/application-table-body',$data);
+	}
+
+	public function check_app_status()
+	{
+		$custom_encrypt = array(
+					'cipher' => 'blowfish',
+					'mode' => 'ecb',
+					'key' => $this->config->item('encryption_key'),
+					'hmac' => false
+					);
+		if($this->input->post('application_object'))
+		{
+			$application = $this->input->post('application_object');
+			$status_array = [];
+			$buttons = [];
+			foreach ($application as $key => $value) {
+				$query['applicationId'] = $this->encryption->decrypt($value['id']);
+				$app = $this->Application_m->get_all_bplo_applications($query);
+				$status_array[$key] = $app[0]->status;
+				switch($status_array[$key])
+				{
+					case "Draft":
+					$buttons[$key] = "
+					<a 
+					href='".base_url()."dashboard/draft_application/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."' 
+					class='btn btn-success'>Continue Draft</a>
+					<button 
+					class='btn btn-danger btn-delete' 
+					id='".base_url()."dashboard/delete_draft/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'>Delete</button>";
+					break;
+					case "Expired":
+					$buttons[$key] = "
+					<a 
+					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+					id='btn-view-details'
+					class='btn btn-primary'>View Details</a>
+					<a 
+					type='button' 
+					class='btn btn-warning' 
+					href='".base_url('form/renew/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'>Renew</a>";
+					break;
+					case "Active":
+					$buttons[$key] = "<a 
+					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+					id='btn-view-details'
+					class='btn btn-primary'>View Details</a>";
+					break;
+					case "On process":
+					$buttons[$key] = "<a 
+					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+					id='btn-view-details'
+					class='btn btn-primary'>View Details</a>
+					<button 
+					id='".base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($app[0]->referenceNum,$custom_encrypt)))."' 
+					value='Cancel' 
+					class='btn btn-danger btn-cancel'>Cancel</button>";
+					break;
+					case "For finalization":
+					$buttons[$key] = "<a 
+					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+					id='btn-view-details'
+					class='btn btn-primary'>View Details</a>";
+					break;
+				}
+			}
+			// echo "<pre>";
+			// print_r($status_array);
+			// echo "</pre>";
+			// exit();
+
+
+			$data['buttons'] = $buttons;
+			$data['status_array'] = $status_array;
+		}
+
+		$data['notifications'] = User::get_notifications();
+
+		echo json_encode($data);
 	}
 
 	public function get_business_profile()

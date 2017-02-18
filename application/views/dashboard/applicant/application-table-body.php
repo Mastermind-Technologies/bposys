@@ -18,29 +18,24 @@
 					<div style="margin-top:2%" class="row">
 						<div class="col-sm-12">
 							<span>Business Name: <strong><?= $application->get_businessName()?></strong></span>
-
+							<input type="hidden" value="<?= $this->encryption->encrypt($application->get_applicationId()) ?>" class="hidden-business-id">
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="col-sm-12">
-							<span>Status: <?php $status = $application->get_status();
-								if($status == "Expired")
-								{
-									echo "<span class='label label-danger' style='font-size:13px'>><$status</span>";
-								}
-								else
-								{
-									echo "<span class='label label-info' style='font-size:14px'>$status</span>";
-							} ?>
-							</span>
+							<?php if ($application->get_status() == "Expired"): ?>
+								Status: <span class='label label-danger status' style='font-size:14px'><?= $application->get_status() ?></span>
+							<?php else: ?>
+								Status: <span class='label label-info status' style='font-size:14px'><?= $application->get_status() ?></span>
+							<?php endif ?>
 						</div>
 					</div>
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-sm-12">
 							<span>Application Type: <span class='label label-info' style='font-size:14px'><?= $application->get_applicationType() ?></span></span>
 						</div>
-					</div>
+					</div> -->
 				<?php endif ?>
 			</td>
 			<td style="width:25%;">

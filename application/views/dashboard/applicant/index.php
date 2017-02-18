@@ -39,32 +39,27 @@
 																<div style="margin-top:2%" class="row">
 																	<div class="col-sm-12">
 																		<span>Business Name: <strong><?= $application->get_businessName()?></strong></span>
-
+																		<input type="hidden" value="<?= $this->encryption->encrypt($application->get_applicationId()) ?>" class="hidden-business-id">
 																	</div>
 																</div>
 																<div class="row">
 																	<div class="col-sm-12">
-																		<span>Status: <?php $status = $application->get_status();
-																			if($status == "Expired")
-																			{
-																				echo "<span class='label label-danger' style='font-size:13px'>><$status</span>";
-																			}
-																			else
-																			{
-																				echo "<span class='label label-info' style='font-size:13px'>$status</span>";
-																			} ?>
-																		</span>
+																		<?php if ($application->get_status() == "Expired"): ?>
+																			<span class='status'>Status: <span class='label label-danger' style='font-size:14px'><?= $application->get_status() ?></span></span>
+																		<?php else: ?>
+																			<span class='status'>Status: <span class='label label-info' style='font-size:14px'><?= $application->get_status() ?></span></span>
+																		<?php endif ?>
 																	</div>
 																</div>
-																<div class="row">
+																<!-- <div class="row">
 																	<div class="col-sm-12">
 																		<span>Application Type: <span class='label label-info' style='font-size:13px'><?= $application->get_applicationType() ?></span></span>
 																	</div>
-																</div>
+																</div> -->
 															<?php endif ?>
 														</td>
 														<td style="width:25%;">
-															<div style="margin-top:15%" class="block text-center">
+															<div style="margin-top:15%" class="block text-center button-container">
 																<?php if ($application->get_status() == "Draft"): ?>
 																	<a href="<?php echo base_url(); ?>dashboard/draft_application/<?= str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()) ?>" class="btn btn-success">Continue Draft</a>
 																	<button class="btn btn-danger btn-delete" id="<?php echo base_url(); ?>dashboard/delete_draft/<?= str_replace(['/','+','='], ['-','_','='],$application->get_referenceNum()) ?>">Delete</button>
@@ -88,8 +83,8 @@
 								<?php endif; ?>
 
 
-															<div id="test" class="collapse">
-								Lorem ipsum dolor text....
+								<div id="test" class="collapse">
+									Lorem ipsum dolor text....
 								</div>
 							</div>
 
