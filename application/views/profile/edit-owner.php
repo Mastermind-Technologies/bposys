@@ -18,7 +18,7 @@
 
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						<h3>Edit Owner Information</h3>
+						<h3>Edit Owner Profile</h3>
 					</div>
 					<div class="panel-body">
 						<form action="<?php echo base_url(); ?>profile/save_owner" method="post" data-parsley-validate="">

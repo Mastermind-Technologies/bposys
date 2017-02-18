@@ -59,7 +59,7 @@
 													</div>
 												</p>
 											</div>
-											
+
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
@@ -96,7 +96,7 @@
 													<option <?= $user->get_civilStatus()=="Divorced" ? 'selected' : '' ?> value="Divorced">Divorced</option>
 													<option <?= $user->get_civilStatus()=="Annulled" ? 'selected' : '' ?> value="Annulled">Annulled</option>
 													<option <?= $user->get_civilStatus()=="Widower" ? 'selected' : '' ?> value="Widower">Widower</option>
-													<option <?= $user->get_civilStatus()=="Single Parent" ? 'selected' : '' ?> value="Single Parent">Single Parent</option>	
+													<option <?= $user->get_civilStatus()=="Single Parent" ? 'selected' : '' ?> value="Single Parent">Single Parent</option>
 												</select>
 											</div>
 										</div>

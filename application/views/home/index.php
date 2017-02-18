@@ -7,16 +7,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-message">
-                        <h2>Welcome to</h2>
-                        <h1>Business Permit Online System</h1>
-                        <h3>Start your business now!</h3>
+                        <img src="<?php echo base_url(); ?>assets/landing-page/img/bposys-logo-white-solo.png" width="45%"/>
+                        <h3>Start your business in Biñan now!</h3>
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <!-- <li>
                                 <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
                             </li> -->
                             <li>
-                                <a href="<?php echo base_url();?>register" class="btn btn-default btn-lg"> <span class="network-name">Get Started</span></a>
+                                <a href="#about-us" class="btn btn-default btn-lg"> <span class="network-name">Learn More</span></a>
                             </li>
                             <li>
                             <!--     <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
@@ -35,6 +34,27 @@
     <!-- Page Content -->
 
 	<a  name="services"></a>
+
+    <div class="content-section-b" id="about-us">
+      <div class="container" style="display: block; margin: auto;">
+        <div class="row">
+          <div class="col-lg-2">
+
+          </div>
+          <div class="col-lg-8" style="text-align:center">
+            <h2 class="section-heading">What is BPOSys?</h2>
+            <hr class="section-heading-spacer" style="margin-top: 0px; width: 100%">
+            <p class="lead">A web application that provides the business venturers in the City of Biñan a faster and easier way of applying and managing their business permit applications.  </p>
+            <img class="img-responsive" src="<?php echo base_url(); ?>assets/landing-page/img/manage-applications-online.png" alt="" width="100%" style="margin: auto;">
+
+          </div>
+          <div class="col-lg-2">
+          </div>
+
+        </div>
+      </div>
+    </div>
+
     <div class="content-section-a">
 
         <div class="container">
