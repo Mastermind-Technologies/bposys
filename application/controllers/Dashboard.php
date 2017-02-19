@@ -19,6 +19,7 @@ class Dashboard extends CI_Controller {
 		$this->load->model('Approval_m');
 		$this->load->model('Notification_m');
 		$this->load->model('Assessment_m');
+		$this->load->model('Requirement_m');
 		$this->load->library('form_validation');
 
 		$this->load->model('Business_Address_m');
@@ -432,7 +433,6 @@ class Dashboard extends CI_Controller {
 			//generate reference_number
 			$reference_num = $this->Reference_Number_m->generate_reference_number();
 		}
-		
 
 		if($this->input->post('business')==null)
 		{
@@ -442,7 +442,6 @@ class Dashboard extends CI_Controller {
 		{
 			$business_id = $this->encryption->decrypt($this->input->post('business'));
 		}
-		
 
 		//START BPLO FORM
 		$data['application_fields'] = array(
@@ -616,7 +615,8 @@ class Dashboard extends CI_Controller {
 		else
 		{
 			$bplo_id = $this->Application_m->update_bplo($data['application_fields']);
-			if ($this->input->post('rented')) 
+
+			if ($this->input->post('rented'))
 			{
 				$data['lessor_fields'] = array(
 					'bploId' => $bplo_id,
@@ -640,7 +640,7 @@ class Dashboard extends CI_Controller {
 				else
 				{
 					$this->Lessor_m->insert_lessor($data['lessor_fields']);
-				}	
+				}
 			}
 			else
 			{
@@ -999,7 +999,7 @@ class Dashboard extends CI_Controller {
 			else
 			{
 				$bplo_id = $this->Application_m->update_bplo($data['application_fields']);
-				if ($this->input->post('rented')) 
+				if ($this->input->post('rented'))
 				{
 					$data['lessor_fields'] = array(
 						'bploId' => $bplo_id,
@@ -1023,7 +1023,7 @@ class Dashboard extends CI_Controller {
 					else
 					{
 						$this->Lessor_m->insert_lessor($data['lessor_fields']);
-					}	
+					}
 				}
 				else
 				{
@@ -1046,11 +1046,12 @@ class Dashboard extends CI_Controller {
 				'status' => "Unread",
 				'role' => 4,
 				'notifMessage' => "New",
+
 				);
 			$this->Notification_m->insert($query);
 
 			//notify all departments
-			for ($i=5; $i <= 10 ; $i++) 
+			for ($i=5; $i <= 10 ; $i++)
 			{
 				if($i != 6) //6 = assessors = deleted
 				{
@@ -1810,10 +1811,6 @@ class Dashboard extends CI_Controller {
 			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 			//instantiate Owner of this application
 			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
-			// echo "<pre>";
-			// print_r($data['application']);
-			// echo "</pre>";
-			// exit();
 
 			$this->load->view('dashboard/bplo/view',$data);
 		}
@@ -1901,6 +1898,7 @@ class Dashboard extends CI_Controller {
 			$data['bplo'] = new BPLO_Application($this->encryption->decrypt($data['application']->get_referenceNum()));
 			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 
+
 			if($data['bplo']->get_status() == 'Completed' || $data['bplo']->get_status() == 'Active' || $data['bplo']->get_status() == 'On process')
 			{
 				$reference_num = $this->encryption->decrypt($data['bplo']->get_referenceNum());
@@ -1982,6 +1980,7 @@ class Dashboard extends CI_Controller {
 				$query['dept'] = 'Zoning';
 				$data['zoning'] = $this->Issued_Application_m->get_all($query);
 
+
 				$query['dept'] = 'CHO';
 				$data['sanitary'] = $this->Issued_Application_m->get_all($query);
 
@@ -2018,11 +2017,21 @@ class Dashboard extends CI_Controller {
 		{
 			$activity_id = $this->input->post('activityId');
 			$capitalization = $this->input->post('capitalization');
+			$submitted_requirements = $this->input->post('requirements');
+
 			foreach ($activity_id as $key => $id) {
 				$business_activity_fields = array(
 					'capitalization' => $capitalization[$key],
 					);
 				$this->Business_Activity_m->update_business_activity($this->encryption->decrypt($id), $business_activity_fields);
+			}
+
+			foreach ($submitted_requirements as $key => $requirement) {
+				$submitted_requirements_field = array(
+					'referenceNum' => $reference_num,
+					'requirementId' => $this->encryption->decrypt($requirement),
+				);
+				$this->Requirement_m->insert_submitted_requirements($submitted_requirements_field);
 			}
 
 			$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
@@ -2096,8 +2105,11 @@ class Dashboard extends CI_Controller {
 
 	public function get_bplo_form_info()
 	{
-		$this->_init_matrix();
-		$this->load->view('dashboard/bplo/bplo_form_printable');
+		// $this->_init_matrix();
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+	  $data['application'] = new BPLO_Application('D2D2E57657');
+
+		$this->load->view('dashboard/bplo/bplo_form_printable',$data);
 	}
 
 	public function get_cert_closure_info()
@@ -2116,6 +2128,11 @@ class Dashboard extends CI_Controller {
 	{
 
 		$this->load->view('dashboard/bplo/assessment_form_printable');
+	}
+
+	public function get_reference_info()
+	{
+		$this->load->view('dashboard/bplo/reference_info_printable');
 	}
 
 	//FOR AJAX PURPOSES
@@ -2179,7 +2196,7 @@ class Dashboard extends CI_Controller {
 			$query['status'] = 'Completed';
 			$data['completed'] = count($this->Application_m->get_all_bplo_applications($query));
 		}
-		else 
+		else
 		{
 			$data['notifications'] = count(User::get_notifications());
 			$query['status'] = 'For applicant visit';
@@ -2251,38 +2268,38 @@ class Dashboard extends CI_Controller {
 				{
 					case "Draft":
 					$buttons[$key] = "
-					<a 
-					href='".base_url()."dashboard/draft_application/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."' 
+					<a
+					href='".base_url()."dashboard/draft_application/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'
 					class='btn btn-success'>Continue Draft</a>
-					<button 
-					class='btn btn-danger btn-delete' 
+					<button
+					class='btn btn-danger btn-delete'
 					id='".base_url()."dashboard/delete_draft/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'>Delete</button>";
 					break;
 					case "Expired":
 					$buttons[$key] = "
-					<a 
+					<a
 					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
 					id='btn-view-details'
 					class='btn btn-primary'>View Details</a>
-					<a 
-					type='button' 
-					class='btn btn-warning' 
+					<a
+					type='button'
+					class='btn btn-warning'
 					href='".base_url('form/renew/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'>Renew</a>";
 					break;
 					case "Active":
-					$buttons[$key] = "<a 
+					$buttons[$key] = "<a
 					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
 					id='btn-view-details'
 					class='btn btn-primary'>View Details</a>";
 					break;
 					case "On process":
-					$buttons[$key] = "<a 
+					$buttons[$key] = "<a
 					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
 					id='btn-view-details'
 					class='btn btn-primary'>View Details</a>
-					<button 
-					id='".base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($app[0]->referenceNum,$custom_encrypt)))."' 
-					value='Cancel' 
+					<button
+					id='".base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($app[0]->referenceNum,$custom_encrypt)))."'
+					value='Cancel'
 					class='btn btn-danger btn-cancel'>Cancel</button>";
 					break;
 					case "For finalization":

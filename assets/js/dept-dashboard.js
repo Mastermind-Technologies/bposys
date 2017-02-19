@@ -188,4 +188,25 @@ $(document).ready(function(){
 		console.log($('#hidden-paid-up-to').val());
 	});
 
+	var requirements_count = $('.requirements-checkbox').length;
+	var checked_count = 0;
+	$('.requirements-checkbox').click(function(){
+		if($(this).is(':checked'))
+		{
+			checked_count++;
+		}
+		else
+		{
+			checked_count--;
+		}
+		if(checked_count == requirements_count)
+		{
+			$('#approve-btn').prop('disabled', false);
+		}
+		else
+		{
+			$('#approve-btn').prop('disabled', true);
+		}
+	});
+
 });//End of Jquery

@@ -6,6 +6,69 @@ $pdf = new FPDF();
 $pdf->AddPage();
 $pdf->SetTitle("BPLO Permit Form");
 
+$ty = $application->get_TaxYear();
+$type = $application->get_applicationType();
+$modePayment = $application->get_ModeOfPayment();
+$dateApp = $application->get_applicationDate();
+$dateStarted = $application->get_DateStarted();
+$tinNum = $application->get_TIN();
+$DSCregNum = $application->get_DTISECCDARegNum();
+$typeBusi = $application->get_organizationType();
+$govEntity = $application->get_entityName();
+//$govEntity = "JASON";
+$govEntity!='NA' ? 'NO' : $govEntity;
+$lastName = $application->get_LastName();
+$firstName = $application->get_FirstName();
+$middleName = $application->get_MiddleName();
+$busiName = $application->get_businessName();
+$tradeName = $application->get_tradeName();
+//
+$busiAdd1 = $application->get_bldgName();
+$busiAdd2 = $application->get_houseBldgNum();
+$busiAdd3 = $application->get_unitNum();
+$busiAdd4 = $application->get_street();
+$busiAdd5 = $application->get_Subdivision();
+$busiAdd6 = $application->get_barangay();
+$busiAdd7 = $application->get_cityMunicipality();
+$busiAdd8 = $application->get_province();
+//
+$busiAdd = $busiAdd1 . $busiAdd2 . $busiAdd3 . $busiAdd4 . $busiAdd5 . $busiAdd6 . $busiAdd7 . $busiAdd8;
+//
+$postalCOde = $application->get_PIN();
+$email = $application->get_email();
+$telnum = $application->get_telNum();
+// $modelNum = $application->get_mode
+$ownersAdd = $application->get_OwnerHouseBldgNo() . $application->get_OwnerbldgName() . $application->get_OwnerunitNum() . $application->get_Ownerstreet() . $application->get_Ownerbarangay() . $application->get_Ownersubdivision() . $application->get_OwnercityMunicipality() . $application->get_Ownerprovince();
+$postalCode2 = $application->get_OwnerPIN();
+$email2 = $application->get_OwnerEmail();
+$telnum2 = $application->get_OwnertelNum();
+
+$contactPerson = $application->get_emergencyContactPerson();
+$mobNum = $application->get_emergencyTelNum();
+$cpEmailAdd = $application->get_emergencyEmail();
+$businessArea = $application->get_businessArea();
+
+$maleEmp = $application->get_MaleEmployees();
+$femaleEmp = $application->get_FemaleEmployees();
+$pwdEmp = $application->get_PWDEmployees();
+$lguEmp = $application->get_LGUEmployees();
+$totEmpEst = $maleEmp + $femaleEmp + $pwdEmp + $lguEmp;
+$lessorsLastName = $application->get_lessors()->lastName;
+$lessorsFirstName = $application->get_lessors()->firstName;
+$lessorsMiddleName = $application->get_lessors()->middleName;
+$lessorsFullName = $lessorsLastName . $lessorsFirstName . $lessorsMiddleName;
+$lessorsFullAdd = $application->get_lessors()->address . $application->get_lessors()->subdivision . $application->get_lessors()->barangay . $application->get_lessors()->cityMunicipality . $application->get_lessors()->province;
+$lessorsFullContactNum = $application->get_lessors()->telNum;
+$lessorsEmailAdd = $application->get_lessors()->email;
+$lessorsMonthlyRental = $application->get_lessors()->monthlyRental;
+$lineBusi = $application->get_LineOfBusiness();
+$BusiCapitalization = $application->get_capital();
+
+// $countLineBusi = count($lineBusi);
+// $countBusiCap = count($BusiCapitalization);
+
+// $gross = $application->get_
+
 //
 $x = $pdf->GetX();
 $y = $pdf->GetY();
@@ -13,10 +76,13 @@ $pdf->SetFont("Arial","","7.8");
 $pdf->Text($x,$y,"BPLO-001-0");
 
 //
+// str_replace("Ñ",utf8_decode("Ñ"),"BIÑAN"); IRRELEVANT
+$cEnye = utf8_decode("BIÑAN");
+// $cEnye.replace(utf8_decode);
 $pdf->SetFont("Arial","B","8");
 $pdf->Cell(0,4,"APPLICATION FORM FOR BUSINESS PERMIT",0,1,"C");
-$pdf->Cell(0,4,"TAX YEAR ????",0,1,"C");
-$pdf->Cell(0,4,"CITY OF BINAN",0,1,"C");
+$pdf->Cell(0,4,"TAX YEAR $ty",0,1,"C");
+$pdf->Cell(0,4,"CITY OF $cEnye",0,1,"C");
 
 //
 $y = $pdf->GetY();
@@ -55,15 +121,15 @@ $pdf->SetXY($x+18,46.00125);
 $pdf->Line($x,$y+3.7,$x+5,$y+3.7);
 $pdf->Text($x+6,$y+3.5,"Renewal");
 
-$typeOfApplication = 'New';
+// $typeOfApplication = 'New';
 //
-if($typeOfApplication == '')
+if($type == 'New')
 {
   $pdf->SetXY(18.00125,47);
   $pdf->SetFont("Arial","","8");
   $pdf->Cell(4, 3,"X",0, 0);
 }
-else if($typeOfApplication == 'New')
+else if($type == 'Renew')
 {
   $pdf->SetXY(36.00125,47);
   $pdf->SetFont("Arial","","8");
@@ -99,21 +165,21 @@ $pdf->SetXY($x+27,46.00125);
 $pdf->Line($x,$y+3.7,$x+5,$y+3.7);
 $pdf->Text($x+6,$y+3.5,"Quarterly");
 
-$modeOfPayment = 'Anually';
+// $modeOfPayment = 'Anually';
 //
-if($modeOfPayment == '')
+if($modePayment == 'Anually')
 {
   $pdf->SetXY(98.00125,47);
   $pdf->SetFont("Arial","","8");
   $pdf->Cell(4, 3,"X",0, 0);
 }
-else if($modeOfPayment == '')
+else if($modePayment == 'Semi-Annually')
 {
   $pdf->SetXY(116.00125,47);
   $pdf->SetFont("Arial","","8");
   $pdf->Cell(4, 3,"X",0, 0);
 }
-else if($modeOfPayment == 'Anually')
+else if($modePayment == 'Quarterly')
 {
   $pdf->SetXY(143.00125,47);
   $pdf->SetFont("Arial","","8");
@@ -123,17 +189,17 @@ else if($modeOfPayment == 'Anually')
 // $y = $pdf->GetY();
 $pdf->SetY(50.2012);
   // $y = $pdf->GetY();
-$pdf->Cell(94,4,"Date of Application: ",1,0,"L");
-$pdf->Cell(94,4,"Date Started: ",1,1,"L");
+$pdf->Cell(94,4,"Date of Application: $dateApp",1,0,"L");
+$pdf->Cell(94,4,"Date Started: $dateStarted",1,1,"L");
 
 //
-$pdf->Cell(94,4,"TIN No: ",1,0,"L");
-$pdf->Cell(94,4,"DTI/SEC/CDA Registration No: ",1,1,"L");
+$pdf->Cell(94,4,"TIN No: $tinNum",1,0,"L");
+$pdf->Cell(94,4,"DTI/SEC/CDA Registration No: $DSCregNum",1,1,"L");
 
 //
 $x = $pdf->GetX();
 $y = $pdf->GetY();
-$pdf->Cell(188,4,"Type of Business:",1,1,"L");
+$pdf->Cell(188,4,"Type of Business: ",1,1,"L");
 
   $pdf->SetX($x,$y);
   $pdf->Text($x+29,$y+3,"Single");
@@ -148,27 +214,27 @@ $pdf->Cell(188,4,"Type of Business:",1,1,"L");
   $pdf->Text($x+85,$y+3,"Cooperative");
 
 //
-$typeOfBusiness = 'Single';
+// $typeOfBusiness = 'Single';
 //
-if($typeOfBusiness == '')
+if($typeBusi == 'Single')
 {
   $pdf->SetXY(36.00125,58.9012);
   $pdf->SetFont("Arial","","8");
   $pdf->Cell(4, 3,"X",0, 0);
 }
-else if($typeOfBusiness == '')
+else if($typeBusi == 'Partnership')
 {
   $pdf->SetXY(48.00125,58.9012);
   $pdf->SetFont("Arial","","8");
   $pdf->Cell(4, 3,"X",0, 0);
 }
-else if($typeOfBusiness == '')
+else if($typeBusi == 'Corporation')
 {
   $pdf->SetXY(69.00125,58.9012);
   $pdf->SetFont("Arial","","8");
   $pdf->Cell(4, 3,"X",0, 0);
 }
-else if($typeOfBusiness == 'Single')
+else if($typeBusi == 'Cooperative')
 {
   $pdf->SetXY(92.00125,58.9012);
   $pdf->SetFont("Arial","","8");
@@ -313,16 +379,16 @@ $pdf->Cell(0,4,"Name of Taxpayer/Registrant",0,1,"C");
 //
 $pdf->SetFont("Arial","","8");
 $pdf->Cell(26,4,"Last Name:",1,0,"L");
-$pdf->Cell(68,4,"",1,0,"L");
+$pdf->Cell(68,4,"$lastName",1,0,"L");
 $pdf->Cell(26,4,"First Name:",1,0,"L");
-$pdf->Cell(31,4,"",1,0,"L");
+$pdf->Cell(31,4,"$firstName",1,0,"L");
 $pdf->Cell(26,4,"Middle Name:",1,0,"L");
-$pdf->Cell(11,4,"",1,1,"L");
+$pdf->Cell(11,4,"$middleName",1,1,"L");
 
 //
 $pdf->Cell(26,4,"Business Name:",1,0,"L");
-$pdf->Cell(162,4,"",1,1,"L");
-$pdf->Cell(188,4,"Trade Name/Franchise:",1,1,"L");
+$pdf->Cell(162,4,"$busiName",1,1,"L");
+$pdf->Cell(188,4,"Trade Name/Franchise: $tradeName",1,1,"L");
 
 //
 $x = $pdf->GetX();
@@ -337,55 +403,55 @@ $pdf->SetFont("Arial","","7.8");
 $pdf->Cell(0,4,"Note: For renewal applications, do not fill up this section unless certain information have changed.",0,1,"L");
 
 //
-$pdf->Cell(188,4,"Business Address: ",1,1,"L");
+$pdf->Cell(188,4,"Business Address: $busiAdd",1,1,"L");
 $pdf->Cell(35,4,"Postal Code: ",1,0,"L");
-$pdf->Cell(59,4,"",1,0,"L");
+$pdf->Cell(59,4,"$postalCOde",1,0,"L");
 $pdf->Cell(35,4,"Email Address: ",1,0,"L");
-$pdf->Cell(59,4,"",1,1,"L");
+$pdf->Cell(59,4,"$email",1,1,"L");
 
 //
 $pdf->Cell(35,4,"Telephone No: ",1,0,"L");
-$pdf->Cell(59,4,"",1,0,"L");
+$pdf->Cell(59,4,"$telnum",1,0,"L");
 $pdf->Cell(35,4,"Model No: ",1,0,"L");
 $pdf->Cell(59,4,"",1,1,"L");
 
 //
 $pdf->Cell(35,4,"Owner's Address: ",1,0,"L");
-$pdf->Cell(153,4,"",1,1,"L");
+$pdf->Cell(153,4,"$ownersAdd",1,1,"L");
 
 //
 $pdf->Cell(35,4,"Postal Code: ",1,0,"L");
-$pdf->Cell(59,4,"",1,0,"L");
+$pdf->Cell(59,4,"$postalCode2",1,0,"L");
 $pdf->Cell(35,4,"Email Address: ",0,0,"L");
-$pdf->Cell(59,4,"",0,1,"L");
+$pdf->Cell(59,4,"$email2",0,1,"L");
 
 //
 $pdf->Cell(35,4,"Telephone No: ",1,0,"L");
-$pdf->Cell(59,4,"",1,0,"L");
+$pdf->Cell(59,4,"$telnum2",1,0,"L");
 $pdf->Cell(35,4,"Model No: ",1,0,"L");
 $pdf->Cell(59,4,"",1,1,"L");
 
 //
-$pdf->Cell(188,4,"In case of emergency, provide name of contact person: ",1,1,"L");
+$pdf->Cell(188,4,"In case of emergency, provide name of contact person: $contactPerson",1,1,"L");
 
 //
-$pdf->Cell(35,4,"Telephone No/ Mobile No: ",1,0,"L");
+$pdf->Cell(35,4,"Telephone No/ Mobile No: $mobNum",1,0,"L");
 $pdf->Cell(59,4,"",1,0,"L");
-$pdf->Cell(35,4,"Email Address: ",1,0,"L");
+$pdf->Cell(35,4,"Email Address: $cpEmailAdd",1,0,"L");
 $pdf->Cell(59,4,"",1,1,"L");
 
 //
 $y = $pdf->GetY();
 $pdf->Text(11,133.2012,"Business Area (in sqm.)");
 $pdf->Cell(35,8,"",1,0,"L");
-$pdf->Cell(18,8,"",1,0,"L");
+$pdf->Cell(18,8,"$businessArea",1,0,"L");
 $pdf->Cell(48,8,"",1,0,"L");
 $pdf->Text(64,133.2012,"Total No. of Employees in");
 $pdf->Text(64,137.2012,"Establishment:");
-$pdf->Cell(13,8,"",1,0,"L");
+$pdf->Cell(13,8,"$totEmpEst",1,0,"L");
 $pdf->Cell(61,8,"",1,0,"L");
 $pdf->Text(125,133.2012,"No. of Employees Residing within LGU:");
-$pdf->Cell(13,8,"",1,1,"L");
+$pdf->Cell(13,8,"$lguEmp",1,1,"L");
 
 //
 $pdf->SetFont("Arial","B","8");
@@ -394,11 +460,11 @@ $pdf->Cell(0,4,"Note: Fill Up Only if Business Place is Rented",0,1,"L");
 
 //
 $pdf->SetFont("Arial","","7.8");
-$pdf->Cell(188,4,"Lessor's Full Name: ",1,1,"L");
-$pdf->Cell(188,4,"Lessor's Full Address: ",1,1,"L");
-$pdf->Cell(188,4,"Lessor's Fill Telephone/Mobile No.:",1,1,"L");
-$pdf->Cell(94,4,"Lessor's Email Address:",1,0,"L");
-$pdf->Cell(94,4,"Monthly Rental:",1,1,"L");
+$pdf->Cell(188,4,"Lessor's Full Name: $lessorsFullName",1,1,"L");
+$pdf->Cell(188,4,"Lessor's Full Address: $lessorsFullAdd",1,1,"L");
+$pdf->Cell(188,4,"Lessor's Fill Telephone/Mobile No.: $lessorsFullContactNum",1,1,"L");
+$pdf->Cell(94,4,"Lessor's Email Address: $lessorsEmailAdd",1,0,"L");
+$pdf->Cell(94,4,"Monthly Rental: $lessorsMonthlyRental",1,1,"L");
 
 //
 $x = $pdf->GetX();
@@ -421,9 +487,9 @@ $pdf->Text($x+167,$y+8,"Non-Essential");
 
 //
 $pdf->SetXY($x,$y+9);
-$pdf->Cell(70,4,"",1,0,"L");
+$pdf->Cell(70,4,"$lineBusi",1,0,"L");
 $pdf->Cell(40,4,"",1,0,"L");
-$pdf->Cell(25,4,"",1,0,"L");
+$pdf->Cell(25,4,"$BusiCapitalization",1,0,"L");
 $pdf->Cell(25,4,"",1,0,"L");
 $pdf->Cell(28,4,"",1,1,"L");
 

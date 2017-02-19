@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class CENRO_Application extends Business {
@@ -38,7 +38,8 @@ class CENRO_Application extends Business {
     private $waterSupply = null;
 	private $status = null;
     private $applicationType = null;
-	
+		private $lineOfBusiness = null;
+
 	public function __construct($reference_num = null)
     {
 		$this->CI =& get_instance();
@@ -131,6 +132,16 @@ class CENRO_Application extends Business {
         $steam_generator = $param->steamGenerator!=null ? explode('|', $param->steamGenerator) : [];
         $waste_minimization = $param->wasteMinimizationMethod!=null ? explode('|', $param->wasteMinimizationMethod) : [];
 
+				$bplo = $this->CI->Application_m->get_all_bplo_applications(['referenceNum' => $param->referenceNum]);
+
+				$line = $this->CI->Business_Activity_m->get_all_business_activity(['bploId' => $bplo[0]->applicationId]);
+
+				// echo "<pre>";
+				// print_r($line);
+				// echo "</pre>";
+				// exit();
+				$line = $line[0]->lineOfBusiness;
+
         $this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
         $this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
         $this->userId = $this->CI->encryption->encrypt($param->userId);
@@ -165,6 +176,7 @@ class CENRO_Application extends Business {
         $this->sewerageDischargeLocation = $param->sewerageDischargeLocation;
         $this->waterSupply = $param->waterSupply;
         $this->status = $param->status;
+				$this->lineOfBUsiness = $line;
 
 
 		$this->unset_CI();
@@ -244,7 +256,7 @@ class CENRO_Application extends Business {
 
         return $this;
     }
-    
+
 
     /**
      * Gets the value of businessId.
@@ -283,7 +295,7 @@ class CENRO_Application extends Business {
     /**
      * Sets the value of CNC.
      *
-     * @param mixed $CNC the 
+     * @param mixed $CNC the
      *
      * @return self
      */
@@ -499,7 +511,7 @@ class CENRO_Application extends Business {
     /**
      * Sets the value of APCD.
      *
-     * @param mixed $APCD the 
+     * @param mixed $APCD the
      *
      * @return self
      */
@@ -995,22 +1007,40 @@ class CENRO_Application extends Business {
      *
      * @return mixed
      */
-    public function get_ApplicationType()
-    {
-        return $this->applicationType;
-    }
+		 public function get_ApplicationType()
+     {
+         return $this->applicationType;
+     }
 
-    /**
-     * Sets the value of applicationType.
-     *
-     * @param mixed $applicationType the application type
-     *
-     * @return self
-     */
-    public function set_ApplicationType($applicationType)
-    {
-        $this->applicationType = $applicationType;
+     /**
+      * Sets the value of applicationType.
+      *
+      * @param mixed $applicationType the application type
+      *
+      * @return self
+      */
+     public function set_ApplicationType($applicationType)
+     {
+         $this->applicationType = $applicationType;
 
-        return $this;
-    }
+         return $this;
+     }
+		 public function get_LineOfBusiness()
+		 {
+				 return $this->applicationType;
+		 }
+
+		 /**
+			* Sets the value of applicationType.
+			*
+			* @param mixed $applicationType the application type
+			*
+			* @return self
+			*/
+		 public function set_LineOfBusiness($param)
+		 {
+				 $this->lineOfBusiness = $param;
+
+				 return $this;
+		 }
 }//END OF CLASS

@@ -117,7 +117,7 @@ $pdf->SetFont("Arial","B","9");
 $pdf->Cell(20,7,"DR. MIRABELLE M. BENJAMIN, MPH",0,1,"L");
 $pdf->SetFont("Arial","","7");
 $pdf->Cell(20,4,"City Health Officer",0,1,"L");
-$pdf->Cell(20,4,"City of Binan, Laguna",0,1,"L");
+$pdf->Cell(20,4,"City of Biñan, Laguna",0,1,"L");
 
 $y = $pdf->GetY();
 $pdf->SetY($y+8);

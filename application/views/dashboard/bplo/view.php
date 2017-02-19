@@ -312,7 +312,8 @@
                           <!-- <td><?= $activity->code ?></td> -->
                           <td>
                             <?= $activity->lineOfBusiness ?>
-                            <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>">  
+
+                            <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>">
                           </td>
                           <!-- <td><?= $activity->numOfUnits ?></td> -->
                           <td>
@@ -335,11 +336,25 @@
                     <?php endif ?>
                   </tbody>
                 </table>
+                <div class="row-fluid text-center">
+                  <div class="span4 offset4">
+                    <h4>Requirements</h4>
+                    <div class="controls">
+                      <?php foreach ($application->get_requirements() as $key => $requirements): ?>
+                        <label>
+                          <input type="checkbox" value="<?= $this->encryption->encrypt($requirements->requirementId) ?>" class='requirements-checkbox' name="requirements[]" />
+                          <?= $requirements->name ?>
+                        </label>
+                      <?php endforeach ?>
+                    </div>
+                  </div>
+                </div>
+
                 <?php if ($application->get_status() == 'Completed'): ?>
                   <div class="row-fluid text-center">
                     <div class="span4 offset4">
                       <div class="control-group">
-                        <button type="submit" class="btn btn-success">Approve Capitalization</button>
+                      <button type="submit" id="approve-btn" disabled class="btn btn-success">Approve</button>
                       </div>
                     </div>
                   </div>
@@ -483,7 +498,6 @@
               </div>
               <div id="tab3" class='tab-pane'>
                 <div id="gmaps" style="width:100%; height:500px; background-color: gray">
-                  
                 </div>
               </div>
             </div>
