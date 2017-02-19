@@ -11,14 +11,7 @@
 
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-							<h3>Application Details
-							<?php if ($application->get_status() == "Expired"): ?>
-									<button type="button" href="<?php echo base_url('form/renew/'.bin2hex($this->encryption->encrypt($this->encryption->decrypt($application->get_applicationId()).'|'.$this->encryption->decrypt($application->get_referenceNum()), $custom_crypto))); ?>" class="btn btn-danger"><span style="text-align:center" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Renew</button>
-									<button type="button" class="btn btn-primary"><span style="text-align:center" class="fa fa-pencil" aria-hidden="true"></span> Edit</button>
-							<?php else: ?>
-									<button type="button" class="btn btn-warning"><span style="text-align:center" class="fa fa-pencil" aria-hidden="true"></span> Edit</button>
-							<?php endif ?>
-						</h3>
+							<h3>Application Details</h3>
 				</div>
 
 				<!-- class "colored-tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom" -->
@@ -62,6 +55,13 @@
 									</div>
 									<div class="mdl-stepper-step">
 										<div class="mdl-stepper-circle"><span>4</span></div>
+										<div class="mdl-stepper-title">Payment of Taxes</div>
+										<div class="mdl-stepper-optional"></div>
+										<div class="mdl-stepper-bar-left"></div>
+										<div class="mdl-stepper-bar-right"></div>
+									</div>
+									<div class="mdl-stepper-step">
+										<div class="mdl-stepper-circle"><span>5</span></div>
 										<div class="mdl-stepper-title">Claim Business Permit</div>
 										<div class="mdl-stepper-optional"></div>
 										<div class="mdl-stepper-bar-left"></div>
