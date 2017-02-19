@@ -181,19 +181,12 @@
 			</div>
 			<!-- /.panel-body -->
 
-						<?php
-						// echo "<h2>This page [edit owner] is still under development</h2>";
-						// echo '<pre>';
-						// print_r($owner);
-						// echo '</pre>';
-						?>
-=
-				</div>
-			</div>
-			<!-- /.col-lg-12 -->
 		</div>
-		<!-- /.row -->
 	</div>
-	<!-- /.container-fluid -->
+	<!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+</div>
+<!-- /.container-fluid -->
 </div>
 <!-- </body> -->

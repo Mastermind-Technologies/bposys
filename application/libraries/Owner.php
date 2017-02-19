@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Owner {
@@ -23,76 +23,77 @@ class Owner {
     private $owner_gender = null;
     private $owner_suffix = null;
 
-	public function __construct($owner_id = null)
-	{
-		$this->CI =& get_instance();
-		$this->CI->load->model('Owner_m');
-		if(isset($owner_id))
-			return $this->get_owner_information($owner_id);
-	}
 
-	public function get_owner_information($id = null)
-	{
-        if(!isset($this->CI))
-            $this->CI =& get_instance();
-		$query['ownerId'] = $id;
+    public function __construct($owner_id = null)
+    {
+      $this->CI =& get_instance();
+      $this->CI->load->model('Owner_m');
+      if(isset($owner_id))
+       return $this->get_owner_information($owner_id);
+}
 
-        if($this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['role']) == 'Applicant')
-        {
-            $query['userId'] = $this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['userId']);
-        }
+public function get_owner_information($id = null)
+{
+    if(!isset($this->CI))
+        $this->CI =& get_instance();
+    $query['ownerId'] = $id;
 
-		$result = $this->CI->Owner_m->get_all_owners($query);
+    if($this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['role']) == 'Applicant')
+    {
+        $query['userId'] = $this->CI->encryption->decrypt($this->CI->session->userdata['userdata']['userId']);
+    }
 
-        if(count($result) > 0)
-        {
-    		$this->set_owner_all($result[0]);
-            $this->unset_CI();
-            return $this;
-        }
-        else
-        {
-            $this->CI->session->set_flashdata('failed', 'Invalid Input');
-            $this->unset_CI();
-            redirect('Home');
-        }
+    $result = $this->CI->Owner_m->get_all_owners($query);
 
-		
-	}
+    if(count($result) > 0)
+    {
+      $this->set_owner_all($result[0]);
+      $this->unset_CI();
+      return $this;
+  }
+  else
+  {
+    $this->CI->session->set_flashdata('failed', 'Invalid Input');
+    $this->unset_CI();
+    redirect('Home');
+}
 
-	public function set_owner_all($param = null)
-	{
-		if(!isset($this->CI))
-			$this->CI =& get_instance();
-        
-		$this->ownerId = $this->CI->encryption->encrypt($param->ownerId);
-		$this->firstName = $param->firstName;
-		$this->middleName = $param->middleName;
-		$this->lastName = $param->lastName;
-        $this->owner_suffix = $param->suffix;
-		$this->owner_houseBldgNo = $param->houseBldgNo;
-		$this->owner_bldgName = $param->bldgName;
-		$this->owner_unitNum = $param->unitNum;
-		$this->owner_street = $param->street;
-		$this->owner_barangay = $param->barangay;
-		$this->owner_subdivision = $param->subdivision;
-		$this->owner_cityMunicipality = $param->cityMunicipality;
-		$this->owner_province = $param->province;
-        $this->owner_PIN = $param->PIN;
-		$this->owner_contactNum = $param->contactNum;
-		$this->owner_telNum = $param->telNum;
-        $this->owner_email = $param->email;
-        $this->owner_gender = $param->gender;
 
-		$this->unset_CI();
-		return $this;
-	}
+}
 
-	protected function unset_CI()
-	{
-		if(isset($this->CI))
-			unset($this->CI);
-	}
+public function set_owner_all($param = null)
+{
+  if(!isset($this->CI))
+   $this->CI =& get_instance();
+
+$this->ownerId = $this->CI->encryption->encrypt($param->ownerId);
+$this->firstName = $param->firstName;
+$this->middleName = $param->middleName;
+$this->lastName = $param->lastName;
+$this->owner_suffix = $param->suffix;
+$this->owner_houseBldgNo = $param->houseBldgNo;
+$this->owner_bldgName = $param->bldgName;
+$this->owner_unitNum = $param->unitNum;
+$this->owner_street = $param->street;
+$this->owner_barangay = $param->barangay;
+$this->owner_subdivision = $param->subdivision;
+$this->owner_cityMunicipality = $param->cityMunicipality;
+$this->owner_province = $param->province;
+$this->owner_PIN = $param->PIN;
+$this->owner_contactNum = $param->contactNum;
+$this->owner_telNum = $param->telNum;
+$this->owner_email = $param->email;
+$this->owner_gender = $param->gender;
+
+$this->unset_CI();
+return $this;
+}
+
+protected function unset_CI()
+{
+  if(isset($this->CI))
+   unset($this->CI);
+}
 
 
 
@@ -502,28 +503,23 @@ class Owner {
 
         return $this;
     }
-
-    /**
-     * Gets the value of owner_suffix.
-     *
-     * @return mixed
-     */
     public function get_OwnerSuffix()
     {
         return $this->owner_suffix;
     }
 
     /**
-     * Sets the value of owner_suffix.
-     *
-     * @param mixed $owner_suffix the owner suffix
-     *
-     * @return self
-     */
-    private function set_OwnerSuffix($owner_suffix)
+		 * Sets the value of owner_gender.
+		 *
+		 * @param mixed $owner_gender the owner gender
+		 *
+		 * @return self
+		 */
+    public function set_OwnerSuffix($owner_suffix)
     {
         $this->owner_suffix = $owner_suffix;
 
         return $this;
     }
+
 }//END OF CLASS
