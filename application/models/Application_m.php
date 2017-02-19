@@ -92,7 +92,7 @@ class Application_m extends CI_Model {
     if($query != null)
       $this->db->where($query);
 
-    $this->db->select('*')->from($this->bplo)->order_by('createdAt', 'desc');
+    $this->db->select('*')->from($this->bplo);
     $result = $this->db->get();
 
     return $result->result();

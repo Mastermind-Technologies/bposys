@@ -156,7 +156,8 @@ public function set_application_all($param = null)
     // $lineOfBusiness .= ", ".$business_activities[$i]->lineOfBusiness;
     $total_capital += $business_activities[$i]->capitalization;
 }
-$lineOfBusiness = $business_activities[0]->lineOfBusiness;// = substr($lineOfBusiness, 1);
+if(count($business_activities) > 0)
+    $lineOfBusiness = $business_activities[0]->lineOfBusiness;// = substr($lineOfBusiness, 1);
 
 unset($query);
 $assessment = $this->CI->Assessment_m->get_assessment(['referenceNum' => $param->referenceNum]);
@@ -206,7 +207,8 @@ $this->entityName = $param->entityName;
 $this->status = $param->status;
 $this->businessActivities = $business_activities;
 $this->dateStarted = $param->createdAt;
-$this->lineOfBusiness = $lineOfBusiness;
+if(isset($lineOfBusiness))
+    $this->lineOfBusiness = $lineOfBusiness;
 $this->capital = $total_capital;
 $this->lastEdited = $param->updatedAt;
 $this->requirements = $this->CI->Requirement_m->get_requirements(4);

@@ -132,15 +132,13 @@ class CENRO_Application extends Business {
         $steam_generator = $param->steamGenerator!=null ? explode('|', $param->steamGenerator) : [];
         $waste_minimization = $param->wasteMinimizationMethod!=null ? explode('|', $param->wasteMinimizationMethod) : [];
 
-				$bplo = $this->CI->Application_m->get_all_bplo_applications(['referenceNum' => $param->referenceNum]);
+        $bplo = $this->CI->Application_m->get_all_bplo_applications(['referenceNum' => $param->referenceNum]);
 
-				$line = $this->CI->Business_Activity_m->get_all_business_activity(['bploId' => $bplo[0]->applicationId]);
+        $line = $this->CI->Business_Activity_m->get_all_business_activity(['bploId' => $bplo[0]->applicationId]);
 
-				// echo "<pre>";
-				// print_r($line);
-				// echo "</pre>";
-				// exit();
-				$line = $line[0]->lineOfBusiness;
+
+        if(count($line) > 0)
+            $line = $line[0]->lineOfBusiness;
 
         $this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
         $this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);

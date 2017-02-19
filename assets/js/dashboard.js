@@ -284,8 +284,8 @@ $(document).ready(function()
   var rowCount = 1;
   $('#btn-add-bus-activity').click(function(){
     rowCount++;
-    console.log(rowCount);
-    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><select required class=form-control>"+
+    // console.log(rowCount);
+    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><select class=form-control>"+
       "<option selected disabled>Select Line of Business</option>"+
       "<option value='Manufacturer Kind'>Manufacturer Kind</option>"+
       "<option value='Wholesaler kind'>Wholesaler kind</option>"+
@@ -300,8 +300,7 @@ $(document).ready(function()
       "<option value='Retail Dealers (tobaccos)'>Retail Dealers (tobaccos)</option>"+
       "<option value='Display areas of products'>Display areas of products</option>"+
       "<option value='Others'>Others</option>"+
-      "</select></td><td><input type='text' required data-parsley-type='digits' class=form-control></td></tr>");
-
+      "</select></td><td><input type='text' data-parsley-type='digits' class=form-control></td></tr>");
   });
 
   var draft = false;
@@ -386,40 +385,39 @@ $(document).ready(function()
       var lineOfBusiness = $(this).find("td:nth-child(1) select").val();
       var capitalization = $(this).find("td:nth-child(2) input").val();
 
-      if(lineOfBusiness == '' || capitalization == '')
-      {
-        //do nothing
-      }
-      else
-      {
-        $.ajax({
-          type:"POST",
-          url:base_url+"dashboard/store_business_activity",
-          dataType:'json',
-          data:{ctr:ctr, total_rows:total_rows, lineOfBusiness:lineOfBusiness, capitalization:capitalization, referenceNum:reference_number},
-          success: function(o){
-            if(o == "success")
-            {
-              console.log("Success!");
-              console.log("Redirecting...");
-              window.setTimeout(function() { 
-                window.location = base_url+"dashboard"; 
-              },2000);
-              // process_order_of_payment(reference_number);
-            }
-            else
-            {
-              console.log(o);
-            }
+      $.ajax({
+        type:"POST",
+        url:base_url+"dashboard/store_business_activity",
+        dataType:'json',
+        data:{ctr:ctr, total_rows:total_rows, lineOfBusiness:lineOfBusiness, capitalization:capitalization, referenceNum:reference_number},
+        success: function(o){
+          if(o == "success")
+          {
+            console.log('Waiting for all processes to complete...');
+            $(document).ajaxStop(function(){
+             console.log("Finished!");
+             console.log("Redirecting...");
+             window.setTimeout(function() { 
+              window.location = base_url+"dashboard"; 
+            },2000);
+           })
           }
-        });
-      }
-      // console.log(ctr);
-      // if(ctr == rowCount)
-      // {
-
-      // }
+          else
+          {
+            console.log(o);
+          }
+        }
+      });
     });
+  }
+
+  function count_business_activities()
+  {
+    var total_rows = 0;
+    $("#bus-activity tbody .data").each(function() {
+      total_rows++;
+    });
+    return total_rows;
   }
 
   // function process_order_of_payment(reference_number)
@@ -479,6 +477,9 @@ $(document).ready(function()
         $('#email').html(data.email);
         $('#lgu-employees').html(data.LGUResidingEmployees);
         $('#gmaps-address').html(data.gmapAddress);
+        $('#emergency-contact-name').html(data.emergencyContactPerson);
+        $('#emergency-tel-cel-no').html(data.emergencyTelNum);
+        $('#emergency-email').html(data.emergencyEmail);
 
         initMap(data.lat, data.lng);
 
@@ -501,15 +502,6 @@ $(document).ready(function()
     });
 
     marker.setMap(map);
-  }
-
-  function count_business_activities()
-  {
-    var total_rows = 0;
-    $("#bus-activity tbody .data").each(function() {
-      total_rows++;
-    });
-    return total_rows;
   }
 
   function check_application_status()
@@ -598,6 +590,77 @@ $(document).ready(function()
   // Prepare sections by setting the `data-parsley-group` attribute to 'block-0', 'block-1', etc.
   $sections.each(function(index, section) {
     $(section).find(':input[type=text], :input[type=email], select, textarea').attr('data-parsley-group', 'block-' + index);
+  });
+
+    //Remove Business Activity
+    $('.btn-remove-business-activity').click(function(){
+      var this_control = this;
+      var id = this.id
+      var r = confirm('Are you sure you want to remove this business activity?');
+      if(r==true)
+      {
+        $.ajax({
+          type:'POST',
+          url:base_url+'dashboard/remove_business_activity/'+id,
+          success: function(data)
+          {
+            $(this_control).closest('tr').remove();
+            if(count_existing_activities() == 1)
+            {
+              $('.btn-remove-business-activity').attr('id', '#');
+              $('.btn-remove-business-activity').prop('disabled', true);
+            }
+          },
+          error: function(error)
+          {
+            alert('Failed to remove business activity');
+          }
+        });
+      }
+      else
+        return false;
+    });
+
+    function count_existing_activities()
+    {
+      var total_rows = 0;
+      $("#table-existing-business-activities tbody .existing-data").each(function() {
+        total_rows++;
+      });
+      return total_rows;
+    }
+  //End Remove Business Activity
+
+  $('#renewal-form').submit(function(e){
+      // console.log('false');
+      var url = base_url+"form/submit_renewal_application";
+      $("#btn-submit").prop('disabled', true);
+      $("#btn-add-bus-activity").prop('disabled', true);
+      $("#fa-submit").removeClass('fa-check');
+      $("#fa-submit").addClass('fa-circle-o-notch fa-spin');  
+    // console.log('here');
+    e.preventDefault();
+    jQuery.ajax({
+      type:"POST",
+      dataType:'json',
+      url:url,
+      data:$('form#renewal-form').serialize(),
+      success: function(data) {
+        if(data.error)
+        {
+          console.log(data.error);
+          $("#btn-submit").prop('disabled', false);
+          $("#btn-add-bus-activity").prop('disabled', false);
+          $("#fa-submit").removeClass('fa-circle-o-notch fa-spin');
+          $("#fa-submit").addClass('fa-check');
+        }
+        else
+        {
+          process_business_activity(data.referenceNum);
+        }     
+      }
+    });
+    return false;
   });
   
 }); //End of Jquery

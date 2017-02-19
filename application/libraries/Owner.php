@@ -21,6 +21,7 @@ class Owner {
     private $owner_PIN = null;
     private $isApplied = null;
     private $owner_gender = null;
+    private $owner_suffix = null;
 
 	public function __construct($owner_id = null)
 	{
@@ -68,6 +69,7 @@ class Owner {
 		$this->firstName = $param->firstName;
 		$this->middleName = $param->middleName;
 		$this->lastName = $param->lastName;
+        $this->owner_suffix = $param->suffix;
 		$this->owner_houseBldgNo = $param->houseBldgNo;
 		$this->owner_bldgName = $param->bldgName;
 		$this->owner_unitNum = $param->unitNum;
@@ -497,6 +499,30 @@ class Owner {
     public function set_OwnerGender($owner_gender)
     {
         $this->owner_gender = $owner_gender;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of owner_suffix.
+     *
+     * @return mixed
+     */
+    public function get_OwnerSuffix()
+    {
+        return $this->owner_suffix;
+    }
+
+    /**
+     * Sets the value of owner_suffix.
+     *
+     * @param mixed $owner_suffix the owner suffix
+     *
+     * @return self
+     */
+    private function set_OwnerSuffix($owner_suffix)
+    {
+        $this->owner_suffix = $owner_suffix;
 
         return $this;
     }

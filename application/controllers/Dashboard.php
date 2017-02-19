@@ -10,6 +10,7 @@ class Dashboard extends CI_Controller {
 		$this->load->model('User_m');
 		$this->load->model('Owner_m');
 		$this->load->model('Role_m');
+		$this->load->model('Renewal_m');
 		$this->load->model('Reference_Number_m');
 		$this->load->model('Application_m');
 		$this->load->model('Lessor_m');
@@ -27,11 +28,11 @@ class Dashboard extends CI_Controller {
 
 	public function _init($data = null)
 	{
+		$this->load->view('templates/sb_admin2/sb_admin2_includes');
 		if($data != null)
 			$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
 		else
 			$this->load->view('templates/sb_admin2/sb_admin2_navbar');
-		$this->load->view('templates/sb_admin2/sb_admin2_includes');
 	}
 
 	public function _init_matrix($data = null)
@@ -679,10 +680,8 @@ class Dashboard extends CI_Controller {
 
 			//get notifications
 		$nav_data['notifications'] = User::get_notifications();
-		if($nav_data['notifications'] == "")
-			$this->_init();
-		else
-			$this->_init($nav_data);
+		$nav_data['title'] = 'dashboard';
+		$this->_init($nav_data);
 
 		$data['application'] = new BPLO_Application($reference_num);
 		$data['bfp'] = new BFP_Application($reference_num);
@@ -1082,13 +1081,16 @@ class Dashboard extends CI_Controller {
 
 	public function store_business_activity()
 	{
-		$fields = array(
-			'bploId' => $this->input->post('referenceNum'),
-			'lineOfBusiness' => $this->input->post('lineOfBusiness'),
-			'capitalization' => $this->input->post('capitalization'),
-			);
+		if($this->input->post('lineOfBusiness') != "" && $this->input->post('capitalization') != "")
+		{
+			$fields = array(
+				'bploId' => $this->input->post('referenceNum'),
+				'lineOfBusiness' => $this->input->post('lineOfBusiness'),
+				'capitalization' => $this->input->post('capitalization'),
+				);
 
-		$this->Business_Activity_m->insert_business_activity($fields);
+			$this->Business_Activity_m->insert_business_activity($fields);
+		}
 		$ctr = $this->input->post('ctr');
 		$total = $this->input->post('total_rows');
 		if($ctr == $total)
@@ -1099,6 +1101,19 @@ class Dashboard extends CI_Controller {
 		{
 			echo json_encode($ctr." out of ".$total);
 		}
+	}
+
+	public function remove_business_activity($activity_id)
+	{
+		$this->isLogin();
+		$activity_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $activity_id));
+
+		$set = array(
+			'status' => 'removed'
+			);
+		$this->Business_Activity_m->update_business_activity($activity_id, $set);
+
+		echo json_encode("Success");
 	}
 
 	public function incoming_applications()
@@ -2030,7 +2045,7 @@ class Dashboard extends CI_Controller {
 				$submitted_requirements_field = array(
 					'referenceNum' => $reference_num,
 					'requirementId' => $this->encryption->decrypt($requirement),
-				);
+					);
 				$this->Requirement_m->insert_submitted_requirements($submitted_requirements_field);
 			}
 
@@ -2107,7 +2122,7 @@ class Dashboard extends CI_Controller {
 	{
 		// $this->_init_matrix();
 		$data['application'] = $this->Application_m->get_all_bplo_applications();
-	  $data['application'] = new BPLO_Application('D2D2E57657');
+		$data['application'] = new BPLO_Application('D2D2E57657');
 
 		$this->load->view('dashboard/bplo/bplo_form_printable',$data);
 	}
@@ -2250,11 +2265,11 @@ class Dashboard extends CI_Controller {
 	public function check_app_status()
 	{
 		$custom_encrypt = array(
-					'cipher' => 'blowfish',
-					'mode' => 'ecb',
-					'key' => $this->config->item('encryption_key'),
-					'hmac' => false
-					);
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
 		if($this->input->post('application_object'))
 		{
 			$application = $this->input->post('application_object');
@@ -2263,6 +2278,7 @@ class Dashboard extends CI_Controller {
 			foreach ($application as $key => $value) {
 				$query['applicationId'] = $this->encryption->decrypt($value['id']);
 				$app = $this->Application_m->get_all_bplo_applications($query);
+				$isExisting = $this->Renewal_m->check_application($app[0]->referenceNum);
 				$status_array[$key] = $app[0]->status;
 				switch($status_array[$key])
 				{
@@ -2293,14 +2309,24 @@ class Dashboard extends CI_Controller {
 					class='btn btn-primary'>View Details</a>";
 					break;
 					case "On process":
-					$buttons[$key] = "<a
-					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
-					id='btn-view-details'
-					class='btn btn-primary'>View Details</a>
-					<button
-					id='".base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($app[0]->referenceNum,$custom_encrypt)))."'
-					value='Cancel'
-					class='btn btn-danger btn-cancel'>Cancel</button>";
+					if($isExisting)
+					{
+						$buttons[$key] = "<a
+						href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+						id='btn-view-details'
+						class='btn btn-primary'>View Details</a>";
+					}
+					else
+					{
+						$buttons[$key] = "<a
+						href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+						id='btn-view-details'
+						class='btn btn-primary'>View Details</a>
+						<button
+						id='".base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($app[0]->referenceNum,$custom_encrypt)))."'
+						value='Cancel'
+						class='btn btn-danger btn-cancel'>Cancel</button>";
+					}
 					break;
 					case "For finalization":
 					$buttons[$key] = "<a 
@@ -2357,7 +2383,10 @@ class Dashboard extends CI_Controller {
 		$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
 
 		foreach ($business_activity as $key => $activity) {
-			$mayor_permit_fee[$key] = Assessment::compute_mayors_permit_fee($activity->capitalization, $work_force, $activity->lineOfBusiness);
+			if($activity->lineOfBusiness == "Display areas of products")
+				$mayor_permit_fee[$key] = Assessment::compute_mayors_permit_fee($activity->capitalization, $work_force, $activity->lineOfBusiness, $bplo->get_BusinessArea());
+			else
+				$mayor_permit_fee[$key] = Assessment::compute_mayors_permit_fee($activity->capitalization, $work_force, $activity->lineOfBusiness);
 				// echo "Mayor's Permit Fee: ".$activity->lineOfBusiness;
 				// echo "<br>";
 				// var_dump($mayor_permit_fee[$key]);
@@ -2420,54 +2449,54 @@ class Dashboard extends CI_Controller {
 
 		foreach ($mayor_permit_fee as $key => $mayor_fee) {
 			$charge_field = array(
-				'assessmentId' => $assessmentId,
-				'due' => $mayor_fee['mayor_fee'],
-				'surcharge' => 0,
-				'interest' => 0,
-				'computed' => 0,
-				'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($mayor_fee['line_of_business']).')'
-				);
-			$this->Assessment_m->add_charge($charge_field);
-
-			$charge_field = array(
-				'assessmentId' => $assessmentId,
-				'due' => $mayor_fee['tax'],
-				'surcharge' => 0,
-				'interest' => 0,
-				'particulars' => 'TAX ON '.strtoupper($mayor_fee['line_of_business'])
-				);
-			$this->Assessment_m->add_charge($charge_field);
-		}
-
-		$charge_field = array(
 			'assessmentId' => $assessmentId,
-			'due' => $env_total,
+			'due' => $mayor_fee['mayor_fee'],
 			'surcharge' => 0,
 			'interest' => 0,
 			'computed' => 0,
-			'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
+			'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($mayor_fee['line_of_business']).')'
 			);
-		$this->Assessment_m->add_charge($charge_field);
+$this->Assessment_m->add_charge($charge_field);
 
-		$charge_field = array(
-			'assessmentId' => $assessmentId,
-			'due' => $zoning_total,
-			'surcharge' => 0,
-			'interest' => 0,
-			'computed' => 0,
-			'particulars' => 'ZONING/LOCATIONAL CLEARANCE FEE',
-			);
-		$this->Assessment_m->add_charge($charge_field);
+$charge_field = array(
+	'assessmentId' => $assessmentId,
+	'due' => $mayor_fee['tax'],
+	'surcharge' => 0,
+	'interest' => 0,
+	'particulars' => 'TAX ON '.strtoupper($mayor_fee['line_of_business'])
+	);
+$this->Assessment_m->add_charge($charge_field);
+}
 
-		$charge_field = array(
-			'assessmentId' => $assessmentId,
-			'due' => $gs_total,
-			'surcharge' => 0,
-			'interest' => 0,
-			'computed' => 0,
-			'particulars' => 'GARBAGE SERVICE FEE',
-			);
-		$this->Assessment_m->add_charge($charge_field);
+$charge_field = array(
+	'assessmentId' => $assessmentId,
+	'due' => $env_total,
+	'surcharge' => 0,
+	'interest' => 0,
+	'computed' => 0,
+	'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
+	);
+$this->Assessment_m->add_charge($charge_field);
+
+$charge_field = array(
+	'assessmentId' => $assessmentId,
+	'due' => $zoning_total,
+	'surcharge' => 0,
+	'interest' => 0,
+	'computed' => 0,
+	'particulars' => 'ZONING/LOCATIONAL CLEARANCE FEE',
+	);
+$this->Assessment_m->add_charge($charge_field);
+
+$charge_field = array(
+	'assessmentId' => $assessmentId,
+	'due' => $gs_total,
+	'surcharge' => 0,
+	'interest' => 0,
+	'computed' => 0,
+	'particulars' => 'GARBAGE SERVICE FEE',
+	);
+$this->Assessment_m->add_charge($charge_field);
 
 		// $charge_field = array(
 		// 	'assessmentId' => $assessmentId,
@@ -2479,47 +2508,47 @@ class Dashboard extends CI_Controller {
 		// 	);
 		// $this->Assessment_m->add_charge($charge_field);
 
-		$charge_field = array(
-			'assessmentId' => $assessmentId,
-			'due' => $fixed_fees['business_inspection'],
-			'surcharge' => 0,
-			'interest' => 0,
-			'computed' => 0,
-			'particulars' => 'BUSINESS INSPECTION FEE',
-			);
-		$this->Assessment_m->add_charge($charge_field);
+$charge_field = array(
+	'assessmentId' => $assessmentId,
+	'due' => $fixed_fees['business_inspection'],
+	'surcharge' => 0,
+	'interest' => 0,
+	'computed' => 0,
+	'particulars' => 'BUSINESS INSPECTION FEE',
+	);
+$this->Assessment_m->add_charge($charge_field);
 
-		$charge_field = array(
-			'assessmentId' => $assessmentId,
-			'due' => $fixed_fees['business_plate_sticker'],
-			'surcharge' => 0,
-			'interest' => 0,
-			'computed' => 0,
-			'particulars' => 'BUSINESS PLATE & STICKER',
-			);
-		$this->Assessment_m->add_charge($charge_field);
+$charge_field = array(
+	'assessmentId' => $assessmentId,
+	'due' => $fixed_fees['business_plate_sticker'],
+	'surcharge' => 0,
+	'interest' => 0,
+	'computed' => 0,
+	'particulars' => 'BUSINESS PLATE & STICKER',
+	);
+$this->Assessment_m->add_charge($charge_field);
 
-		$charge_field = array(
-			'assessmentId' => $assessmentId,
-			'due' => $sanitary_fee,
-			'surcharge' => 0,
-			'interest' => 0,
-			'computed' => 0,
-			'particulars' => 'SANITARY PERMIT FEE',
-			);
-		$this->Assessment_m->add_charge($charge_field);
+$charge_field = array(
+	'assessmentId' => $assessmentId,
+	'due' => $sanitary_fee,
+	'surcharge' => 0,
+	'interest' => 0,
+	'computed' => 0,
+	'particulars' => 'SANITARY PERMIT FEE',
+	);
+$this->Assessment_m->add_charge($charge_field);
 
-		$charge_field = array(
-			'assessmentId' => $assessmentId,
-			'due' => $fixed_fees['health_card_fee'],
-			'surcharge' => 0,
-			'interest' => 0,
-			'computed' => 0,
-			'particulars' => 'HEALTH CARD FEE',
-			);
-		$this->Assessment_m->add_charge($charge_field);
+$charge_field = array(
+	'assessmentId' => $assessmentId,
+	'due' => $fixed_fees['health_card_fee'],
+	'surcharge' => 0,
+	'interest' => 0,
+	'computed' => 0,
+	'particulars' => 'HEALTH CARD FEE',
+	);
+$this->Assessment_m->add_charge($charge_field);
 
-		$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_number]);
+$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_number]);
 
 		// echo json_encode("success");
 	}//END AJAX FUNCTIONS

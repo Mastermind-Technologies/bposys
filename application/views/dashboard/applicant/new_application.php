@@ -454,6 +454,34 @@
 											</div>
 										</div>
 										<hr>
+										<div class="row">
+											<div class="col-sm-12">
+												<h4>In case of emergency</h4>
+											</div>
+
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="contact-name">Contact Person Name</label>
+													<br>
+													<span id="emergency-contact-name">N/A</span>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="emergency-tel-cel-no">Tel No./Cel No.</label>
+													<br>
+													<span id="emergency-tel-cel-no">N/A</span>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="emergency-email">Email Address</label>
+													<br>
+													<span id="emergency-email">N/A</span>
+												</div>
+											</div>
+										</div>
+										<hr>
 										<div class="col-sm-3 pull-left">
 											<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
 										</div>
@@ -1029,7 +1057,7 @@
 
 
 											<div class="row">
-												<div class="col-sm-4 col-sm-offset-4">
+												<div class="col-lg-4 col-lg-offset-4">
 													<a id="btn-add-bus-activity" class="btn btn-primary btn-block"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
 												</div>
 											</div>
@@ -1061,7 +1089,7 @@
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8" async defer></script>
 
 		<script>
-		
+			
 			// function initMap(){
 				
 			// 	var map;

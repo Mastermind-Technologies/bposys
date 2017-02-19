@@ -1,4 +1,4 @@
-<body class="content-container"> -->
+<body class="content-container">
 	<!-- Page Content -->
 	<div style="padding-top:45px;" id="page-wrapper">
 		<div class="container-fluid">

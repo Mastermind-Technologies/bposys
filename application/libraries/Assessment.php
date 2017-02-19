@@ -41,7 +41,7 @@ class Assessment{
 		}
 
 		//Wholesaler kind
-		if($line_of_business == "Wholesaler kind")
+		if($line_of_business == "Wholesaler Kind")
 		{
 			switch($ent_scale)
 			{
@@ -53,7 +53,7 @@ class Assessment{
 		}
 
 		//Exporter kind
-		if($line_of_business == "Exporter kind")
+		if($line_of_business == "Exporter Kind")
 		{
 			switch($ent_scale)
 			{
@@ -88,19 +88,6 @@ class Assessment{
 			}
 		}
 
-		//Bank
-		if($line_of_business == "Bank")
-		{
-			//not based capital
-			// switch($ent_scale)
-			// {
-			// 	case "Cottage": $fee = 500; break;
-			// 	case "Small Scale": $fee = 1500; break;
-			// 	case "Medium Scale": $fee = 3000; break;
-			// 	case "Large Scale": $fee = 5000; break;
-			// }
-		}
-
 		//Lessor (Renting)
 		if($line_of_business == "Lessor (Renting)")
 		{
@@ -123,13 +110,28 @@ class Assessment{
 		if($line_of_business == "Amusement devices/places")
 		{
 			//not based on capital
-			// switch($ent_scale)
-			// {
-			// 	case "Cottage": $fee = 500; break;
-			// 	case "Small Scale": $fee = 1500; break;
-			// 	case "Medium Scale": $fee = 3000; break;
-			// 	case "Large Scale": $fee = 5000; break;
-			// }
+			//NOT FINAL
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 500; break;
+				case "Small Scale": $fee = 1500; break;
+				case "Medium Scale": $fee = 3000; break;
+				case "Large Scale": $fee = 5000; break;
+			}
+		}
+
+		//Bank
+		if($line_of_business == "Bank")
+		{
+			//not based capital
+			//NOT FINAL
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 5000; break;
+				case "Small Scale": $fee = 5000; break;
+				case "Medium Scale": $fee = 7000; break;
+				case "Large Scale": $fee = 10000; break;
+			}
 		}
 
 		//Retail Dealers (liquors)
@@ -339,4 +341,379 @@ class Assessment{
 
 		return $data;
 	}
+
+	public static function compute_renewal_tax($line_of_business, $gross, $gross_type = null)
+	{
+		if($line_of_business == "Manufacturer Kind" || $line_of_business == "Retail Dealers (liquors)" || $line_of_business == "Exporter Kind" )
+		{
+			if($gross < 20000)
+			{
+				$fee = 432;
+			}
+			else if($gross >= 20000 && $gross < 30000)
+			{
+				$fee = 629;
+			}
+			else if($gross >= 30000 && $gross < 40000)
+			{
+				$fee = 944;
+			}
+			else if($gross >= 40000 && $gross < 50000)
+			{
+				$fee = 1180;
+			}
+			else if($gross >= 50000 && $gross < 75000)
+			{
+				$fee = 1888;
+			}
+			else if($gross >= 75000 && $gross < 100000)
+			{
+				$fee = 2360;
+			}
+			else if($gross >= 100000 && $gross < 150000)
+			{
+				$fee = 3146;
+			}
+			else if($gross >= 150000 && $gross < 200000)
+			{
+				$fee = 3932;
+			}
+			else if($gross >= 200000 && $gross < 300000)
+			{
+				$fee = 5505;
+			}
+			else if($gross >= 300000 && $gross < 500000)
+			{
+				$fee = 7765;
+			}
+			else if($gross >= 500000 && $gross < 750000)
+			{
+				$fee = 11440;
+			}
+			else if($gross >= 750000 && $gross < 1000000)
+			{
+				$fee = 14300;
+			}
+			else if($gross >= 1000000 && $gross < 2000000)
+			{
+				$fee = 19662;
+			}
+			else if($gross >= 2000000 && $gross < 3000000)
+			{
+				$fee = 23595;
+			}
+			else if($gross >= 3000000 && $gross < 4000000)
+			{
+				$fee = 28314;
+			}
+			else if($gross >= 4000000 && $gross < 5000000)
+			{
+				$fee = 33033;
+			}
+			else if($gross >= 5000000 && $gross < 6500000)
+			{
+				$fee = 34856.25;
+			}
+			else if($gross >= 6500000)
+			{
+				$fee = ($gross*0.01) * 0.5366;
+			}
+
+			if($gross_type == "essential")
+			{
+				return $fee/2;
+			}
+			else
+			{
+				return $fee;
+			}
+		}//end of if 1
+
+		else if($line_of_business == "Wholesaler Kind" || $line_of_business == "Retail Dealers (tobaccos)")
+		{
+			if($gross < 20000)
+			{
+				$fee = 393;
+			}
+			else if($gross >= 20000 && $gross < 30000)
+			{
+				$fee = 472;
+			}
+			else if($gross >= 30000 && $gross < 40000)
+			{
+				$fee = 629;
+			}
+			else if($gross >= 40000 && $gross < 50000)
+			{
+				$fee = 944;
+			}
+			else if($gross >= 50000 && $gross < 75000)
+			{
+				$fee = 1416;
+			}
+			else if($gross >= 75000 && $gross < 100000)
+			{
+				$fee = 1888;
+			}
+			else if($gross >= 100000 && $gross < 150000)
+			{
+				$fee = 2674;
+			}
+			else if($gross >= 150000 && $gross < 200000)
+			{
+				$fee = 3461;
+			}
+			else if($gross >= 200000 && $gross < 300000)
+			{
+				$fee = 4719;
+			}
+			else if($gross >= 300000 && $gross < 500000)
+			{
+				$fee = 6292;
+			}
+			else if($gross >= 500000 && $gross < 750000)
+			{
+				$fee = 9438;
+			}
+			else if($gross >= 750000 && $gross < 1000000)
+			{
+				$fee = 12584;
+			}
+			else if($gross >= 1000000 && $gross < 2000000)
+			{
+				$fee = 14300;
+			}
+			else if($gross >= 2000000)
+			{
+				$fee = ($fee * 0.01) * 0.715;
+			}
+
+			if($gross_type == "essential")
+			{
+				return $fee/2;
+			}
+			else
+			{
+				return $fee;
+			}
+		}//end of if 2
+
+		else if($line_of_business == "Retailer")
+		{
+			if($gross >= 50000 && $gross < 400000)
+			{
+				$fee = $gross * 0.026;
+			}
+			else if($gross >= 400000)
+			{
+				$fee = $gross * 0.013;
+			}
+			else
+			{
+				$fee = 0;
+			}
+
+			if($gross_type == "essential")
+			{
+				if($fee != 0)
+					return $fee/2;
+				else
+					return $fee;
+			}
+			else
+			{
+				return $fee;
+			}
+		}//end of if 3
+
+		else if($line_of_business == "Contractor" || $line_of_business == "Others" || $line_of_business == "Display areas of products")
+		{
+			if($gross < 20000)
+			{
+				$fee = 235.95;
+			}
+			else if($gross >= 20000 && $gross < 30000)
+			{
+				$fee = 393.25;
+			}
+			else if($gross >= 30000 && $gross < 40000)
+			{
+				$fee = 550.55;
+			}
+			else if($gross >= 40000 && $gross < 50000)
+			{
+				$fee = 786.50;
+			}
+			else if($gross >= 50000 && $gross < 75000)
+			{
+				$fee = 1258;
+			}
+			else if($gross >= 75000 && $gross < 100000)
+			{
+				$fee = 1888;
+			}
+			else if($gross >= 100000 && $gross < 150000)
+			{
+				$fee = 2831;
+			}
+			else if($gross >= 150000 && $gross < 200000)
+			{
+				$fee = 3775;
+			}
+			else if($gross >= 200000 && $gross < 250000)
+			{
+				$fee = 5191;
+			}
+			else if($gross >= 250000 && $gross < 300000)
+			{
+				$fee = 6607;
+			}
+			else if($gross >= 300000 && $gross < 400000)
+			{
+				$fee = 8809;
+			}
+			else if($gross >= 400000 && $gross < 500000)
+			{
+				$fee = 11798;
+			}
+			else if($gross >= 500000 && $gross < 750000)
+			{
+				$fee = 13228;
+			}
+			else if($gross >= 750000 && $gross < 1000000)
+			{
+				$fee = 14658;
+			}
+			else if($gross >= 1000000 && $gross < 2000000)
+			{
+				$fee = 16445;
+			}
+			else if($gross >= 2000000)
+			{
+				$fee = ($fee * 0.01) * 0.715;
+			}
+
+			return fee;
+		}//end of if 4
+
+		else if($line_of_business == "Bank")
+		{
+			$fee = ($gross * 0.01) * 0.75;
+			return $fee;
+		}
+
+		else if($line_of_business == "Peddlers")
+		{
+			//75 pesos per peddler per annum
+			return 75;
+		}
+
+		else if($line_of_business == "Amusement devices/places")
+		{
+			if($gross < 20000)
+			{
+				$fee = 235.95;
+			}
+			else if($gross >= 20000 && $gross < 30000)
+			{
+				$fee = 393.25;
+			}
+			else if($gross >= 30000 && $gross < 40000)
+			{
+				$fee = 550.55;
+			}
+			else if($gross >= 40000 && $gross < 50000)
+			{
+				$fee = 786.50;
+			}
+			else if($gross >= 50000 && $gross < 75000)
+			{
+				$fee = 1258;
+			}
+			else if($gross >= 75000 && $gross < 100000)
+			{
+				$fee = 1888;
+			}
+			else if($gross >= 100000 && $gross < 150000)
+			{
+				$fee = 2831;
+			}
+			else if($gross >= 150000 && $gross < 200000)
+			{
+				$fee = 3775;
+			}
+			else if($gross >= 200000 && $gross < 250000)
+			{
+				$fee = 5191;
+			}
+			else if($gross >= 250000 && $gross < 300000)
+			{
+				$fee = 6607;
+			}
+			else if($gross >= 300000 && $gross < 400000)
+			{
+				$fee = 8809;
+			}
+			else if($gross >= 400000 && $gross < 500000)
+			{
+				$fee = 11798;
+			}
+			else if($gross >= 500000 && $gross < 750000)
+			{
+				$fee = 13228;
+			}
+			else if($gross >= 750000 && $gross < 1000000)
+			{
+				$fee = 14658;
+			}
+			else if($gross >= 1000000 && $gross < 2000000)
+			{
+				$fee = 16445;
+			}
+			else if($gross >= 2000000)
+			{
+				$fee = ($fee * 0.01) * 0.715;
+				if($fee < 16445)
+				{
+					$fee = 16445;
+				}
+			}
+
+			return $fee;
+		}//end of if 5
+
+		else if ($line_of_business == "Lessor (Renting)")
+		{
+			if($gross < 10000)
+			{
+				$fee = 420;
+			}
+			else if($gross >= 10000 && $gross < 20000)
+			{
+				$fee = 630;
+			}
+			else if($gross >= 20000 && $gross < 30000)
+			{
+				$fee = 770;
+			}
+			else if ($gross >= 30000 && $gross < 40000)
+			{
+				$fee = 840;
+			}
+			else if($gross >= 40000 && $gross < 50000)
+			{
+				$fee = 1050;
+			}
+			else if($gross >= 50000 && $gross < 100000)
+			{
+				$fee = 1400;
+			}
+			else if($gross >= 100000)
+			{
+				$fee = $gross * 0.014;
+			}
+
+			return $fee;
+		}
+	}//end of compute renewal tax
 }

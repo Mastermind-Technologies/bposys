@@ -18,17 +18,18 @@ class Form extends CI_Controller {
 		$this->load->model('Notification_m');
 		$this->load->model('Renewal_m');
 		$this->load->model('Payment_m');
+		$this->load->model('Assessment_m');
 		$this->load->model('Issued_Application_m');
 		$this->load->library('form_validation');
 	}
 
 	public function _init($data = null)
 	{
+		$this->load->view('templates/sb_admin2/sb_admin2_includes');
 		if($data != null)
 			$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
 		else
 			$this->load->view('templates/sb_admin2/sb_admin2_navbar');
-		$this->load->view('templates/sb_admin2/sb_admin2_includes');
 	}
 
 	public function _init_matrix($data = null)
@@ -207,6 +208,18 @@ class Form extends CI_Controller {
 		$this->isLogin();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
+		$this->form_validation->set_rules("pollution-control-officer", "Pollution Control Officer", 'required');
+		$this->form_validation->set_rules("male-employees", "Male Employees", 'required');
+		$this->form_validation->set_rules("female-employees", "Female Employees", 'required');
+		$this->form_validation->set_rules("pwd-employees", "PWD Employees", 'required');
+		$this->form_validation->set_rules("lgu-employees", "LGU Employees", 'required');
+		$this->form_validation->set_rules("president-treasurer-name", "Name of President/Treasurer of Corporation", 'required');
+		$this->form_validation->set_rules("telnum", "Telephone Number", 'required');
+		$this->form_validation->set_rules("email", "Email", 'required');
+		$this->form_validation->set_rules("emergency-contact-name", "Emergency Contact Name", 'required');
+		$this->form_validation->set_rules("emergency-tel-cel-no", "Emergency Tel/Cel Number", 'required');
+		$this->form_validation->set_rules("emergency-email", "Emergency Email", 'required');
+
 		$this->form_validation->set_rules('DTISECCDA_RegNum', 'DTI/SEC/CDA Registration Number', 'required|numeric');
 		$this->form_validation->set_rules('DTISECCDA_Date', 'DTI/SEC/CDA Date', 'required');
 		$this->form_validation->set_rules('brgy-clearance-date-issued','Barangay Clearance Date Issued', 'required');
@@ -286,6 +299,7 @@ class Form extends CI_Controller {
 		$this->form_validation->set_rules('portion-occupied','Portion Occupied','required');
 		$this->form_validation->set_rules('area-per-floor','Area per Floor','required');
 
+
 		if($this->form_validation->run() == false)
 		{
 			// $data['error'] = "Error: Please resolve invalid inputs.";
@@ -335,6 +349,23 @@ class Form extends CI_Controller {
 			$this->archive_record($reference_num);
 
 			$business_id = $this->encryption->decrypt($this->input->post('business'));
+
+			//BUSINESS INFORMATION
+			$business_fields = array(
+				'presidentTreasurerName' => $this->input->post('president-treasurer-name'),
+				'pollutionControlOfficer' => $this->input->post('pollution-control-officer'),
+				'maleEmployees' => $this->input->post('male-employees'),
+				'femaleEmployees' => $this->input->post('female-employees'),
+				'PWDEmployees' => $this->input->post('pwd-employees'),
+				'LGUResidingEmployees' => $this->input->post('lgu-employees'),
+				'telNum' => $this->input->post('telnum'),
+				'email' => $this->input->post('email'),
+				'emergencyContactPerson' => $this->input->post('emergency-contact-name'),
+				'emergencyTelNum' => $this->input->post('emergency-tel-cel-no'),
+				'emergencyEmail' => $this->input->post('emergency-email'),
+				);
+			$this->Business_m->update_business($business_id, $business_fields);
+			//END BUSINESS INFORMATION
 
 			//archive old records
 			//then update
@@ -393,6 +424,7 @@ class Form extends CI_Controller {
 					);
 				$this->Gross_m->insert($gross_field);
 			}
+			$this->process_renewal_tax($activities, $previousGross, $essential, $non_essential, $reference_num);
 			//END BPLO
 
 			//START ZONING
@@ -546,9 +578,152 @@ class Form extends CI_Controller {
 			$this->Renewal_m->insert($renewal_field);
 			$this->session->set_flashdata('message', 'Renewal request has been sent successfully!');
 
-			redirect('dashboard');
+			// redirect('dashboard');
+			$data['referenceNum'] = $bplo_id;
+			echo json_encode($data);
 		}
 	}//END OF SUBMIT RENEWAL APPLICATION
+
+	private function process_renewal_tax($activities, $previous_gross, $essential, $non_essential, $reference_num)
+	{
+		$assessment_field = array(
+			'referenceNum' => $reference_num,
+			'amount' => 0,
+			'paidUpTo' => 'None',
+			'status' => "Renew",
+			);
+		$assessment_id = $this->Assessment_m->insert_assessment($assessment_field);
+
+		$bplo = new BPLO_Application($reference_num);
+		$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
+
+		$environmental = 0;
+		$garbage_service = 0;
+		$zoning_fee = 0;
+
+		foreach ($activities as $key => $activity) {
+			$total_gross = $essential[$key] + $non_essential[$key];
+			$query['activityId'] = $this->encryption->decrypt($activity);
+			$lineOfBusiness = $this->Business_Activity_m->get_all_business_activity($query);
+			$line_of_business = $lineOfBusiness[0]->lineOfBusiness;
+			if($line_of_business == "Manufacturer Kind" || $line_of_business == "Retail Dealers (liquors)" || $line_of_business == "Exporter Kind" || $line_of_business == "Wholesaler Kind" || $line_of_business == "Retail Dealers (tobaccos)" || $line_of_business == "Retailer")
+			{
+				$fee = Assessment::compute_renewal_tax($line_of_business, $essential[$key], "essential");
+				$charge_field = array(
+					'assessmentId' => $assessment_id,
+					'due' => $fee,
+					'surcharge' => 0,
+					'interest' => 0,
+					'particulars' => "TAX ON ".strtoupper($line_of_business)." (ESSENTIAL)",
+					'computed' => 0,
+					);
+				$this->Assessment_m->add_charge($charge_field);
+
+				$fee = Assessment::compute_renewal_tax($line_of_business, $non_essential[$key], "non-essential");
+				$charge_field = array(
+					'assessmentId' => $assessment_id,
+					'due' => $fee,
+					'surcharge' => 0,
+					'interest' => 0,
+					'particulars' => "TAX ON ".strtoupper($line_of_business)." (NON-ESSENTIAL)",
+					'computed' => 0,
+					);
+				$this->Assessment_m->add_charge($charge_field);
+			}
+			else
+			{
+				$fee = Assessment::compute_renewal_tax($line_of_business, $total_gross);
+				$charge_field = array(
+					'assessmentId' => $assessment_id,
+					'due' => $fee,
+					'surcharge' => 0,
+					'interest' => 0,
+					'particulars' => "TAX ON ".strtoupper($line_of_business),
+					'computed' => 0,
+					);
+				$this->Assessment_m->add_charge($charge_field);
+			}
+			if($line_of_business == "Display areas of products")
+				$mayor_permit_fee = Assessment::compute_mayors_permit_fee($total_gross, $work_force, $line_of_business, $bplo->get_BusinessArea());
+			else
+				$mayor_permit_fee = Assessment::compute_mayors_permit_fee($total_gross, $work_force, $line_of_business);
+			$charge_field = array(
+				'assessmentId' => $assessment_id,
+				'due' => $mayor_permit_fee['mayor_fee'],
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($line_of_business).')',
+				'computed' => 0,
+				);
+			$this->Assessment_m->add_charge($charge_field);
+
+			$environmental += Assessment::compute_environmental_clearance_fee($total_gross, $bplo->get_ZoneType());
+
+			$garbage_service += Assessment::compute_garbage_service_fee($line_of_business);
+
+			$zoning_fee += Assessment::compute_zoning_clearance_fee($total_gross, $bplo->get_zoneType());
+		}//END OF FOREACH
+
+		$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
+		$fixed_fees = Assessment::get_fixed_fees($work_force);
+
+		$charge_field = array(
+			'assessmentId' => $assessment_id,
+			'due' => $environmental,
+			'surcharge' => 0,
+			'interest' => 0,
+			'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
+			'computed' => 0,
+			);
+		$this->Assessment_m->add_charge($charge_field);
+		$charge_field = array(
+			'assessmentId' => $assessment_id,
+			'due' => $garbage_service,
+			'surcharge' => 0,
+			'interest' => 0,
+			'particulars' => 'GARBAGE SERVICE FEE',
+			'computed' => 0,
+			);
+		$this->Assessment_m->add_charge($charge_field);
+		$charge_field = array(
+			'assessmentId' => $assessment_id,
+			'due' => $zoning_fee,
+			'surcharge' => 0,
+			'interest' => 0,
+			'particulars' => 'ZONING/LOCATIONAL CLEARANCE FEE',
+			'computed' => 0,
+			);
+		$this->Assessment_m->add_charge($charge_field);
+
+		$charge_field = array(
+			'assessmentId' => $assessment_id,
+			'due' => $fixed_fees['business_inspection'],
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => 'BUSINESS INSPECTION FEE',
+			);
+		$this->Assessment_m->add_charge($charge_field);
+		$charge_field = array(
+			'assessmentId' => $assessment_id,
+			'due' => $sanitary_fee,
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => 'SANITARY PERMIT FEE',
+			);
+		$this->Assessment_m->add_charge($charge_field);
+		$charge_field = array(
+			'assessmentId' => $assessment_id,
+			'due' => $fixed_fees['health_card_fee'],
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => 'HEALTH CARD FEE',
+			);
+		$this->Assessment_m->add_charge($charge_field);
+		$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_num]);
+	}
 
 	private function archive_record($reference_num)
 	{

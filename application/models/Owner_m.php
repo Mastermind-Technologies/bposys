@@ -25,7 +25,7 @@ class Owner_m extends CI_Model {
   {
     if($query != null)
       $this->db->where($query);
-    $this->db->select('*')->from($this->table);
+    $this->db->select('*')->from($this->table)->order_by('firstName','asc');
     $result = $this->db->get();
 
     return $result->result();
@@ -56,10 +56,10 @@ class Owner_m extends CI_Model {
 
   return $this->db->count_all_results();
   // return $this->db->get()->result();
- }
+}
 
- public function count_female_owners()
- {
+public function count_female_owners()
+{
   //select owners.firstName from owners join businesses on owners.ownerId = businesses.ownerId join application_bplo on businesses.businessId = application_bplo.businessId where owners.gender = 'male' and application_bplo.status = 'active' group by owners.firstName 
   // $this->db->where($query);
   // $this->db->where(['application_bplo.status' => 'Active'])->or_where('application_bplo.status =', 'Expired');
@@ -67,10 +67,10 @@ class Owner_m extends CI_Model {
   $this->db->group_by('owners.firstName');
 
   return $this->db->count_all_results();
- }
+}
 
- public function check_owner($user_id)
- {
+public function check_owner($user_id)
+{
   $this->db->select('*')->from($this->table)->where(['userId' => $user_id])->limit(1);
   $result = $this->db->get();
 
@@ -94,6 +94,12 @@ public function get_unapplied_business_owners($user_id)
   $this->db->where(['owners.userId' => $user_id, 'businesses.businessId' => NULL]);
 
   return $this->db->get()->result();
+}
+
+public function update_owner($owner_id, $fields)
+{
+  $this->db->where('ownerId', $owner_id);
+  $this->db->update($this->table, $fields);
 }
 
   // public function register_owner($fields = null)

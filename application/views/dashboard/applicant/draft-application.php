@@ -1,4 +1,4 @@
-<body class="content-container"> -->
+<body class="content-container">
 	<!-- Page Content -->
 	<div style="padding-top:45px;" id="page-wrapper">
 		<div class="container-fluid">
@@ -11,9 +11,9 @@
 						</div>
 					<?php endif; ?>
 
-					<div class="panel panel-default">
+					<div class="panel panel-primary">
 						<div class="panel-heading">
-							Renew Application
+							<h3>Continue Draft Application</h3>
 						</div>
 						<div class="panel-body">
 							<!-- action="<?php echo base_url() ?>dashboard/submit_application" -->
@@ -402,6 +402,33 @@
 																<span id='email'><?= $business->get_email() ?></span>
 															</div>
 														</div>
+														<hr>
+														<div class="row">
+															<div class="col-sm-12">
+																<h4>In case of emergency</h4>
+															</div>
+															<div class="col-sm-4">
+																<div class="form-group">
+																	<label for="contact-name">Contact Person Name</label>
+																	<br>
+																	<span id="emergency-contact-name"><?= $business->get_emergencyContactPerson() ?></span>
+																</div>
+															</div>
+															<div class="col-sm-4">
+																<div class="form-group">
+																	<label for="emergency-tel-cel-no">Tel No./Cel No.</label>
+																	<br>
+																	<span id="emergency-tel-cel-no"><?= $business->get_emergencyTelNum() ?></span>
+																</div>
+															</div>
+															<div class="col-sm-4">
+																<div class="form-group">
+																	<label for="emergency-email">Email Address</label>
+																	<br>
+																	<span id="emergency-email"><?= $business->get_emergencyEmail() ?></span>
+																</div>
+															</div>
+														</div>
 													<?php else: ?>
 														<div class="col-sm-12">
 															<div class="row">
@@ -693,6 +720,34 @@
 												<label>Email Address</label>
 												<br>
 												<span id='email'>N/A</span>
+											</div>
+										</div>
+										<hr>
+										<div class="row">
+											<div class="col-sm-12">
+												<h4>In case of emergency</h4>
+											</div>
+
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="contact-name">Contact Person Name</label>
+													<br>
+													<span id="emergency-contact-name">N/A</span>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="emergency-tel-cel-no">Tel No./Cel No.</label>
+													<br>
+													<span id="emergency-tel-cel-no">N/A</span>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<label for="emergency-email">Email Address</label>
+													<br>
+													<span id="emergency-email">N/A</span>
+												</div>
 											</div>
 										</div>
 									<?php endif ?>

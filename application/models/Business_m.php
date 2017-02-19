@@ -22,7 +22,7 @@ class Business_m extends CI_Model {
 	{
 		if($query != null)
 			$this->db->where($query);
-		$this->db->select('*')->from($this->table);
+		$this->db->select('*')->from($this->table)->order_by('businessName', 'asc');
 		$result = $this->db->get();
 
 		return $result->result();
@@ -72,5 +72,11 @@ class Business_m extends CI_Model {
 		
 
 		return $this->db->get()->result();
+	}
+
+	public function update_business($business_id, $fields)
+	{
+		$this->db->where('businessId', $business_id);
+		$this->db->update($this->table, $fields);
 	}
 }//END OF CLASS

@@ -26,7 +26,8 @@ class Tester extends CI_Controller {
 
 	public function test_assessment()
 	{
-		Assessment::compute_zoning_clearance_free(3000000, "Apartments/Townhouses");
+		$fee = Assessment::compute_renewal_tax("Exporter Kind", 5000000, "essential");
+		var_dump((float)$fee);
 	}
 
 	public function show_details()

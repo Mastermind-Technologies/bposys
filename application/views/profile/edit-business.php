@@ -21,7 +21,7 @@
 						<h3>Edit Business Profile</h3>
 					</div>
 					<div class="panel-body">
-						<form action="<?php echo base_url(); ?>profile/save_business" method="post" data-parsley-validate="">
+						<form action="<?php echo base_url(); ?>profile/save_edit_business/<?= str_replace(['/','+','='], ['-','_','='],$business->get_businessId()) ?>" method="post" data-parsley-validate="">
 							<?php if($this->session->flashdata('ft')): ?>
 								<input type="hidden" name="ft" value="1">
 							<?php endif; ?>
@@ -127,17 +127,17 @@
 												<label for="organization-type">Organization Type</label>
 												<select required name="organization-type" id="organization-type" class="form-control">
 													<option selected disabled>Select Organzation Type</option>
-													<option value="Single">Single</option>
-													<option value="Partnership">Partnership</option>
-													<option value="Corporation">Corporation</option>
-													<option value="Cooperative">Cooperative</option>
+													<option <?= $business->get_organizationType()=="Singe" ? 'selected' : '' ?> value="Single">Single</option>
+													<option <?= $business->get_organizationType()=="Partnership" ? 'selected' : '' ?> value="Partnership">Partnership</option>
+													<option <?= $business->get_organizationType()=="Corporation" ? 'selected' : '' ?> value="Corporation">Corporation</option>
+													<option <?= $business->get_organizationType()=="Cooperative" ? 'selected' : '' ?> value="Cooperative">Cooperative</option>
 												</select>
 											</div>
 										</div>
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="corporation-name">Corporation Name</label>
-												<input type="text" id="corporation-name" disabled name="corporation-name" class="form-control" value="<?= $business->get_CorporationName() ?>">
+												<input type="text" id="corporation-name" <?= $business->get_organizationType() == 'Corporation' ? '' : 'disabled' ?> name="corporation-name" class="form-control" value="<?= $business->get_CorporationName()=="NA" ? '' : $business->get_CorporationName() ?>">
 											</div>
 										</div>
 										<div class="col-sm-3">
