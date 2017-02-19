@@ -1,4 +1,4 @@
-<body class="content-container"> -->
+<body class="content-container">
 	<!-- Page Content -->
 	<div style="padding-top:45px;" id="page-wrapper">
 		<div class="container-fluid">
@@ -11,13 +11,13 @@
 						</div>
 					<?php endif; ?>
 
-					<div class="panel panel-default">
+					<div class="panel panel-primary">
 						<div class="panel-heading">
-							Renew Application
+							<h3>Renew Application</h3>
 						</div>
 						<div class="panel-body">
-							<!-- action="<?php echo base_url() ?>dashboard/submit_application" -->
-							<form action="<?php echo base_url(); ?>form/submit_renewal_application" class='renewal-form' method="post" data-parsley-validate="">
+							<!-- action="<?php echo base_url(); ?>form/submit_renewal_application" -->
+							<form id="renewal-form" class='renewal-form' method="post" data-parsley-validate="">
 								<input type="hidden" name='ref' value='<?= $application->get_referenceNum() ?>'>
 								<input type="hidden" name='aid' value='<?= $application->get_applicationId() ?>'>
 								<div class="row">
@@ -121,9 +121,11 @@
 													</div>
 												</div>
 												<hr>
+												<div class="col-sm-3 pull-left">
+													<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+												</div>
 												<div class="col-sm-3 pull-right form-navigation">
-													<!-- <a href="#step1" data-toggle='tab' class='btn btn-success previous'>Back</a> -->
-													<a data-toggle='tab' class='btn btn-success next'>Next 1/6</a>
+													<a data-toggle='tab' class='btn btn-success next pull-right'>Next 1/6</a>
 												</div>
 											</div>
 										</div>
@@ -148,8 +150,7 @@
 													</div>
 													<div class="col-sm-5">
 														<label>Name of President/Treasurer of Corporation</label>
-														<br>
-														<span id='president-treasurer-name'><?= $business->get_presidentTreasurerName() ?></span>
+														<input type="text" required name="president-treasurer-name" class="form-control" value="<?= $business->get_presidentTreasurerName() ?>">
 													</div>
 												</div>
 												<hr>
@@ -160,38 +161,37 @@
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label>Pollution Control Officer</label>
-															<br>
-															<span id="pollution-control-officer"><?= $business->get_pollutionControlOfficer() ?></span>
+															<input type="text" required value="<?= $business->get_pollutionControlOfficer() ?>" name="pollution-control-officer" class="form-control">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label>Number of Male Employees</label>
-															<br>
-															<span id="male-employees"><?= $business->get_maleEmployees() ?></span>
+															<input type="text" required name="male-employees" class="form-control" value="<?= $business->get_maleEmployees() ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label>Number of Female Employees</label>
-															<br>
-															<span id="female-employees"><?= $business->get_femaleEmployees() ?></span>
+															<input type="text" required class="form-control" name="female-employees" value="<?= $business->get_femaleEmployees() ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label>Number of PWD Employees</label>
-															<br>
-															<span id="pwd-employees"><?= $business->get_PWDEmployees() ?></span>
+															<input type="text" required name="pwd-employees" class="form-control" value="<?= $business->get_PWDEmployees() ?>">
 														</div>
 													</div>
 												</div>
-												<div class="row">
-													<div class="col-sm-4">
-														<div class="form-group">
+												<div class="form-group">
+													<div class="row">
+														<div class="col-sm-4">
 															<label>Number of Employees Residing in LGU</label>
-															<br>
-															<span id="lgu-employees"><?= $business->get_LGUEmployees() ?></span>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-3">
+															<input type="text" required name="lgu-employees" value="<?= $business->get_LGUEmployees() ?>" class="form-control">
 														</div>
 													</div>
 												</div>
@@ -385,21 +385,49 @@
 
 													<div class="col-sm-4">
 														<label>Telephone Number</label>
-														<br>
-														<span id='tel-num'><?= $business->get_telNum() ?></span>
+														<input type="text" name="telnum" required="" value="<?= $business->get_telNum() ?>" class="form-control">
 													</div>
 													<div class="col-sm-4">
 														<label>Email Address</label>
-														<br>
-														<span id='email'><?= $business->get_email() ?></span>
+														<input type="text" name="email" required="" value="<?= $business->get_email() ?>" class="form-control">
 													</div>
 												</div>
+												<hr>
+												<div class="row">
+													<div class="col-sm-12">
+														<h4>In case of emergency</h4>
+													</div>
+
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="contact-name">Contact Person Name</label>
+															<input type="text" required name="emergency-contact-name" class="form-control" value="<?= $business->get_emergencyContactPerson() ?>">
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="emergency-tel-cel-no">Tel No./Cel No.</label>
+															<input type="text" required name="emergency-tel-cel-no" data-parsley-type="digits" class="form-control" value="<?= $business->get_emergencyTelNum() ?>">
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="form-group">
+															<label for="emergency-email">Email Address</label>
+															<input type="email" required name="emergency-email" value="<?= $business->get_emergencyEmail() ?>" class="form-control">
+														</div>
+													</div>
+												</div>
+												<hr>
+												<div class="col-sm-3 pull-left">
+													<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+												</div>
+												<div class="col-sm-3 pull-right form-navigation">
+													<a data-toggle='tab' class='btn btn-success next pull-right'>Next 2/6</a>
+													<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
+													
+												</div>
 											</div>
-											<hr>
-											<div class="col-sm-3 pull-right form-navigation">
-												<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-												<a data-toggle='tab' class='btn btn-success next'>Next 2/6</a>
-											</div>
+
 										</div>
 										<div class="tab-pane" id='step4'>
 											<h2 class="panel-header">Lessor Details (if rented)</h2>
@@ -412,25 +440,25 @@
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-first-name">First Name*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name='lessor-first-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->firstName : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name='lessor-first-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->firstName : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-middle-name">Middle Name*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name='lessor-middle-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->middleName : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name='lessor-middle-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->middleName : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-last-name">Last Name*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name='lessor-last-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->lastName : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name='lessor-last-name' value="<?= $application->get_lessors()!=null ? $application->get_lessors()->lastName : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-4">
 														<div class="form-group">
 															<label for="lessor-address">Lessor's Address*</label>
-															<textarea name="lessor-address" id="lessor-address" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> rows="1" class='form-control' placeholder="House No./Bldg.No/Street"><?= $application->get_lessors()!=null ? $application->get_lessors()->address : '' ?></textarea>
+															<textarea name="lessor-address" id="lessor-address" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> rows="1" class='form-control' placeholder="House No./Bldg.No/Street"><?= $application->get_lessors()!=null ? $application->get_lessors()->address : '' ?></textarea>
 														</div>
 													</div>
 												</div>
@@ -438,25 +466,25 @@
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-subdivision">Subdivision*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-subdivision" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->subdivision : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name="lessor-subdivision" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->subdivision : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-barangay">Barangay*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-barangay" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->barangay : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name="lessor-barangay" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->barangay : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-city-municipality">City/Municipality*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-city-municipality" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->cityMunicipality : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name="lessor-city-municipality" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->cityMunicipality : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-province">Province*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-province" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->province : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name="lessor-province" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->province : '' ?>">
 														</div>
 													</div>
 												</div>
@@ -464,28 +492,33 @@
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-monthly-rental">Monthly Rental*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-monthly-rental" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->monthlyRental : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-monthly-rental" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->monthlyRental : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="lessor-tel-cel-no">Tel No./Cel No.*</label>
-															<input type="text" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-tel-cel-no" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->telNum : '' ?>">
+															<input type="text" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" data-parsley-type="digits" name="lessor-tel-cel-no" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->telNum : '' ?>">
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="form-group">
 															<label for="">Email Address*</label>
-															<input type="email" <?= $application->get_lessors()!=null ? '' : 'disabled' ?> class="form-control" name="lessor-email" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->email : '' ?>">
+															<input type="email" <?= $application->get_lessors()!=null ? 'required' : 'disabled' ?> class="form-control" name="lessor-email" value="<?= $application->get_lessors()!=null ? $application->get_lessors()->email : '' ?>">
 														</div>
 													</div>
 												</div>
+												<hr>
+												<div class="col-sm-3 pull-left">
+													<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+												</div>
+												<div class="col-sm-3 pull-right form-navigation">
+													<a data-toggle='tab' class='btn btn-success next pull-right'>Next 3/6</a>
+													<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
+													
+												</div>
 											</div>
-											<hr>
-											<div class="col-sm-3 pull-right form-navigation">
-												<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-												<a data-toggle='tab' class='btn btn-success next'>Next 3/6</a>
-											</div>
+											
 										</div>
 										<div class="tab-pane" id='step5'>
 											<h2 class="panel-header">Issued Certificates/Permits</h2>
@@ -556,12 +589,17 @@
 														</div>
 													</div>
 												</div>
+												<hr>
+												<div class="col-sm-3 pull-left">
+													<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+												</div>
+												<div class="col-sm-3 pull-right form-navigation">
+													<a data-toggle='tab' class='btn btn-success next pull-right'>Next 4/6</a>
+													<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
+													
+												</div>
 											</div>
-											<hr>
-											<div class="col-sm-3 pull-right form-navigation">
-												<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-												<a data-toggle='tab' class='btn btn-success next'>Next 4/6</a>
-											</div>
+											
 										</div>
 										<div class="tab-pane" id='step6'>
 											<h2 class="panel-header">Environmental Details</h2>
@@ -647,14 +685,14 @@
 												<div class="row">
 													<div class="col-sm-3">
 														<div class="checkbox">
-															<label><input type="checkbox" <?= $cenro->get_pendingCaseWithLLDA()!=null ? 'checked' : '' ?> name="pending-llda-case" id="pending-llda-case"><strong>Pending Case with LLDA?</strong></label>
+															<label><input type="checkbox" <?= $cenro->get_pendingCaseWithLLDA()!="NA" ? 'checked' : '' ?> name="pending-llda-case" id="pending-llda-case"><strong>Pending Case with LLDA?</strong></label>
 														</div>
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-sm-3">
 														<label for="case-no">Case No.</label>
-														<input type="text" name="llda-case-no" <?= $cenro->get_pendingCaseWithLLDA()!=null ? 'required '.'value='.$cenro->get_pendingCaseWithLLDA() : 'disabled' ?> data-parsley-type="digits" id="llda-case-no" class="form-control">
+														<input type="text" name="llda-case-no" <?= $cenro->get_pendingCaseWithLLDA()!="NA" ? 'required '.'value='.$cenro->get_pendingCaseWithLLDA() : 'disabled' ?> data-parsley-type="digits" id="llda-case-no" class="form-control">
 													</div>
 												</div>
 												<!-- END OF WASTEWATER -->
@@ -944,37 +982,44 @@
 																			<!-- END OF WATER SUPPLY/SOURCE -->
 																			<hr>
 																			<h4>Hazardous Waste Treater/Transporter</h4>
-																			???
+																			<div class="row">
+																				???
+																			</div>
+																			<hr>
+																			<div class="col-sm-3 pull-left">
+																				<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+																			</div>
+																			
+																			<div class="col-sm-3 pull-right form-navigation">
+																				<a data-toggle='tab' class='btn btn-success next pull-right'>Next 5/6</a>
+																				<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
+																			</div>
 																		</div>
-																		<hr>
-																		<div class="col-sm-3 pull-right form-navigation">
-																			<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-																			<a data-toggle='tab' class='btn btn-success next'>Next 5/6</a>
-																		</div>
+																		
 																	</div>
 																	<div class="tab-pane" id='step7'>
 																		<h2 class="panel-header">Business Activities</h2>
-																		<div class="col-sm-12">
-																			<table id='bus-activity' class="table table-bordered">
-																				
+																		
+																		<div class="col-sm-12 table-existing-business-activities">
+																			<span>Gross/Sales Receipts Declaration</span>
+																			<table id='table-existing-business-activities' class="table table-bordered">
 																				<tr>
 																					<th></th>
 																					<th></th>
 																					<th class='text-center' colspan=2>Gross/Sales Receipts</th>
+																					<th></th>
 																				</tr>
 																				<tr>
 																					<th class='text-center'>Line of Business</th>
 																					<th class='text-center'>Previous Gross</th>
 																					<th class='text-center'>Essentials</th>
 																					<th class='text-center'>Non-Essential</th>
+																					<th class='text-center'>Action</th>
 																				</tr>
-																				
-																				
-																				
-																				<!-- <th></th> -->
+
 																				<tbody class="table-body">
 																					<?php foreach ($application->get_BusinessActivities() as $key => $app): ?>
-																						<tr>
+																						<tr class="existing-data">
 																							<td>
 																								<?= $app->lineOfBusiness ?>
 																								<input name='activity-id[]' type="hidden" value="<?= $app->activityId ?>">
@@ -982,26 +1027,60 @@
 																							<td><input type="text" class='form-control' required data-parsley-type='digits' name='previous-gross[]'></td>
 																							<td><input type="text" class='form-control' required data-parsley-type='digits' name='essential[]'></td>
 																							<td><input type="text" class='form-control' required data-parsley-type='digits' name='non-essential[]'></td>
+																							<td  align="center"><input type="button" <?php count($application->get_BusinessActivities()) > 1 ? '' : 'disabled' ?> class="btn btn-danger btn-remove-business-activity text-center" id="<?= count($application->get_BusinessActivities()) > 1 ? str_replace(['/','+','='], ['-','_','='], $app->activityId) : '#' ?>" value="Remove"></td>
 																						</tr>
 																					<?php endforeach ?>
-																					<!-- <tr class="data">
-																						<td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td>
-																						<td><input id="capitalization" name="capitalization" type="text" required data-parsley-type='digits' class=form-control></td>
-																					</tr> -->
 																				</tbody>
 																			</table>
 																		</div>
+																		<h2 class="panel-header">Add New Business Activity</h2>
 
-
-																		<!-- <div class="row">
-																			<div class="col-sm-4 col-sm-offset-4">
-																				<a id="btn-add-bus-activity" class="btn btn-primary btn-block"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
+																		<div class="col-sm-12">
+																			<span>If you have new business activities, please fill out below. Leave it blank if you have none.</span>
+																			<table id='bus-activity' class="table table-bordered">
+																				<th>Line of Business</th>
+																				<th>Capitalization</th>
+																				<!-- <th></th> -->
+																				<tbody class="table-body">
+																					<tr class="data">
+																						<!-- <td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td> -->
+																						<td><select name='line-of-business' id='line-of-business' class="form-control">
+																							<option selected disabled>Select Line of Business</option>
+																							<option value='Manufacturer Kind'>Manufacturer Kind</option>
+																							<option value='Wholesaler Kind'>Wholesaler Kind</option>
+																							<option value='Exporter Kind'>Exporter Kind</option>
+																							<option value='Retailer'>Retailer</option>
+																							<option value='Contractor'>Contractor</option>
+																							<option value='Bank'>Bank</option>
+																							<option value='Lessor (Renting)'>Lessor (Rentals)</option>
+																							<option value='Peddlers'>Peddlers</option>
+																							<option value='Amusement devices/places'>Amusement devices/places</option>
+																							<option value='Retail Dealers (liquors)'>Retail Dealers (liquors)</option>
+																							<option value='Retail Dealers (tobaccos)'>Retail Dealers (tobaccos)</option>
+																							<option value='Display areas of products'>Display areas of products</option>
+																							<option value='Others'>Others</option>
+																						</select></td>
+																						<td><input id='capitalization' name="capitalization" type="text" data-parsley-type='digits' class=form-control></td>
+																						<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
+																					</tr>
+																				</tbody>
+																			</table>
+																			<div class="row">
+																				<div class="col-sm-4 col-sm-offset-4">
+																					<a id="btn-add-bus-activity" class="btn btn-primary btn-block"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
+																				</div>
 																			</div>
-																		</div> -->
+																		</div>
+
+																		<!--  -->
 																		<hr>
+																		<div class="col-sm-3 pull-left">
+																			<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+																		</div>
 																		<div class="col-sm-3 pull-right form-navigation">
-																			<a data-toggle='tab' class='btn btn-success previous'>Back</a>
-																			<button type="submit" class="btn btn-success"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Submit</button>
+																			<button type="submit" class="btn btn-success pull-right"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Submit</button>
+																			<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
+																			
 																		</div>
 																	</div>
 																</div>

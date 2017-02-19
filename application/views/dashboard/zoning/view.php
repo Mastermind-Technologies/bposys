@@ -1,18 +1,19 @@
 <div id="content">
   <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> 
-      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
+    <div id="breadcrumb">
+      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
       <?php if ($application->get_status() == "On process"): ?>
-        <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a> 
+        <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a>
       <?php elseif ($application->get_status() == "For applicant visit"): ?>
-        <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a> 
+        <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a>
       <?php endif ?>
-      
-      <a href="#" class="current">View</a>
+
+      <a href="#" class="current">View Application</a>
     </div>
     <!--End-breadcrumbs-->
-    <h1><?= $application->get_businessName() ?></h1>
+    <h1>Business Name: <strong><?= $application->get_businessName() ?></strong></h1>
+    <h4 style="padding-left: 20px;">Status: <span class="text-warning"><?= $application->get_status() ?></span></h4>>
     <hr>
   </div>
 
@@ -23,15 +24,66 @@
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#tab1">Zoning Form</a></li>
           <li><a data-toggle="tab" href="#bplo">BPLO Form</a></li>
-          <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
-          <li><a data-toggle="tab" href="#tab3">Business Location</a></li>
+          <!-- <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li> -->
+          <li><a data-toggle="tab" onclick="initMap()" href="#tab3">Business Location</a></li>
         </ul>
       </div>
       <div class="widget-content tab-content">
         <div id="tab1" class="tab-pane active">
-          <pre>
+          <!-- <pre>
             <?php print_r($application); ?>
-          </pre>
+          </pre> -->
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td>
+                  <label for="application_type">Application Type:</label>
+                  <h5><?=$application->get_ApplicationType()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_name">BUSINESS/TRADE NAME :</label>
+                  <h5><?=$application->get_businessName()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="signage_name">SIGNAGE NAME:</label>
+                  <h5><?=$application->get_signageName()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="name_permitee">NAME OF PERMITEE- <input type="checkbox" disabled <?= $application->get_organizationType()== "Corporation" ? 'checked' : '' ?> name="radios" />Corporation Name: <?=$application->get_corporationName()?> <input type="checkbox" disabled <?= $application->get_organizationType()== "Single" ? 'checked' : '' ?> name="radios" />Owner's Name: <?=$application->get_FirstName() . " " . $application->get_MiddleName() . " " . $application->get_LastName()?></label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address">BUSINESS ADDRESS :</label>
+                  <h5><?=$application->get_bldgName() . " " . $application->get_houseBldgNum() . " " . $application->get_unitNum() . " " . $application->get_street() . " " . $application->get_Subdivision() . " " . $application->get_barangay() . " " . $application->get_cityMunicipality() . " " . $application->get_province()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="capital_invested">CAPITAL INVESTED:</label>
+                  <h5><?=$application->get_capitalInvested()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="date_operation">DATE OF OPERRATION:</label>
+                  <h5><?=$application->get_dateOfOperation()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="description_business">DESCRIPTION OF BUSINESS :</label>
+                  <h5><?=$application->get_businessDesc()?></h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <div class="form-action">
             <?php if ($application->get_status() != "Active"): ?>
               <div class="row text-center">
@@ -250,7 +302,7 @@
               <tr>
                 <td colspan="2">
                   <label for="lessors_name">Lessor's Name</label>
-                  <h5><?= isset($bplo->lessors) ? 
+                  <h5><?= isset($bplo->lessors) ?
                     $bplo->get_lessors()->lastName.", ".
                     $bplo->get_lessors()->firstName." (".
                     $bplo->get_lessors()->middleName.")" : "NA" ?></h5>
@@ -259,7 +311,7 @@
                 <tr>
                   <td colspan="2">
                     <label for="lessors_address">Lessor's Address</label>
-                    <h5><?= isset($bplo->lessors) ? 
+                    <h5><?= isset($bplo->lessors) ?
                       $bplo->get_lessors()->address.", "
                       .$bplo->get_lessors()->subdivision.", "
                       .$bplo->get_lessors()->barangay.", "
@@ -284,7 +336,7 @@
                     </td>
                     <td>
                       <label for="lessor_in_case_of_emergency">In case of emergency (Contact Person | Tel No./Cel No. | Email)</label>
-                      <h5><?= 
+                      <h5><?=
                         $bplo->get_emergencyContactPerson()." | ".
                         $bplo->get_emergencyTelNum()." | ".
                         $bplo->get_emergencyEmail() ?></h5>
@@ -369,7 +421,7 @@
                   </table>
                 <?php endif ?>
               </div>
-              <div id="tab2" class="tab-pane">
+              <!-- <div id="tab2" class="tab-pane">
                 <h3 class='text-center'>Tax Order of Payment</h3>
                 <div class="row">
                   <div class="span2">
@@ -430,7 +482,7 @@
                         <td><?= $charge->surcharge ?></td>
                         <td><?= $charge->interest ?></td>
                         <td><?php $t = $charge->due + $charge->surcharge + $charge->interest;
-                          echo $t; 
+                          echo $t;
                           $total += $t; ?></td>
                         </tr>
                       <?php endforeach ?>
@@ -441,7 +493,7 @@
                       <label for="">Total: <?= $bplo->get_assessment()->amount ?></label>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div id="tab3" class="tab-pane">
                   <div id="gmaps" style="width:100%; height:500px; background-color: gray"></div>
                 </div>
@@ -452,24 +504,26 @@
         </div>
       </div>
 
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8&callback=initMap"
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8"
       async defer></script>
-
       <script>
         var map;
-        // console.log(<?= $application->get_lng() ?>);
+        var loaded = false;
         function initMap(){
-          latlang = new google.maps.LatLng(<?= $bplo->get_lat() ?>,<?= $bplo->get_lng() ?>);
-          map = new google.maps.Map(document.getElementById('gmaps'), {
-            center: latlang,
-            zoom: 15
+          if(loaded == false)
+          {
+            loaded = true;
+            latlang = new google.maps.LatLng(<?= $application->get_lat() ?>,<?= $application->get_lng() ?>);
+            map = new google.maps.Map(document.getElementById('gmaps'), {
+              center: latlang,
+              zoom: 15
 
-          });
-          var marker = new google.maps.Marker({
-            position: latlang,
-          });
+            });
+            var marker = new google.maps.Marker({
+              position: latlang,
+            });
 
-          marker.setMap(map);
+            marker.setMap(map);
+          }
         }
       </script>
-

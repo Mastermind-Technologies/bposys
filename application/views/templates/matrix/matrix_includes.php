@@ -28,6 +28,7 @@
 
   <script src="<?php echo base_url(); ?>assets/matrix/js/excanvas.min.js"></script> 
   <script src="<?php echo base_url(); ?>assets/matrix/js/jquery.min.js"></script> 
+  <!-- <script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>  -->
   <script src="<?php echo base_url(); ?>assets/js/noty/packaged/jquery.noty.packaged.min.js"></script>
   <!-- <script src="<?php echo base_url(); ?>assets/js/noty/themes/relax.js"></script> -->
 
@@ -59,6 +60,7 @@
   <script src="<?php echo base_url(); ?>assets/matrix/js/jquery.dataTables.min.js"></script> 
   <script src="<?php echo base_url(); ?>assets/matrix/js/matrix.tables.js"></script> 
   <script src="<?php echo base_url(); ?>assets/js/jquery.canvasjs.min.js"></script>
+  <!-- <script src="<?php echo base_url(); ?>assets/js/parsley.min.js"></script> -->
 
   <script type="text/javascript">
   // This function is called from the pop-up menus to transfer to

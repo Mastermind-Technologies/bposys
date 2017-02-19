@@ -15,9 +15,9 @@
         <!-- /.dropdown -->
         <li class="dropdown">
             <a id="btn-notif" class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-bell fa-fw">
-                    <?php if (isset($notifications)): ?>
-                        <span class="notif-count"><?php echo count($notifications); ?></span>
+                <i class="fa fa-bell fa-fw" id='notif-container'>
+                    <?php if ($notifications != ""): ?>
+                        <span class="notif-count"><?= count($notifications) ?></span>
                     <?php endif ?>
                 </i><i class="fa fa-caret-down"></i>
             </a>
@@ -51,7 +51,7 @@
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
                 <li>
-                    <a href="<?php echo base_url(); ?>dashboard" class="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    <a href="<?php echo base_url(); ?>dashboard" class="<?= $title=='dashboard' ? 'active' : '' ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
                 <!-- <li>
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
@@ -66,10 +66,10 @@
                     <!-- /.nav-second-level -->
                 <!-- </li> -->
                 <li>
-                    <a href="<?php echo base_url(); ?>profile/owners"><i class="fa fa-users fa-fw"></i> Manage Owners</a>
+                    <a href="<?php echo base_url(); ?>profile/owners" class="<?= $title == 'owner' ? 'active' : '' ?>"><i class="fa fa-users fa-fw"></i> Manage Owners</a>
                 </li>
                 <li>
-                    <a href="<?php echo base_url(); ?>profile/businesses"><i class="fa fa-cubes fa-fw"></i> Manage Businesses</a>
+                    <a href="<?php echo base_url(); ?>profile/businesses" class="<?= $title == 'business' ? 'active' : '' ?>"><i class="fa fa-cubes fa-fw"></i> Manage Businesses</a>
                 </li>
                 <!-- <li>
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>

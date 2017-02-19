@@ -20,6 +20,11 @@ class Lessor_m extends CI_Model {
     $this->db->update($this->_table_name, $fields);
   }
 
+  public function delete_lessor($bplo_id)
+  {
+   $this->db->where(['bploId' => $bplo_id]);
+   $this->db->delete($this->_table_name);
+  }
   public function get_all_lessor($query = null)
   {
     if($query != null)
@@ -28,6 +33,19 @@ class Lessor_m extends CI_Model {
     $this->db->select('*')->from($this->_table_name);
     $result = $this->db->get();
     return $result->result();
+  }
+
+  public function check_existing_lessor($bplo_id)
+  {
+    $this->db->select('*')->from($this->_table_name)->where(['bploId' => $bplo_id])->limit(1);
+    if($this->db->get()->num_rows() > 0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   // public function get_lessor_details($lessor_id)

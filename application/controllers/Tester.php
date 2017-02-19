@@ -18,6 +18,7 @@ class Tester extends CI_Controller {
 		$this->load->model('Business_m');
 		$this->load->model('Approval_m');
 		$this->load->model('Notification_m');
+		$this->load->model('Archive_m');
 		$this->load->library('form_validation');
 
 		$this->load->model('Business_Address_m');
@@ -25,7 +26,8 @@ class Tester extends CI_Controller {
 
 	public function test_assessment()
 	{
-		Assessment::compute_zoning_clearance_free(3000000, "Apartments/Townhouses");
+		$fee = Assessment::compute_renewal_tax("Exporter Kind", 5000000, "essential");
+		var_dump((float)$fee);
 	}
 
 	public function show_details()
@@ -56,7 +58,43 @@ class Tester extends CI_Controller {
 		$bplo = new BPLO_Application($reference_num);
 		$cenro = new CENRO_Application($reference_num);
 		$bfp = new BFP_Application($reference_num);
-		$sanitary = new BFP_Application($reference_num);
+		$sanitary = new Sanitary_Application($reference_num);
+
+		// $data['bplo'] = $bplo;
+		// $data['cenro'] = $cenro;
+		// $data['bfp'] = $bfp;
+		// $data['sanitary'] = $sanitary;
+
+		// echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
+		// exit();
+
+		//fugitiveParticulates
+		$fugitive_particulates = null;
+		foreach ($cenro->get_FugitiveParticulates() as $key => $value) {
+			$fugitive_particulates .= "|".$value;
+		}
+		$fugitive_particulates = substr($fugitive_particulates, 1);
+
+		//steamGenerator
+		$steam_generator = null;
+		foreach ($cenro->get_SteamGenerator() as $key => $value) {
+			$steam_generator .= "|".$value;
+		}
+		$steam_generator = substr($steam_generator, 1);
+		
+		//wasteMinimizationMethod
+		$waste_minimization_method = null;
+		foreach ($cenro->get_WasteMinimizationMethod() as $key => $value) {
+			$waste_minimization_method .= "|".$value;
+		}
+		$waste_minimization_method = substr($waste_minimization_method, 1);
+		// echo "<pre>";
+		// var_dump($fugitive_particulates." ".$steam_generator." ".$waste_minimization_method);
+		// echo "</pre>";
+		// exit();
+
 
 		$archive_application_field = array(
 			'referenceNum' => $reference_num, 
@@ -66,7 +104,7 @@ class Tester extends CI_Controller {
 			'modeOfPayment' => $bplo->get_ModeOfPayment(), 
 			'idPresented' => $bplo->get_IdPresented(), 
 			'DTISECCDA_RegNum' => $bplo->get_DTISECCDARegNum(), 
-			'DTISECCDA_Date' => $bplo->get_DTISECCDA_Date(), 
+			'DTISECCDA_Date' => $bplo->get_DTISECCDADate(), 
 			'brgyClearanceDateIssued' => $bplo->get_BrgyClearanceDateIssued(), 
 			'CTCNum' => $bplo->get_CTCNum(), 
 			'TIN' => $bplo->get_TIN(), 
@@ -84,7 +122,7 @@ class Tester extends CI_Controller {
 			'PIN' => $bplo->get_PIN(), 
 			'bldgName' => $bplo->get_BldgName(), 
 			'houseBldgNum' => $bplo->get_HouseBldgNum(), 
-			'unitNum' => $blpo->get_UnitNum(), 
+			'unitNum' => $bplo->get_UnitNum(), 
 			'street' => $bplo->get_Street(), 
 			'subdivision' => $bplo->get_Subdivision(), 
 			'barangay' => $bplo->get_Barangay(), 
@@ -105,10 +143,10 @@ class Tester extends CI_Controller {
 			'lat' => $bplo->get_lat(), 
 			'lng' => $bplo->get_lng(), 
 			'gmapAddress' => $bplo->get_GmapAddress(), 
-			'ownerFirstName' => $bplo->get_OwnerFirstName(), 
-			'ownerMiddleName' => $bplo->get_OwnerMiddleName(), 
-			'ownerLastName' => $bplo->get_OwnerLastName(), 
-			'ownerHouseBldgNum' => $bplo->get_OwnerHouseBldgNum(), 
+			'ownerFirstName' => $bplo->get_FirstName(), 
+			'ownerMiddleName' => $bplo->get_MiddleName(), 
+			'ownerLastName' => $bplo->get_LastName(), 
+			'ownerHouseBldgNum' => $bplo->get_OwnerHouseBldgNo(), 
 			'ownerBldgName' => $bplo->get_OwnerBldgName(), 
 			'ownerUnitNum' => $bplo->get_OwnerUnitNum(), 
 			'ownerStreet' => $bplo->get_OwnerStreet(), 
@@ -124,11 +162,11 @@ class Tester extends CI_Controller {
 			'LLDAClearance' => $cenro->get_LLDAClearance(), 
 			'dischargePermit' => $cenro->get_DischargePermit(), 
 			'apsci' => $cenro->get_APSCI(), 
-			'productsAndByProducts' => $cenro->get_productsByProducts(), 
+			'productsAndByProducts' => $cenro->get_productsAndByProducts(), 
 			'smokeEmission' => $cenro->get_SmokeEmission(), 
 			'volatileCompound' => $cenro->get_VolatileCompound(), 
-			'fugitiveParticulates' => $cenro->get_FugitiveParticulates(), 
-			'steamGenerator' => $cenro->get_SteamGenerator(), 
+			'fugitiveParticulates' => $fugitive_particulates,
+			'steamGenerator' => $steam_generator,
 			'APCD' => $cenro->get_APCD(), 
 			'stackHeight' => $cenro->get_StackHeight(), 
 			'wastewaterTreatmentFacility' => $cenro->get_WasteWaterTreatmentFacility(), 
@@ -141,7 +179,7 @@ class Tester extends CI_Controller {
 			'wasteCollector' => $cenro->get_WasteCollector(), 
 			'collectorAddress' => $cenro->get_CollectorAddress(), 
 			'garbageDisposalMethod' => $cenro->get_GarbageDisposalMethod(), 
-			'wasteMinimizationMethod' => $cenro->get_WasteMinimizationMethod(), 
+			'wasteMinimizationMethod' => $waste_minimization_method,
 			'drainageSystem' => $cenro->get_DrainageSystem(), 
 			'drainageType' => $cenro->get_DrainageType(), 
 			'drainageDischargeLocation' => $cenro->get_DrainageDischargeLocation(), 
@@ -151,36 +189,42 @@ class Tester extends CI_Controller {
 			'waterSupply' => $cenro->get_WaterSupply(), 
 			'storeys' => $bfp->get_Storeys(), 
 			'occupiedPortion' => $bfp->get_OccupiedPortion(), 
-			'areaPerFloor' => $bfp->get_ArePerFloor(), 
+			'areaPerFloor' => $bfp->get_AreaPerFloor(), 
 			'occupancyPermitNum' => $bfp->get_OccupancyPermitNum(), 
-			'annualEmployeePhysicalExam' => $sanitary->get_annualEmployeePhysicalExam(), 
-			'typeLevelOfWaterSource' => $sanitary->get_typeLevelOfWaterSource(), 
+			'annualEmployeePhysicalExam' => $sanitary->get_AnnualEmployeePhysicalExam(), 
+			'typeLevelOfWaterSource' => $sanitary->get_typeLevelOfWaterSource()
 			);
+		$archive_application_id = $this->Archive_m->insert_application($archive_application_field);
 
-			foreach ($bplo->get_BusinessActivities() as $key => $activities) {
-				# code...
-			}
+		foreach ($bplo->get_BusinessActivities() as $key => $activity) {
 			$business_activity_field = array(
-				'referenceNum' => $reference_num,
-				'lineOfBusiness' => "",
-				'capitalization' => "",
-				);
+				'archiveApplicationId' => $archive_application_id,
+				'lineOfBusiness' => $activity->lineOfBusiness,
+				'capitalization' => $activity->capitalization,
+				);	
+			$this->Archive_m->insert_business_activity($business_activity_field);
+		}
 
+		if($bplo->get_lessors() != null)
+		{
 			$lessors_field = array(
-				'archiveId' => "",
-				'referenceNum' => "",
-				'firstName' => "",
-				'middleName' => "",
-				'lastName' => "",
-				'address' => "",
-				'subdivision' => "",
-				'barangay' => "",
-				'cityMunicipality' => "",
-				'province' => "",
-				'monthlyRental' => "",
-				'telNum' => "",
-				'email' => "",
+				'archiveApplicationId' => $archive_application_id,
+				'firstName' => $bplo->get_lessors()->firstName,
+				'middleName' => $bplo->get_lessors()->middleName,
+				'lastName' => $bplo->get_lessors()->lastName,
+				'address' => $bplo->get_lessors()->address,
+				'subdivision' => $bplo->get_lessors()->subdivision,
+				'barangay' => $bplo->get_lessors()->barangay,
+				'cityMunicipality' => $bplo->get_lessors()->cityMunicipality,
+				'province' => $bplo->get_lessors()->province,
+				'monthlyRental' => $bplo->get_lessors()->monthlyRental,
+				'telNum' => $bplo->get_lessors()->telNum,
+				'email' => $bplo->get_lessors()->email,
 				);
-}
+			$this->Archive_m->insert_lessor($lessors_field);
+		}
+
+
+		}
 
 }//END OF CLASS,

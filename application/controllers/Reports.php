@@ -27,7 +27,7 @@ class Reports extends CI_Controller {
 	{
 		if(!isset($this->session->userdata['userdata']))
 		{
-			$this->session->set_flashdata('failed', 'You are not logged in!');
+			// $this->session->set_flashdata('failed', 'You are not logged in!');
 			redirect('home');
 		}
 	}
@@ -196,7 +196,9 @@ class Reports extends CI_Controller {
 		//BY BARANGAY
 		$barangay = $this->Business_m->count_businesses_by_barangay();
 		$expired = $this->Business_m->count_expired_businesses_by_barangay();
-		foreach($barangay as $b)
+
+		//merge expired applications to barangay
+		foreach($barangay as $key => $b)
 		{
 			if(count($expired) > 0)
 			{
@@ -204,15 +206,18 @@ class Reports extends CI_Controller {
 					if($b->barangay == $e->barangay)
 					{
 						$data['barangay_array'][] = (object) array_merge((array)$b, (array)$e);
-					}
-					else
-					{
-						$data['barangay_array'][] = (object) $b;
+						unset($barangay[$key]);
+						// $reindex = array_values($barangay);
+						// $barangay = $reindex;
+						// array_splice($barangay, $key, 1);					
 					}
 				}
 			}
-			else
-			{
+		}
+
+		if(count($barangay) > 0)
+		{
+			foreach ($barangay as $key => $b) {
 				$data['barangay_array'][] = (object) $b;
 			}
 		}

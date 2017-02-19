@@ -3,7 +3,7 @@
   <div id="content-header">
     <div id="breadcrumb"> 
       <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
-      <a href="<?php echo base_url(); ?>dashboard/incoming_applications" class="current">Incoming Applications</a>
+      <a href="#" class="current">Complete Applications</a>
     </div>
     <h1>Applications with Complete Requirements</h1>
     <hr>
@@ -33,7 +33,10 @@
                 <td><?= $this->encryption->decrypt($application->get_referenceNum()) ?></td>
                 <td><?= $application->get_businessName() ?></td>
                 <td><?= $application->get_ApplicationType() ?></td>
-                <td><a href="<?php echo base_url(); ?>dashboard/view_application/<?= bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt)) ?>" class="btn btn-info btn-block">Show Details</a></td>
+                <td>
+                  <a href="<?php echo base_url(); ?>dashboard/view_application/<?= bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt)) ?>" class="btn btn-info btn-block">Show Details</a>
+                  <a href="<?php echo base_url(); ?>dashboard/get_bplo_form_info" class="btn btn-info btn-block">Print BPLO Form</a>
+                </td>
               </tr>
             <?php endforeach; ?>
           <?php endif ?>

@@ -18,7 +18,7 @@
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
        <li class="bg_db"> <a href="<?php echo base_url(); ?>dashboard/incoming_applications"> <i class="fa fa-share fa-2x" aria-hidden="true"></i>
-         <span class="label label-success"><?= $incoming > 0 ? $incoming : '' ?></span><br>Incoming Applicants</a> </li>
+         <span class="label label-success badge-incoming"><?= $incoming > 0 ? $incoming : '' ?></span><br>Incoming Applicants</a> </li>
          <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/on_process_applications"> <i class="fa fa-circle-o-notch fa-2x" aria-hidden="true"></i>
          <span class="label label-important"><?= $on_process > 0 ? $on_process : '' ?></span><br><span>On Process</span> </a> </li>
            <li class="bg_c"> <a href="dashboard/issued_applications"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
