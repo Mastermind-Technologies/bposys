@@ -1,15 +1,25 @@
 <title>BPOSys | <?= $title ?></title>
 
 <body>
-	<div id="content" style="padding-top: 20px; padding-left: 20px">
+	<div id="content">
+		<div id="content-header">
+			<div id="breadcrumb"> 
+				<a href="<?php echo base_url(); ?>bposys_admin/dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
+				<a href="<?php echo base_url(); ?>bposys_admin/users">Users</a>
+				<a href="#" class="current">Edit User</a>
+			</div>
+			<!--End-breadcrumbs-->
+			<h1>Edit User</h1>
+		</div>
 		<div class="container-fluid">
+			<hr>
 			<div class="row-fluid">
 				<div class="span12">
 					<div class="widget-box">
-		        <div class="widget-title"> <span class="icon"><i class="fa fa-plus" aria-hidden="true"></i> </span>
-		          <h5>Manage Employee Account</h5>
-		        </div>
-		        <div class="widget-content">
+						<div class="widget-title"> <span class="icon"><i class="fa fa-plus" aria-hidden="true"></i> </span>
+							<h5>Manage Employee Account</h5>
+						</div>
+						<div class="widget-content">
 							<div class="span8">
 								<div class="widget-box">
 									<div class="widget-title"> <span class="icon"> <i class="fa fa-user" aria-hidden="true"></i> </span>
@@ -63,27 +73,27 @@
 									<div class="widget-content nopadding">
 										<form action="#" method="get" class="form-horizontal">
 											<div class="control-group">
-					              <label class="control-label">Select input</label>
-					              <div class="controls">
-														<abbr class="select2-search-choice-close" style="display:none;"></abbr>
-														<div><b></b></div></a>
-														<div class="select2-drop select2-offscreen">
-															<div class="select2-search">
-																<input autocomplete="off" class="select2-input" tabindex="0" type="text" name="role">
-															</div>
-															<ul class="select2-results">
-															</ul>
+												<label class="control-label">Select input</label>
+												<div class="controls">
+													<abbr class="select2-search-choice-close" style="display:none;"></abbr>
+													<div><b></b></div></a>
+													<div class="select2-drop select2-offscreen">
+														<div class="select2-search">
+															<input autocomplete="off" class="select2-input" tabindex="0" type="text" name="role">
 														</div>
-														<select style="display: none;">
-					                  <option>Business Permit and Licensing Office</option>
-					                  <option>City Planning and Development Office</option>
-					                  <option>City Health Office</option>
-					                  <option>City Environment and Natural Resources Office</option>
-					                  <option>Office of the Building Official</option>
-					                  <option>Bureau of Fire Protection</option>
-					                </select>
-					              </div>
-					            </div>
+														<ul class="select2-results">
+														</ul>
+													</div>
+													<select style="display: none;">
+														<option>Business Permit and Licensing Office</option>
+														<option>City Planning and Development Office</option>
+														<option>City Health Office</option>
+														<option>City Environment and Natural Resources Office</option>
+														<option>Office of the Building Official</option>
+														<option>Bureau of Fire Protection</option>
+													</select>
+												</div>
+											</div>
 										</form>
 									</div>
 								</div>
@@ -114,25 +124,25 @@
 													<div class="controls">
 														<input class="span11" placeholder="Confirm Password" type="password" name="confirmPassword">
 													</div>
+												</div>
 											</div>
-										</div>
-									</form>
+										</form>
+									</div>
 								</div>
 							</div>
-						</div>
-						<hr>
-						<div class="add-form" style="text-align: center">
-          		<input value="Save" class="btn btn-success" type="submit" name="btnSubmit" style="right">
+							<hr>
+							<div class="add-form" style="text-align: center">
+								<input value="Save" class="btn btn-success" type="submit" name="btnSubmit" style="right">
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</body>
+	</body>
 
-<?php if($this->session->flashdata('message')): ?>
-	<script>
-		alert("<?= $this->session->flashdata('message'); ?>");
-	</script>
-<?php endif; ?>
+	<?php if($this->session->flashdata('message')): ?>
+		<script>
+			alert("<?= $this->session->flashdata('message'); ?>");
+		</script>
+	<?php endif; ?>
