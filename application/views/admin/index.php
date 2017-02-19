@@ -1,61 +1,20 @@
-<style media="screen">
+<title>BPOSys | <?= $title ?></title>
 
-.main
-{
-	display: block;
-	margin: auto;
-	width: 400px;
-	height: 500px;
-	margin-top: 5%;
-	border-radius: 8px;
-	background-color: white;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-}
-.main:hover
-{
-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-}
-
-#header
-{
-	background-color: #3949ab;
-	width: 100%;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	height: auto;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-#header > h1
-{
-	color: white;
-	font-family: Roboto;
-	text-align: center;
-	padding: 24px;
-}
-</style>
-
-<body style="background-color: #212121">
-	<div class="main">
-		<div id="content-container">
-			<div id="header">
-				<h1>Authentication</h1>
-			</div>
-			<div id="content">
-				<div class="controls">
-          <input class="span11" placeholder="Email" type="text">
-        </div>
-				<div class="controls">
-					<input class="span11" placeholder="Password" type="password">
-				</div>
-				<div class="form-actions">
-          <button type="submit" class="btn btn-success">Log In</button>
-        </div>
-			</div>
-			<!-- /#page-wrapper -->
+<body>
+	<div id="content" style="padding-top: 20px; padding-left: 20px">
+		<div class="container-fluid">
+			<div class="quick-actions_homepage">
+	      <ul class="quick-actions">
+				<li class="bg_lo"> <a href="<?php echo base_url(); ?>Bposys_admin/users/"> <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+					<span class="label label-success badge-process">2</span><br><span>Total Employee Accounts</span> </a> </li>
+					<li class="bg_c"> <a href="<?php echo base_url(); ?>Bposys_admin/users/"> <i class="fa fa-users fa-2x" aria-hidden="true"></i>
+					<span class="label label-info badge-completed">3</span><br>Total Users</a> </li>
+					<!-- <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/finalize_applications"> <i class="fa fa-hourglass fa-2x" aria-hidden="true"></i>
+					<span class="label label-important">4</span><br><span>Finalization</span> </a> </li>
+					<li class="bg_ls"> <a href="<?php echo base_url(); ?>dashboard/issued_applications"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
+					<span class="label label-info badge-issued">5</span><br>Issued</a> </li> -->
+				</ul>
 		</div>
-		<!-- Page Content -->
 	</div>
 </body>
 

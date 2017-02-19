@@ -109,7 +109,13 @@ class Auth extends CI_Controller {
           // Add user data in session
           $this->session->set_userdata('userdata', $session_data);
 
-          redirect("dashboard");
+          if($check[0]->role == 1)
+          {
+            redirect("Bposys_admin/dashboard");
+          }
+          else {
+            redirect("dashboard");
+          }
         }
       }
       else
@@ -120,9 +126,9 @@ class Auth extends CI_Controller {
 
 
 
-      
 
-      
+
+
     }
 
   }

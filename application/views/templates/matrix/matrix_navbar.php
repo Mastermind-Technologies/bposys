@@ -63,7 +63,7 @@
       <!-- <li class="<?= $active=="Settings" ? "active" : '' ?>"> <a href=""><i class="icon icon-wrench"></i> <span>Settings</span></a> </li> -->
     <?php else: ?>
       <li class="<?= $active=="Dashboard" ? "active" : '' ?>"><a href="<?php echo base_url() ?>bposys_admin/dashboard"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-      <!-- MASTER ADMIN SIDEBAR ELEMENTS HERE -->
+      <li class="<?= $active=="Users" ? "active" : '' ?>"><a href="<?php echo base_url() ?>bposys_admin/users"><i class="icon icon-home"></i> <span>Users</span></a></li>
     <?php endif ?>
 
     <li><a href="<?php echo base_url(); ?>auth/logout"><i class="icon icon-key"></i> <span>Logout</span></a></li>
