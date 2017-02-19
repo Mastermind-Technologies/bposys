@@ -29,6 +29,7 @@ class BPLO_Application extends Business {
     private $capital = null;
     private $lastEdited = null;
     private $totalAssessment = null;
+    private $requirements = null;
 
     public function __construct($reference_num = null){
       $this->CI =& get_instance();
@@ -39,6 +40,7 @@ class BPLO_Application extends Business {
       $this->CI->load->model('Notification_m');
       $this->CI->load->model('Renewal_m');
       $this->CI->load->model('Assessment_m');
+      $this->CI->load->model('Requirement_m');
 
       $isExisting = $this->CI->Renewal_m->check_application($reference_num);
 
@@ -207,6 +209,7 @@ $this->dateStarted = $param->createdAt;
 $this->lineOfBusiness = $lineOfBusiness;
 $this->capital = $total_capital;
 $this->lastEdited = $param->updatedAt;
+$this->requirements = $this->CI->Requirement_m->get_requirements(4);
 if(isset($totalCharges))
     $this->totalAssessment = $totalCharges;
 if(count($assessment) > 0)
@@ -823,6 +826,30 @@ return $this;
     private function set_TotalAssessment($totalAssessment)
     {
         $this->totalAssessment = $totalAssessment;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of requirements.
+     *
+     * @return mixed
+     */
+    public function get_Requirements()
+    {
+        return $this->requirements;
+    }
+
+    /**
+     * Sets the value of requirements.
+     *
+     * @param mixed $requirements the requirements
+     *
+     * @return self
+     */
+    private function set_Requirements($requirements)
+    {
+        $this->requirements = $requirements;
 
         return $this;
     }
