@@ -1,14 +1,14 @@
 <div id="content">
   <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> 
-      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
+    <div id="breadcrumb">
+      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
       <?php if ($application->get_status() == "On process"): ?>
-        <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a> 
+        <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a>
       <?php elseif ($application->get_status() == "For applicant visit"): ?>
-        <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a> 
+        <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a>
       <?php endif ?>
-      
+
       <a href="#" class="current">View Application</a>
     </div>
     <!--End-breadcrumbs-->
@@ -30,9 +30,100 @@
       </div>
       <div class="widget-content tab-content">
         <div id="tab1" class="tab-pane active">
-          <pre>
+          <!-- <pre>
             <?php print_r($application); ?>
-          </pre>
+          </pre> -->
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td>
+                  <label for="application_type">Application Type: <input type="checkbox" disabled <?= $application->get_ApplicationType()== "New" ? 'checked' : '' ?> name="radios" />New<input type="checkbox" disabled <?= $application->get_ApplicationType()=="Renewal" ? 'checked' : '' ?> name="radios" />Renewal</label>
+                </td>
+                <td>
+                  <label for="sanitary_permit_number">SANITARY PERMIT NO.</label>
+                  <h5>???</h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  <label for="application_date">Application Date:</label>
+                  <h5>???</h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  <label for="dti_approved_business_name">SEC/DTI Approved Business Name:</label>
+                  <h5><?=$application->get_businessName()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="1">
+                  <label for="address_unit_number">Address: (Unit No./Lot/Blk)</label>
+                  <h5><?=$application->get_unitNum()?></h5>
+                </td>
+                <td colspan="2">
+                  <label for="address_street">(Street/Avenue)</label>
+                  <h5><?=$application->get_street()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="1">
+                  <label for="address_building_name">(Industrial Park/Cmod/Building)</label>
+                  <h5><?=$application->get_bldgName()?></h5>
+                </td>
+                <td colspan="2">
+                  <label for="address_barangay">(Barangay)</label>
+                  <h5><?=$application->get_barangay()?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="1">
+                  <label for="registered_owner">Registered Owner</label>
+                  <h5><?=$application->get_FirstName()?> . " " . <?=$application->get_MiddleName()?> . " " . <?=$application->get_LastName()?></h5>
+                </td>
+                <td colspan="2">
+                  <label for="contact_number">Contact Nos.</label>
+                  <h5><?=$application->get_OwnertelNum()?></h5>
+                </td>
+              </tr>
+              <tr>
+              <td colspan="3">
+                <label for="line_of_business">Nature/Line of Business: </label>
+                <h5>???</h5>
+              </td>
+              </tr>
+              <tr>
+              <th colspan="3">
+                <label for="total_number_of_employees">Total No. Of Employees: </label>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <label for="male_employees">Male: </label>
+                <h5><?=$application->get_MaleEmployees()?></h5>
+              </td>
+              <td>
+                <label for="female_employees">Female: </label>
+                <h5><?=$application->get_FemaleEmployees()?></h5>
+              </td>
+              <td>
+                <label for="pwd_employees">PWD's: </label>
+                <h5><?=$application->get_PWDEmployees()?></h5>
+              </td>
+              </tr>
+              <tr>
+              <td colspan="3">
+                <label for="physical_exams_for_employees">Annual Physical Exams for Employees are conducted(please check): <input type="checkbox" disabled <?= $application->get_annualEmployeePhysicalExam()== 0 ? 'checked' : '' ?> name="radios" />Yes<input type="checkbox" disabled <?= $application->get_annualEmployeePhysicalExam()== 1 ? 'checked' : '' ?> name="radios" />None</label>
+              </td>
+              </tr>
+              <tr>
+              <td colspan="3">
+                <label for="type_or_level_of_water_resource">Type or Level of Water Source: </label>
+                <h5><?=$application->get_typeLevelOfWaterSource()?></h5>
+              </td>
+              </tr>
+            </tbody>
+          </table>
           <div class="form-action">
             <?php if ($application->get_status() != "Active"): ?>
               <div class="row text-center">
@@ -251,7 +342,7 @@
               <tr>
                 <td colspan="2">
                   <label for="lessors_name">Lessor's Name</label>
-                  <h5><?= isset($bplo->lessors) ? 
+                  <h5><?= isset($bplo->lessors) ?
                     $bplo->get_lessors()->lastName.", ".
                     $bplo->get_lessors()->firstName." (".
                     $bplo->get_lessors()->middleName.")" : "NA" ?></h5>
@@ -260,7 +351,7 @@
                 <tr>
                   <td colspan="2">
                     <label for="lessors_address">Lessor's Address</label>
-                    <h5><?= isset($bplo->lessors) ? 
+                    <h5><?= isset($bplo->lessors) ?
                       $bplo->get_lessors()->address.", "
                       .$bplo->get_lessors()->subdivision.", "
                       .$bplo->get_lessors()->barangay.", "
@@ -285,7 +376,7 @@
                     </td>
                     <td>
                       <label for="lessor_in_case_of_emergency">In case of emergency (Contact Person | Tel No./Cel No. | Email)</label>
-                      <h5><?= 
+                      <h5><?=
                         $bplo->get_emergencyContactPerson()." | ".
                         $bplo->get_emergencyTelNum()." | ".
                         $bplo->get_emergencyEmail() ?></h5>
@@ -431,7 +522,7 @@
                         <td><?= $charge->surcharge ?></td>
                         <td><?= $charge->interest ?></td>
                         <td><?php $t = $charge->due + $charge->surcharge + $charge->interest;
-                          echo $t; 
+                          echo $t;
                           $total += $t; ?></td>
                         </tr>
                       <?php endforeach ?>
