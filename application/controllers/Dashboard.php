@@ -2280,27 +2280,27 @@ class Dashboard extends CI_Controller {
 					$buttons[$key] = "
 					<a
 					href='".base_url()."dashboard/draft_application/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'
-					class='btn btn-success'>Continue Draft</a>
+					class='btn btn-success'><i class='fa fa-pencil-square-o' aria-hidden='true'></a>
 					<button
 					class='btn btn-danger btn-delete'
-					id='".base_url()."dashboard/delete_draft/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'>Delete</button>";
+					id='".base_url()."dashboard/delete_draft/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'><i class='fa fa-trash' aria-hidden='true'></button>";
 					break;
 					case "Expired":
 					$buttons[$key] = "
 					<a
 					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
 					id='btn-view-details'
-					class='btn btn-primary'>View Details</a>
+					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>
 					<a
 					type='button'
 					class='btn btn-warning'
-					href='".base_url('form/renew/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'>Renew</a>";
+					href='".base_url('form/renew/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'><i class='fa fa-plus' aria-hidden='true'></i></a>";
 					break;
 					case "Active":
 					$buttons[$key] = "<a
 					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
 					id='btn-view-details'
-					class='btn btn-primary'>View Details</a>";
+					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
 					break;
 					case "On process":
 					if($isExisting)
@@ -2308,25 +2308,25 @@ class Dashboard extends CI_Controller {
 						$buttons[$key] = "<a
 						href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
 						id='btn-view-details'
-						class='btn btn-primary'>View Details</a>";
+						class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
 					}
 					else
 					{
 						$buttons[$key] = "<a
 						href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
 						id='btn-view-details'
-						class='btn btn-primary'>View Details</a>
+						class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>
 						<button
 						id='".base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($app[0]->referenceNum,$custom_encrypt)))."'
 						value='Cancel'
-						class='btn btn-danger btn-cancel'>Cancel</button>";
+						class='btn btn-danger btn-cancel'><i class='fa fa-ban' aria-hidden='true'></button>";
 					}
 					break;
 					case "For finalization":
 					$buttons[$key] = "<a
 					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
 					id='btn-view-details'
-					class='btn btn-primary'>View Details</a>";
+					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
 					break;
 				}
 			}

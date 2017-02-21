@@ -12,9 +12,9 @@
 
 </head>
 <body>
-  <div id="loginbox">            
+  <div id="loginbox">
     <form action="<?php echo base_url(); ?>auth/login" method="post">
-     <div class="control-group normal_text"> <h3><img src="<?php echo base_url(); ?>assets/matrix/img/logo.png" alt="Logo" /></h3></div>
+     <div class="control-group normal_text"> <h3><img src="<?php echo base_url(); ?>assets/matrix/img/bposys-logo-white-solo.png" alt="Logo" /></h3></div>
      <div class="control-group">
       <div class="controls">
         <div class="main_input_box">
@@ -50,8 +50,8 @@
   </form>
 </div>
 
-<script src="<?php echo base_url(); ?>assets/matrix/js/jquery.min.js"></script>  
-<script src="<?php echo base_url(); ?>assets/matrix/js/matrix.login.js"></script> 
+<script src="<?php echo base_url(); ?>assets/matrix/js/jquery.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/matrix/js/matrix.login.js"></script>
 </body>
 
 </html>

@@ -1,7 +1,40 @@
+
 .panel-header {
   padding-bottom: 9px;
   margin: 0 0 20px;
   border-bottom: 1px solid #eee;
+}
+
+.panel {
+  background-color: #eeeeee;
+}
+
+.panel > .panel-heading {
+  background-color: #2255a4;
+}
+
+.btn-success {
+  background-color: #28b779;
+}
+
+.btn-primary {
+  background-color: #2255a4;
+}
+
+.btn-danger {
+  background-color: #da542e;
+}
+
+.btn-warning {
+  background-color: #ffb848;
+}
+
+.label-info {
+  background-color: #2295c9;
+}
+
+td {
+  background-color: #f9f9f9;
 }
 
 .no-padding-top{

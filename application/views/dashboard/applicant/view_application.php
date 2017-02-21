@@ -15,7 +15,7 @@
 				</div>
 
 				<!-- class "colored-tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom" -->
-				<div class="panel-body">
+				<div class="panel-body" style="background-color: #f9f9f9">
 
 					<h2>Reference Number: <strong class="text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></h2>
 					<h3>Status: <?php $status = $application->get_status();
@@ -39,18 +39,18 @@
 										<div class="mdl-stepper-bar-left"></div>
 										<div class="mdl-stepper-bar-right"></div>
 									</div>
-									<div class="mdl-stepper-step <?= 
+									<div class="mdl-stepper-step <?=
 									//conditions for active-step
-									$application->get_status() == "On process" || 
+									$application->get_status() == "On process" ||
 									$application->get_status() == "Completed" ||
-									$application->get_status() == "For finalization" || 
-									$application->get_status() == "Active" 
-									? 'active-step' : '' ?> 
-									<?= 
+									$application->get_status() == "For finalization" ||
+									$application->get_status() == "Active"
+									? 'active-step' : '' ?>
+									<?=
 									//conditions for step-done
-									$application->get_status() == "Completed" || 
-									$application->get_status() == "For finalization" || 
-									$application->get_status() == "Active" 
+									$application->get_status() == "Completed" ||
+									$application->get_status() == "For finalization" ||
+									$application->get_status() == "Active"
 									? 'step-done' : '' ?>">
 									<div class="mdl-stepper-circle"><span>2</span></div>
 									<div class="mdl-stepper-title">Submit Requirements</div>
@@ -58,16 +58,16 @@
 									<div class="mdl-stepper-bar-left"></div>
 									<div class="mdl-stepper-bar-right"></div>
 								</div>
-								<div class="mdl-stepper-step <?= 
+								<div class="mdl-stepper-step <?=
 									//conditions for active-step
 								$application->get_status() == "Completed" ||
-								$application->get_status() == "For finalization" || 
-								$application->get_status() == "Active" 
+								$application->get_status() == "For finalization" ||
+								$application->get_status() == "Active"
 								? 'active-step' : '' ?>
-								<?= 
-									//conditions for step-done 
-								$application->get_status() == "For finalization" || 
-								$application->get_status() == "Active" 
+								<?=
+									//conditions for step-done
+								$application->get_status() == "For finalization" ||
+								$application->get_status() == "Active"
 								? 'step-done' : '' ?>"> <!-- <div class="mdl-stepper-step active-step"> -->
 								<div class="mdl-stepper-circle"><span>3</span></div>
 								<div class="mdl-stepper-title">Interview and Assessment</div>
@@ -75,13 +75,13 @@
 								<div class="mdl-stepper-bar-left"></div>
 								<div class="mdl-stepper-bar-right"></div>
 							</div>
-							<div class="mdl-stepper-step <?= 
+							<div class="mdl-stepper-step <?=
 									//conditions for active-step
-							$application->get_status() == "For finalization" || 
-							$application->get_status() == "Active" 
+							$application->get_status() == "For finalization" ||
+							$application->get_status() == "Active"
 							? 'active-step' : '' ?>
-							<?= 
-							$application->get_status() == "Active" 
+							<?=
+							$application->get_status() == "Active"
 							? 'step-done' : '' ?>">
 							<div class="mdl-stepper-circle"><span>4</span></div>
 							<div class="mdl-stepper-title">Payment of Taxes</div>
@@ -89,18 +89,20 @@
 							<div class="mdl-stepper-bar-left"></div>
 							<div class="mdl-stepper-bar-right"></div>
 						</div>
-						<div class="mdl-stepper-step <?= 
+
+						<div class="mdl-stepper-step <?=
 									//conditions for active-step
-						$application->get_status() == "Active" 
+						$application->get_status() == "Active"
 						? 'active-step' : '' ?>
-						<?= 
-						$application->get_status() == "Active" 
+						<?=
+						$application->get_status() == "Active"
 						? 'step-done' : '' ?>">
 						<div class="mdl-stepper-circle"><span>5</span></div>
 						<div class="mdl-stepper-title">Claim Business Permit</div>
 						<div class="mdl-stepper-optional"></div>
 						<div class="mdl-stepper-bar-left"></div>
 						<div class="mdl-stepper-bar-right"></div>
+
 					</div>
 				</div>
 			</div>
