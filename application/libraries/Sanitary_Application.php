@@ -13,6 +13,7 @@ class Sanitary_Application extends Business {
     private $applicationDate = null;
     private $applicationType = null;
     private $lineOfBusiness = null;
+    private $requirements = null;
 	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
@@ -21,6 +22,7 @@ class Sanitary_Application extends Business {
 		$this->CI->load->model('Notification_m');
         $this->CI->load->model('Renewal_m');
         $this->CI->load->model('Business_Activity_m');
+        $this->CI->load->model('Requirement_m');
 
         $isExisting = $this->CI->Renewal_m->check_application($reference_num);
 
@@ -119,6 +121,7 @@ class Sanitary_Application extends Business {
         $this->applicationDate = $param->applicationDate;
         $this->status = $param->status;
         $this->lineOfBusiness = $line_of_business;
+        $this->requirements = $this->CI->Requirement_m->get_requirements(10);
 		$this->unset_CI();
 		return $this;
 	}
@@ -361,6 +364,30 @@ class Sanitary_Application extends Business {
     public function set_LineOfBusiness($lineOfBusiness)
     {
         $this->lineOfBusiness = $lineOfBusiness;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of requirements.
+     *
+     * @return mixed
+     */
+    public function get_Requirements()
+    {
+        return $this->requirements;
+    }
+
+    /**
+     * Sets the value of requirements.
+     *
+     * @param mixed $requirements the requirements
+     *
+     * @return self
+     */
+    private function set_Requirements($requirements)
+    {
+        $this->requirements = $requirements;
 
         return $this;
     }

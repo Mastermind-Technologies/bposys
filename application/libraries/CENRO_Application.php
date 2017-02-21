@@ -39,6 +39,7 @@ class CENRO_Application extends Business {
     private $status = null;
     private $applicationType = null;
     private $lineOfBusiness = null;
+    private $requirements = null;
 
     public function __construct($reference_num = null)
     {
@@ -46,6 +47,7 @@ class CENRO_Application extends Business {
       $this->CI->load->model('Application_m');
       $this->CI->load->model('Notification_m');
       $this->CI->load->model('Renewal_m');
+      $this->CI->load->model('Requirement_m');
 
       $isExisting = $this->CI->Renewal_m->check_application($reference_num);
 
@@ -171,6 +173,7 @@ public function set_application_all($param = null)
         $this->waterSupply = $param->waterSupply;
         $this->status = $param->status;
         $this->lineOfBusiness = $line_of_business;
+        $this->requirements = $this->CI->Requirement_m->get_requirements(7);
 
 
         $this->unset_CI();
@@ -1037,4 +1040,28 @@ public function set_application_all($param = null)
 
        return $this;
    }
+
+    /**
+     * Gets the value of requirements.
+     *
+     * @return mixed
+     */
+    public function get_Requirements()
+    {
+        return $this->requirements;
+    }
+
+    /**
+     * Sets the value of requirements.
+     *
+     * @param mixed $requirements the requirements
+     *
+     * @return self
+     */
+    public function set_Requirements($requirements)
+    {
+        $this->requirements = $requirements;
+
+        return $this;
+    }
 }//END OF CLASS

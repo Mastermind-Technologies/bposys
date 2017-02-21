@@ -10,6 +10,7 @@ class Zoning_Application extends Business {
     private $capitalInvested = null;
 	private $status = null;
     private $applicationType = null;
+    private $requirements = null;
 	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
@@ -17,6 +18,7 @@ class Zoning_Application extends Business {
 		$this->CI->load->model('Notification_m');
         $this->CI->load->model('Business_Activity_m');
         $this->CI->load->model('Renewal_m');
+        $this->CI->load->model('Requirement_m');
 
         $isExisting = $this->CI->Renewal_m->check_application($reference_num);
 
@@ -114,6 +116,7 @@ class Zoning_Application extends Business {
         $this->businessId = $this->CI->encryption->encrypt($param->businessId);
         $this->capitalInvested = $total_capital;
 		$this->status = $param->status;
+        $this->requirements = $this->CI->Requirement_m->get_requirements(8);
 
 		$this->unset_CI();
 		return $this;
@@ -262,6 +265,30 @@ class Zoning_Application extends Business {
     public function set_ApplicationType($applicationType)
     {
         $this->applicationType = $applicationType;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of requirements.
+     *
+     * @return mixed
+     */
+    public function get_Requirements()
+    {
+        return $this->requirements;
+    }
+
+    /**
+     * Sets the value of requirements.
+     *
+     * @param mixed $requirements the requirements
+     *
+     * @return self
+     */
+    private function set_Requirements($requirements)
+    {
+        $this->requirements = $requirements;
 
         return $this;
     }
