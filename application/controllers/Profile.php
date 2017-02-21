@@ -10,6 +10,7 @@ class Profile extends CI_Controller {
 		$this->load->model('Owner_m');
 		$this->load->model('Business_m');
 		$this->load->model('Role_m');
+		$this->load->model('Payment_m');
 		$this->load->library('form_validation');
 
 		$this->load->model('Business_Address_m');
@@ -28,9 +29,10 @@ class Profile extends CI_Controller {
 	public function index()
 	{
 		$this->isLogin();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-		$this->_init();
-
 		$data['user'] = new User($this->encryption->decrypt($this->session->userdata['userdata']['userId']));
 
 		$this->load->view('profile/index', $data);
@@ -46,8 +48,10 @@ class Profile extends CI_Controller {
 
 	public function edit()
 	{
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "";
 		$this->isLogin();
-		$this->_init();
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
 		$data['user'] = new User($user_id);
@@ -658,6 +662,12 @@ class Profile extends CI_Controller {
 		$nav_data['title'] = "payment_history";
 		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$payments = $this->Payment_m->get_user_payments($user_id);
+		echo "<pre>";
+		print_r($payments);
+		echo "</pre>";
+		exit();
 
 		$this->load->view('profile/view_payment_history');
 	}

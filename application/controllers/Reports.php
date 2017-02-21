@@ -18,7 +18,7 @@ class Reports extends CI_Controller {
 		$this->load->model('Business_m');
 		$this->load->model('Approval_m');
 		$this->load->model('Notification_m');
-		$this->load->model('Retirements_m');
+		$this->load->model('Retirement_m');
 		$this->load->library('form_validation');
 
 		$this->load->model('Business_Address_m');
@@ -48,7 +48,7 @@ class Reports extends CI_Controller {
 		$data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
 
 		$query['status'] = "For approval";
-		$data['retirements'] = count($this->Retirements_m->get_all($query));
+		$data['retirements'] = count($this->Retirement_m->get_all($query));
 
 		$data['total'] = $data['process'];
 		$this->load->view('templates/matrix/matrix_includes');

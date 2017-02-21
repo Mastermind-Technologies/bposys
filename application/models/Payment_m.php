@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Payment_m extends CI_Model {
 
   private $table = 'payments';
+  // private $table_reference_numbers = 'reference_numbers';
 
   public function __construct()
   {
@@ -22,6 +23,12 @@ class Payment_m extends CI_Model {
       $this->db->where($query);
     $this->db->select('*')->from($this->table);
     return $this->db->get()->result(); 
+  }
+
+  public function get_user_payments($user_id)
+  {
+    $this->db->select('payments.*')->from($this->table)->join('reference_numbers', 'reference_numbers.referenceNum = payments.referenceNum')->where('reference_numbers.userId', $user_id);
+    return $this->db->get()->result();
   }
 
   // public function insert_business_activity($fields)
