@@ -32,6 +32,12 @@ nav {
     height: inherit;
   }
 }
+
+.nav > li > a:focus, .nav > li > a:hover {
+  background-color: #353f4a;
+  outline: 0;
+}
+
 .navbar {
   background-color: #2e363f;
 }
@@ -99,8 +105,7 @@ nav {
   color: #fff;
 }
 .sidebar ul li a.active {
-  color: #000;
-  background-color: #fff;
+  background-color: #262e38;
 }
 .sidebar .arrow {
   float: right;

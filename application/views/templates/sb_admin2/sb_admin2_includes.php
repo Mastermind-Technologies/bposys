@@ -9,7 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    
+
+
+        <!-- DataTables CSS -->
+        <link href="<?php echo base_url(); ?>assets/sb_admin2/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+        <!-- DataTables Responsive CSS -->
+        <link href="<?php echo base_url(); ?>assets/sb_admin2/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assets/sb_admin2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -33,6 +40,7 @@
 
     <!-- Parsley CSS -->
     <link href="<?php echo base_url(); ?>assets/css/parsley.css" rel="stylesheet">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -68,5 +76,16 @@
     <script src="<?php echo base_url(); ?>assets/sb_admin2/dist/js/sb-admin-2.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/dashboard.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/parsley.min.js"></script>
+
+
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/sb_admin2/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
 
 </head>
