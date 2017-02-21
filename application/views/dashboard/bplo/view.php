@@ -36,7 +36,7 @@
         <?php if ($application->get_status() == "Completed" || $application->get_status() == "For finalization" || $application->get_status() == "Active"): ?>
           <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
         <?php endif ?>
-        
+
         <li><a data-toggle="tab" onclick="initMap()" href="#tab3">Business Location</a></li>
       </ul>
     </div>
@@ -483,8 +483,8 @@
                 <th>Total</th>
               </thead>
               <tbody>
-                <?php 
-                $total = 0; 
+                <?php
+                $total = 0;
                 $total_due = 0;
                 $total_surcharge = 0;
                 $total_interest = 0;
@@ -497,10 +497,10 @@
                     <td><?= number_format($charge->surcharge, 2) ?></td>
                     <td><?= number_format($charge->interest, 2) ?></td>
                     <td>
-                      <?php 
+                      <?php
                       $t = $charge->due + $charge->surcharge + $charge->interest;
                       echo number_format($t, 2);
-                      $total += $t; 
+                      $total += $t;
                       $total_due += $charge->due;
                       $total_surcharge += $charge->surcharge;
                       $total_interest += $charge->interest;
