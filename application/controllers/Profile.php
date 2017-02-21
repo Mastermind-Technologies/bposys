@@ -28,8 +28,10 @@ class Profile extends CI_Controller {
 	public function index()
 	{
 		$this->isLogin();
+		$nav_data['title'] = "Profile";
+		$nav_data['notifications'] = User::get_notifications();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-		$this->_init();
+		$this->_init($nav_data);
 
 		$data['user'] = new User($this->encryption->decrypt($this->session->userdata['userdata']['userId']));
 
@@ -47,8 +49,10 @@ class Profile extends CI_Controller {
 	public function edit()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['title'] = "Edit Profile";
+		$nav_data['notifications'] = User::get_notifications();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$this->_init($nav_data);
 
 		$data['user'] = new User($user_id);
 

@@ -66,7 +66,7 @@
                     <!-- /.nav-second-level -->
                 <!-- </li> -->
                 <li>
-                  <a href="#" class="<?= $title == 'none' ? 'active' : '' ?>"><i class="fa fa-money" aria-hidden="true"></i> Bills & Payments</a>
+                  <a href="#" class="<?= $title == 'none' ? 'active' : '' ?>"><i class="fa fa-money" aria-hidden="true"></i>  &nbsp;Bills and Payments</a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="<?php echo base_url(); ?>profile/payment_history" class="<?= $title == 'payment_history' ? 'active' : '' ?>"><i class="fa fa-history" aria-hidden="true"></i> Payment History</a>

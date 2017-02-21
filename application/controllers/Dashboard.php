@@ -2361,7 +2361,7 @@ class Dashboard extends CI_Controller {
 			{
 				$today = strtotime(date('Y-m-d H:i:s'));
 				$createdAt = strtotime($latest[$i]->createdAt);
-				$seconds = $today - $createdAt;
+				$seconds = $createdAt - $today;
 				$latest[$i]->createdAt = $seconds;
 				$minutes = 0;
 				$hours = 0;

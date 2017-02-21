@@ -5,9 +5,6 @@
                 <div>
                     <i class="fa fa-comment fa-fw"></i> <?= $notification->notifMessage ?>
                     <br>
-                    <?php
-
-                     ?>
                     <span class="pull-left text-muted small"><?= $notification->createdAt ?></span>
                 </div>
             </a>
