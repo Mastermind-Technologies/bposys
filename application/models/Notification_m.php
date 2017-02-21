@@ -29,7 +29,7 @@ class Notification_m extends CI_Model {
   public function get_applicant_notif($roleId = null, $userId = null)
   {
     $this->db->where(['notifications.role' => $roleId, 'reference_numbers.userId' => $userId]);
-    $this->db->select('notifications.referenceNum, notifications.notifMessage')->from($this->table)->join($this->reference, 'reference_numbers.referenceNum = notifications.referenceNum')->limit(10)->order_by("notifications.createdAt", "desc");
+    $this->db->select('notifications.referenceNum, notifications.notifMessage,notifications.createdAt')->from($this->table)->join($this->reference, 'reference_numbers.referenceNum = notifications.referenceNum')->limit(10)->order_by("notifications.createdAt", "desc");
     $result = $this->db->get();
 
     return $result->result();
@@ -38,7 +38,7 @@ class Notification_m extends CI_Model {
   public function get_applicant_unread($roleId = null, $userId = null)
   {
     $this->db->where(['notifications.role' => $roleId, 'reference_numbers.userId' => $userId, 'notifications.status' => "Unread"]);
-    $this->db->select('notifications.referenceNum, notifications.notifMessage')->from($this->table)->join($this->reference, 'reference_numbers.referenceNum = notifications.referenceNum')->order_by("notifications.createdAt", "desc");
+    $this->db->select('notifications.referenceNum, notifications.notifMessage,notifications.createdAt')->from($this->table)->join($this->reference, 'reference_numbers.referenceNum = notifications.referenceNum')->order_by("notifications.createdAt", "desc");
     $result = $this->db->get();
 
     return $result->result();

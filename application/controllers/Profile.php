@@ -33,6 +33,7 @@ class Profile extends CI_Controller {
 		$nav_data['title'] = "";
 		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
 		$data['user'] = new User($this->encryption->decrypt($this->session->userdata['userdata']['userId']));
 
 		$this->load->view('profile/index', $data);
@@ -48,9 +49,9 @@ class Profile extends CI_Controller {
 
 	public function edit()
 	{
+		$this->isLogin();
 		$nav_data['notifications'] = User::get_notifications();
 		$nav_data['title'] = "";
-		$this->isLogin();
 		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
