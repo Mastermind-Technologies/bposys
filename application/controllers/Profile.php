@@ -664,13 +664,9 @@ class Profile extends CI_Controller {
 		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		$payments = $this->Payment_m->get_user_payments($user_id);
-		echo "<pre>";
-		print_r($payments);
-		echo "</pre>";
-		exit();
+		$data['payments'] = $this->Payment_m->get_user_payments($user_id);
 
-		$this->load->view('profile/view_payment_history');
+		$this->load->view('profile/view_payment_history',$data);
 	}
 
 	public function unsettled_charges()

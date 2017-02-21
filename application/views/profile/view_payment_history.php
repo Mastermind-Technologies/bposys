@@ -29,580 +29,24 @@
                           <th>OR Number</th>
                           <th>Reference Number</th>
                           <th>Business Name</th>
-                          <th>Description</th>
                           <th>Amount</th>
+                          <th>Quarter</th>
                           <th>Payment Date</th>
                       </tr>
                   </thead>
                   <tbody>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>O24SGPM812</td>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
+                      <?php if (isset($payments)): ?>
+                        <?php foreach ($payments as $key => $payment): ?>
+                          <tr>
+                                                      <td><?= $payment->orNumber ?></td>
+                          <td><?= $payment->referenceNum ?></td>
+                          <td><?= $payment->businessName ?></td>
+                          <td><?= $payment->amountPaid ?></td>
+                          <td><?= $payment->quarterPaid ?></td>
+                          <td><?= $payment->createdAt ?></td>
+                          </tr>
+                        <?php endforeach ?>
+                      <?php endif ?>
                   </tbody>
               </table>
               <!-- /.table-responsive -->
@@ -627,3 +71,572 @@ $(document).ready(function() {
     });
 });
 </script>
+
+<!-- <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr>
+                      <tr>
+                          <td>O24SGPM812</td>
+                          <td>JFAHSFAJZJVZ</td>
+                          <td>Mastermind IT Solutions</td>
+                          <td>Q1 Tax Payment</td>
+                          <td>16,045</td>
+                          <td>February 21, 2017</td>
+                      </tr> -->
