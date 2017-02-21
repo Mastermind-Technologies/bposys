@@ -559,6 +559,7 @@ class Dashboard extends CI_Controller {
 			'referenceNum' => $reference_num,
 			'userId' =>  $user_id,
 			'businessId' => $business_id,
+			'applicationDate' => $this->input->post('application-date'),
 			'annualEmployeePhysicalExam' => $this->input->post('annual-exams')=="Yes" ? 1 : 0,
 			'typeLevelOfWaterSource' => $this->input->post('water-supply-type'),
 			'status' => 'Draft',
@@ -939,6 +940,7 @@ class Dashboard extends CI_Controller {
 				'referenceNum' => $reference_num,
 				'userId' =>  $user_id,
 				'businessId' => $business_id,
+				'applicationDate' => $this->input->post('application-date'),
 				'annualEmployeePhysicalExam' => $this->input->post('annual-exams')=="Yes" ? 1 : 0,
 				'typeLevelOfWaterSource' => $this->input->post('water-supply-type'),
 				'status' => 'For applicant visit',
@@ -1808,19 +1810,19 @@ class Dashboard extends CI_Controller {
 				$query['YEAR(createdAt)'] = date('Y');
 
 				$query['dept'] = 'Zoning';
-				$data['zoning'] = $this->Issued_Application_m->get_all($query);
+				$data['zoning'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CHO';
-				$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+				$data['sanitary'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'BFP';
-				$data['bfp'] = $this->Issued_Application_m->get_all($query);
+				$data['bfp'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CENRO';
-				$data['cenro'] = $this->Issued_Application_m->get_all($query);
+				$data['cenro'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'Engineering';
-				$data['engineering'] = $this->Issued_Application_m->get_all($query);
+				$data['engineering'] = $this->Issued_Application_m->get_current_issued($query);
 			}
 			$data['application']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['application']->get_referenceNum()));
 			//instantiate Owner of this application
@@ -1852,19 +1854,19 @@ class Dashboard extends CI_Controller {
 				$query['YEAR(createdAt)'] = date('Y');
 
 				$query['dept'] = 'Zoning';
-				$data['zoning'] = $this->Issued_Application_m->get_all($query);
+				$data['zoning'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CHO';
-				$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+				$data['sanitary'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'BFP';
-				$data['bfp'] = $this->Issued_Application_m->get_all($query);
+				$data['bfp'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CENRO';
-				$data['cenro'] = $this->Issued_Application_m->get_all($query);
+				$data['cenro'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'Engineering';
-				$data['engineering'] = $this->Issued_Application_m->get_all($query);
+				$data['engineering'] = $this->Issued_Application_m->get_current_issued($query);
 			}
 			$data['bplo']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['bplo']->get_referenceNum()));
 
@@ -1889,19 +1891,19 @@ class Dashboard extends CI_Controller {
 				$query['YEAR(createdAt)'] = date('Y');
 
 				$query['dept'] = 'Zoning';
-				$data['zoning'] = $this->Issued_Application_m->get_all($query);
+				$data['zoning'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CHO';
-				$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+				$data['sanitary'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'BFP';
-				$data['bfp'] = $this->Issued_Application_m->get_all($query);
+				$data['bfp'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CENRO';
-				$data['cenro'] = $this->Issued_Application_m->get_all($query);
+				$data['cenro'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'Engineering';
-				$data['engineering'] = $this->Issued_Application_m->get_all($query);
+				$data['engineering'] = $this->Issued_Application_m->get_current_issued($query);
 			}
 			$data['bplo']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['bplo']->get_referenceNum()));
 
@@ -1924,20 +1926,20 @@ class Dashboard extends CI_Controller {
 				$query['YEAR(createdAt)'] = date('Y');
 
 				$query['dept'] = 'Zoning';
-				$data['zoning'] = $this->Issued_Application_m->get_all($query);
+				$data['zoning'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CHO';
-				$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+				$data['sanitary'] = $this->Issued_Application_m->get_current_issued($query);
 
 
 				$query['dept'] = 'BFP';
-				$data['bfp'] = $this->Issued_Application_m->get_all($query);
+				$data['bfp'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CENRO';
-				$data['cenro'] = $this->Issued_Application_m->get_all($query);
+				$data['cenro'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'Engineering';
-				$data['engineering'] = $this->Issued_Application_m->get_all($query);
+				$data['engineering'] = $this->Issued_Application_m->get_current_issued($query);
 			}
 			$data['bplo']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['bplo']->get_referenceNum()));
 
@@ -1960,21 +1962,22 @@ class Dashboard extends CI_Controller {
 				$query['YEAR(createdAt)'] = date('Y');
 
 				$query['dept'] = 'Zoning';
-				$data['zoning'] = $this->Issued_Application_m->get_all($query);
+				$data['zoning'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CHO';
-				$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+				$data['sanitary'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'BFP';
-				$data['bfp'] = $this->Issued_Application_m->get_all($query);
+				$data['bfp'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CENRO';
-				$data['cenro'] = $this->Issued_Application_m->get_all($query);
+				$data['cenro'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'Engineering';
-				$data['engineering'] = $this->Issued_Application_m->get_all($query);
+				$data['engineering'] = $this->Issued_Application_m->get_current_issued($query);
 			}
 			$data['bplo']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['bplo']->get_referenceNum()));
+			$data['representative'] = new User($user_id);
 
 			$this->load->view('dashboard/bfp/view', $data);
 		}
@@ -1995,19 +1998,19 @@ class Dashboard extends CI_Controller {
 				$query['YEAR(createdAt)'] = date('Y');
 
 				$query['dept'] = 'Zoning';
-				$data['zoning'] = $this->Issued_Application_m->get_all($query);
+				$data['zoning'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CHO';
-				$data['sanitary'] = $this->Issued_Application_m->get_all($query);
+				$data['sanitary'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'BFP';
-				$data['bfp'] = $this->Issued_Application_m->get_all($query);
+				$data['bfp'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'CENRO';
-				$data['cenro'] = $this->Issued_Application_m->get_all($query);
+				$data['cenro'] = $this->Issued_Application_m->get_current_issued($query);
 
 				$query['dept'] = 'Engineering';
-				$data['engineering'] = $this->Issued_Application_m->get_all($query);
+				$data['engineering'] = $this->Issued_Application_m->get_current_issued($query);
 			}
 			$data['bplo']->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['bplo']->get_referenceNum()));
 
