@@ -19,7 +19,7 @@
 										<th class="text-center">Actions</th>
 										<tbody id="application-table-body">
 											<?php foreach ($applications as $application): ?>
-												<?php if ($application->get_status() != "Cancelled"): ?>
+												<?php if ($application->get_status() != "Cancelled" && $application->get_status() != "Closed"): ?>
 													<tr>
 														<td style="width:30%;"><p style="margin-top:6%" id="referenceNumber" class="lead text-center text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></p></td>
 														<td style="width:45%;">
@@ -45,6 +45,8 @@
 																	<div class="col-sm-12">
 																		<?php if ($application->get_status() == "Expired"): ?>
 																			<span class='status'>Status: <span class='label label-danger' style='font-size:14px'><?= $application->get_status() ?></span></span>
+																		<?php elseif($application->get_status() == "For Retirement"): ?>
+																			<span class='status'>Status: <span class='label label-warning' style='font-size:14px'><?= $application->get_status() ?></span></span>
 																		<?php else: ?>
 																			<span class='status'>Status: <span class='label label-info' style='font-size:14px'><?= $application->get_status() ?></span></span>
 																		<?php endif ?>

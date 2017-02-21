@@ -19,6 +19,7 @@ class Form extends CI_Controller {
 		$this->load->model('Renewal_m');
 		$this->load->model('Payment_m');
 		$this->load->model('Assessment_m');
+		$this->load->model('Retirement_m');
 		$this->load->model('Issued_Application_m');
 		$this->load->library('form_validation');
 	}
@@ -130,7 +131,7 @@ class Form extends CI_Controller {
 	{
 		if(!isset($this->session->userdata['userdata']))
 		{
-			// $this->session->set_flashdata('failed', 'You are not logged in!');
+// $this->session->set_flashdata('failed', 'You are not logged in!');
 			redirect('home');
 		}
 	}
@@ -140,13 +141,13 @@ class Form extends CI_Controller {
 		$this->isLogin();
 		$user_Id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		//get notifications
+//get notifications
 		$nav_data['notifications'] = User::get_notifications();
 		$nav_data['title'] = 'dashboard';
 		$this->_init($nav_data);
 
-		
-		//decrypt application_param
+
+//decrypt application_param
 		$data['custom_crypto'] = array(
 			'cipher' => 'blowfish',
 			'mode' => 'ecb',
@@ -195,12 +196,12 @@ class Form extends CI_Controller {
 		$this->isLogin();
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-			//get notifications
+//get notifications
 		$nav_data['notifications'] = User::get_notifications();
 		$nav_data['title'] = 'dashboard';
 		$this->_init($nav_data);
 
-		//decrypt application_param
+//decrypt application_param
 		$custom_decrypt = array(
 			'cipher' => 'blowfish',
 			'mode' => 'ecb',
@@ -250,8 +251,8 @@ class Form extends CI_Controller {
 		$this->form_validation->set_rules('occupancy-permit-number', 'Occupancy Permit Number', 'required');
 		$this->form_validation->set_rules('id-presented', 'ID Presented', 'required');
 		$this->form_validation->set_rules('mode-of-payment', 'Mode of Payment', 'required');
-		// $this->form_validation->set_rules('capital-invested', 'Capital Invested', 'required|numeric');
-		// $this->form_validation->set_rules('business', 'Business Profile', 'required');
+// $this->form_validation->set_rules('capital-invested', 'Capital Invested', 'required|numeric');
+// $this->form_validation->set_rules('business', 'Business Profile', 'required');
 
 		if($this->input->post('tax-incentive'))
 		{
@@ -273,10 +274,10 @@ class Form extends CI_Controller {
 			$this->form_validation->set_rules('lessor-address', "Lessor's Address", 'required');
 		}
 
-		// $this->form_validation->set_rules('code', 'Code', 'required');
-		// $this->form_validation->set_rules('line-of-business', 'Line of Business', 'required');
-		// $this->form_validation->set_rules('num-of-units', 'Number of Units', 'required');
-		// $this->form_validation->set_rules('capitalization', 'Capitalization', 'required');
+// $this->form_validation->set_rules('code', 'Code', 'required');
+// $this->form_validation->set_rules('line-of-business', 'Line of Business', 'required');
+// $this->form_validation->set_rules('num-of-units', 'Number of Units', 'required');
+// $this->form_validation->set_rules('capitalization', 'Capitalization', 'required');
 		$this->form_validation->set_rules('previous-gross[]', 'Previous Gross', 'required|numeric');
 		$this->form_validation->set_rules('essential[]', 'Essential', 'required|numeric');
 		$this->form_validation->set_rules('non-essential[]', 'Non-essential', 'required|numeric');
@@ -297,7 +298,7 @@ class Form extends CI_Controller {
 		{
 			$this->form_validation->set_rules('apsci-date-issued','Permit to Operate/APSCI', 'required');
 		}
-		//dumped steam-generator-specify serverside validation
+//dumped steam-generator-specify serverside validation
 
 		$this->form_validation->set_rules('air-pollution-control-devices','Air Pollution Control Devices Being Used', 'required');
 		$this->form_validation->set_rules('stack-height','Stack Height', 'required');
@@ -312,7 +313,7 @@ class Form extends CI_Controller {
 		$this->form_validation->set_rules('qty-per-day', 'Quantity per day', 'required');
 		$this->form_validation->set_rules('method-of-garbage-collection', 'required');
 
-		//dumpled garbage-collection-specify serverside validation
+//dumpled garbage-collection-specify serverside validation
 
 		$this->form_validation->set_rules('collector', 'Person / Company Collecting Solid Wastes', 'required');
 		$this->form_validation->set_rules('collector-address', 'Collector\'s Address', 'required');
@@ -324,9 +325,9 @@ class Form extends CI_Controller {
 
 		if($this->form_validation->run() == false)
 		{
-			// $data['error'] = "Error: Please resolve invalid inputs.";
+// $data['error'] = "Error: Please resolve invalid inputs.";
 
-			//test mode
+//test mode
 			$data['error'] = validation_errors();
 			$this->session->set_flashdata('error', validation_errors());
 
@@ -340,13 +341,13 @@ class Form extends CI_Controller {
 			$application_id = $this->encryption->decrypt($this->input->post('aid'));
 			$param = bin2hex($this->encryption->encrypt($application_id."|".$reference_num, $custom_crypto));
 
-			// $data['1'] = $param;
-			// $data['2'] = validation_errors();
+// $data['1'] = $param;
+// $data['2'] = validation_errors();
 
-			// echo "<pre>";
-			// print_r($data);
-			// echo "</pre>";
-			// exit();
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
+// exit();
 
 
 			redirect("form/renew/".$param);	
@@ -365,14 +366,14 @@ class Form extends CI_Controller {
 			$tax_payer_name = $this->input->post('tax-first-name') . " " . $this->input->post('tax-middle-name') . ", " . $this->input->post('tax-last-name');
 			$president_treasurer_name = $this->input->post('pt-first-name') . " " . $this->input->post('pt-middle-name') . ", " . $this->input->post('pt-last-name');
 
-			//validate first to avoid script kiddies
+//validate first to avoid script kiddies
 			$reference_num = $this->encryption->decrypt($this->input->post('ref'));
 
 			$this->archive_record($reference_num);
 
 			$business_id = $this->encryption->decrypt($this->input->post('business'));
 
-			//BUSINESS INFORMATION
+//BUSINESS INFORMATION
 			$business_fields = array(
 				'presidentTreasurerName' => $this->input->post('president-treasurer-name'),
 				'pollutionControlOfficer' => $this->input->post('pollution-control-officer'),
@@ -387,12 +388,12 @@ class Form extends CI_Controller {
 				'emergencyEmail' => $this->input->post('emergency-email'),
 				);
 			$this->Business_m->update_business($business_id, $business_fields);
-			//END BUSINESS INFORMATION
+//END BUSINESS INFORMATION
 
-			//archive old records
-			//then update
-			
-			//START BPLO FORM
+//archive old records
+//then update
+
+//START BPLO FORM
 			$bplo_fields = array(
 				'referenceNum' => $reference_num,
 				'userId' => $user_id,
@@ -432,7 +433,7 @@ class Form extends CI_Controller {
 				$this->Lessor_m->update_lessor($lessor_fields);
 			}
 
-			//insert gross
+//insert gross
 			$activities = $this->input->post('activity-id');
 			$previousGross = $this->input->post('previous-gross');
 			$essential = $this->input->post('essential');
@@ -447,9 +448,9 @@ class Form extends CI_Controller {
 				$this->Gross_m->insert($gross_field);
 			}
 			$this->process_renewal_tax($activities, $previousGross, $essential, $non_essential, $reference_num);
-			//END BPLO
+//END BPLO
 
-			//START ZONING
+//START ZONING
 			$zoning_fields = array(
 				'userId' => $user_id,
 				'referenceNum' => $reference_num,
@@ -457,9 +458,9 @@ class Form extends CI_Controller {
 				'status' => 'For applicant visit',
 				);
 			$this->Application_m->update_zoning($zoning_fields);
-			//END ZONING
+//END ZONING
 
-			//START CENRO
+//START CENRO
 			if($this->input->post('fugitive-particulates'))
 			{
 				$fugitive_particulates = "";
@@ -538,9 +539,9 @@ class Form extends CI_Controller {
 				'status' => 'For applicant visit',
 				);
 			$this->Application_m->update_cenro($cenro_fields);
-			//END CENRO
+//END CENRO
 
-			//SANITARY
+//SANITARY
 			$sanitary_fields = array(
 				'referenceNum' => $reference_num,
 				'userId' =>  $user_id,
@@ -551,9 +552,9 @@ class Form extends CI_Controller {
 				'status' => 'For applicant visit',
 				);
 			$this->Application_m->update_sanitary($sanitary_fields);
-			//END OF SANITARY
+//END OF SANITARY
 
-			//BFP
+//BFP
 			$bfp_fields = array(
 				'referenceNum' => $reference_num,
 				'userId' => $user_id,
@@ -566,9 +567,9 @@ class Form extends CI_Controller {
 				'status' => 'For applicant visit',
 				);
 			$this->Application_m->update_bfp($bfp_fields);
-			//END OF BFP
+//END OF BFP
 
-			//ENGINEERING
+//ENGINEERING
 			$engineering_fields = array(
 				'referenceNum' => $reference_num,
 				'userId' => $user_id,
@@ -576,10 +577,10 @@ class Form extends CI_Controller {
 				'status' => 'For applicant visit',
 				);
 			$this->Application_m->update_engineering($engineering_fields);
-			//END ENGINEERING
+//END ENGINEERING
 
-			//SEND NOTIFICATION TO ALL OFFICES
-			//4,5,7,8,9,10
+//SEND NOTIFICATION TO ALL OFFICES
+//4,5,7,8,9,10
 			for($i = 4; $i <= 10 ; $i++)
 			{
 				if($i != 6)
@@ -601,294 +602,294 @@ class Form extends CI_Controller {
 			$this->Renewal_m->insert($renewal_field);
 			$this->session->set_flashdata('message', 'Renewal request has been sent successfully!');
 
-			// redirect('dashboard');
+// redirect('dashboard');
 			$data['referenceNum'] = $bplo_id;
 			echo json_encode($data);
 		}
-	}//END OF SUBMIT RENEWAL APPLICATION
+}//END OF SUBMIT RENEWAL APPLICATION
 
-	private function process_renewal_tax($activities, $previous_gross, $essential, $non_essential, $reference_num)
-	{
-		$assessment_field = array(
-			'referenceNum' => $reference_num,
-			'amount' => 0,
-			'paidUpTo' => 'None',
-			'status' => "Renew",
-			);
-		$assessment_id = $this->Assessment_m->insert_assessment($assessment_field);
+private function process_renewal_tax($activities, $previous_gross, $essential, $non_essential, $reference_num)
+{
+	$assessment_field = array(
+		'referenceNum' => $reference_num,
+		'amount' => 0,
+		'paidUpTo' => 'None',
+		'status' => "Renew",
+		);
+	$assessment_id = $this->Assessment_m->insert_assessment($assessment_field);
 
-		$bplo = new BPLO_Application($reference_num);
-		$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
+	$bplo = new BPLO_Application($reference_num);
+	$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
 
-		$environmental = 0;
-		$garbage_service = 0;
-		$zoning_fee = 0;
+	$environmental = 0;
+	$garbage_service = 0;
+	$zoning_fee = 0;
 
-		foreach ($activities as $key => $activity) {
-			$total_gross = $essential[$key] + $non_essential[$key];
-			$query['activityId'] = $this->encryption->decrypt($activity);
-			$lineOfBusiness = $this->Business_Activity_m->get_all_business_activity($query);
-			$line_of_business = $lineOfBusiness[0]->lineOfBusiness;
-			if($line_of_business == "Manufacturer Kind" || $line_of_business == "Retail Dealers (liquors)" || $line_of_business == "Exporter Kind" || $line_of_business == "Wholesaler Kind" || $line_of_business == "Retail Dealers (tobaccos)" || $line_of_business == "Retailer")
-			{
-				$fee = Assessment::compute_renewal_tax($line_of_business, $essential[$key], "essential");
-				$charge_field = array(
-					'assessmentId' => $assessment_id,
-					'due' => $fee,
-					'surcharge' => 0,
-					'interest' => 0,
-					'particulars' => "TAX ON ".strtoupper($line_of_business)." (ESSENTIAL)",
-					'computed' => 0,
-					);
-				$this->Assessment_m->add_charge($charge_field);
-
-				$fee = Assessment::compute_renewal_tax($line_of_business, $non_essential[$key], "non-essential");
-				$charge_field = array(
-					'assessmentId' => $assessment_id,
-					'due' => $fee,
-					'surcharge' => 0,
-					'interest' => 0,
-					'particulars' => "TAX ON ".strtoupper($line_of_business)." (NON-ESSENTIAL)",
-					'computed' => 0,
-					);
-				$this->Assessment_m->add_charge($charge_field);
-			}
-			else
-			{
-				$fee = Assessment::compute_renewal_tax($line_of_business, $total_gross);
-				$charge_field = array(
-					'assessmentId' => $assessment_id,
-					'due' => $fee,
-					'surcharge' => 0,
-					'interest' => 0,
-					'particulars' => "TAX ON ".strtoupper($line_of_business),
-					'computed' => 0,
-					);
-				$this->Assessment_m->add_charge($charge_field);
-			}
-			if($line_of_business == "Display areas of products")
-				$mayor_permit_fee = Assessment::compute_mayors_permit_fee($total_gross, $work_force, $line_of_business, $bplo->get_BusinessArea());
-			else
-				$mayor_permit_fee = Assessment::compute_mayors_permit_fee($total_gross, $work_force, $line_of_business);
+	foreach ($activities as $key => $activity) {
+		$total_gross = $essential[$key] + $non_essential[$key];
+		$query['activityId'] = $this->encryption->decrypt($activity);
+		$lineOfBusiness = $this->Business_Activity_m->get_all_business_activity($query);
+		$line_of_business = $lineOfBusiness[0]->lineOfBusiness;
+		if($line_of_business == "Manufacturer Kind" || $line_of_business == "Retail Dealers (liquors)" || $line_of_business == "Exporter Kind" || $line_of_business == "Wholesaler Kind" || $line_of_business == "Retail Dealers (tobaccos)" || $line_of_business == "Retailer")
+		{
+			$fee = Assessment::compute_renewal_tax($line_of_business, $essential[$key], "essential");
 			$charge_field = array(
 				'assessmentId' => $assessment_id,
-				'due' => $mayor_permit_fee['mayor_fee'],
+				'due' => $fee,
 				'surcharge' => 0,
 				'interest' => 0,
-				'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($line_of_business).')',
+				'particulars' => "TAX ON ".strtoupper($line_of_business)." (ESSENTIAL)",
 				'computed' => 0,
 				);
 			$this->Assessment_m->add_charge($charge_field);
 
-			$environmental += Assessment::compute_environmental_clearance_fee($total_gross, $bplo->get_ZoneType());
+			$fee = Assessment::compute_renewal_tax($line_of_business, $non_essential[$key], "non-essential");
+			$charge_field = array(
+				'assessmentId' => $assessment_id,
+				'due' => $fee,
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => "TAX ON ".strtoupper($line_of_business)." (NON-ESSENTIAL)",
+				'computed' => 0,
+				);
+			$this->Assessment_m->add_charge($charge_field);
+		}
+		else
+		{
+			$fee = Assessment::compute_renewal_tax($line_of_business, $total_gross);
+			$charge_field = array(
+				'assessmentId' => $assessment_id,
+				'due' => $fee,
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => "TAX ON ".strtoupper($line_of_business),
+				'computed' => 0,
+				);
+			$this->Assessment_m->add_charge($charge_field);
+		}
+		if($line_of_business == "Display areas of products")
+			$mayor_permit_fee = Assessment::compute_mayors_permit_fee($total_gross, $work_force, $line_of_business, $bplo->get_BusinessArea());
+		else
+			$mayor_permit_fee = Assessment::compute_mayors_permit_fee($total_gross, $work_force, $line_of_business);
+		$charge_field = array(
+			'assessmentId' => $assessment_id,
+			'due' => $mayor_permit_fee['mayor_fee'],
+			'surcharge' => 0,
+			'interest' => 0,
+			'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($line_of_business).')',
+			'computed' => 0,
+			);
+		$this->Assessment_m->add_charge($charge_field);
 
-			$garbage_service += Assessment::compute_garbage_service_fee($line_of_business);
+		$environmental += Assessment::compute_environmental_clearance_fee($total_gross, $bplo->get_ZoneType());
 
-			$zoning_fee += Assessment::compute_zoning_clearance_fee($total_gross, $bplo->get_zoneType());
-		}//END OF FOREACH
+		$garbage_service += Assessment::compute_garbage_service_fee($line_of_business);
 
-		$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
-		$fixed_fees = Assessment::get_fixed_fees($work_force);
+		$zoning_fee += Assessment::compute_zoning_clearance_fee($total_gross, $bplo->get_zoneType());
+}//END OF FOREACH
 
-		$charge_field = array(
-			'assessmentId' => $assessment_id,
-			'due' => $environmental,
-			'surcharge' => 0,
-			'interest' => 0,
-			'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
-			'computed' => 0,
-			);
-		$this->Assessment_m->add_charge($charge_field);
-		$charge_field = array(
-			'assessmentId' => $assessment_id,
-			'due' => $garbage_service,
-			'surcharge' => 0,
-			'interest' => 0,
-			'particulars' => 'GARBAGE SERVICE FEE',
-			'computed' => 0,
-			);
-		$this->Assessment_m->add_charge($charge_field);
-		$charge_field = array(
-			'assessmentId' => $assessment_id,
-			'due' => $zoning_fee,
-			'surcharge' => 0,
-			'interest' => 0,
-			'particulars' => 'ZONING/LOCATIONAL CLEARANCE FEE',
-			'computed' => 0,
-			);
-		$this->Assessment_m->add_charge($charge_field);
+$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
+$fixed_fees = Assessment::get_fixed_fees($work_force);
 
-		$charge_field = array(
-			'assessmentId' => $assessment_id,
-			'due' => $fixed_fees['business_inspection'],
-			'surcharge' => 0,
-			'interest' => 0,
-			'computed' => 0,
-			'particulars' => 'BUSINESS INSPECTION FEE',
-			);
-		$this->Assessment_m->add_charge($charge_field);
-		$charge_field = array(
-			'assessmentId' => $assessment_id,
-			'due' => $sanitary_fee,
-			'surcharge' => 0,
-			'interest' => 0,
-			'computed' => 0,
-			'particulars' => 'SANITARY PERMIT FEE',
-			);
-		$this->Assessment_m->add_charge($charge_field);
-		$charge_field = array(
-			'assessmentId' => $assessment_id,
-			'due' => $fixed_fees['health_card_fee'],
-			'surcharge' => 0,
-			'interest' => 0,
-			'computed' => 0,
-			'particulars' => 'HEALTH CARD FEE',
-			);
-		$this->Assessment_m->add_charge($charge_field);
-		$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_num]);
+$charge_field = array(
+	'assessmentId' => $assessment_id,
+	'due' => $environmental,
+	'surcharge' => 0,
+	'interest' => 0,
+	'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
+	'computed' => 0,
+	);
+$this->Assessment_m->add_charge($charge_field);
+$charge_field = array(
+	'assessmentId' => $assessment_id,
+	'due' => $garbage_service,
+	'surcharge' => 0,
+	'interest' => 0,
+	'particulars' => 'GARBAGE SERVICE FEE',
+	'computed' => 0,
+	);
+$this->Assessment_m->add_charge($charge_field);
+$charge_field = array(
+	'assessmentId' => $assessment_id,
+	'due' => $zoning_fee,
+	'surcharge' => 0,
+	'interest' => 0,
+	'particulars' => 'ZONING/LOCATIONAL CLEARANCE FEE',
+	'computed' => 0,
+	);
+$this->Assessment_m->add_charge($charge_field);
+
+$charge_field = array(
+	'assessmentId' => $assessment_id,
+	'due' => $fixed_fees['business_inspection'],
+	'surcharge' => 0,
+	'interest' => 0,
+	'computed' => 0,
+	'particulars' => 'BUSINESS INSPECTION FEE',
+	);
+$this->Assessment_m->add_charge($charge_field);
+$charge_field = array(
+	'assessmentId' => $assessment_id,
+	'due' => $sanitary_fee,
+	'surcharge' => 0,
+	'interest' => 0,
+	'computed' => 0,
+	'particulars' => 'SANITARY PERMIT FEE',
+	);
+$this->Assessment_m->add_charge($charge_field);
+$charge_field = array(
+	'assessmentId' => $assessment_id,
+	'due' => $fixed_fees['health_card_fee'],
+	'surcharge' => 0,
+	'interest' => 0,
+	'computed' => 0,
+	'particulars' => 'HEALTH CARD FEE',
+	);
+$this->Assessment_m->add_charge($charge_field);
+$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_num]);
+}
+
+private function archive_record($reference_num)
+{
+	$bplo = new BPLO_Application($reference_num);
+	$cenro = new CENRO_Application($reference_num);
+	$bfp = new BFP_Application($reference_num);
+	$sanitary = new Sanitary_Application($reference_num);
+
+// $data['bplo'] = $bplo;
+// $data['cenro'] = $cenro;
+// $data['bfp'] = $bfp;
+// $data['sanitary'] = $sanitary;
+
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
+// exit();
+
+//fugitiveParticulates
+	$fugitive_particulates = null;
+	foreach ($cenro->get_FugitiveParticulates() as $key => $value) {
+		$fugitive_particulates .= "|".$value;
 	}
+	$fugitive_particulates = substr($fugitive_particulates, 1);
 
-	private function archive_record($reference_num)
-	{
-		$bplo = new BPLO_Application($reference_num);
-		$cenro = new CENRO_Application($reference_num);
-		$bfp = new BFP_Application($reference_num);
-		$sanitary = new Sanitary_Application($reference_num);
+//steamGenerator
+	$steam_generator = null;
+	foreach ($cenro->get_SteamGenerator() as $key => $value) {
+		$steam_generator .= "|".$value;
+	}
+	$steam_generator = substr($steam_generator, 1);
 
-		// $data['bplo'] = $bplo;
-		// $data['cenro'] = $cenro;
-		// $data['bfp'] = $bfp;
-		// $data['sanitary'] = $sanitary;
-
-		// echo "<pre>";
-		// print_r($data);
-		// echo "</pre>";
-		// exit();
-
-		//fugitiveParticulates
-		$fugitive_particulates = null;
-		foreach ($cenro->get_FugitiveParticulates() as $key => $value) {
-			$fugitive_particulates .= "|".$value;
-		}
-		$fugitive_particulates = substr($fugitive_particulates, 1);
-
-		//steamGenerator
-		$steam_generator = null;
-		foreach ($cenro->get_SteamGenerator() as $key => $value) {
-			$steam_generator .= "|".$value;
-		}
-		$steam_generator = substr($steam_generator, 1);
-		
-		//wasteMinimizationMethod
-		$waste_minimization_method = null;
-		foreach ($cenro->get_WasteMinimizationMethod() as $key => $value) {
-			$waste_minimization_method .= "|".$value;
-		}
-		$waste_minimization_method = substr($waste_minimization_method, 1);
-		// echo "<pre>";
-		// var_dump($fugitive_particulates." ".$steam_generator." ".$waste_minimization_method);
-		// echo "</pre>";
-		// exit();
+//wasteMinimizationMethod
+	$waste_minimization_method = null;
+	foreach ($cenro->get_WasteMinimizationMethod() as $key => $value) {
+		$waste_minimization_method .= "|".$value;
+	}
+	$waste_minimization_method = substr($waste_minimization_method, 1);
+// echo "<pre>";
+// var_dump($fugitive_particulates." ".$steam_generator." ".$waste_minimization_method);
+// echo "</pre>";
+// exit();
 
 
-		$archive_application_field = array(
-			'referenceNum' => $reference_num, 
-			'userId' => $this->encryption->decrypt($bplo->get_UserId()), 
-			'taxYear' => $bplo->get_taxyear(), 
-			'applicationDate' => $bplo->get_ApplicationDate(), 
-			'modeOfPayment' => $bplo->get_ModeOfPayment(), 
-			'idPresented' => $bplo->get_IdPresented(), 
-			'DTISECCDA_RegNum' => $bplo->get_DTISECCDARegNum(), 
-			'DTISECCDA_Date' => $bplo->get_DTISECCDADate(), 
-			'brgyClearanceDateIssued' => $bplo->get_BrgyClearanceDateIssued(), 
-			'CTCNum' => $bplo->get_CTCNum(), 
-			'TIN' => $bplo->get_TIN(), 
-			'entityName' => $bplo->get_EntityName(), 
-			'dateStarted' => $bplo->get_DateStarted(), 
-			'presidentTreasurerName' => $bplo->get_PresidentTreasurerName(), 
-			'businessName' => $bplo->get_BusinessName(), 
-			'companyName' => $bplo->get_CompanyName(), 
-			'tradeName' => $bplo->get_TradeName(), 
-			'signageName' => $bplo->get_SignageName(), 
-			'organizationType' => $bplo->get_OrganizationType(), 
-			'corporationName' => $bplo->get_CorporationName(), 
-			'dateOfOperation' => $bplo->get_DateOfOperation(), 
-			'businessDesc' => $bplo->get_BusinessDesc(), 
-			'PIN' => $bplo->get_PIN(), 
-			'bldgName' => $bplo->get_BldgName(), 
-			'houseBldgNum' => $bplo->get_HouseBldgNum(), 
-			'unitNum' => $bplo->get_UnitNum(), 
-			'street' => $bplo->get_Street(), 
-			'subdivision' => $bplo->get_Subdivision(), 
-			'barangay' => $bplo->get_Barangay(), 
-			'cityMunicipality' => $bplo->get_CityMunicipality(), 
-			'province' => $bplo->get_province(), 
-			'telNum' => $bplo->get_TelNum(), 
-			'email' => $bplo->get_Email(), 
-			'pollutionControlOfficer' => $bplo->get_PollutionControlOfficer(), 
-			'maleEmployees' => $bplo->get_MaleEmployees(), 
-			'femaleEmployees' => $bplo->get_FemaleEmployees(), 
-			'PWDEmployees' => $bplo->get_PWDEmployees(), 
-			'LGUEMployees' => $bplo->get_LGUEmployees(), 
-			'businessArea' => $bplo->get_BusinessArea(), 
-			'emergencyContactPerson' => $bplo->get_EmergencyContactPerson(), 
-			'emergencyTelNum' => $bplo->get_EmergencyTelNum(), 
-			'emergencyEmail' => $bplo->get_EmergencyEmail(), 
-			'zoneType' => $bplo->get_ZoneType(), 
-			'lat' => $bplo->get_lat(), 
-			'lng' => $bplo->get_lng(), 
-			'gmapAddress' => $bplo->get_GmapAddress(), 
-			'ownerFirstName' => $bplo->get_FirstName(), 
-			'ownerMiddleName' => $bplo->get_MiddleName(), 
-			'ownerLastName' => $bplo->get_LastName(), 
-			'ownerHouseBldgNum' => $bplo->get_OwnerHouseBldgNo(), 
-			'ownerBldgName' => $bplo->get_OwnerBldgName(), 
-			'ownerUnitNum' => $bplo->get_OwnerUnitNum(), 
-			'ownerStreet' => $bplo->get_OwnerStreet(), 
-			'ownerBarangay' => $bplo->get_OwnerBarangay(), 
-			'ownerSubdivision' => $bplo->get_OwnerSubdivision(), 
-			'ownerCityMunicipality' => $bplo->get_OwnerCityMunicipality(), 
-			'ownerProvince' => $bplo->get_OwnerProvince(), 
-			'ownerContactNum' => $bplo->get_OwnerContactNum(), 
-			'ownerTelNum' => $bplo->get_OwnerTelnum(), 
-			'ownerEmail' => $bplo->get_OwnerEmail(), 
-			'ownerPIN' => $bplo->get_OwnerPIN(), 
-			'CNC' => $cenro->get_CNC(), 
-			'LLDAClearance' => $cenro->get_LLDAClearance(), 
-			'dischargePermit' => $cenro->get_DischargePermit(), 
-			'apsci' => $cenro->get_APSCI(), 
-			'productsAndByProducts' => $cenro->get_productsAndByProducts(), 
-			'smokeEmission' => $cenro->get_SmokeEmission(), 
-			'volatileCompound' => $cenro->get_VolatileCompound(), 
-			'fugitiveParticulates' => $fugitive_particulates,
-			'steamGenerator' => $steam_generator,
-			'APCD' => $cenro->get_APCD(), 
-			'stackHeight' => $cenro->get_StackHeight(), 
-			'wastewaterTreatmentFacility' => $cenro->get_WasteWaterTreatmentFacility(), 
-			'wastewaterTreatmentOperationAndProcess' => $cenro->get_WasteWaterTreatmentOperationAndProcess(), 
-			'pendingCaseWithLLDA' => $cenro->get_pendingCaseWithLLDA(), 
-			'typeOfSolidWastesGenerated' => $cenro->get_TypeOfSolidWastesGenerated(), 
-			'qtyPerDay' => $cenro->get_QtyPerDay(), 
-			'garbageCollectionMethod' => $cenro->get_GarbageCollectionMethod(), 
-			'frequencyOfGarbageCollection' => $cenro->get_FrequencyOfGarbageCollection(), 
-			'wasteCollector' => $cenro->get_WasteCollector(), 
-			'collectorAddress' => $cenro->get_CollectorAddress(), 
-			'garbageDisposalMethod' => $cenro->get_GarbageDisposalMethod(), 
-			'wasteMinimizationMethod' => $waste_minimization_method,
-			'drainageSystem' => $cenro->get_DrainageSystem(), 
-			'drainageType' => $cenro->get_DrainageType(), 
-			'drainageDischargeLocation' => $cenro->get_DrainageDischargeLocation(), 
-			'sewerageSystem' => $cenro->get_SewerageSystem(), 
-			'septicTank' => $cenro->get_SepticTank(), 
-			'sewerageDischargeLocation' => $cenro->get_SewerageDischargeLocation(), 
-			'waterSupply' => $cenro->get_WaterSupply(), 
-			'storeys' => $bfp->get_Storeys(), 
-			'occupiedPortion' => $bfp->get_OccupiedPortion(), 
-			'areaPerFloor' => $bfp->get_AreaPerFloor(), 
-			'occupancyPermitNum' => $bfp->get_OccupancyPermitNum(), 
-			'annualEmployeePhysicalExam' => $sanitary->get_AnnualEmployeePhysicalExam(),
-			'typeLevelOfWaterSource' => $sanitary->get_typeLevelOfWaterSource()
-			);
+	$archive_application_field = array(
+		'referenceNum' => $reference_num, 
+		'userId' => $this->encryption->decrypt($bplo->get_UserId()), 
+		'taxYear' => $bplo->get_taxyear(), 
+		'applicationDate' => $bplo->get_ApplicationDate(), 
+		'modeOfPayment' => $bplo->get_ModeOfPayment(), 
+		'idPresented' => $bplo->get_IdPresented(), 
+		'DTISECCDA_RegNum' => $bplo->get_DTISECCDARegNum(), 
+		'DTISECCDA_Date' => $bplo->get_DTISECCDADate(), 
+		'brgyClearanceDateIssued' => $bplo->get_BrgyClearanceDateIssued(), 
+		'CTCNum' => $bplo->get_CTCNum(), 
+		'TIN' => $bplo->get_TIN(), 
+		'entityName' => $bplo->get_EntityName(), 
+		'dateStarted' => $bplo->get_DateStarted(), 
+		'presidentTreasurerName' => $bplo->get_PresidentTreasurerName(), 
+		'businessName' => $bplo->get_BusinessName(), 
+		'companyName' => $bplo->get_CompanyName(), 
+		'tradeName' => $bplo->get_TradeName(), 
+		'signageName' => $bplo->get_SignageName(), 
+		'organizationType' => $bplo->get_OrganizationType(), 
+		'corporationName' => $bplo->get_CorporationName(), 
+		'dateOfOperation' => $bplo->get_DateOfOperation(), 
+		'businessDesc' => $bplo->get_BusinessDesc(), 
+		'PIN' => $bplo->get_PIN(), 
+		'bldgName' => $bplo->get_BldgName(), 
+		'houseBldgNum' => $bplo->get_HouseBldgNum(), 
+		'unitNum' => $bplo->get_UnitNum(), 
+		'street' => $bplo->get_Street(), 
+		'subdivision' => $bplo->get_Subdivision(), 
+		'barangay' => $bplo->get_Barangay(), 
+		'cityMunicipality' => $bplo->get_CityMunicipality(), 
+		'province' => $bplo->get_province(), 
+		'telNum' => $bplo->get_TelNum(), 
+		'email' => $bplo->get_Email(), 
+		'pollutionControlOfficer' => $bplo->get_PollutionControlOfficer(), 
+		'maleEmployees' => $bplo->get_MaleEmployees(), 
+		'femaleEmployees' => $bplo->get_FemaleEmployees(), 
+		'PWDEmployees' => $bplo->get_PWDEmployees(), 
+		'LGUEMployees' => $bplo->get_LGUEmployees(), 
+		'businessArea' => $bplo->get_BusinessArea(), 
+		'emergencyContactPerson' => $bplo->get_EmergencyContactPerson(), 
+		'emergencyTelNum' => $bplo->get_EmergencyTelNum(), 
+		'emergencyEmail' => $bplo->get_EmergencyEmail(), 
+		'zoneType' => $bplo->get_ZoneType(), 
+		'lat' => $bplo->get_lat(), 
+		'lng' => $bplo->get_lng(), 
+		'gmapAddress' => $bplo->get_GmapAddress(), 
+		'ownerFirstName' => $bplo->get_FirstName(), 
+		'ownerMiddleName' => $bplo->get_MiddleName(), 
+		'ownerLastName' => $bplo->get_LastName(), 
+		'ownerHouseBldgNum' => $bplo->get_OwnerHouseBldgNo(), 
+		'ownerBldgName' => $bplo->get_OwnerBldgName(), 
+		'ownerUnitNum' => $bplo->get_OwnerUnitNum(), 
+		'ownerStreet' => $bplo->get_OwnerStreet(), 
+		'ownerBarangay' => $bplo->get_OwnerBarangay(), 
+		'ownerSubdivision' => $bplo->get_OwnerSubdivision(), 
+		'ownerCityMunicipality' => $bplo->get_OwnerCityMunicipality(), 
+		'ownerProvince' => $bplo->get_OwnerProvince(), 
+		'ownerContactNum' => $bplo->get_OwnerContactNum(), 
+		'ownerTelNum' => $bplo->get_OwnerTelnum(), 
+		'ownerEmail' => $bplo->get_OwnerEmail(), 
+		'ownerPIN' => $bplo->get_OwnerPIN(), 
+		'CNC' => $cenro->get_CNC(), 
+		'LLDAClearance' => $cenro->get_LLDAClearance(), 
+		'dischargePermit' => $cenro->get_DischargePermit(), 
+		'apsci' => $cenro->get_APSCI(), 
+		'productsAndByProducts' => $cenro->get_productsAndByProducts(), 
+		'smokeEmission' => $cenro->get_SmokeEmission(), 
+		'volatileCompound' => $cenro->get_VolatileCompound(), 
+		'fugitiveParticulates' => $fugitive_particulates,
+		'steamGenerator' => $steam_generator,
+		'APCD' => $cenro->get_APCD(), 
+		'stackHeight' => $cenro->get_StackHeight(), 
+		'wastewaterTreatmentFacility' => $cenro->get_WasteWaterTreatmentFacility(), 
+		'wastewaterTreatmentOperationAndProcess' => $cenro->get_WasteWaterTreatmentOperationAndProcess(), 
+		'pendingCaseWithLLDA' => $cenro->get_pendingCaseWithLLDA(), 
+		'typeOfSolidWastesGenerated' => $cenro->get_TypeOfSolidWastesGenerated(), 
+		'qtyPerDay' => $cenro->get_QtyPerDay(), 
+		'garbageCollectionMethod' => $cenro->get_GarbageCollectionMethod(), 
+		'frequencyOfGarbageCollection' => $cenro->get_FrequencyOfGarbageCollection(), 
+		'wasteCollector' => $cenro->get_WasteCollector(), 
+		'collectorAddress' => $cenro->get_CollectorAddress(), 
+		'garbageDisposalMethod' => $cenro->get_GarbageDisposalMethod(), 
+		'wasteMinimizationMethod' => $waste_minimization_method,
+		'drainageSystem' => $cenro->get_DrainageSystem(), 
+		'drainageType' => $cenro->get_DrainageType(), 
+		'drainageDischargeLocation' => $cenro->get_DrainageDischargeLocation(), 
+		'sewerageSystem' => $cenro->get_SewerageSystem(), 
+		'septicTank' => $cenro->get_SepticTank(), 
+		'sewerageDischargeLocation' => $cenro->get_SewerageDischargeLocation(), 
+		'waterSupply' => $cenro->get_WaterSupply(), 
+		'storeys' => $bfp->get_Storeys(), 
+		'occupiedPortion' => $bfp->get_OccupiedPortion(), 
+		'areaPerFloor' => $bfp->get_AreaPerFloor(), 
+		'occupancyPermitNum' => $bfp->get_OccupancyPermitNum(), 
+		'annualEmployeePhysicalExam' => $sanitary->get_AnnualEmployeePhysicalExam(),
+		'typeLevelOfWaterSource' => $sanitary->get_typeLevelOfWaterSource()
+		);
 $archive_application_id = $this->Archive_m->insert_application($archive_application_field);
 
 foreach ($bplo->get_BusinessActivities() as $key => $activity) {
@@ -927,7 +928,7 @@ public function finalize($reference_num)
 	echo script_tag('assets/js/parsley.min.js');
 	$navdata['title'] = 'BPLO - Finalize';
 	$navdata['active'] = 'Applications';
-				//get notifications
+//get notifications
 	$navdata['notifications'] = User::get_notifications();
 	$navdata['completed'] = User::get_complete_notifications();
 	$this->_init_matrix($navdata);
@@ -995,4 +996,72 @@ public function submit_finalization()
 		redirect('dashboard');
 	}
 }
+
+public function submit_retirement($reference_num)
+{
+	$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $reference_num));
+	$this->form_validation->set_rules('activity-id[]', 'Activity ID', 'required');
+	$this->form_validation->set_rules('reason', 'Reason for retirement / Closure of Business', 'required');
+	$this->form_validation->set_rules('essentials[]', 'Essentials', 'required');
+	$this->form_validation->set_rules('non-essentials[]', 'Non-Essentials', 'required');
+
+	if($this->form_validation->run() == false)
+	{
+		$this->session->set_flashdata('error', validation_errors());
+		$application = new BPLO_Application($reference_num);
+		//bin2hex($this->encryption->encrypt($application->get_applicationId().'|'.$this->encryption->decrypt($application->get_reference_num()), $custom_encrypt))
+		$custom_encrypt = array(
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
+		$encrypted_url = bin2hex($this->encryption->encrypt($application->get_applicationId()."|".$reference_num, $custom_encrypt));
+		redirect('form/view/'.$encrypted_url);
+	}
+	else
+	{
+		$application = new BPLO_Application($reference_num);
+		//$previous_gross = $application->get_applicationType() == "New" ? $activity->capitalization : $activity->previousGross[0]->essentials + $activity->previousGross[0]->nonEssentials;
+		$activity_id = $this->input->post('activity-id');
+		$essentials = $this->input->post('essentials');
+		$non_essentials = $this->input->post('non-essentials');
+
+		foreach ($application->get_BusinessActivities() as $key => $activity) {
+			$previous_gross[] = $application->get_applicationType() == "New" ? $activity->capitalization : $activity->previousGross[0]->essentials + $activity->previousGross[0]->nonEssentials;
+		}
+
+		foreach ($activity_id as $key => $activity) {
+			$gross_fields = array(
+				'activityId' => $this->encryption->decrypt($activity),
+				'previousGross' => $previous_gross[$key],
+				'essentials' => $essentials[$key],
+				'nonEssentials' => $non_essentials[$key]
+				);
+			$this->Gross_m->insert($gross_fields);
+		}
+
+		$retirement_field = array(
+			'referenceNum' => $reference_num,
+			'reason' => $this->input->post('reason'),
+			'status' => 'For approval',
+			);
+		$this->Retirement_m->insert($retirement_field);
+
+		BPLO_Application::update_status($reference_num, 'For Retirement');
+
+		//send notification to BPLO for retirement
+		$notification_fields = array(
+			'referenceNum' => $reference_num,
+			'status' => 'Unread',
+			'role' => 4,
+			'notifMessage' => 'Retirement',
+			);
+		$this->Notification_m->insert($notification_fields);
+
+		redirect('dashboard');
+	}
+}
+
+
 }//END OF CLASS

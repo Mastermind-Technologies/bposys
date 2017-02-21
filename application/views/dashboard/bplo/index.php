@@ -43,7 +43,14 @@
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
 
-       <li class="bg_db span3"> <a href="<?php echo base_url(); ?>reports"><span><i class="fa fa-signal fa-2x" aria-hidden="true"></i> </span><br>View Reports</a> </li>
+       <li class="bg_lr"> <a href="<?php echo base_url() ?>dashboard/retirements"><span><i class="fa fa-times-rectangle fa-2x" aria-hidden="true"></i><span class="label label-info badge-retirement"><?= $retirement > 0 ? $retirement : "" ?></span> </span><br>Retirements</a> </li>
+
+     </ul>
+   </div>
+    <div class="quick-actions_homepage">
+      <ul class="quick-actions">
+
+       <li class="bg_db span3"> <a href="<?php echo base_url(); ?>reports"><span><i class="fa fa-bar-chart-o fa-2x" aria-hidden="true"></i> </span><br>View Reports</a> </li>
 
      </ul>
    </div>

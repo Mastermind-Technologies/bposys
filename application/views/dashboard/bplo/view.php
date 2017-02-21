@@ -412,7 +412,6 @@
               </table>
             <?php endif ?>
             <div class="form-actions">
-              <!-- <a href="<?php echo base_url(); ?>dashboard/get_cert_closure_info" class="btn btn-info btn-large">Print Certificate Closure</a> -->
               <div class="row text-center">
                 <?php if ($application->get_status() == "For finalization"): ?>
                   <a href="<?php echo base_url(); ?>form/finalize/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Proceed to Finalization</a>

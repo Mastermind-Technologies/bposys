@@ -7,6 +7,8 @@
         <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a>
       <?php elseif ($application->get_status() == "For applicant visit"): ?>
         <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a>
+      <?php elseif ($application->get_status() == "Active"): ?>
+        <a href="<?php echo base_url(); ?>dashboard/issued_applications">Issued Applications</a>
       <?php endif ?>
 
       <a href="#" class="current">View</a>
@@ -24,7 +26,7 @@
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#tab1">BFP Form</a></li>
           <li><a data-toggle="tab" href="#bplo">BPLO Form</a></li>
-          <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
+          <!-- <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li> -->
           <li><a data-toggle="tab" onclick="initMap()" href="#tab3">Business Location</a></li>
         </ul>
       </div>
@@ -438,7 +440,7 @@
                   </table>
                 <?php endif ?>
               </div>
-              <div id="tab2" class="tab-pane">
+              <!-- <div id="tab2" class="tab-pane">
                 <h3 class='text-center'>Tax Order of Payment</h3>
                 <div class="row">
                   <div class="span2">
@@ -510,7 +512,7 @@
                       <label for="">Total: <?= $bplo->get_assessment()->amount ?></label>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div id="tab3" class='tab-pane'>
                   <div id="gmaps" style="width:100%; height:500px; background-color: gray"></div>
                 </div>
