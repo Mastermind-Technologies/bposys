@@ -1746,6 +1746,19 @@ class Dashboard extends CI_Controller {
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 		$role_Id = $this->Role_m->get_roleId($role);
 
+		if($role != "Engineering")
+		{
+			$this->form_validation->set_rules('requirements[]', 'Requirements', 'required');
+			if ($this->form_validation->run() == false) {
+				$this->session->set_flashdata('message','Approval failed, requirements not completed.');
+				redirect('dashboard');
+			}
+			else
+			{
+				$requirements = $this->input->post('requirements');
+			}
+		}
+
 		//validate if application is legitimately validated
 		// $query = array(
 		// 	'referenceNum' => $referenceNum,
@@ -1775,24 +1788,52 @@ class Dashboard extends CI_Controller {
 			$application = new Zoning_Application($referenceNum);
 			$application->change_status($referenceNum, 'Active');
 			$notif_message = $application->get_businessName() . " has been approved by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of Zoning Department.";
+			foreach ($requirements as $key => $requirement) {
+				$submitted_requirements_field = array(
+					'referenceNum' => $referenceNum,
+					'requirementId' => $this->encryption->decrypt($requirement),
+					);
+				$this->Requirement_m->insert_submitted_requirements($submitted_requirements_field);
+			}
 		}
 		else if ($role == "CENRO")
 		{
 			$application = new CENRO_Application($referenceNum);
 			$application->change_status($referenceNum, 'Active');
 			$notif_message = $application->get_businessName() . " has been approved by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of City Environment and Natural Resources.";
+			foreach ($requirements as $key => $requirement) {
+				$submitted_requirements_field = array(
+					'referenceNum' => $referenceNum,
+					'requirementId' => $this->encryption->decrypt($requirement),
+					);
+				$this->Requirement_m->insert_submitted_requirements($submitted_requirements_field);
+			}
 		}
 		else if ($role == "CHO")
 		{
 			$application = new Sanitary_Application($referenceNum);
 			$application->change_status($referenceNum, 'Active');
 			$notif_message = $application->get_businessName() . " has been approved by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of City Health Office.";
+			foreach ($requirements as $key => $requirement) {
+				$submitted_requirements_field = array(
+					'referenceNum' => $referenceNum,
+					'requirementId' => $this->encryption->decrypt($requirement),
+					);
+				$this->Requirement_m->insert_submitted_requirements($submitted_requirements_field);
+			}
 		}
 		else if ($role == "BFP")
 		{
 			$application = new BFP_Application($referenceNum);
 			$application->change_status($referenceNum, 'Active');
 			$notif_message = $application->get_businessName() . " has been approved by ".$this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName']." of Bureau of Fire Protection.";
+			foreach ($requirements as $key => $requirement) {
+				$submitted_requirements_field = array(
+					'referenceNum' => $referenceNum,
+					'requirementId' => $this->encryption->decrypt($requirement),
+					);
+				$this->Requirement_m->insert_submitted_requirements($submitted_requirements_field);
+			}
 		}
 		else if ($role == "Engineering")
 		{
@@ -2192,13 +2233,13 @@ class Dashboard extends CI_Controller {
 				$this->Business_Activity_m->update_business_activity($this->encryption->decrypt($id), $business_activity_fields);
 			}
 
-			foreach ($submitted_requirements as $key => $requirement) {
-				$submitted_requirements_field = array(
-					'referenceNum' => $reference_num,
-					'requirementId' => $this->encryption->decrypt($requirement),
-					);
-				$this->Requirement_m->insert_submitted_requirements($submitted_requirements_field);
-			}
+			// foreach ($submitted_requirements as $key => $requirement) {
+			// 	$submitted_requirements_field = array(
+			// 		'referenceNum' => $reference_num,
+			// 		'requirementId' => $this->encryption->decrypt($requirement),
+			// 		);
+			// 	$this->Requirement_m->insert_submitted_requirements($submitted_requirements_field);
+			// }
 
 			$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 			$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);

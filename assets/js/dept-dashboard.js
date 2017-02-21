@@ -189,6 +189,7 @@ $(document).ready(function(){
 	});
 
 	var requirements_count = $('.requirements-checkbox').length;
+	console.log(requirements_count);
 	var checked_count = 0;
 	$('.requirements-checkbox').click(function(){
 		if($(this).is(':checked'))
