@@ -165,6 +165,28 @@ class Form extends CI_Controller {
 
 		$data['application'] = new BPLO_Application($referenceNum);
 
+		$query['referenceNum'] = $referenceNum;
+		$query['YEAR(createdAt)'] = date('Y');
+
+		$query['dept'] = 'Zoning';
+		$data['zoning'] = $this->Issued_Application_m->get_current_issued($query);
+
+		$query['dept'] = 'CHO';
+		$data['sanitary'] = $this->Issued_Application_m->get_current_issued($query);
+
+		$query['dept'] = 'BFP';
+		$data['bfp'] = $this->Issued_Application_m->get_current_issued($query);
+
+		$query['dept'] = 'CENRO';
+		$data['cenro'] = $this->Issued_Application_m->get_current_issued($query);
+
+		$query['dept'] = 'Engineering';
+		$data['engineering'] = $this->Issued_Application_m->get_current_issued($query);
+		// echo "<pre>";
+		// print_r($data);
+		// echo "</pre>";
+		// exit();
+
 		$this->load->view('dashboard/applicant/view_application', $data);
 	}
 
@@ -523,6 +545,7 @@ class Form extends CI_Controller {
 				'referenceNum' => $reference_num,
 				'userId' =>  $user_id,
 				'businessId' => $business_id,
+				'applicationDate' => $this->input->post('application-date'),
 				'annualEmployeePhysicalExam' => $this->input->post('annual-exams')=="Yes" ? 1 : 0,
 				'typeLevelOfWaterSource' => $this->input->post('water-supply-type'),
 				'status' => 'For applicant visit',

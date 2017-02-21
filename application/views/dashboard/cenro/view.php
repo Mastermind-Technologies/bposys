@@ -50,7 +50,7 @@
               <tr>
                 <td colspan="2">
                   <label for="nature_of_business">Nature of Business:</label>
-                  <h5><?=$application->get_LineOfBusiness()?></h5>
+                  <h5><?= $application->get_LineOfBusiness() ?></h5>
                 </td>
               </tr>
               <tr>

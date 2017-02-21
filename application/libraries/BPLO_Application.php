@@ -30,6 +30,7 @@ class BPLO_Application extends Business {
     private $lastEdited = null;
     private $totalAssessment = null;
     private $requirements = null;
+    private $quarterPayment = null;
 
     public function __construct($reference_num = null){
       $this->CI =& get_instance();
@@ -174,6 +175,22 @@ if(count($assessment) > 0)
             $totalCharges += (double)$c->interest;
         }
     }
+    if($param->modeOfPayment == "Anually")
+    {
+        $quarter_payment[0] = $totalCharges;
+    }
+    else if($param->modeOfPayment == "Semi-Anually")
+    {
+        $quarter_payment[0] = $totalCharges/2;
+        $quarter_payment[1] = $totalCharges/2;
+    }
+    else if($param->modeOfPayment == "Quarterly")
+    {
+        $quarter_payment[0] = $totalCharges/4;
+        $quarter_payment[1] = $totalCharges/4;
+        $quarter_payment[2] = $totalCharges/4;
+        $quarter_payment[3] = $totalCharges/4;
+    }
 }
 
 
@@ -212,6 +229,8 @@ if(isset($lineOfBusiness))
 $this->capital = $total_capital;
 $this->lastEdited = $param->updatedAt;
 $this->requirements = $this->CI->Requirement_m->get_requirements(4);
+if(isset($quarter_payment))
+    $this->quarterPayment = $quarter_payment;
 if(isset($totalCharges))
     $this->totalAssessment = $totalCharges;
 if(count($assessment) > 0)
@@ -852,6 +871,30 @@ return $this;
     private function set_Requirements($requirements)
     {
         $this->requirements = $requirements;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of quarter_payment.
+     *
+     * @return mixed
+     */
+    public function get_QuarterPayment()
+    {
+        return $this->quarterPayment;
+    }
+
+    /**
+     * Sets the value of quarter_payment.
+     *
+     * @param mixed $quarter_payment the quarter payment
+     *
+     * @return self
+     */
+    public function set_QuarterPayment($quarterPayment)
+    {
+        $this->quarterPayment = $quarterPayment;
 
         return $this;
     }

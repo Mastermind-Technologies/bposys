@@ -55,7 +55,26 @@
               </tr>
               <tr>
                 <td>
-                  <label for="name_permitee">NAME OF PERMITEE- <input type="checkbox" disabled <?= $application->get_organizationType()== "Corporation" ? 'checked' : '' ?> name="radios" />Corporation Name: <?=$application->get_corporationName()?> <input type="checkbox" disabled <?= $application->get_organizationType()== "Single" ? 'checked' : '' ?> name="radios" />Owner's Name: <?=$application->get_FirstName() . " " . $application->get_MiddleName() . " " . $application->get_LastName()?></label>
+                  <label for="name_permitee">NAME OF PERMITEE:</label>
+                  <h5><?= $this->session->userdata['userdata']['firstName']." ".$this->session->userdata['userdata']['middleName']." ".$this->session->userdata['userdata']['lastName'] ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="">ORGANIZATION TYPE:</label>
+                  <h5><?= $application->get_organizationType() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <?php if ($application->get_organizationType() == "Corporation"): ?>
+                    <label for="">CORPORATION NAME:</label>
+                    <h5><?=$application->get_corporationName()?></h5>
+                  <?php else: ?>
+                    <label for="">OWNER'S NAME:</label>
+                    <h5><?=$application->get_FirstName() . " " . $application->get_MiddleName() . " " . $application->get_LastName()?></h5>
+                  <?php endif ?>
+                  
                 </td>
               </tr>
               <tr>

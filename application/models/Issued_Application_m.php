@@ -27,6 +27,17 @@ class Issued_Application_m extends CI_Model {
 		return $result->result();
 	}
 
+	public function get_current_issued($query = null)
+	{
+		if($query != null)
+			$this->db->where($query);
+
+		$this->db->select('*')->from($this->table)->limit(1);
+		$result = $this->db->get();
+
+		return $result->result();
+	}
+
 	public function get_latest_issued($query = null)
 	{
 		if($query != null)

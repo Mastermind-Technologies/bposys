@@ -56,7 +56,7 @@
               <tr>
                 <td colspan="2">
                   <label for="nature_of_business">Nature of Business</label>
-                  <h5>???</h5>
+                  <h5><?= $application->get_LineOfBusiness() ?></h5>
                 </td>
               </tr>
               <tr>
@@ -76,7 +76,7 @@
                 </td>
                 <td>
                   <label for="representative_contact_number">Contact No.</label>
-                  <h5>???</h5>
+                  <h5><?= $representative->get_contactNum() ?></h5>
                 </td>
               </tr>
               <tr>
@@ -94,8 +94,8 @@
                     <h5><?=$application->get_areaPerFloor()?></h5>
                   </td>
                   <td>
-                    <label for="date_issued">Date Issued</label>
-                    <h5>???</h5>
+                    <!-- <label for="date_issued">Date Issued</label>
+                    <h5>???</h5> -->
                   </td>
                 </tr>
               </tr>

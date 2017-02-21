@@ -41,13 +41,13 @@
                 </td>
                 <td>
                   <label for="sanitary_permit_number">SANITARY PERMIT NO.</label>
-                  <h5>???</h5>
+                  <h5><?= $this->encryption->decrypt($application->get_applicationId()) ?></h5>
                 </td>
               </tr>
               <tr>
                 <td colspan="3">
                   <label for="application_date">Application Date:</label>
-                  <h5>???</h5>
+                  <h5><?= $application->get_applicationDate() ?></h5>
                 </td>
               </tr>
               <tr>
@@ -89,7 +89,7 @@
               <tr>
               <td colspan="3">
                 <label for="line_of_business">Nature/Line of Business: </label>
-                <h5>???</h5>
+                <h5><?= $application->get_lineOfBusiness() ?></h5>
               </td>
               </tr>
               <tr>
