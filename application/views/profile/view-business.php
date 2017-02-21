@@ -17,7 +17,7 @@
 				<?php endif; ?>
 
 				<div class="panel panel-primary">
-					<div class="panel-heading">
+					<div class="panel-heading panel-head">
 						<h3>View Business Information</h3>
 					</div>
 					<div class="panel-body">

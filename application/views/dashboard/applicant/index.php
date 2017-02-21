@@ -10,7 +10,6 @@
 						<div class="panel panel-primary">
 							<div class="panel-heading">
 								<h3>Applications <button class="btn btn-success" id="btn-edit-info"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Business Permit Application</button></h3>
-
 							</div>
 							<div class="panel-body">
 								<?php if(count($applications)>0): ?>
@@ -22,7 +21,7 @@
 											<?php foreach ($applications as $application): ?>
 												<?php if ($application->get_status() != "Cancelled"): ?>
 													<tr>
-														<td style="width:30%;"><p style="margin-top:13%" id="referenceNumber" class="lead text-center text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></p></td>
+														<td style="width:30%;"><p style="margin-top:6%" id="referenceNumber" class="lead text-center text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></p></td>
 														<td style="width:45%;">
 															<?php if ($application->get_status() == "Draft"): ?>
 																<div style="margin-top:2%" class="row">
@@ -59,16 +58,16 @@
 															<?php endif ?>
 														</td>
 														<td style="width:25%;">
-															<div style="margin-top:15%" class="block text-center button-container">
+															<div style="margin-top:6%" class="block text-center button-container">
 																<?php if ($application->get_status() == "Draft"): ?>
-																	<a href="<?php echo base_url(); ?>dashboard/draft_application/<?= str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()) ?>" class="btn btn-success">Continue Draft</a>
-																	<button class="btn btn-danger btn-delete" id="<?php echo base_url(); ?>dashboard/delete_draft/<?= str_replace(['/','+','='], ['-','_','='],$application->get_referenceNum()) ?>">Delete</button>
+																	<a href="<?php echo base_url(); ?>dashboard/draft_application/<?= str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()) ?>" class="btn btn-success"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+																	<button class="btn btn-danger btn-delete" id="<?php echo base_url(); ?>dashboard/delete_draft/<?= str_replace(['/','+','='], ['-','_','='],$application->get_referenceNum()) ?>"><i class="fa fa-trash" aria-hidden="true"></i></button>
 																<?php else: ?>
-																	<a href="<?php echo base_url('form/view/'.bin2hex($this->encryption->encrypt($application->get_applicationId().'|'.$this->encryption->decrypt($application->get_referenceNum()), $custom_encrypt))); ?>"  id="btn-view-details" class="btn btn-primary">View Details</a>
+																	<a href="<?php echo base_url('form/view/'.bin2hex($this->encryption->encrypt($application->get_applicationId().'|'.$this->encryption->decrypt($application->get_referenceNum()), $custom_encrypt))); ?>"  id="btn-view-details" class="btn btn-primary"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 																	<?php if ($application->get_status() != "Active" && $application->get_status() != "Expired" && $application->get_applicationType() != 'Renew' && $application->get_status() != 'For finalization'): ?>
-																		<button id="<?php echo base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($this->encryption->decrypt($application->get_referenceNum()),$custom_encrypt))) ?>" value="Cancel" class="btn btn-danger btn-cancel">Cancel</button>
+																		<button id="<?php echo base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($this->encryption->decrypt($application->get_referenceNum()),$custom_encrypt))) ?>" value="Cancel" class="btn btn-danger btn-cancel"><i class="fa fa-ban" aria-hidden="true"></i></button>
 																	<?php elseif($application->get_status() == 'Expired'): ?>
-																		<a type="button" class="btn btn-warning" href="<?php echo base_url('form/renew/'.bin2hex($this->encryption->encrypt($this->encryption->decrypt($application->get_applicationId()).'|'.$this->encryption->decrypt($application->get_referenceNum()), $custom_encrypt))); ?>">Renew</a>
+																		<a type="button" class="btn btn-warning" href="<?php echo base_url('form/renew/'.bin2hex($this->encryption->encrypt($this->encryption->decrypt($application->get_applicationId()).'|'.$this->encryption->decrypt($application->get_referenceNum()), $custom_encrypt))); ?>"><i class="fa fa-plus" aria-hidden="true"></i></a>
 																	<?php endif ?>
 																<?php endif ?>
 															</div>

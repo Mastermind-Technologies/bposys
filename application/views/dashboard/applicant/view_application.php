@@ -15,7 +15,7 @@
 				</div>
 
 				<!-- class "colored-tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom" -->
-				<div class="panel-body">
+				<div class="panel-body" style="background-color: #f9f9f9">
 
 					<h2>Reference Number: <strong class="text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></h2>
 					<h3>Status: <?php $status = $application->get_status();
@@ -71,17 +71,15 @@
 							</div>
 						</div>
 
-				</div>
-
 				<div class="row" style="padding: 15px">
 					<div class="col-sm-12">
 						<div class="table-responsive">
 							<table class="table table-bordered">
 								<tr>
-									<th style="text-align:center">Requirement</th>
-									<th style="text-align:center">Office/Agency</th>
-									<th style="text-align:center">Status</th>
-									<th style="text-align:center">Action</th>
+									<th style="text-align:center; background-color: #eeeeee">Requirement</th>
+									<th style="text-align:center; background-color: #eeeeee">Office/Agency</th>
+									<th style="text-align:center; background-color: #eeeeee">Status</th>
+									<th style="text-align:center; background-color: #eeeeee">Action</th>
 								</tr>
 								<tr class="success">
 									<td>DTI/SEC/CDA Registration</td>
