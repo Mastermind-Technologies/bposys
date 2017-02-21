@@ -647,8 +647,30 @@ class Profile extends CI_Controller {
 			{
 				redirect('profile/businesses');
 			}
-			
+
 		}
+	}
+
+	public function payment_history()
+	{
+		$this->isLogin();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "payment_history";
+		$this->_init($nav_data);
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$this->load->view('profile/view_payment_history');
+	}
+
+	public function unsettled_charges()
+	{
+		$this->isLogin();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "unsettled_charges";
+		$this->_init($nav_data);
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$this->load->view('profile/view_unsettled_charges');
 	}
 
 	// public function manage_business_address()

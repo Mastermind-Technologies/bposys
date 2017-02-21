@@ -1,7 +1,7 @@
 <title>BPOSys | <?= $title ?></title>
 <!--Header-part-->
 <div id="header">
-  <h1><a href="<?php echo base_url();?>bposys/dashboard"><img src="<?php echo base_url(); ?>assets/matrix/img/logo.png" style="height: 35px; margin-top: -33px; padding-left: 40px" alt=""></a></h1>
+  <h1><a href="<?php echo base_url();?>bposys/dashboard"><img class="navbar-logo" src="<?php echo base_url(); ?>assets\landing-page\img\bposys-logo-white-solo.png" style="height: 35px; margin-top: -33px; padding-left: 45px" alt=""></a></h1>
 </div>
 <!--close-Header-part-->
 
@@ -63,9 +63,14 @@
           <?php endif ?>
         </ul>
       </li>
+<!-- <<<<<<< HEAD
       <?php if ($this->encryption->decrypt($this->session->userdata['userdata']['role']) == "BPLO"): ?>
         <li class="<?= $active=="Reports" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>reports"><i class="icon icon-signal"></i> <span>View Reports</span></a> </li>
       <?php endif ?>
+======= -->
+      <li class=" <?= $active=="Alerts" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>Alerts"><i class="icon icon-bell"></i> <span>Create Alerts</span></a></li>
+      <li class="<?= $active=="Reports" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>reports"><i class="icon icon-signal"></i> <span>View Reports</span></a> </li>
+<!-- >>>>>>> 816d1db6c45111631b272ce5099ef665713e059a -->
       <!-- <li class="<?= $active=="Settings" ? "active" : '' ?>"> <a href=""><i class="icon icon-wrench"></i> <span>Settings</span></a> </li> -->
     <?php else: ?>
       <li class="<?= $active=="Dashboard" ? "active" : '' ?>"><a href="<?php echo base_url() ?>bposys_admin/dashboard"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
