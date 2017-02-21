@@ -23,17 +23,24 @@
        <span class="label label-success badge-process"><?= $process > 0 ? $process : "" ?></span><br><span>On Process</span> </a> </li>
       <li class="bg_c"> <a href="<?php echo base_url(); ?>dashboard/completed_applications"> <i class="fa fa-th-list fa-2x" aria-hidden="true"></i>
         <span class="label label-info badge-completed"><?= $complete > 0 ? $complete : "" ?></span><br>Complete Requirements</a> </li>
-      <li class="bg_ly"> <a href="<?php echo base_url(); ?>dashboard/finalize_applications"> <i class="fa fa-hourglass fa-2x" aria-hidden="true"></i>
+      <li class="bg_ly span2"> <a href="<?php echo base_url(); ?>dashboard/finalize_applications"> <i class="fa fa-hourglass fa-2x" aria-hidden="true"></i>
         <span class="label label-important"><?= $finalization > 0 ? $finalization : "" ?></span><br><span>Finalization</span> </a> </li>
       <li class="bg_ls"> <a href="<?php echo base_url(); ?>dashboard/issued_applications"> <i class="fa fa-check-square fa-2x" aria-hidden="true"></i>
         <span class="label label-info badge-issued"><?= $issued > 0 ? $issued : "" ?></span><br>Issued</a> </li>
+        <li class="bg_db span3"> <a href="<?php echo base_url(); ?>reports"><span><i class="fa fa-signal fa-2x" aria-hidden="true"></i> </span><br>View Reports</a> </li>
+        <li class="bg_ly span3"> <a href="<?php echo base_url(); ?>Alerts"><span><i class="fa fa-bell-o fa-2x" aria-hidden="true"></i> </span><br>Create Alerts</a> </li>
+
+        <li class="bg_db"> <a href="<?php echo base_url(); ?>reports"><span><i class="fa fa-signal fa-2x" aria-hidden="true"></i> </span><br>View Reports</a> </li>
+        <li class="bg_lo"> <a href="<?php echo base_url(); ?>Alerts"><span><i class="fa fa-bell-o fa-2x" aria-hidden="true"></i> </span><br>Create Alerts</a> </li>
+        <li class="bg_db"> <a href="<?php echo base_url(); ?>reports"><span><i class="fa fa-signal fa-2x" aria-hidden="true"></i> </span><br>View Reports</a> </li>
+        <li class="bg_lo"> <a href="<?php echo base_url(); ?>Alerts"><span><i class="fa fa-bell-o fa-2x" aria-hidden="true"></i> </span><br>Create Alerts</a> </li>
+
       </ul>
     </div>
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
 
-       <li class="bg_db"> <a href="<?php echo base_url(); ?>reports"><span><i class="fa fa-signal fa-2x" aria-hidden="true"></i> </span><br>View Reports</a> </li>
-       <li class="bg_lo"> <a href="<?php echo base_url(); ?>Alerts"><span><i class="fa fa-bell-o fa-2x" aria-hidden="true"></i> </span><br>Send Alerts</a> </li>
+
 
      </ul>
    </div>

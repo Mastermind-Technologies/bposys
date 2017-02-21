@@ -1,7 +1,7 @@
 <title>BPOSys | <?= $title ?></title>
 <!--Header-part-->
 <div id="header">
-  <h1><a href="<?php echo base_url();?>bposys/dashboard"><img src="<?php echo base_url(); ?>assets/matrix/img/logo.png" style="height: 35px; margin-top: -33px; padding-left: 40px" alt=""></a></h1>
+  <h1><a href="<?php echo base_url();?>bposys/dashboard"><img class="navbar-logo" src="<?php echo base_url(); ?>assets\landing-page\img\bposys-logo-white-solo.png" style="height: 35px; margin-top: -33px; padding-left: 45px" alt=""></a></h1>
 </div>
 <!--close-Header-part-->
 
