@@ -2546,4 +2546,11 @@ $this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_num
 
 		// echo json_encode("success");
 	}//END AJAX FUNCTIONS
+
+	public function alerts()
+	{
+
+	}
+
+
 }//END OF CLASS,

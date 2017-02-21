@@ -59,8 +59,7 @@
           <?php endif ?>
         </ul>
       </li>
-      <li class="submenu <?= $active=="Notifications" ? "active" : '' ?>"> <a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>
- <span>Notifications</span> <span class="label label-important"><?= $total>0 ? $total : "" ?></span></a></li>
+      <li class=" <?= $active=="Alerts" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>Alerts"><i class="icon icon-bell"></i> <span>Create Alerts</span></a></li>
       <li class="<?= $active=="Reports" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>reports"><i class="icon icon-signal"></i> <span>View Reports</span></a> </li>
       <!-- <li class="<?= $active=="Settings" ? "active" : '' ?>"> <a href=""><i class="icon icon-wrench"></i> <span>Settings</span></a> </li> -->
     <?php else: ?>
