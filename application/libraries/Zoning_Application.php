@@ -11,7 +11,7 @@ class Zoning_Application extends Business {
     private $status = null;
     private $applicationType = null;
     private $requirements = null;
-    
+
     public function __construct($reference_num = null){
       $this->CI =& get_instance();
       $this->CI->load->model('Application_m');
@@ -88,7 +88,11 @@ public function check_expiry()
         );
     $approval = $this->CI->Approval_m->get_latest_approval($query);
             //if this year is greater than application date, expire application
-    if(count($approval[0]) > 0)
+    // echo "<pre>";
+    // print_r($approval);
+    // echo "</pre>";
+    // exit();
+    if(count($approval) > 0)
     {
         if(date('Y') > date('Y', strtotime($approval[0]->createdAt)))
         {
