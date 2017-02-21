@@ -1434,7 +1434,7 @@ class Dashboard extends CI_Controller {
 		$this->isLogin();
 		$navdata['title'] = "Issued Applications";
 		$navdata['active'] = 'Applications';
-		$navdata['notifications'] = User::get_notifications();
+			$navdata['notifications'] = User::get_notifications();
 		$navdata['completed'] = User::get_complete_notifications();
 		$this->_init_matrix($navdata);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
@@ -2165,9 +2165,49 @@ class Dashboard extends CI_Controller {
 				$this->Notification_m->update($query,$set);
 			}
 
-				//get latest 10;
+
 			$latest = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);
+
+			for($i=0;$i<count($latest);$i=$i+1)
+			{
+				$today = strtotime(date('Y-m-d H:i:s'));
+				$createdAt = strtotime($latest[$i]->createdAt);
+				$seconds = $createdAt - $today;
+				$latest[$i]->createdAt = $seconds;
+				$minutes = 0;
+				$hours = 0;
+				$days = 0;
+				$months = 0;
+				$years = 0;
+				if($seconds/60 >= 1)
+				{
+					$minutes = $seconds/60;
+					$latest[$i]->createdAt = floor($minutes) . " minutes ago";;
+					if($minutes/60 >= 1)
+					{
+						$hours = $minutes/60;
+						$latest[$i]->createdAt = floor($hours) . " hours ago";;
+						if($hours/24 >= 1)
+						{
+							$days = $hours/24;
+							$latest[$i]->createdAt = floor($days) . " days ago";;
+							if($days/30 >= 1)
+							{
+								$months/30 > 1;
+								$latest[$i]->createdAt = floor($months)  . " months ago";;
+								if($months/12 >= 1)
+								{
+									$years = $months/12;
+									$latest[$i]->createdAt = floor($years) . " years ago";
+								}
+							}
+						}
+					}
+				}
+			}
+
 			$data['notifications'] = $latest;
+
 			$this->load->view('dashboard/applicant/notif-view', $data);
 		}
 		else

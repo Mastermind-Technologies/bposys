@@ -1,3 +1,11 @@
+.nav .open > a, .nav .open > a:focus, .nav .open > a:hover  {
+  background-color: #353f4a;
+}
+
+#notif-section {
+  max-height: 400px;
+  overflow-y: scroll;
+}
 
 .panel-header {
   padding-bottom: 9px;

@@ -11,9 +11,9 @@
 					</div>
 				<?php endif; ?>
 
-				<div class="panel panel-default">
+				<div class="panel panel-primary">
 					<div class="panel-heading">
-						Edit Information
+						<h3>Edit Information</h3>
 					</div>
 					<div class="panel-body">
 						<form action="<?php echo base_url(); ?>profile/save_edit_info" method="post" data-parsley-validate="">
