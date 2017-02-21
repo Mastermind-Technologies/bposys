@@ -125,13 +125,15 @@
                 </tr>
               </thead>
               <tbody>
-              <?php foreach ($barangay_array as $key => $barangay): ?>
-                <tr>
-                  <td><?= $barangay->barangay ?></td>
-                  <td><?= $barangay->count ?></td>
-                  <td><?= isset($barangay->expired) ? $barangay->expired : "0" ?></td>
-                </tr>
-              <?php endforeach ?>
+                <?php if (isset($barangay_array)): ?>
+                  <?php foreach ($barangay_array as $key => $barangay): ?>
+                    <tr>
+                      <td><?= $barangay->barangay ?></td>
+                      <td><?= $barangay->count ?></td>
+                      <td><?= isset($barangay->expired) ? $barangay->expired : "0" ?></td>
+                    </tr>
+                  <?php endforeach ?>
+                <?php endif ?>
               </tbody>
             </table>
           </div>
@@ -154,69 +156,69 @@
     </script>
   <?php endif ?>
   <script type="text/javascript">
-  $(document).ready(function(){
+    $(document).ready(function(){
 
      var chart = new CanvasJS.Chart("chartContainer", {
-        title: {
-          text: "Issued Business Permits Year <?= date('Y') ?>"
-        },
-        animationEnabled: true,
-        data: [{
-          type: "stackedColumn",
-          legendText: "New",
-          showInLegend: "true",
-          dataPoints: [
-          { y: <?= $n_january ?>, label: "January" },
-          { y: <?= $n_february ?>, label: "February" },
-          { y: <?= $n_march ?>, label: "March" },
-          { y: <?= $n_april ?>, label: "April" },
-          { y: <?= $n_may ?>, label: "May" },
-          { y: <?= $n_june ?>, label: "June" },
-          { y: <?= $n_july ?>, label: "July" },
-          { y: <?= $n_august ?>, label: "August" },
-          { y: <?= $n_september ?>, label: "September" },
-          { y: <?= $n_october ?>, label: "October" },
-          { y: <?= $n_november ?>, label: "November" },
-          { y: <?= $n_december ?>, label: "December" },
-          ]
-        }, {
-          type: "stackedColumn",
-          legendText: "Renewal",
-          showInLegend: "true",
-          indexLabel: "#total",
-          indexLabelPlacement: "outside",
-          dataPoints: [
-          { y: <?= $r_january ?>, label: "January" },
-          { y: <?= $r_february ?>, label: "February" },
-          { y: <?= $r_march ?>, label: "March" },
-          { y: <?= $r_april ?>, label: "April" },
-          { y: <?= $r_may ?>, label: "May" },
-          { y: <?= $r_june ?>, label: "June" },
-          { y: <?= $r_july ?>, label: "July" },
-          { y: <?= $r_august ?>, label: "August" },
-          { y: <?= $r_september ?>, label: "September" },
-          { y: <?= $r_october ?>, label: "October" },
-          { y: <?= $r_november ?>, label: "November" },
-          { y: <?= $r_december ?>, label: "December" },
-          ]
-        }
+      title: {
+        text: "Issued Business Permits Year <?= date('Y') ?>"
+      },
+      animationEnabled: true,
+      data: [{
+        type: "stackedColumn",
+        legendText: "New",
+        showInLegend: "true",
+        dataPoints: [
+        { y: <?= $n_january ?>, label: "January" },
+        { y: <?= $n_february ?>, label: "February" },
+        { y: <?= $n_march ?>, label: "March" },
+        { y: <?= $n_april ?>, label: "April" },
+        { y: <?= $n_may ?>, label: "May" },
+        { y: <?= $n_june ?>, label: "June" },
+        { y: <?= $n_july ?>, label: "July" },
+        { y: <?= $n_august ?>, label: "August" },
+        { y: <?= $n_september ?>, label: "September" },
+        { y: <?= $n_october ?>, label: "October" },
+        { y: <?= $n_november ?>, label: "November" },
+        { y: <?= $n_december ?>, label: "December" },
         ]
-      });
-      chart.render();
+      }, {
+        type: "stackedColumn",
+        legendText: "Renewal",
+        showInLegend: "true",
+        indexLabel: "#total",
+        indexLabelPlacement: "outside",
+        dataPoints: [
+        { y: <?= $r_january ?>, label: "January" },
+        { y: <?= $r_february ?>, label: "February" },
+        { y: <?= $r_march ?>, label: "March" },
+        { y: <?= $r_april ?>, label: "April" },
+        { y: <?= $r_may ?>, label: "May" },
+        { y: <?= $r_june ?>, label: "June" },
+        { y: <?= $r_july ?>, label: "July" },
+        { y: <?= $r_august ?>, label: "August" },
+        { y: <?= $r_september ?>, label: "September" },
+        { y: <?= $r_october ?>, label: "October" },
+        { y: <?= $r_november ?>, label: "November" },
+        { y: <?= $r_december ?>, label: "December" },
+        ]
+      }
+      ]
+    });
+     chart.render();
 
-      var total = <?= $male ?>+<?= $female?>;
-      var chart = new CanvasJS.Chart("doughnut",
+     var total = <?= $male ?>+<?= $female?>;
+     var chart = new CanvasJS.Chart("doughnut",
+     {
+      title:{
+        text: "Business Owners with Active Businesses (Total: "+total+")",
+      },
+      animationEnabled: true,
+      data: [
       {
-        title:{
-          text: "Business Owners with Active Businesses (Total: "+total+")",
-        },
-        animationEnabled: true,
-        data: [
-        {
-          type: "doughnut",
-          startAngle: 60,
-          toolTipContent: "{legendText}: {y} - <strong>#percent% </strong>",
-          showInLegend: true,
+        type: "doughnut",
+        startAngle: 60,
+        toolTipContent: "{legendText}: {y} - <strong>#percent% </strong>",
+        showInLegend: true,
           explodeOnClick: false, //**Change it to true
           dataPoints: [
           {y: <?= $male ?>, indexLabel: "Male #percent%", legendText: "Male" },
@@ -225,15 +227,15 @@
         }
         ]
       });
-      chart.render();
+     chart.render();
 
-      var chart = new CanvasJS.Chart("line-chart", {
-        zoomEnabled: false,
-        animationEnabled: true,
-        title: {
-          text: "Business Permit Applications"
-        },
-        axisY2: {
+     var chart = new CanvasJS.Chart("line-chart", {
+      zoomEnabled: false,
+      animationEnabled: true,
+      title: {
+        text: "Business Permit Applications"
+      },
+      axisY2: {
           // valueFormatString: "0.0",
 
           // maximum: 1.2,
@@ -264,8 +266,8 @@
           name: "New",
           dataPoints: [
           <?php foreach ($new as $key => $value): ?>
-            { x: <?= $value->year ?>, y: <?= $value->count ?> },
-          <?php endforeach ?>
+          { x: <?= $value->year ?>, y: <?= $value->count ?> },
+        <?php endforeach ?>
           // { x: new Date(2001, 0), y: 0 },
           // { x: new Date(2002, 0), y: 0.001 },
           // { x: new Date(2003, 0), y: 0.01 },
@@ -288,8 +290,8 @@
           axisYType: "secondary",
           dataPoints: [
           <?php foreach ($renew as $key => $value): ?>
-            { x: <?= $value->year ?>, y: <?= $value->count ?> },
-          <?php endforeach ?>
+          { x: <?= $value->year ?>, y: <?= $value->count ?> },
+        <?php endforeach ?>
           // { x: new Date(2001, 00), y: 0.18 },
           // { x: new Date(2002, 00), y: 0.2 },
           // { x: new Date(2003, 0), y: 0.25 },
@@ -312,8 +314,8 @@
           axisYType: "secondary",
           dataPoints: [
           <?php foreach ($expected as $key => $value): ?>
-            { x: <?= $value->year ?>, y: <?= $value->count ?>},
-          <?php endforeach ?>
+          { x: <?= $value->year ?>, y: <?= $value->count ?>},
+        <?php endforeach ?>
           // { x: new Date(2001, 00), y: 0.16 },
           // { x: new Date(2002, 0), y: 0.17 },
           // { x: new Date(2003, 0), y: 0.18 },
@@ -343,13 +345,13 @@
         // }
       });
 
-      chart.render();
+     chart.render();
 
-  });
-  </script>
+   });
+ </script>
 
 
-  <!--Footer-part-->
+ <!--Footer-part-->
 
 <!-- <div class="row-fluid">
   <div id="footer" class="span12"> 2013 &copy; Matrix Admin. Brought to you by <a href="http://themedesigner.in">Themedesigner.in</a> </div>

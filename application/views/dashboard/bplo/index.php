@@ -133,15 +133,17 @@
                 </tr>
               </thead>
               <tbody>
-                <?php foreach ($latest_issued as $key => $application): ?>
-                  <tr>
-                    <td><?= $key+1 ?></td>
-                    <td>
-                      <a href="<?php echo base_url(); ?>dashboard/issued_applications"><?= $application->get_BusinessName() ?></a>
-                    </td>
-                    <td><?= $application->get_DateIssued() ?></td>
-                  </tr>
-                <?php endforeach ?>
+                <?php if (isset($latest_issued)): ?>
+                  <?php foreach ($latest_issued as $key => $application): ?>
+                    <tr>
+                      <td><?= $key+1 ?></td>
+                      <td>
+                        <a href="<?php echo base_url(); ?>dashboard/issued_applications"><?= $application->get_BusinessName() ?></a>
+                      </td>
+                      <td><?= $application->get_DateIssued() ?></td>
+                    </tr>
+                  <?php endforeach ?>
+                <?php endif ?>
               </tbody>
             </table>
           </div>
