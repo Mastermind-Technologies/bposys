@@ -5,7 +5,10 @@
                 <div>
                     <i class="fa fa-comment fa-fw"></i> <?= $notification->notifMessage ?>
                     <br>
-                    <span class="pull-left text-muted small">4 minutes ago</span>
+                    <?php
+
+                     ?>
+                    <span class="pull-left text-muted small"><?= $notification->createdAt ?></span>
                 </div>
             </a>
         </li>
