@@ -17,11 +17,11 @@ $typeBusi = $application->get_organizationType();
 $govEntity = $application->get_entityName();
 //$govEntity = "JASON";
 $govEntity!='NA' ? 'NO' : $govEntity;
-$lastName = $application->get_LastName();
-$firstName = $application->get_FirstName();
-$middleName = $application->get_MiddleName();
-$busiName = $application->get_businessName();
-$tradeName = $application->get_tradeName();
+$lastName = utf8_decode($application->get_LastName());
+$firstName = utf8_decode($application->get_FirstName());
+$middleName = utf8_decode($application->get_MiddleName());
+$busiName = utf8_decode($application->get_businessName());
+$tradeName = utf8_decode($application->get_tradeName());
 //
 $busiAdd1 = $application->get_bldgName();
 $busiAdd2 = $application->get_houseBldgNum();
@@ -32,35 +32,36 @@ $busiAdd6 = $application->get_barangay();
 $busiAdd7 = $application->get_cityMunicipality();
 $busiAdd8 = $application->get_province();
 //
-$busiAdd = $busiAdd1 . $busiAdd2 . $busiAdd3 . $busiAdd4 . $busiAdd5 . $busiAdd6 . $busiAdd7 . $busiAdd8;
+$busiAdd = utf8_decode($busiAdd1 ." ". $busiAdd2 ." ". $busiAdd3 ." ". $busiAdd4 ." ". $busiAdd5 ." ". $busiAdd6 ." ". $busiAdd7 ." ". $busiAdd8);;
+
 //
 $postalCOde = $application->get_PIN();
 $email = $application->get_email();
 $telnum = $application->get_telNum();
 // $modelNum = $application->get_mode
-$ownersAdd = $application->get_OwnerHouseBldgNo() . $application->get_OwnerbldgName() . $application->get_OwnerunitNum() . $application->get_Ownerstreet() . $application->get_Ownerbarangay() . $application->get_Ownersubdivision() . $application->get_OwnercityMunicipality() . $application->get_Ownerprovince();
+$ownersAdd = utf8_decode($application->get_OwnerHouseBldgNo() . " " .  $application->get_OwnerbldgName() . " " . $application->get_OwnerunitNum() . " " . $application->get_Ownerstreet() . " " . $application->get_Ownerbarangay() . " " . $application->get_Ownersubdivision() . " " . $application->get_OwnercityMunicipality() . " " . $application->get_Ownerprovince());
 $postalCode2 = $application->get_OwnerPIN();
 $email2 = $application->get_OwnerEmail();
 $telnum2 = $application->get_OwnertelNum();
 
-$contactPerson = $application->get_emergencyContactPerson();
+$contactPerson = utf8_decode($application->get_emergencyContactPerson());
 $mobNum = $application->get_emergencyTelNum();
-$cpEmailAdd = $application->get_emergencyEmail();
-$businessArea = $application->get_businessArea();
+$cpEmailAdd = utf8_decode($application->get_emergencyEmail());
+$businessArea = utf8_decode($application->get_businessArea());
 
 $maleEmp = $application->get_MaleEmployees();
 $femaleEmp = $application->get_FemaleEmployees();
 $pwdEmp = $application->get_PWDEmployees();
 $lguEmp = $application->get_LGUEmployees();
 $totEmpEst = $maleEmp + $femaleEmp + $pwdEmp + $lguEmp;
-$lessorsLastName = $application->get_lessors()->lastName;
-$lessorsFirstName = $application->get_lessors()->firstName;
-$lessorsMiddleName = $application->get_lessors()->middleName;
-$lessorsFullName = $lessorsLastName . $lessorsFirstName . $lessorsMiddleName;
-$lessorsFullAdd = $application->get_lessors()->address . $application->get_lessors()->subdivision . $application->get_lessors()->barangay . $application->get_lessors()->cityMunicipality . $application->get_lessors()->province;
-$lessorsFullContactNum = $application->get_lessors()->telNum;
-$lessorsEmailAdd = $application->get_lessors()->email;
-$lessorsMonthlyRental = $application->get_lessors()->monthlyRental;
+// $lessorsLastName = $application->get_lessors()->lastName;
+// $lessorsFirstName = $application->get_lessors()->firstName;
+// $lessorsMiddleName = $application->get_lessors()->middleName;
+ // $lessorsFullName = utf8_decode($lessorsLastName . $lessorsFirstName . $lessorsMiddleName);
+// $lessorsFullAdd = utf8_decode($application->get_lessors()->address . $application->get_lessors()->subdivision . $application->get_lessors()->barangay . $application->get_lessors()->cityMunicipality . $application->get_lessors()->province);
+// $lessorsFullContactNum = $application->get_lessors()->telNum;
+// $lessorsEmailAdd = utf8_decode($application->get_lessors()->email);
+// $lessorsMonthlyRental = $application->get_lessors()->monthlyRental;
 $lineBusi = $application->get_LineOfBusiness();
 $BusiCapitalization = $application->get_capital();
 
@@ -202,7 +203,7 @@ $y = $pdf->GetY();
 $pdf->Cell(188,4,"Type of Business: ",1,1,"L");
 
   $pdf->SetX($x,$y);
-  $pdf->Text($x+29,$y+3,"Single");
+    $pdf->Text($x+29,$y+3,"Single");
   //
   $pdf->SetX($x);
   $pdf->Text($x+41,$y+3,"Partnership");
@@ -300,7 +301,7 @@ $pdf->Cell(51,4,"",1,0,"L");
 $pdf->Cell(51,4,"",1,1,"L");
 
 //
-$amendmentFrom = 'Single';
+$amendmentFrom = '-';
 if($amendmentFrom == 'Single')
 {
   $pdf->SetXY(48.00125,63.2012);
@@ -321,7 +322,7 @@ else if($amendmentFrom == '')
 }
 
 //
-$amendmentTo = 'Single';
+$amendmentTo = '-';
 if($amendmentTo == '')
 {
   $pdf->SetXY(48.00125,67.2012);
@@ -435,10 +436,10 @@ $pdf->Cell(59,4,"",1,1,"L");
 $pdf->Cell(188,4,"In case of emergency, provide name of contact person: $contactPerson",1,1,"L");
 
 //
-$pdf->Cell(35,4,"Telephone No/ Mobile No: $mobNum",1,0,"L");
-$pdf->Cell(59,4,"",1,0,"L");
-$pdf->Cell(35,4,"Email Address: $cpEmailAdd",1,0,"L");
-$pdf->Cell(59,4,"",1,1,"L");
+$pdf->Cell(35,4,"Telephone No/ Mobile No: ",1,0,"L");
+$pdf->Cell(59,4,"$mobNum",1,0,"L");
+$pdf->Cell(35,4,"Email Address: ",1,0,"L");
+$pdf->Cell(59,4,"$cpEmailAdd",1,1,"L");
 
 //
 $y = $pdf->GetY();
@@ -460,11 +461,11 @@ $pdf->Cell(0,4,"Note: Fill Up Only if Business Place is Rented",0,1,"L");
 
 //
 $pdf->SetFont("Arial","","7.8");
-$pdf->Cell(188,4,"Lessor's Full Name: $lessorsFullName",1,1,"L");
-$pdf->Cell(188,4,"Lessor's Full Address: $lessorsFullAdd",1,1,"L");
-$pdf->Cell(188,4,"Lessor's Fill Telephone/Mobile No.: $lessorsFullContactNum",1,1,"L");
-$pdf->Cell(94,4,"Lessor's Email Address: $lessorsEmailAdd",1,0,"L");
-$pdf->Cell(94,4,"Monthly Rental: $lessorsMonthlyRental",1,1,"L");
+$pdf->Cell(188,4,"Lessor's Full Name: ",1,1,"L");
+$pdf->Cell(188,4,"Lessor's Full Address: ",1,1,"L");
+$pdf->Cell(188,4,"Lessor's Fill Telephone/Mobile No.: ",1,1,"L");
+$pdf->Cell(94,4,"Lessor's Email Address: ",1,0,"L");
+$pdf->Cell(94,4,"Monthly Rental: ",1,1,"L");
 
 //
 $x = $pdf->GetX();
@@ -516,7 +517,7 @@ $pdf->Cell(28,4,"",1,1,"L");
 
 //
 $pdf->SetFont("Arial","","8");
-$pdf->Cell(0,4,"Last Payment: 2017 1st Qtr REN",0,1,"L");
+$pdf->Cell(0,4,"Last Payment: 2017 1st Qtr REN(*???)",0,1,"L");
 
 //
 $pdf->SetFont("Arial","","7.8");

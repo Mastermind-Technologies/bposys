@@ -121,16 +121,20 @@
                 </tr>
                 <tr>
                   <td>
-                    <label for="volatile_compound">b. Volatile Compound <input type="checkbox" disabled <?= $application->get_smokeEmission()==1 ? 'checked' : '' ?> name="radios" /></label>
+                    <label for="volatile_compound">b. Volatile Compound <input type="checkbox" disabled <?= $application->get_volatileCompound()==1 ? 'checked' : '' ?> name="radios" /></label>
                   </td>
                   <td>
                     <label for="steam_generator">d. Steam Generator <input type="checkbox" disabled <?= in_array('Boiler', $application->get_SteamGenerator()) ? "checked" : "" ?> name="radios" />Boiler <input type="checkbox" disabled <?= in_array('Furnace', $application->get_SteamGenerator()) ? "checked" : "" ?> name="radios" />Furnace </label>
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="2">
+                  <td>
                     <label for="air_pollution_control_devices">Air Pollution Control Devices being used: </label>
                     <h5><?=$application->get_APCD()?></h5>
+                  </td>
+                  <td>
+                    <label for="stack_height">Stack Height: </label>
+                    <h5><?=$application->get_stackHeight()?></h5>
                   </td>
                 </tr>
                 <tr>

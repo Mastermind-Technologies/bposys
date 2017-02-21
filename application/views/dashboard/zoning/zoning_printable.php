@@ -6,32 +6,32 @@ $pdf = new FPDF();
 $pdf->AddPage();
 $pdf->SetTitle("Zoning Clearance Form");
 
-$cb = array(1);
-$cblength = count($cb);
-for($i=0;$i<$cblength;$i++)
-{
-  if($cb[$i] == 1)
+$cb = $application->get_ApplicationType();
+// $cblength = count($cb);
+// for($i=0;$i<$cblength;$i++)
+// {
+  if($cb == "New")
   {
     $pdf->SetXY(72.3,36.50125);
     $check = "4";
     $pdf->SetFont('ZapfDingbats','', 10);
     $pdf->Cell(4, 3, $check,0, 0);
   }
-  else if($cb[$i] == 2)
+  else if($cb == "Additional")
   {
     $pdf->SetXY(92.3,36.50125);
     $check = "4";
     $pdf->SetFont('ZapfDingbats','', 10);
     $pdf->Cell(4, 3, $check,0, 0);
   }
-  else if($cb[$i] == 3)
+  else if($cb == "Renewal")
   {
     $pdf->SetXY(118.3,36.50125);
     $check = "4";
     $pdf->SetFont('ZapfDingbats','', 10);
     $pdf->Cell(4, 3, $check,0, 0);
   }
-}
+// }
 
 $pdf->SetFont("Arial","","10");
 $y = $pdf->GetY();
@@ -76,7 +76,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+4.7,$x+50,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(50,5,"[/]",0,0,"C");
+$pdf->Cell(50,5,"",0,0,"C");
 
 $y = $pdf->GetY();
 $pdf->SetXY(117.5,$y+5);
@@ -87,7 +87,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+4.7,$x+50,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(50,5,"[/]",0,0,"C");
+$pdf->Cell(50,5,"",0,0,"C");
 
 $y = $pdf->GetY();
 $pdf->SetXY(117.5,$y+5);
@@ -98,7 +98,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+4.7,$x+50,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(50,5,"[/]",0,0,"C");
+$pdf->Cell(50,5,"",0,0,"C");
 
 //
 $y = $pdf->GetY();
@@ -114,7 +114,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+4.7,$x+95,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(95,5,"[/]",0,0,"L");
+$pdf->Cell(95,5,"",0,0,"L");
 $x = $pdf->GetX();
 $pdf->SetX($x);
 $pdf->Cell(60,5,",  owner/operation,   of   legal   age   and",0,0,"L");
@@ -126,7 +126,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+4.7,$x+81.5,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(81.5,5,"[/]",0,0,"L");
+$pdf->Cell(81.5,5,"",0,0,"L");
 $x = $pdf->GetX();
 $pdf->SetX($x);
 $pdf->Cell(60,5,"hereby   apply   for   a   permit   to   engage   in",0,0,"L");
@@ -143,7 +143,8 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+4.7,$x+93,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(93 ,5,"[/]",0,0,"L");
+$bn = utf8_decode($application->get_businessName());
+$pdf->Cell(93 ,5,"$bn",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(20.5,$y+5);
 $pdf->Cell(85,5,"SIGNAGE NAME (if differ from business/trade name:",0,0,"L");
@@ -152,7 +153,20 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+4.7,$x+66,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(66,5,"[/]",0,0,"L");
+$sn = utf8_decode($application->get_signageName());
+$pdf->Cell(66,5,"$sn",0,0,"L");
+
+//
+if($application->get_organizationType() == "Corporation")
+{
+  $cn = utf8_decode($application->get_corporationName());
+  $on = "";
+}
+else{
+  $on = utf8_decode($application->get_FirstName() . " " . $application->get_MiddleName() . " " . $application->get_LastName());
+  $cn = "";
+}
+//
 $y = $pdf->GetY();
 $pdf->SetXY(20.5,$y+5);
 $pdf->Cell(85,5,"NAME OF PERMITEE-",0,0,"L");
@@ -164,7 +178,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+4.7,$x+81,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(81,5,"[/]",0,0,"L");
+$pdf->Cell(81,5,"$cn",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(20.5,$y+5);
 $pdf->Cell(74,5,">in case of Single Proprietor, name of Owner:",0,0,"L");
@@ -173,7 +187,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+4.7,$x+77,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(77,5,"[/]",0,0,"L");
+$pdf->Cell(77,5,"$on",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(20.5,$y+5);
 $pdf->Cell(47,5,"BUSINESS ADDRESS       :",0,0,"L");
@@ -182,7 +196,8 @@ $y = $pdf->GetY();
 $pdf->Line($x+1,$y+4.7,$x+104,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(104,5,"[/]",0,0,"L");
+$alo = utf8_decode($application->get_bldgName() . " " . $application->get_houseBldgNum() . " " . $application->get_unitNum() . " " . $application->get_street() . " " . $application->get_Subdivision());
+$pdf->Cell(104,5,"$alo",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(68.5,$y+5);
 $x = $pdf->GetX();
@@ -190,7 +205,8 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+4.7,$x+103,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(103,5,"[/]",0,0,"L");
+$alt = utf8_decode($application->get_barangay() . " " . $application->get_cityMunicipality() . " " . $application->get_province());
+$pdf->Cell(103,5,"$alt",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(20.5,$y+5);
 $pdf->Cell(47,5,"CAPITAL INVESTED         :",0,0,"L");
@@ -199,16 +215,18 @@ $y = $pdf->GetY();
 $pdf->Line($x+1,$y+4.7,$x+104,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(104,5,"[/]",0,0,"L");
+$ci = $application->get_capital();
+$pdf->Cell(104,5,"$ci",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(20.5,$y+5);
-$pdf->Cell(47,5,"DATE OF OPERRATION   :",0,0,"L");
+$pdf->Cell(47,5,"DATE OF OPERATION   :",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->Line($x+1,$y+4.7,$x+104,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(104,5,"[/]",0,0,"L");
+$doo = $application->get_dateOfOperation();
+$pdf->Cell(104,5,"$doo",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(20.5,$y+5);
 $pdf->Cell(57,5,"DESCRIPTION OF BUSINESS     :",0,0,"L");
@@ -217,7 +235,8 @@ $y = $pdf->GetY();
 $pdf->Line($x+1,$y+4.7,$x+94,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x);
-$pdf->Cell(94,5,"[/]",0,0,"L");
+$bd = $application->get_businessDesc();
+$pdf->Cell(94,5,"$bd",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(20.5,$y+5);
 $x = $pdf->GetX();
@@ -225,7 +244,7 @@ $y = $pdf->GetY();
 $pdf->Line($x+1,$y+4.7,$x+151,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetX($x+1);
-$pdf->Cell(149,5,"[/]",0,0,"L");
+$pdf->Cell(149,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();

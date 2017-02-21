@@ -50,7 +50,8 @@ $pdf->Image('application/views/dashboard/cenro/binan_city_seal.jpg',$x+13,$y+2,2
 $pdf->SetFont("Arial","B","9");
 $pdf->SetY($y+5);
 $pdf->Cell(0,5,"Province of Laguna",0,1,"C");
-$pdf->Cell(0,5,"City of Binan",0,1,"C");
+$cob = utf8_decode("City of Biñan");
+$pdf->Cell(0,5,"$cob",0,1,"C");
 $pdf->Cell(0,5,"CITY ENVIRONMENT AND NATURAL RESOURCES OFFICE",0,1,"C");
 $pdf->Image('application/views/dashboard/cenro/binan_city_seal.jpg',$x+160,$y+2,20,20);
 $x = $pdf->GetX();
@@ -66,20 +67,25 @@ $pdf->SetY($y+5);
   $pdf->SetFont("Arial","","9");
 $pdf->Cell(0,5,"Name of Company:",1,1,"L");
 $pdf->SetXY(40,50);
-$pdf->Cell(0,5,"---- -----",0,1,"L");
+$noc = utf8_decode($application->get_companyName());
+$pdf->Cell(0,5,"$noc",0,1,"L");
 $pdf->Cell(0,5,"Complete Address:",1,1,"L");
 $pdf->SetXY(40,55);
-$pdf->Cell(0,5,"---- -----",0,1,"L");
+$cadd = utf8_decode($application->get_bldgName() ." ". $application->get_houseBldgNum() ." ". $application->get_unitNum() ." ".  $application->get_street() ." ". $application->get_Subdivision() ." ". $application->get_barangay() ." ". $application->get_cityMunicipality() ." ". $application->get_province());
+$pdf->Cell(0,5,"$cadd",0,1,"L");
 $pdf->Cell(0,5,"Nature of Business:",1,1,"L");
 $pdf->SetXY(41,60);
-$pdf->Cell(0,5,"---- -----",0,1,"L");
+$nob = $application->get_LineOfBusiness();
+$pdf->Cell(0,5,"$nob",0,1,"L");
 $pdf->Cell(0,5,"Pollution Control Officer:",1,1,"L");
 $pdf->SetXY(49,65);
-$pdf->Cell(0,5,"---- -----",0,1,"L");
+$pco = utf8_decode($application->get_pollutionControlOfficer());
+$pdf->Cell(0,5,"$pco",0,1,"L");
 $pdf->SetXY(113,65);
 $pdf->Cell(0,5,"Office Phone Number:",0,1,"L");
 $pdf->SetXY(148,65);
-$pdf->Cell(0,5,"---- -----",0,1,"L");
+$opn = $application->get_telNum();
+$pdf->Cell(0,5,"$opn",0,1,"L");
 
 //
 $y = $pdf->GetY();
@@ -96,16 +102,17 @@ $pdf->Cell(0,5,"Environmental Compliance Certificate / CNC:",1,1,"L");
    $pdf->SetX(130);
    $pdf->Cell(0,5,"Date Issued:",0,0,"L");
    $pdf->SetX(150);
-   $pdf->Cell(0,5,"---- -----",0,1,"L");
+   $cbCNC = $application2->get_CNC();
+   $pdf->Cell(0,5,"$cbCNC",0,1,"L");
 
    //
-   $cbCNC = "Yes";
-   if($cbCNC == "")
+
+   if($cbCNC != "NA")
    {
    $pdf->SetXY(94.5,76.2);
    $pdf->Cell(4, 3,"X",0, 0);
    }
-   else if($cbCNC == "Yes")
+   else if($cbCNC == "NA")
    {
      $pdf->SetXY(110.5,76.2);
      $pdf->Cell(4, 3,"X",0, 0);
@@ -123,16 +130,17 @@ $pdf->Cell(0,5,"LLDA Clearance / Certificate of Exemption:",1,1,"L");
   $pdf->SetX(130);
   $pdf->Cell(0,5,"Date Issued:",0,0,"L");
   $pdf->SetX(150);
-  $pdf->Cell(0,5,"---- -----",0,1,"L");
+  $cbCertExemp = $application2->get_LLDAClearance();
+  $pdf->Cell(0,5,"$cbCertExemp",0,1,"L");
 
   //
-  $cbCertExemp = "Yes";
-  if($cbCertExemp == "")
+
+  if($cbCertExemp != "NA")
   {
   $pdf->SetXY(94.5,81.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbCertExemp == "Yes")
+  else if($cbCertExemp == "NA")
   {
     $pdf->SetXY(110.5,81.2);
     $pdf->Cell(4, 3,"X",0, 0);
@@ -150,16 +158,17 @@ $pdf->Cell(0,5,"Discharge Permit:",1,1,"L");
   $pdf->SetX(130);
   $pdf->Cell(0,5,"Date Issued:",0,0,"L");
   $pdf->SetX(150);
-  $pdf->Cell(0,5,"---- -----",0,1,"L");
+    $cbDischargePermit = $application2->get_dischargePermit();
+  $pdf->Cell(0,5,"$cbDischargePermit",0,1,"L");
 
   //
-  $cbDischargePermit = "Yes";
-  if($cbDischargePermit == "")
+
+  if($cbDischargePermit != "NA")
   {
   $pdf->SetXY(94.5,86.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbDischargePermit == "Yes")
+  else if($cbDischargePermit == "NA")
   {
     $pdf->SetXY(110.5,86.2);
     $pdf->Cell(4, 3,"X",0, 0);
@@ -177,16 +186,17 @@ $pdf->Cell(0,5,"Permit to Operate/APSCI",1,1,"L");
   $pdf->SetX(130);
   $pdf->Cell(0,5,"Date Issued:",0,0,"L");
   $pdf->SetX(150);
-  $pdf->Cell(0,5,"---- -----",0,1,"L");
+    $cbAPSCI = $application2->get_Apsci();
+  $pdf->Cell(0,5,"$cbAPSCI",0,1,"L");
 
   //
-  $cbAPSCI = "Yes";
-  if($cbAPSCI == "")
+
+  if($cbAPSCI != "NA")
   {
   $pdf->SetXY(94.5,91.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbAPSCI == "Yes")
+  else if($cbAPSCI == "NA")
   {
     $pdf->SetXY(110.5,91.2);
     $pdf->Cell(4, 3,"X",0, 0);
@@ -194,7 +204,8 @@ $pdf->Cell(0,5,"Permit to Operate/APSCI",1,1,"L");
 
   //
   $pdf->SetY(95);
-$pdf->Cell(0,5,"Products and By-Products",1,1,"L");
+  $pabp = $application2->get_productsAndByProducts();
+$pdf->Cell(0,5,"Products and By-Products $pabp",1,1,"L");
 
 //
 $pdf->SetFont("Arial","B","9");
@@ -205,43 +216,49 @@ $pdf->SetFont("Arial","","9");
 $pdf->Cell(0,5,"    a. Smoke / Emission",1,1,"L");
 
   //
-  $cbAP = "Yes";
-  if($cbAP == "")
+  $cbAP1 = $application2->get_smokeEmission();
+  if($cbAP1 == 1)
   {
   $pdf->SetXY(51.5,106.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbAP == "")
+
+  $cbAP2 = $application2->get_volatileCompound();
+  if($cbAP2 == 1)
   {
   $pdf->SetXY(51.5,111.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbAP == "")
+
+  $cbAP3 = $application2->get_FugitiveParticulates();
+  if($cbAP3 == in_array('Dust', $application2->get_FugitiveParticulates()))
   {
   $pdf->SetXY(119.5,106.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbAP == "")
+  else if($cbAP3 == in_array('Mist', $application->get_FugitiveParticulates()))
   {
   $pdf->SetXY(143.5,106.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbAP == "")
+  else if($cbAP3 == in_array('Gas', $application->get_FugitiveParticulates()))
   {
   $pdf->SetXY(167.5,106.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbAP == "")
+
+  $cbAP4 = $application2->get_SteamGenerator();
+  if($cbAP4 == in_array('Boiler', $application2->get_SteamGenerator()))
   {
   $pdf->SetXY(109.5,111.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbAP == "")
+  else if($cbAP4 == in_array('Furnace', $application2->get_SteamGenerator()))
   {
   $pdf->SetXY(133.5,111.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbAP == "Yes")
+  else if($cbAP4 == in_array('Others', $application2->get_SteamGenerator()))
   {
   $pdf->SetXY(157.5,111.2);
   $pdf->Cell(4, 3,"X",0, 0);
@@ -305,11 +322,13 @@ $pdf->Cell(0,5,"    b. Volatile Compound",1,1,"L");
 $pdf->SetXY(10.00125,115);
 $pdf->Cell(126,5,"Air Pollution Control Devices being used:",1,0,"L");
   $pdf->SetXY(69.00125,115.5);
-  $pdf->Cell(67,3.8,"Val",0,0,"L");
+  $apcd = utf8_decode($application2->get_APCD());
+  $pdf->Cell(67,3.8,"$apcd",0,0,"L");
 $pdf->SetXY(136.00125,115);
 $pdf->Cell(64,5,"Stack Height:",1,1,"L");
   $pdf->SetXY(157.00125,115.5);
-  $pdf->Cell(43,3.8,"Val",0,0,"L");
+  $sh = $application2->get_stackHeight();
+  $pdf->Cell(43,3.8,"$sh",0,0,"L");
 
 //
 $pdf->SetXY(10,120);
@@ -321,16 +340,17 @@ $pdf->SetFont("Arial","","9");
   $pdf->SetXY(10,125);
 $pdf->Cell(0,5,"Wastewater Treatment Facility",1,1,"L");
   $pdf->SetXY(55,125.5);
-  $pdf->Cell(145,3.8,"Val",0,0,"L");
+  $wtf = utf8_decode($application2->get_WasteWaterTreatmentFacility());
+  $pdf->Cell(145,3.8,"$wtf",0,0,"L");
 
   //
-  $cbwtop = "Yes";
-  if($cbwtop == "")
+  $cbwtop = $application2->get_WasteWaterTreatmentOperationAndProcess();
+  if($cbwtop == 0)
   {
   $pdf->SetXY(113.5,131.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbwtop == "Yes")
+  else if($cbwtop == 1)
   {
   $pdf->SetXY(131.5,131.2);
   $pdf->Cell(4, 3,"X",0, 0);
@@ -351,13 +371,13 @@ $pdf->Cell(0,5,"Note: Furnish copy of latest wastewater laboratory test results"
   $pdf->Cell(101,3.8,"Val",0,0,"L");
 
   //
-  $cbPendingCaseLLDA = "Yes";
-  if($cbPendingCaseLLDA == "Yes")
+  $cbPendingCaseLLDA = $application2->get_PendingCaseWithLLDA();
+  if($cbPendingCaseLLDA != "NA")
   {
   $pdf->SetXY(68.8,141.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbPendingCaseLLDA == "")
+  else if($cbPendingCaseLLDA == "NA")
   {
   $pdf->SetXY(134.5,141.2);
   $pdf->Cell(4, 3,"X",0, 0);
@@ -368,7 +388,7 @@ $pdf->SetXY(10,140);
 $pdf->Cell(0,5,"Pending case with LLDA?",1,1,"L");
   $pdf->SetXY(68.5,140.5);
   $pdf->Cell(5,3.8,"",1,0,"L");
-  $pdf->Cell(0,5,"YES, Case No.",0,0,"L");
+  $pdf->Cell(0,5,"YES, Case No. $cbPendingCaseLLDA",0,0,"L");
   $pdf->SetXY(134,140.5);
   $pdf->Cell(5,3.8,"",1,0,"L");
   $pdf->Cell(0,5,"NONE",0,0,"L");
@@ -382,29 +402,32 @@ $pdf->SetFont("Arial","","9");
 $pdf->SetXY(10,150);
 $pdf->Cell(0,5,"Type of Solid Wastes Generated:",1,1,"L");
   $pdf->SetXY(58,150.5);
-  $pdf->Cell(60,5,"Val",0,0,"L");
+  $tswg = utf8_decode($application2->get_TypeOfSolidWastesGenerated());
+  $pdf->Cell(60,5,"$tswg",0,0,"L");
   $pdf->SetXY(118,150.5);
   $pdf->Cell(26,5,"Quantity per day:",0,0,"L");
   $pdf->SetXY(144,150.5);
-  $pdf->Cell(56,5,"Val",0,0,"L");
+  $qpd = $application2->get_QtyPerDay();
+  $pdf->Cell(56,5,"$qpd",0,0,"L");
 $pdf->SetXY(10,155);
 $pdf->Cell(0,5,"Method of Garbage Collection:",1,1,"L");
   $pdf->SetXY(55,155.5);
-  $pdf->Cell(145,5,"Val",0,0,"L");
+  $mgc = utf8_decode($application2->get_GarbageCollectionMethod());
+  $pdf->Cell(145,5,"$mgc",0,0,"L");
 
   //
-  $cbFreqGarbageCollection = "Yes";
-  if($cbFreqGarbageCollection == "")
+  $cbFreqGarbageCollection = $application2->get_FrequencyOfGarbageCollection();
+  if($cbFreqGarbageCollection == "Daily")
   {
   $pdf->SetXY(74.5,161.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbFreqGarbageCollection == "")
+  else if($cbFreqGarbageCollection == "Weekly")
   {
   $pdf->SetXY(123.5,161.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbFreqGarbageCollection == "Yes")
+  else if($cbFreqGarbageCollection != "Daily" && $cbFreqGarbageCollection != "Weekly")
   {
   $pdf->SetXY(162.5,161.2);
   $pdf->Cell(4, 3,"X",0, 0);
@@ -424,26 +447,28 @@ $pdf->Cell(0,5,"Frequency of Garbage Collection:",1,1,"L");
   $pdf->Cell(23,3.8,"Others/Specify",0,0,"L");
   $x=$pdf->GetX();
   $pdf->SetX($x);
-  $pdf->Cell(10,3.8,"Val",0,0,"L");
+  $pdf->Cell(10,3.8,"$cbFreqGarbageCollection",0,0,"L");
 $pdf->SetXY(10,165);
 $pdf->Cell(0,5,"Person / Company Collection Solid Wastes:",1,1,"L");
   $pdf->SetXY(73,165.5);
-  $pdf->Cell(60,5,"Val",0,0,"L");
+  $ccsw = utf8_decode($application2->get_WasteCollector());
+  $pdf->Cell(60,5,"$ccsw",0,0,"L");
   $x=$pdf->GetX();
   $pdf->SetX($x);
+  $colladd = utf8_decode($application2->get_CollectorAddress());
   $pdf->Cell(14,5,"Address:",0,0,"L");
   $x=$pdf->GetX();
   $pdf->SetX($x);
   $pdf->Cell(53,5,"Val",0,0,"L");
 
   //
-  $cbMethodGarbageDisposal = "Yes";
-  if($cbMethodGarbageDisposal == "")
+  $cbMethodGarbageDisposal = $application2->get_GarbageDisposalMethod();
+  if($cbMethodGarbageDisposal == "Sanitary Landfill")
   {
   $pdf->SetXY(74.5,171.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbMethodGarbageDisposal == "Yes")
+  else if($cbMethodGarbageDisposal == "Controlled Dumpsite")
   {
   $pdf->SetXY(137.5,171.2);
   $pdf->Cell(4, 3,"X",0, 0);
@@ -460,18 +485,18 @@ $pdf->Cell(0,5,"Method of Garbage Disposal:",1,1,"L");
   $pdf->Cell(0,5,"Controlled Dumpsite",0,0,"L");
 
   //
-  $cbMethodWasteMin = "Yes";
-  if($cbMethodWasteMin == "")
+  $cbMethodWasteMin = $application2->get_WasteMinimizationMethod();
+  if($cbMethodWasteMin == 0)
   {
   $pdf->SetXY(74.5,176.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbMethodWasteMin == "")
+  else if($cbMethodWasteMin == 1)
   {
   $pdf->SetXY(123.5,176.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbMethodWasteMin == "Yes")
+  else if($cbMethodWasteMin == 2)
   {
   $pdf->SetXY(162.5,176.2);
   $pdf->Cell(4, 3,"X",0, 0);
@@ -499,13 +524,13 @@ $pdf->Cell(0,5,"D.         Drainage",0,1,"L");
 $pdf->SetFont("Arial","","9");
 
 //
-$cbDrainageSystem = "Yes";
-if($cbDrainageSystem == "")
+$cbDrainageSystem = $application2->get_DrainageSystem();
+if($cbDrainageSystem == 0)
 {
 $pdf->SetXY(74.5,186.2);
 $pdf->Cell(4, 3,"X",0, 0);
 }
-else if($cbDrainageSystem == "Yes")
+else if($cbDrainageSystem == 1)
 {
 $pdf->SetXY(123.5,186.2);
 $pdf->Cell(4, 3,"X",0, 0);
@@ -522,13 +547,13 @@ $pdf->Cell(0,5,"Drainage System:",1,1,"L");
   $pdf->Cell(0,5,"NONE",0,0,"L");
 
   //
-  $cbDStype = "Yes";
-  if($cbDStype == "Yes")
+  $cbDStype = $application2->get_DrainageType();
+  if($cbDStype == 0)
   {
   $pdf->SetXY(50.5,191.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbDStype == "")
+  else if($cbDStype == 1)
   {
   $pdf->SetXY(134.5,191.2);
   $pdf->Cell(4, 3,"X",0, 0);
@@ -545,13 +570,13 @@ $pdf->Cell(0,5,"Type:",1,1,"L");
   $pdf->Cell(0,5,"Open Canal",0,0,"L");
 
   //
-  $cbWhereDischarge = "Yes";
-  if($cbWhereDischarge == "Yes")
+  $cbWhereDischarge = $application2->get_DrainageDischargeLocation();
+  if($cbWhereDischarge == 0)
   {
   $pdf->SetXY(50.5,196.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbWhereDischarge == "")
+  else if($cbWhereDischarge == 1)
   {
   $pdf->SetXY(134.5,196.2);
   $pdf->Cell(4, 3,"X",0, 0);
@@ -578,13 +603,13 @@ $pdf->SetFont("Arial","","9");
 $pdf->Cell(0,5,"Sewerage System:",1,1,"L");
 
   //
-  $cbSewerageSystem = "Yes";
-  if($cbSewerageSystem == "Yes")
+  $cbSewerageSystem = $application2->get_SewerageSystem();
+  if($cbSewerageSystem == 0)
   {
   $pdf->SetXY(74.5,206.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbSewerageSystem == "")
+  else if($cbSewerageSystem == 1)
   {
   $pdf->SetXY(123.5,206.2);
   $pdf->Cell(4, 3,"X",0, 0);
@@ -599,13 +624,13 @@ $pdf->Cell(0,5,"Sewerage System:",1,1,"L");
   $pdf->Cell(0,5,"NONE",0,0,"L");
 
   //
-  $cbSewerageSystem = "Yes";
-  if($cbSewerageSystem == "")
+  $cbSewerageSystem = $application2->get_SepticTank();
+  if($cbSewerageSystem == 0)
   {
   $pdf->SetXY(74.5,211.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbSewerageSystem == "Yes")
+  else if($cbSewerageSystem == 1)
   {
   $pdf->SetXY(123.5,211.2);
   $pdf->Cell(4, 3,"X",0, 0);
@@ -622,13 +647,13 @@ $pdf->Cell(0,5,"Septic Tank:",1,1,"L");
   $pdf->Cell(0,5,"NONE",0,0,"L");
 
   //
-  $cbWhereDischarge2 = "Yes";
-  if($cbWhereDischarge2 == "")
+  $cbWhereDischarge2 = $application2->get_SewerageDischargeLocation();
+  if($cbWhereDischarge2 == 0)
   {
   $pdf->SetXY(50.5,216.2);
   $pdf->Cell(4, 3,"X",0, 0);
   }
-  else if($cbWhereDischarge2 == "Yes")
+  else if($cbWhereDischarge2 == 1)
   {
   $pdf->SetXY(134.5,216.2);
   $pdf->Cell(4, 3,"X",0, 0);
@@ -646,18 +671,18 @@ $pdf->Cell(0,5,"Where Discharged:",1,1,"L");
 
 //
 
-$cbWhereDischarge2 = "Yes";
-if($cbWhereDischarge2 == "")
+$cbWhereDischarge2 = $application2->get_WaterSupply();
+if($cbWhereDischarge2 == "Deep Well")
 {
 $pdf->SetXY(16.5,226.2);
 $pdf->Cell(4, 3,"X",0, 0);
 }
-else if($cbWhereDischarge2 == "")
+else if($cbWhereDischarge2 == "Local Water Utility")
 {
 $pdf->SetXY(66.5,226.2);
 $pdf->Cell(4, 3,"X",0, 0);
 }
-else if($cbWhereDischarge2 == "Yes")
+else if($cbWhereDischarge2 == "Surface Water")
 {
 $pdf->SetXY(139.5,226.2);
 $pdf->Cell(4, 3,"X",0, 0);
@@ -710,7 +735,7 @@ $y = $pdf->GetY();
 $pdf->Line($x+1,$y+4.7,$x+55,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x+1,$y+1);
-$pdf->Cell(54,5,"val",0,0,"C");
+$pdf->Cell(54,5,"",0,0,"C");
 $pdf->Text($x+10,$y+8,"Pollution Control Officer /");
 $pdf->Text($x+2,$y+13,"Duly Authorized Representative");
 $pdf->SetXY(129,$y);
@@ -719,7 +744,7 @@ $y = $pdf->GetY();
 $pdf->Line($x+1,$y+4.7,$x+35,$y+4.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x+1,$y+1);
-$pdf->Cell(34,5,"val",0,0,"C");
+$pdf->Cell(34,5,"",0,0,"C");
 $pdf->Text($x+15,$y+8,"Date");
 
 $pdf->Output();
