@@ -3,9 +3,9 @@
   <div id="content-header">
     <div id="breadcrumb"> 
       <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
-      <a href="<?php echo base_url(); ?>dashboard/pending_applications" class="current">Finalize Applications</a>
+      <a href="#" class="current">Retirements</a>
     </div>
-    <h1>Applications for Finalization </h1>
+    <h1>Retirements</h1>
     <hr>
   </div>
   <!--End-breadcrumbs-->
@@ -22,24 +22,31 @@
             <tr>
               <th>Reference Number</th>
               <th>Business Name</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <?php if (isset($finalize)): ?>
-              <?php foreach ($finalize as $application): ?>
-                <tr>
-                  <td><?= $this->encryption->decrypt($application->get_referenceNum()) ?></td>
-                  <td><?= $application->get_businessName() ?></td>
-                  <td><a href="<?php echo base_url(); ?>dashboard/view_application/<?= bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt)) ?>" class="btn btn-info btn-block">Show Details</a></td>
-                </tr>
-              <?php endforeach; ?>
-            <?php endif ?>
-          </tbody>
-        </table>
-      </div>
+            <?php if (is_array($retirements) || is_object($retirements)): ?>
+             <?php foreach ($retirements as $application): ?>
+              <tr>
+                <td><?= $this->encryption->decrypt($application->get_referenceNum()) ?></td>
+                <td><?= $application->get_businessName() ?></td>
+                <td><?= $application->get_status() ?></td>
+                <td>
+                  <a href="<?php echo base_url(); ?>dashboard/view_retirement/<?= bin2hex($this->encryption->encrypt($application->get_applicationId(), $custom_encrypt)) ?>" class="btn btn-info btn-block">Show Details</a>
+                  <?php if ($application->get_status() == "Closed"): ?>
+                    <a href="<?php echo base_url(); ?>dashboard/get_cert_closure_info" class="btn btn-success btn-block">Print Certificate</a>
+                  <?php endif ?>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          <?php endif ?>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
 <!--     <div class="block center-block">
     	<label for="">Test Noty</label>
     	<button class="btn btn-primary" id="btn-test-noty">Noty</button>

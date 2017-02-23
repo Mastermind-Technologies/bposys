@@ -10,6 +10,7 @@ class Profile extends CI_Controller {
 		$this->load->model('Owner_m');
 		$this->load->model('Business_m');
 		$this->load->model('Role_m');
+		$this->load->model('Payment_m');
 		$this->load->library('form_validation');
 
 		$this->load->model('Business_Address_m');
@@ -28,8 +29,10 @@ class Profile extends CI_Controller {
 	public function index()
 	{
 		$this->isLogin();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-		$this->_init();
 
 		$data['user'] = new User($this->encryption->decrypt($this->session->userdata['userdata']['userId']));
 
@@ -47,7 +50,9 @@ class Profile extends CI_Controller {
 	public function edit()
 	{
 		$this->isLogin();
-		$this->_init();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "";
+		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
 		$data['user'] = new User($user_id);
@@ -647,8 +652,32 @@ class Profile extends CI_Controller {
 			{
 				redirect('profile/businesses');
 			}
-			
+
 		}
+	}
+
+	public function payment_history()
+	{
+		$this->isLogin();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "payment_history";
+		$this->_init($nav_data);
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$data['payments'] = $this->Payment_m->get_user_payments($user_id);
+
+		$this->load->view('profile/view_payment_history',$data);
+	}
+
+	public function unsettled_charges()
+	{
+		$this->isLogin();
+		$nav_data['notifications'] = User::get_notifications();
+		$nav_data['title'] = "unsettled_charges";
+		$this->_init($nav_data);
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+		$this->load->view('profile/view_unsettled_charges');
 	}
 
 	// public function manage_business_address()

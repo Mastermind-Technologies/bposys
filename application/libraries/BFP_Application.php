@@ -13,13 +13,17 @@ class BFP_Application extends Business {
     private $occupiedPortion = null;
     private $occupancyPermitNum = null;
 	private $status = null;
+    private $lineOfBusiness = null;
     private $applicationType = null;
+    private $requirements = null;
 	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
         $this->CI->load->model('Approval_m');
 		$this->CI->load->model('Application_m');
 		$this->CI->load->model('Notification_m');
+        $this->CI->load->model('Business_Activity_m');
+        $this->CI->load->model('Requirement_m');
         $this->CI->load->model('Renewal_m');
 
         $isExisting = $this->CI->Renewal_m->check_application($reference_num);
@@ -106,6 +110,9 @@ class BFP_Application extends Business {
 
 	public function set_application_all($param = null)
 	{
+        $line_of_business = $this->CI->Business_Activity_m->get_all_business_activity_by_reference_num($param->referenceNum);
+        if(count($line_of_business) > 0)
+        $line_of_business = $line_of_business[0]->lineOfBusiness;
 		if(!isset($this->CI))
 			$this->CI =& get_instance();
         $this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
@@ -118,6 +125,8 @@ class BFP_Application extends Business {
         $this->occupiedPortion = $param->occupiedPortion;
         $this->occupancyPermitNum = $param->occupancyPermitNum;
         $this->status = $param->status;
+        $this->lineOfBusiness = $line_of_business;
+        $this->requirements = $this->CI->Requirement_m->get_requirements(5);
 		$this->unset_CI();
 		return $this;
 	}
@@ -386,6 +395,54 @@ class BFP_Application extends Business {
     public function set_ApplicationType($applicationType)
     {
         $this->applicationType = $applicationType;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of lineOfBusiness.
+     *
+     * @return mixed
+     */
+    public function get_LineOfBusiness()
+    {
+        return $this->lineOfBusiness;
+    }
+
+    /**
+     * Sets the value of lineOfBusiness.
+     *
+     * @param mixed $lineOfBusiness the line of business
+     *
+     * @return self
+     */
+    public function set_LineOfBusiness($lineOfBusiness)
+    {
+        $this->lineOfBusiness = $lineOfBusiness;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of requirements.
+     *
+     * @return mixed
+     */
+    public function get_Requirements()
+    {
+        return $this->requirements;
+    }
+
+    /**
+     * Sets the value of requirements.
+     *
+     * @param mixed $requirements the requirements
+     *
+     * @return self
+     */
+    private function set_Requirements($requirements)
+    {
+        $this->requirements = $requirements;
 
         return $this;
     }

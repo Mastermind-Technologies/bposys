@@ -209,95 +209,97 @@ class Assessment{
 	public static function compute_zoning_clearance_fee($capital, $zone_type)
 	{
 		//UNIT IS PESOS
-		switch($zone_type)
-		{
-			case "Single residential":
-			if($capital <= 100000)
-			{
-				$fee = 240;
-			}
-			if($capital > 100000 && $capital <= 200000)
-			{
-				$fee = 480;
-			}
-			if($capital > 200000)
-			{
-				$excess = $capital - 200000;
-				$excess_fee = ($excess * 0.01) / 10;
-				$fee = 600 + $excess_fee;
-			}
-			break;
+		// switch($zone_type)
+		// {
+		// 	case "Single residential":
+		// 	if($capital <= 100000)
+		// 	{
+		// 		$fee = 240;
+		// 	}
+		// 	if($capital > 100000 && $capital <= 200000)
+		// 	{
+		// 		$fee = 480;
+		// 	}
+		// 	if($capital > 200000)
+		// 	{
+		// 		$excess = $capital - 200000;
+		// 		$excess_fee = ($excess * 0.01) / 10;
+		// 		$fee = 600 + $excess_fee;
+		// 	}
+		// 	break;
 
-			case "Apartments/Townhouses":
-			if($capital <= 500000)
-			{
-				$fee = 1200;
-			}
-			if($capital > 500000 && $capital <= 2000000)
-			{
-				$fee = 1800;
-			}
-			if($capital > 2000000)
-			{
-				$excess = $capital - 2000000;
-				$excess_fee = ($excess * 0.01) / 10;
-				$fee = 3000 + $excess_fee;
-			}
-			break;
+		// 	case "Apartments/Townhouses":
+		// 	if($capital <= 500000)
+		// 	{
+		// 		$fee = 1200;
+		// 	}
+		// 	if($capital > 500000 && $capital <= 2000000)
+		// 	{
+		// 		$fee = 1800;
+		// 	}
+		// 	if($capital > 2000000)
+		// 	{
+		// 		$excess = $capital - 2000000;
+		// 		$excess_fee = ($excess * 0.01) / 10;
+		// 		$fee = 3000 + $excess_fee;
+		// 	}
+		// 	break;
 
-			case "Dormitories":
-			if($capital <= 2000000)
-			{
-				$fee = 2400;
-			}
-			if($capital > 2000000)
-			{
-				$excess = $capital - 2000000;
-				$excess_fee = ($excess * 0.01) / 10;
-				$fee = 2400 + $excess_fee;
-			}
-			break;
+		// 	case "Dormitories":
+		// 	if($capital <= 2000000)
+		// 	{
+		// 		$fee = 2400;
+		// 	}
+		// 	if($capital > 2000000)
+		// 	{
+		// 		$excess = $capital - 2000000;
+		// 		$excess_fee = ($excess * 0.01) / 10;
+		// 		$fee = 2400 + $excess_fee;
+		// 	}
+		// 	break;
 
-			case "Commercial/Industrial kind":
-			if($capital <= 100000)
-			{
-				$fee = 1200;
-			}
-			if($capital > 100000 && $capital <= 500000)
-			{
-				$fee = 1800;
-			}
-			if($capital > 500000 && $capital <= 1000000)
-			{
-				$fee = 2400;
-			}
-			if($capital > 1000000 && $capital <= 2000000)
-			{
-				$fee = 3600;
-			}
-			if($capital > 2000000)
-			{
-				$excess = $capital - 2000000;
-				$excess_fee = ($excess * 0.01) / 10;
-				$fee = 6000 + $excess_fee;
-			}
-			break;
+		// 	case "Commercial/Industrial kind":
+		// 	if($capital <= 100000)
+		// 	{
+		// 		$fee = 1200;
+		// 	}
+		// 	if($capital > 100000 && $capital <= 500000)
+		// 	{
+		// 		$fee = 1800;
+		// 	}
+		// 	if($capital > 500000 && $capital <= 1000000)
+		// 	{
+		// 		$fee = 2400;
+		// 	}
+		// 	if($capital > 1000000 && $capital <= 2000000)
+		// 	{
+		// 		$fee = 3600;
+		// 	}
+		// 	if($capital > 2000000)
+		// 	{
+		// 		$excess = $capital - 2000000;
+		// 		$excess_fee = ($excess * 0.01) / 10;
+		// 		$fee = 6000 + $excess_fee;
+		// 	}
+		// 	break;
 
-			case "Special Uses/Special Projects":
-			if($capital <= 2000000)
-			{
-				$fee = 6000;
-			}
-			if($capital > 2000000)
-			{
-				$excess = $capital - 2000000;
-				$excess_fee = ($excess * 0.01) / 10;
-				$fee = 6000 + $excess_fee;
-			}
-			break;
+		// 	case "Special Uses/Special Projects":
+		// 	if($capital <= 2000000)
+		// 	{
+		// 		$fee = 6000;
+		// 	}
+		// 	if($capital > 2000000)
+		// 	{
+		// 		$excess = $capital - 2000000;
+		// 		$excess_fee = ($excess * 0.01) / 10;
+		// 		$fee = 6000 + $excess_fee;
+		// 	}
+		// 	break;
 
-		}
+		// }
 
+		//CHANGED TO FIXED FEE 2/23/17 6:49AM
+		$fee = 200;
 		return $fee;
 	}
 

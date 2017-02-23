@@ -37,17 +37,18 @@
             <tbody>
               <tr>
                 <td>
-                  <label for="application_type">Application Type: <input type="checkbox" disabled <?= $application->get_ApplicationType()== "New" ? 'checked' : '' ?> name="radios" />New<input type="checkbox" disabled <?= $application->get_ApplicationType()=="Renewal" ? 'checked' : '' ?> name="radios" />Renewal</label>
+                <label for="application_type">Application Type: </label>
+                  <input type="checkbox" disabled <?= $application->get_ApplicationType()== "New" ? 'checked' : '' ?> name="radios" />New <input type="checkbox" disabled <?= $application->get_ApplicationType()=="Renewal" ? 'checked' : '' ?> name="radios" />Renewal
                 </td>
                 <td>
                   <label for="sanitary_permit_number">SANITARY PERMIT NO.</label>
-                  <h5>???</h5>
+                  <h5><?= $this->encryption->decrypt($application->get_applicationId()) ?></h5>
                 </td>
               </tr>
               <tr>
                 <td colspan="3">
                   <label for="application_date">Application Date:</label>
-                  <h5>???</h5>
+                  <h5><?= $application->get_applicationDate() ?></h5>
                 </td>
               </tr>
               <tr>
@@ -79,7 +80,7 @@
               <tr>
                 <td colspan="1">
                   <label for="registered_owner">Registered Owner</label>
-                  <h5><?=$application->get_FirstName()?> . " " . <?=$application->get_MiddleName()?> . " " . <?=$application->get_LastName()?></h5>
+                  <h5><?=$application->get_FirstName() . " " . $application->get_MiddleName() . " " . $application->get_LastName()?></h5>
                 </td>
                 <td colspan="2">
                   <label for="contact_number">Contact Nos.</label>
@@ -87,51 +88,71 @@
                 </td>
               </tr>
               <tr>
-              <td colspan="3">
-                <label for="line_of_business">Nature/Line of Business: </label>
-                <h5>???</h5>
-              </td>
+                <td colspan="3">
+                  <label for="line_of_business">Nature/Line of Business: </label>
+                  <h5><?= $application->get_lineOfBusiness() ?></h5>
+                </td>
               </tr>
               <tr>
-              <th colspan="3">
-                <label for="total_number_of_employees">Total No. Of Employees: </label>
-              </th>
-            </tr>
-            <tr>
-              <td>
-                <label for="male_employees">Male: </label>
-                <h5><?=$application->get_MaleEmployees()?></h5>
-              </td>
-              <td>
-                <label for="female_employees">Female: </label>
-                <h5><?=$application->get_FemaleEmployees()?></h5>
-              </td>
-              <td>
-                <label for="pwd_employees">PWD's: </label>
-                <h5><?=$application->get_PWDEmployees()?></h5>
-              </td>
+                <th colspan="3">
+                  <label for="total_number_of_employees">Total No. Of Employees: </label>
+                </th>
               </tr>
               <tr>
-              <td colspan="3">
-                <label for="physical_exams_for_employees">Annual Physical Exams for Employees are conducted(please check): <input type="checkbox" disabled <?= $application->get_annualEmployeePhysicalExam()== 0 ? 'checked' : '' ?> name="radios" />Yes<input type="checkbox" disabled <?= $application->get_annualEmployeePhysicalExam()== 1 ? 'checked' : '' ?> name="radios" />None</label>
-              </td>
+                <td>
+                  <label for="male_employees">Male: </label>
+                  <h5><?=$application->get_MaleEmployees()?></h5>
+                </td>
+                <td>
+                  <label for="female_employees">Female: </label>
+                  <h5><?=$application->get_FemaleEmployees()?></h5>
+                </td>
+                <td>
+                  <label for="pwd_employees">PWD's: </label>
+                  <h5><?=$application->get_PWDEmployees()?></h5>
+                </td>
               </tr>
               <tr>
-              <td colspan="3">
-                <label for="type_or_level_of_water_resource">Type or Level of Water Source: </label>
-                <h5><?=$application->get_typeLevelOfWaterSource()?></h5>
-              </td>
+                <td colspan="3">
+                  <label for="physical_exams_for_employees">Annual Physical Exams for Employees are conducted(please check): <input type="checkbox" disabled <?= $application->get_annualEmployeePhysicalExam()== 0 ? 'checked' : '' ?> name="radios" />Yes<input type="checkbox" disabled <?= $application->get_annualEmployeePhysicalExam()== 1 ? 'checked' : '' ?> name="radios" />None</label>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  <label for="type_or_level_of_water_resource">Type or Level of Water Source: </label>
+                  <h5><?=$application->get_typeLevelOfWaterSource()?></h5>
+                </td>
               </tr>
             </tbody>
           </table>
-          <div class="form-action">
-            <?php if ($application->get_status() != "Active"): ?>
-              <div class="row text-center">
-                <?php if ($application->get_status() == "For applicant visit"): ?>
-                  <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
-                  <!-- <a href="#" class="btn btn-danger btn-lg">Reject</a> -->
-                <?php elseif ($application->get_status() == "On process"): ?>
-                  <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
+          <?php if ($application->get_status() == "On process"): ?>
+            <form action="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" method="POST">
+              <div class="row-fluid text-center">
+                <div class="span4 offset4">
+                  <table class="table table-bordered">
+                    <th colspan="2" class='text-center'>Requirements Checklist</th>
+                    <tbody>
+                      <?php foreach ($application->get_requirements() as $key => $requirements): ?>
+                        <tr>
+                          <td style="width:10%"><input type="checkbox" value="<?= $this->encryption->encrypt($requirements->requirementId) ?>" class='requirements-checkbox' name="requirements[]" /></td>
+                          <td> <?= $requirements->name ?></td>
+                        </tr>
+                      <?php endforeach ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            <?php endif ?>
+            <div class="form-action">
+              <?php if ($application->get_status() != "Active"): ?>
+                <div class="row text-center">
+                  <?php if ($application->get_status() == "For applicant visit"): ?>
+                    <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
+                    <!-- <a href="#" class="btn btn-danger btn-lg">Reject</a> -->
+                  <?php elseif ($application->get_status() == "On process"): ?>
+                    <button class="btn btn-success" disabled="" id="approve-btn">Issue Sanitary Permit</button>
+                  </form>
+                  <!-- <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a> -->
                   <!-- <a href="#" class="btn btn-warning btn-lg">Edit information</a> -->
                 <?php endif ?>
               </div>

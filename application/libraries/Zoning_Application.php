@@ -8,117 +8,127 @@ class Zoning_Application extends Business {
 	private $userId = null;
     private $businessId = null;
     private $capitalInvested = null;
-	private $status = null;
+    private $status = null;
     private $applicationType = null;
-	
-	public function __construct($reference_num = null){
-		$this->CI =& get_instance();
-		$this->CI->load->model('Application_m');
-		$this->CI->load->model('Notification_m');
-        $this->CI->load->model('Business_Activity_m');
-        $this->CI->load->model('Renewal_m');
+    private $requirements = null;
 
-        $isExisting = $this->CI->Renewal_m->check_application($reference_num);
+    public function __construct($reference_num = null){
+      $this->CI =& get_instance();
+      $this->CI->load->model('Application_m');
+      $this->CI->load->model('Notification_m');
+      $this->CI->load->model('Business_Activity_m');
+      $this->CI->load->model('Renewal_m');
+      $this->CI->load->model('Requirement_m');
 
-        if($isExisting)
-        {
-            $this->applicationType = "Renew";
-        }
-        else
-        {
-            $this->applicationType = "New";
-        }
-		if(isset($reference_num))
-			return $this->get_application($reference_num);
-	}
+      $isExisting = $this->CI->Renewal_m->check_application($reference_num);
 
-	public function get_application($reference_num = null)
-	{
-		$query['referenceNum'] = $reference_num;
-
-		$application = $this->CI->Application_m->get_all_zoning_applications($query);
-        if(count($application) > 0)
-        {
-            $this->set_application_all($application[0]);
-            if($application[0]->businessId != null)
-                $this->get_business_information($application[0]->businessId);
-        }
-		
-		$this->unset_CI();
-		return $this;
-	}
-
-	public function change_status($reference_num = null, $status = null)
-	{
-		$this->CI =& get_instance();
-		$query = array(
-			'referenceNum' => $reference_num,
-			'status' => $status,
-			);
-		$this->CI->Application_m->update_application($query, 'zoning');
-		$this->status = $status;
-		$this->unset_CI();
-	}
-
-    public static function update_status($reference_num = null, $status = null)
-    {
-        $var = get_instance();
-        $query = array(
-            'referenceNum' => $reference_num,
-            'status' => $status,
-            );
-        $var->Application_m->update_application($query, 'zoning');
-        unset($var);
+      if($isExisting)
+      {
+        $this->applicationType = "Renew";
     }
+    else
+    {
+        $this->applicationType = "New";
+    }
+    if(isset($reference_num))
+     return $this->get_application($reference_num);
+}
 
-	public function check_expiry()
-	{
-		if(!isset($this->CI))
-			$this->CI =& get_instance();
+public function get_application($reference_num = null)
+{
+  $query['referenceNum'] = $reference_num;
+
+  $application = $this->CI->Application_m->get_all_zoning_applications($query);
+  if(count($application) > 0)
+  {
+    $this->set_application_all($application[0]);
+    if($application[0]->businessId != null)
+        $this->get_business_information($application[0]->businessId);
+}
+
+$this->unset_CI();
+return $this;
+}
+
+public function change_status($reference_num = null, $status = null)
+{
+  $this->CI =& get_instance();
+  $query = array(
+     'referenceNum' => $reference_num,
+     'status' => $status,
+     );
+  $this->CI->Application_m->update_application($query, 'zoning');
+  $this->status = $status;
+  $this->unset_CI();
+}
+
+public static function update_status($reference_num = null, $status = null)
+{
+    $var = get_instance();
+    $query = array(
+        'referenceNum' => $reference_num,
+        'status' => $status,
+        );
+    $var->Application_m->update_application($query, 'zoning');
+    unset($var);
+}
+
+public function check_expiry()
+{
+  if(!isset($this->CI))
+     $this->CI =& get_instance();
 		//check if status is active
-        if($this->status == 'Active')
+ if($this->status == 'Active')
+ {
+    $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
+    $query = array(
+        'referenceNum' => $reference_num,
+        'role' => 8,
+        'type' => 'Approve',
+        );
+    $approval = $this->CI->Approval_m->get_latest_approval($query);
+            //if this year is greater than application date, expire application
+    // echo "<pre>";
+    // print_r($approval);
+    // echo "</pre>";
+    // exit();
+    if(count($approval) > 0)
+    {
+        if(date('Y') > date('Y', strtotime($approval[0]->createdAt)))
         {
             $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
-            $query = array(
-                'referenceNum' => $reference_num,
-                'role' => 8,
-                'type' => 'Approve',
-                );
-            $approval = $this->CI->Approval_m->get_latest_approval($query);
-            //if this year is greater than application date, expire application
-            if(date('Y') > date('Y', strtotime($approval[0]->createdAt)))
-            {
-                $reference_num = $this->CI->encryption->decrypt($this->referenceNum);
-                $this->change_status($reference_num, 'Expired');
-                $this->status = 'Expired';
-            }
+            $this->change_status($reference_num, 'Expired');
+            $this->status = 'Expired';
         }
-        $this->unset_CI();
-	}
+    }
+}
+$this->unset_CI();
+}
 
-	public function set_application_all($param = null)
-	{
-		if(!isset($this->CI))
-			$this->CI =& get_instance();
+public function set_application_all($param = null)
+{
+  if(!isset($this->CI))
+     $this->CI =& get_instance();
 
-        $business_activity = $this->CI->Business_Activity_m->get_all_business_activity_by_reference_num($param->referenceNum);
+ $business_activity = $this->CI->Business_Activity_m->get_all_business_activity_by_reference_num($param->referenceNum);
 
-        $total_capital = 0;
-        foreach ($business_activity as $b) {
-            $total_capital += $b->capitalization;
-        }
+ $total_capital = 0;
+ foreach ($business_activity as $b) {
+    $total_capital += $b->capitalization;
+}
 
-		$this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
-		$this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
-		$this->userId = $this->CI->encryption->encrypt($param->userId);
-        $this->businessId = $this->CI->encryption->encrypt($param->businessId);
-        $this->capitalInvested = $total_capital;
-		$this->status = $param->status;
+$this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
+$this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
+$this->userId = $this->CI->encryption->encrypt($param->userId);
+$this->businessId = $this->CI->encryption->encrypt($param->businessId);
+$this->capitalInvested = $total_capital;
+$this->status = $param->status;
+$this->requirements = $this->CI->Requirement_m->get_requirements(8);
 
-		$this->unset_CI();
-		return $this;
-	}
-    
+$this->unset_CI();
+return $this;
+}
+
 
     /**
      * Gets the value of applicationId.
@@ -262,6 +272,30 @@ class Zoning_Application extends Business {
     public function set_ApplicationType($applicationType)
     {
         $this->applicationType = $applicationType;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of requirements.
+     *
+     * @return mixed
+     */
+    public function get_Requirements()
+    {
+        return $this->requirements;
+    }
+
+    /**
+     * Sets the value of requirements.
+     *
+     * @param mixed $requirements the requirements
+     *
+     * @return self
+     */
+    private function set_Requirements($requirements)
+    {
+        $this->requirements = $requirements;
 
         return $this;
     }

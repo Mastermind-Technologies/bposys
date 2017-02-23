@@ -529,6 +529,10 @@ $(document).ready(function()
             {
               $(".status").eq(index).html("Status: <span class='label label-danger' style='font-size:14px'>"+result+"</span>");
             }
+            else if(result == "For Retirement")
+            {
+              $(".status").eq(index).html("Status: <span class='label label-warning' style='font-size:14px'>"+result+"</span>");
+            }
             else
             {
               $(".status").eq(index).html("Status: <span class='label label-info' style='font-size:14px'>"+result+"</span>");

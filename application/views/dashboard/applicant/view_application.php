@@ -11,129 +11,171 @@
 
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-							<h3>Application Details</h3>
+					<h3>Application Details</h3>
 				</div>
 
 				<!-- class "colored-tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom" -->
-				<div class="panel-body">
+				<div class="panel-body" style="background-color: #f9f9f9">
 
 					<h2>Reference Number: <strong class="text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></h2>
-					<h3>Status: <?php $status = $application->get_status();
-						if($status == "Expired")
-						{
-							echo "<strong style='color:red'>".$status."</strong>";
-						}
-						else
-						{
-							echo "<strong>".$status."</strong>";
-						} ?></h3>
-
-						<br>
-
+					<h3>Status: <?= $application->get_status()=="Expired" 
+						? '<strong style="color:red">'.$application->get_status().'</strong>' 
+						: '<strong>'.$application->get_status().'</strong>' ?></h3>
+						<?php if ($application->get_status() == "Active" || $application->get_status() == "Expired" || $application->get_applicationType() == "Renew" && $application->get_status() != "For Retirement"): ?>
+							<input type="button" data-toggle="modal" data-target="#model-retire" class="btn btn-danger" value="Retire Business">
+						<?php endif ?>
+						<hr>
 						<div class="mdl-card mdl-shadow--2dp">
 							<div class="mdl-card__supporting-text">
 								<div class="mdl-stepper-horizontal-alternative">
-									<div class="mdl-stepper-step active-step step-done">
-										<div class="mdl-stepper-circle"><span>1</span></div>
-										<div class="mdl-stepper-title">Submit an Online Application</div>
-										<div class="mdl-stepper-bar-left"></div>
-										<div class="mdl-stepper-bar-right"></div>
-									</div>
-									<div class="mdl-stepper-step active-step">
-										<div class="mdl-stepper-circle"><span>2</span></div>
-										<div class="mdl-stepper-title">Submit Requirements</div>
-										<div class="mdl-stepper-optional"></div>
-										<div class="mdl-stepper-bar-left"></div>
-										<div class="mdl-stepper-bar-right"></div>
-									</div>
-									<div class="mdl-stepper-step"> <!-- <div class="mdl-stepper-step active-step"> -->
-										<div class="mdl-stepper-circle"><span>3</span></div>
-										<div class="mdl-stepper-title">Interview and Assessment</div>
-										<div class="mdl-stepper-optional"></div>
-										<div class="mdl-stepper-bar-left"></div>
-										<div class="mdl-stepper-bar-right"></div>
-									</div>
-									<div class="mdl-stepper-step">
-										<div class="mdl-stepper-circle"><span>4</span></div>
-										<div class="mdl-stepper-title">Payment of Taxes</div>
-										<div class="mdl-stepper-optional"></div>
-										<div class="mdl-stepper-bar-left"></div>
-										<div class="mdl-stepper-bar-right"></div>
-									</div>
-									<div class="mdl-stepper-step">
-										<div class="mdl-stepper-circle"><span>5</span></div>
-										<div class="mdl-stepper-title">Claim Business Permit</div>
-										<div class="mdl-stepper-optional"></div>
-										<div class="mdl-stepper-bar-left"></div>
-										<div class="mdl-stepper-bar-right"></div>
-									</div>
+									<?php if ($application->get_applicationType() == "New" && $application->get_status() != "Expired"): ?>
+										<div class="mdl-stepper-step active-step step-done">
+											<div class="mdl-stepper-circle"><span>1</span></div>
+											<div class="mdl-stepper-title">Submit an Online Application</div>
+											<div class="mdl-stepper-bar-left"></div>
+											<div class="mdl-stepper-bar-right"></div>
+										</div>
+									<?php else: ?>
+										<div class="mdl-stepper-step <?= $application->get_status() == "Expired" ? 'active-step' : 'active-step step-done' ?>">
+											<div class="mdl-stepper-circle"><span>1</span></div>
+											<div class="mdl-stepper-title">Submit Online Renewal Application</div>
+											<div class="mdl-stepper-bar-left"></div>
+											<div class="mdl-stepper-bar-right"></div>
+										</div>
+									<?php endif ?>
+									<div class="mdl-stepper-step <?=
+									//conditions for active-step
+									$application->get_status() == "For applicant visit" ||
+									$application->get_status() == "On process" ||
+									$application->get_status() == "Completed" ||
+									$application->get_status() == "For finalization" ||
+									$application->get_status() == "Active"
+									? 'active-step' : '' ?>
+									<?=
+									//conditions for step-done
+									$application->get_status() == "Completed" ||
+									$application->get_status() == "For finalization" ||
+									$application->get_status() == "Active"
+									? 'step-done' : '' ?>">
+									<div class="mdl-stepper-circle"><span>2</span></div>
+									<div class="mdl-stepper-title">Submit Requirements</div>
+									<div class="mdl-stepper-optional"></div>
+									<div class="mdl-stepper-bar-left"></div>
+									<div class="mdl-stepper-bar-right"></div>
 								</div>
+								<div class="mdl-stepper-step <?=
+									//conditions for active-step
+								$application->get_status() == "Completed" ||
+								$application->get_status() == "For finalization" ||
+								$application->get_status() == "Active"
+								? 'active-step' : '' ?>
+								<?=
+									//conditions for step-done
+								$application->get_status() == "For finalization" ||
+								$application->get_status() == "Active"
+								? 'step-done' : '' ?>"> <!-- <div class="mdl-stepper-step active-step"> -->
+								<div class="mdl-stepper-circle"><span>3</span></div>
+								<div class="mdl-stepper-title">Interview and Assessment</div>
+								<div class="mdl-stepper-optional"></div>
+								<div class="mdl-stepper-bar-left"></div>
+								<div class="mdl-stepper-bar-right"></div>
 							</div>
+							<div class="mdl-stepper-step <?=
+									//conditions for active-step
+							$application->get_status() == "For finalization" ||
+							$application->get_status() == "Active"
+							? 'active-step' : '' ?>
+							<?=
+							$application->get_status() == "Active"
+							? 'step-done' : '' ?>">
+							<div class="mdl-stepper-circle"><span>4</span></div>
+							<div class="mdl-stepper-title">Payment of Taxes</div>
+							<div class="mdl-stepper-optional"></div>
+							<div class="mdl-stepper-bar-left"></div>
+							<div class="mdl-stepper-bar-right"></div>
 						</div>
 
-				</div>
+						<div class="mdl-stepper-step <?=
+									//conditions for active-step
+						$application->get_status() == "Active"
+						? 'active-step' : '' ?>
+						<?=
+						$application->get_status() == "Active"
+						? 'step-done' : '' ?>">
+						<div class="mdl-stepper-circle"><span>5</span></div>
+						<div class="mdl-stepper-title">Claim Business Permit</div>
+						<div class="mdl-stepper-optional"></div>
+						<div class="mdl-stepper-bar-left"></div>
+						<div class="mdl-stepper-bar-right"></div>
 
-				<div class="row" style="padding: 15px">
-					<div class="col-sm-12">
-						<div class="table-responsive">
-							<table class="table table-bordered">
-								<tr>
-									<th style="text-align:center">Requirement</th>
-									<th style="text-align:center">Office/Agency</th>
-									<th style="text-align:center">Status</th>
-									<th style="text-align:center">Action</th>
-								</tr>
-								<tr class="success">
-									<td>DTI/SEC/CDA Registration</td>
-									<td>DTI/SEC/CDA</td>
-									<td style="text-align:center"><span style="text-align:center" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-									<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
-								</tr>
-								<tr class="success">
-									<td>Engineering Clearance</td>
-									<td>Office of the Building Official</td>
-									<td style="text-align:center"><span style="text-align:center" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-									<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
-								</tr>
-								<tr class="danger">
-									<td>Barangay Clearance</td>
-									<td>Barangay</td>
-									<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-									<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
-								</tr>
-								<tr class="danger">
-									<td>Sanitary Permit/Health Clearance</td>
-									<td>City Health Office</td>
-									<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-									<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
-								</tr>
-								<tr class="danger">
-									<td>City Environmental Certificate</td>
-									<td>City Environmental and Natural Resources Office</td>
-									<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-									<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
-								</tr>
-								<tr class="danger">
-									<td>Fire Safety Inspection Certificate</td>
-									<td>Bureau of Fire Protection</td>
-									<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-									<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
-								</tr>
-								<tr class="danger">
-									<td>Zoning Clearance</td>
-									<td>City Planning & Development Office</td>
-									<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-									<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
-								</tr>
-							</div>
-
-						</table>
 					</div>
 				</div>
 			</div>
+		</div>
 
-				<!-- /.panel-body -->
-			</div>
+	</div>
+
+	<div class="row" style="padding: 15px">
+		<div class="col-sm-12">
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<tr>
+						<th style="text-align:center">Requirement</th>
+						<th style="text-align:center">Office/Agency</th>
+						<th style="text-align:center">Status</th>
+						<th style="text-align:center">Action</th>
+					</tr>
+					<tr class="success">
+						<td>DTI/SEC/CDA Registration</td>
+						<td>DTI/SEC/CDA</td>
+						<td style="text-align:center"><span style="text-align:center" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+						<td style="text-align:center"><!-- <button type="button" class="btn btn-primary">View Details</button> --></td>
+					</tr>
+					<tr class="success">
+						<td>Barangay Clearance</td>
+						<td>Barangay</td>
+						<td style="text-align:center"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+						<td style="text-align:center"><!-- <button type="button" class="btn btn-primary">View Details</button> --></td>
+					</tr>
+					<tr class="<?= isset($engineering[0]->createdAt) ? 'success' : 'danger' ?>">
+						<td>Engineering Clearance</td>
+						<td>Office of the Building Official</td>
+						<td style="text-align:center"><span style="text-align:center" class="glyphicon <?= isset($engineering[0]->createdAt) ? 'glyphicon-ok' : 'glyphicon-remove' ?>" aria-hidden="true"></span></td>
+						<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
+					</tr>
+					<tr class="<?= isset($sanitary[0]->createdAt) ? 'success' : 'danger' ?>">
+						<td>Sanitary Permit/Health Clearance</td>
+						<td>City Health Office</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($sanitary[0]->createdAt) ? 'glyphicon-ok' : 'glyphicon-remove' ?>" aria-hidden="true"></span></td>
+						<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
+					</tr>
+					<tr class="<?= isset($cenro[0]->createdAt) ? 'success' : 'danger' ?>">
+						<td>City Environmental Certificate</td>
+						<td>City Environmental and Natural Resources Office</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($cenro[0]->createdAt) ? 'glyphicon-ok' : 'glyphicon-remove' ?>" aria-hidden="true"></span></td>
+						<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
+					</tr>
+					<tr class="<?= isset($bfp[0]->createdAt) ? 'success' : 'danger' ?>">
+						<td>Fire Safety Inspection Certificate</td>
+						<td>Bureau of Fire Protection</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($bfp[0]->createdAt) ? 'glyphicon-ok' : 'glyphicon-remove' ?>" aria-hidden="true"></span></td>
+						<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
+					</tr>
+					<tr class="<?= isset($zoning[0]->createdAt) ? 'success' : 'danger' ?>">
+						<td>Zoning Clearance</td>
+						<td>City Planning & Development Office</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($zoning[0]->createdAt) ? 'glyphicon-ok' : 'glyphicon-remove' ?>" aria-hidden="true"></span></td>
+						<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
+					</tr>
+				</div>
+
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- /.panel-body -->
+</div>
 
 
 				<!-- <div class="boxes">
@@ -733,83 +775,186 @@
           </div>
       </div> -->
 
-			<div id="modal-bplo-requirements" class="modal fade" role="dialog">
-			  <div class="modal-dialog">
+      <div id="modal-bplo-requirements" class="modal fade" role="dialog">
+      	<div class="modal-dialog">
 
-			    <!-- Modal content-->
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal">&times;</button>
-			        <h4 class="modal-title">Business Permit Requirements <span class="badge">2/7</span></h4>
-			      </div>
-			      <div class="modal-body">
+      		<!-- Modal content-->
+      		<div class="modal-content">
+      			<div class="modal-header">
+      				<button type="button" class="close" data-dismiss="modal">&times;</button>
+      				<h4 class="modal-title">Business Permit Requirements <span class="badge">2/7</span></h4>
+      			</div>
+      			<div class="modal-body">
 
-			        <div class="row">
-			          <div class="col-sm-12">
-									<div class="table-responsive">
-				            <table class="table table-bordered">
-											<tr>
-												<th>Requirement</th>
-												<th>Office/Agency</th>
-												<th>Status</th>
-											</tr>
-											<tr class="success">
-												<td>DTI/SEC/CDA Registration</td>
-												<td>DTI/SEC/CDA</td>
-												<td style="text-align:center"><span style="text-align:center" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-											</tr>
-											<tr class="success">
-												<td>Engineering Clearance</td>
-												<td>Office of the Building Official</td>
-												<td style="text-align:center"><span style="text-align:center" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-											</tr>
-											<tr class="danger">
-												<td>Barangay Clearance</td>
-												<td>Barangay</td>
-												<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-											</tr>
-											<tr class="danger">
-												<td>Sanitary Permit/Health Clearance</td>
-												<td>City Health Office</td>
-												<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-											</tr>
-											<tr class="danger">
-												<td>City Environmental Certificate</td>
-												<td>City Environmental and Naturao Resources Office</td>
-												<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-											</tr>
-											<tr class="danger">
-												<td>Fire Safety Inspection Certificate</td>
-												<td>Bureau of Fire Protection</td>
-												<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-											</tr>
-											<tr class="danger">
-												<td>Zoning Clearance</td>
-												<td>City Planning & Development Office</td>
-												<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-											</tr>
-										</div>
+      				<div class="row">
+      					<div class="col-sm-12">
+      						<div class="table-responsive">
+      							<table class="table table-bordered">
+      								<tr>
+      									<th>Requirement</th>
+      									<th>Office/Agency</th>
+      									<th>Status</th>
+      								</tr>
+      								<tr class="success">
+      									<td>DTI/SEC/CDA Registration</td>
+      									<td>DTI/SEC/CDA</td>
+      									<td style="text-align:center"><span style="text-align:center" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+      								</tr>
+      								<tr class="success">
+      									<td>Engineering Clearance</td>
+      									<td>Office of the Building Official</td>
+      									<td style="text-align:center"><span style="text-align:center" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+      								</tr>
+      								<tr class="danger">
+      									<td>Barangay Clearance</td>
+      									<td>Barangay</td>
+      									<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+      								</tr>
+      								<tr class="danger">
+      									<td>Sanitary Permit/Health Clearance</td>
+      									<td>City Health Office</td>
+      									<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+      								</tr>
+      								<tr class="danger">
+      									<td>City Environmental Certificate</td>
+      									<td>City Environmental and Naturao Resources Office</td>
+      									<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+      								</tr>
+      								<tr class="danger">
+      									<td>Fire Safety Inspection Certificate</td>
+      									<td>Bureau of Fire Protection</td>
+      									<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+      								</tr>
+      								<tr class="danger">
+      									<td>Zoning Clearance</td>
+      									<td>City Planning & Development Office</td>
+      									<td style="text-align:center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+      								</tr>
+      							</div>
 
-									</table>
-			          </div>
-			        </div>
+      						</table>
+      					</div>
+      				</div>
 
-			        <hr>
+      				<hr>
 
-			      </form>
+      			</form>
 
-			    </div>
+      		</div>
 
-			  </div>
-			</div>
+      	</div>
+      </div>
 
 
   </div>
   <!-- /.container-fluid -->
 </div>
-<!-- </body> -->
-<script>
-$(document).ready(function(){
-    $("a").tooltip();
-});
-</script>
+
+<!-- Modal -->
+<div id="model-retire" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Retire Business</h4>
+			</div>
+			<div class="modal-body">
+
+				<form action="<?php echo base_url(); ?>form/submit_retirement/<?= str_replace(['/','+','='], ['-','_','='],  $application->get_referenceNum()) ?>" method="post" data-parsley-validate="">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label for="">Business Name</label>
+								<br>
+								<span><?= $application->get_businessName() ?></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label for="">Business Address:</label>
+								<br>
+								<span><?=$application->get_bldgName() . " " . $application->get_houseBldgNum() . " " . $application->get_unitNum() . " " . $application->get_street() . ", " . $application->get_Subdivision() . ", " . $application->get_barangay() . ", " . $application->get_cityMunicipality() . ", " . $application->get_province()?></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label for="">Owner's Name</label>
+								<br>
+								<span><?= $application->get_firstName()." ".$application->get_middleName()." ".$application->get_lastName() ?></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label for="">Owner Address</label>
+								<br>
+								<span><?=$application->get_ownerbldgName() . " " . $application->get_ownerhouseBldgNo() . " " . $application->get_ownerunitNum() . " " . $application->get_ownerstreet() . ", " . $application->get_ownerSubdivision() . ", " . $application->get_ownerbarangay() . ", " . $application->get_ownercityMunicipality() . ", " . $application->get_ownerprovince()?></span>
+							</div>
+						</div>
+					</div>
+					<table class="table table-bordered">
+
+						<tr>
+							<th></th>
+							<th></th>
+							<th colspan='2' class='text-center'>Gross Sales/Receipt</th>
+						</tr>
+						<tr>
+							<th class='text-center'>Line of Business</th>
+							<th class='text-center'>Last Capital/Gross Declared</th>
+							<th class='text-center'>Essential</th>
+							<th class='text-center'>Non-Essential</th>
+						</tr>
+
+						<tbody>
+							<?php foreach ($application->get_businessactivities() as $key => $activity): ?>
+								<tr>
+									<td>
+										<?= $activity->lineOfBusiness ?>
+										<input type="hidden" name="activity-id[]" required value="<?= $activity->activityId ?>">	
+									</td>
+									<td>
+										<span class="pull-right"><?= number_format($application->get_applicationType() == "New" ? $activity->capitalization : $activity->previousGross[0]->essentials + $activity->previousGross[0]->nonEssentials, 2) ?></span>
+									</td>
+									<td><input type="text" data-parsley-type="digits" class="form-control" required name="essentials[]"></td>
+									<td><input type="text" data-parsley-type="digits" class="form-control" required name="non-essentials[]"></td>
+								</tr>
+							<?php endforeach ?>
+						</tbody>
+					</table>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label for="">Reason for retirement / Closure of Business</label>
+								<textarea name="reason" id="reason" cols="10" rows="2" required class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+							<input type="submit" class="btn btn-primary btn-block" value="Submit Retirement">
+						</div>
+					</div>
+
+					<hr>
+
+				</form>
+
+			</div>
+
+		</div>
+	</div>
+	<!-- </body> -->
+	<script>
+		$(document).ready(function(){
+			$("a").tooltip();
+		});
+	</script>

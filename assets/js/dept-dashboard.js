@@ -27,11 +27,11 @@ $(document).ready(function(){
 		warning_active = true;
 		if($('#new-count').val() > 1)
 		{
-			var message = "You have <strong id='new-notif'>"+ $('#new-count').val() + "</strong> new applications";
+			var message = "You have <strong id='new-notif'>"+ $('#new-count').val() + "</strong> new incoming applications";
 		}
 		else
 		{
-			var message = "You have <strong id='new-notif'>"+ $('#new-count').val() + "</strong> new application";
+			var message = "You have <strong id='new-notif'>"+ $('#new-count').val() + "</strong> new incoming application";
 		}
 		notify(message, "warning");
 	}
@@ -86,7 +86,7 @@ $(document).ready(function(){
 				}
 				if(data.new > 0 && data.new != $('#new-count').val())
 				{
-					var message = 'You have <strong id="new-notif">'+data.new+'</strong> new application';
+					var message = 'You have <strong id="new-notif">'+data.new+'</strong> new incoming application';
 					$('#new-count').val(data.new);
 					// $('.badge-issued').html();
 					if(!warning_active)
@@ -143,7 +143,7 @@ $(document).ready(function(){
 		    				else if(type == "information")
 		    					window.location = base_url+"dashboard/incoming_applications";
 		    				else if(type == "warning")
-		    					window.location = base_url+"dashboard/on_process_applications";
+		    					window.location = base_url+"dashboard/incoming_applications";
 		    			}
 		    		});
 		    	},
@@ -184,11 +184,24 @@ $(document).ready(function(){
 	});
 
 	$('.paid-up-to').click(function(){
+		var	paid_up_to = $(this).val();
 		$('#hidden-paid-up-to').val($(this).val());
 		console.log($('#hidden-paid-up-to').val());
+
+		$.ajax({
+			type: 'POST',
+			dataType: 'JSON',
+			url: base_url+"form/get_total_payment",
+			data: {paid_up_to: paid_up_to, ref: $('#ref').val(), aid: $('#aid').val()},
+			success: function(data)
+			{
+				$('#amount-paid').html("<strong> PHP "+data+"</strong>");
+			}
+		})
 	});
 
 	var requirements_count = $('.requirements-checkbox').length;
+	// console.log(requirements_count);
 	var checked_count = 0;
 	$('.requirements-checkbox').click(function(){
 		if($(this).is(':checked'))

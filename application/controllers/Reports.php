@@ -18,6 +18,7 @@ class Reports extends CI_Controller {
 		$this->load->model('Business_m');
 		$this->load->model('Approval_m');
 		$this->load->model('Notification_m');
+		$this->load->model('Retirement_m');
 		$this->load->library('form_validation');
 
 		$this->load->model('Business_Address_m');
@@ -34,22 +35,22 @@ class Reports extends CI_Controller {
 
 	public function _init_matrix($data = null)
 	{
-		$query['status'] = 'For validation...';
-		$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
-
-		$query['status'] = 'For applicant visit';
-		$data['pending'] = count($this->Application_m->get_all_bplo_applications($query));
-
-		$query['status'] = 'On Process';
+		$query['status'] = 'On process';
 		$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
 
 		$query['status'] = 'Completed';
 		$data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
 
+		$query['status'] = 'For finalization';
+		$data['finalization'] = count($this->Application_m->get_all_bplo_applications($query));
+
 		$query['status'] = 'Active';
 		$data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
 
-		$data['total'] = $data['incoming']+$data['pending']+$data['process']+$data['complete']+$data['complete']+$data['issued'];
+		$query['status'] = "For approval";
+		$data['retirements'] = count($this->Retirement_m->get_all($query));
+
+		$data['total'] = $data['process'];
 		$this->load->view('templates/matrix/matrix_includes');
 		$this->load->view('templates/matrix/matrix_navbar', $data);
 	}
@@ -67,88 +68,88 @@ class Reports extends CI_Controller {
 		$query['YEAR(createdAt)'] = date('Y');
 		$query['dept'] = "BPLO";
 		$query['type'] = "New";
-		for ($i=1; $i <= 12 ; $i++) { 
+		for ($i=1; $i <= 12 ; $i++) {
 			$query['MONTH(createdAt)'] = $i;
 			switch ($i)
 			{
-				case 1: 
+				case 1:
 				$data['n_january'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 2: 
+				case 2:
 				$data['n_february'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 3: 
+				case 3:
 				$data['n_march'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 4: 
+				case 4:
 				$data['n_april'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 5: 
+				case 5:
 				$data['n_may'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 6: 
+				case 6:
 				$data['n_june'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 7: 
+				case 7:
 				$data['n_july'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 8: 
+				case 8:
 				$data['n_august'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 9: 
+				case 9:
 				$data['n_september'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 10: 
+				case 10:
 				$data['n_october'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 11: 
+				case 11:
 				$data['n_november'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 12: 
+				case 12:
 				$data['n_december'] = count($this->Issued_Application_m->get_all($query));
 				break;
 			}
 		}
 
 		$query['type'] = 'Renew';
-		for ($i=1; $i <= 12 ; $i++) { 
+		for ($i=1; $i <= 12 ; $i++) {
 			$query['MONTH(createdAt)'] = $i;
 			switch ($i)
 			{
-				case 1: 
+				case 1:
 				$data['r_january'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 2: 
+				case 2:
 				$data['r_february'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 3: 
+				case 3:
 				$data['r_march'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 4: 
+				case 4:
 				$data['r_april'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 5: 
+				case 5:
 				$data['r_may'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 6: 
+				case 6:
 				$data['r_june'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 7: 
+				case 7:
 				$data['r_july'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 8: 
+				case 8:
 				$data['r_august'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 9: 
+				case 9:
 				$data['r_september'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 10: 
+				case 10:
 				$data['r_october'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 11: 
+				case 11:
 				$data['r_november'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 12: 
+				case 12:
 				$data['r_december'] = count($this->Issued_Application_m->get_all($query));
 				break;
 			}
@@ -209,7 +210,7 @@ class Reports extends CI_Controller {
 						unset($barangay[$key]);
 						// $reindex = array_values($barangay);
 						// $barangay = $reindex;
-						// array_splice($barangay, $key, 1);					
+						// array_splice($barangay, $key, 1);
 					}
 				}
 			}
@@ -223,7 +224,7 @@ class Reports extends CI_Controller {
 		}
 
 		//RANGE
-		for ($i=2012; $i <= date('Y') ; $i++) { 
+		for ($i=2012; $i <= date('Y') ; $i++) {
 
 			$data['new'][$i] = new stdClass();
 			$data['new'][$i]->year = $i;
@@ -233,7 +234,7 @@ class Reports extends CI_Controller {
 
 			$data['expected'][$i] = new stdClass();
 			$data['expected'][$i]->year = $i;
-			
+
 			$query['dept'] = "BPLO";
 			$query['type'] = "New";
 
@@ -267,88 +268,88 @@ class Reports extends CI_Controller {
 		$query['YEAR(createdAt)'] = $year;
 		$query['dept'] = "BPLO";
 		$query['type'] = "New";
-		for ($i=1; $i <= 12 ; $i++) { 
+		for ($i=1; $i <= 12 ; $i++) {
 			$query['MONTH(createdAt)'] = $i;
 			switch ($i)
 			{
-				case 1: 
+				case 1:
 				$data['n_january'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 2: 
+				case 2:
 				$data['n_february'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 3: 
+				case 3:
 				$data['n_march'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 4: 
+				case 4:
 				$data['n_april'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 5: 
+				case 5:
 				$data['n_may'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 6: 
+				case 6:
 				$data['n_june'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 7: 
+				case 7:
 				$data['n_july'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 8: 
+				case 8:
 				$data['n_august'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 9: 
+				case 9:
 				$data['n_september'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 10: 
+				case 10:
 				$data['n_october'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 11: 
+				case 11:
 				$data['n_november'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 12: 
+				case 12:
 				$data['n_december'] = count($this->Issued_Application_m->get_all($query));
 				break;
 			}
 		}
 
 		$query['type'] = 'Renew';
-		for ($i=1; $i <= 12 ; $i++) { 
+		for ($i=1; $i <= 12 ; $i++) {
 			$query['MONTH(createdAt)'] = $i;
 			switch ($i)
 			{
-				case 1: 
+				case 1:
 				$data['r_january'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 2: 
+				case 2:
 				$data['r_february'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 3: 
+				case 3:
 				$data['r_march'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 4: 
+				case 4:
 				$data['r_april'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 5: 
+				case 5:
 				$data['r_may'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 6: 
+				case 6:
 				$data['r_june'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 7: 
+				case 7:
 				$data['r_july'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 8: 
+				case 8:
 				$data['r_august'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 9: 
+				case 9:
 				$data['r_september'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 10: 
+				case 10:
 				$data['r_october'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 11: 
+				case 11:
 				$data['r_november'] = count($this->Issued_Application_m->get_all($query));
 				break;
-				case 12: 
+				case 12:
 				$data['r_december'] = count($this->Issued_Application_m->get_all($query));
 				break;
 			}
@@ -356,6 +357,6 @@ class Reports extends CI_Controller {
 		$data['year'] = $year;
 		$this->load->view('dashboard/bplo/ajax-report',$data);
 		echo script_tag('assets/js/jquery.min.js');
-		echo script_tag('assets/js/jquery.canvasjs.min.js');		
+		echo script_tag('assets/js/jquery.canvasjs.min.js');
 	}
 }//END OF CLASS

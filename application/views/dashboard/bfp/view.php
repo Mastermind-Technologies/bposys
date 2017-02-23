@@ -7,6 +7,8 @@
         <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a>
       <?php elseif ($application->get_status() == "For applicant visit"): ?>
         <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a>
+      <?php elseif ($application->get_status() == "Active"): ?>
+        <a href="<?php echo base_url(); ?>dashboard/issued_applications">Issued Applications</a>
       <?php endif ?>
 
       <a href="#" class="current">View</a>
@@ -24,7 +26,7 @@
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#tab1">BFP Form</a></li>
           <li><a data-toggle="tab" href="#bplo">BPLO Form</a></li>
-          <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
+          <!-- <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li> -->
           <li><a data-toggle="tab" onclick="initMap()" href="#tab3">Business Location</a></li>
         </ul>
       </div>
@@ -56,7 +58,7 @@
               <tr>
                 <td colspan="2">
                   <label for="nature_of_business">Nature of Business</label>
-                  <h5>???</h5>
+                  <h5><?= $application->get_LineOfBusiness() ?></h5>
                 </td>
               </tr>
               <tr>
@@ -76,7 +78,7 @@
                 </td>
                 <td>
                   <label for="representative_contact_number">Contact No.</label>
-                  <h5>???</h5>
+                  <h5><?= $representative->get_contactNum() ?></h5>
                 </td>
               </tr>
               <tr>
@@ -94,13 +96,31 @@
                     <h5><?=$application->get_areaPerFloor()?></h5>
                   </td>
                   <td>
-                    <label for="date_issued">Date Issued</label>
-                    <h5>???</h5>
+                    <!-- <label for="date_issued">Date Issued</label>
+                    <h5>???</h5> -->
                   </td>
                 </tr>
               </tr>
             </tbody>
           </table>
+          <?php if ($application->get_status() == "On process"): ?>
+            <form action="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" method="POST">
+            <div class="row-fluid text-center">
+              <div class="span4 offset4">
+                <table class="table table-bordered">
+                  <th colspan="2" class='text-center'>Requirements Checklist</th>
+                  <tbody>
+                  <?php foreach ($application->get_requirements() as $key => $requirements): ?>
+                      <tr>
+                        <td style="width:10%"><input type="checkbox" value="<?= $this->encryption->encrypt($requirements->requirementId) ?>" class='requirements-checkbox' name="requirements[]" /></td>
+                        <td> <?= $requirements->name ?></td>
+                      </tr>
+                    <?php endforeach ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          <?php endif ?>
           <div class="form-action">
             <?php if ($application->get_status() != "Active"): ?>
               <div class="row text-center">
@@ -108,7 +128,9 @@
                   <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
                   <!-- <a href="#" class="btn btn-danger btn-lg">Reject</a> -->
                 <?php elseif ($application->get_status() == "On process"): ?>
-                  <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a>
+                  <button class="btn btn-success" disabled="" id="approve-btn">Issue Fire Safety Insurance Certificate</button>
+                  </form>
+                  <!-- <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a> -->
                   <!-- <a href="#" class="btn btn-warning btn-lg">Edit information</a> -->
                 <?php endif ?>
               </div>
@@ -438,7 +460,7 @@
                   </table>
                 <?php endif ?>
               </div>
-              <div id="tab2" class="tab-pane">
+              <!-- <div id="tab2" class="tab-pane">
                 <h3 class='text-center'>Tax Order of Payment</h3>
                 <div class="row">
                   <div class="span2">
@@ -510,7 +532,7 @@
                       <label for="">Total: <?= $bplo->get_assessment()->amount ?></label>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div id="tab3" class='tab-pane'>
                   <div id="gmaps" style="width:100%; height:500px; background-color: gray"></div>
                 </div>

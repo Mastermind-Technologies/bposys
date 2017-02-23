@@ -1,7 +1,7 @@
 <title>BPOSys | <?= $title ?></title>
 <!--Header-part-->
 <div id="header">
-  <h1><a href="<?php echo base_url();?>bposys/dashboard"><img src="<?php echo base_url(); ?>assets/matrix/img/logo.png" style="height: 35px; margin-top: -33px; padding-left: 40px" alt=""></a></h1>
+  <h1><a href="<?php echo base_url();?>bposys/dashboard"><img class="navbar-logo" src="<?php echo base_url(); ?>assets\landing-page\img\bposys-logo-white-solo.png" style="height: 35px; margin-top: -33px; padding-left: 45px" alt=""></a></h1>
 </div>
 <!--close-Header-part-->
 
@@ -38,28 +38,39 @@
       <li class="submenu <?= $active=="Applications" ? "active" : '' ?>"> <a href="#"><i class="icon icon-th-list"></i> <span>Applications</span> <span class="label label-important"><?= $total>0 ? $total : "" ?></span></a>
         <ul>
           <?php if ($this->encryption->decrypt($this->session->userdata['userdata']['role']) == "BPLO"): ?>
-            <li><a href="<?php echo base_url(); ?>dashboard/incoming_applications"><span>For Validation</span><span class="label label-important" style="float:right; margin-right:20px"><?= $incoming>0 ? $incoming : ""?></span></a></li>
+            <!-- <li><a href="<?php echo base_url(); ?>dashboard/incoming_applications"><span>For Validation</span><span class="label label-important" style="float:right; margin-right:20px"><?= $incoming>0 ? $incoming : ""?></span></a></li>
 
-            <li><a href="<?php echo base_url(); ?>dashboard/pending_applications"><span>Pending</span><span class="label label-important" style="float:right; margin-right:20px"><?= $pending>0 ? $pending : ""?></span></a></li>
+            <li><a href="<?php echo base_url(); ?>dashboard/pending_applications"><span>Pending</span><span class="label label-important" style="float:right; margin-right:20px"><?= $pending>0 ? $pending : ""?></span></a></li> -->
 
             <li><a href="<?php echo base_url(); ?>dashboard/on_process_applications"><span>On Process</span><span class="label label-important" style="float:right; margin-right:20px"><?= $process>0 ? $process : "" ?></span></a></li>
 
-            <li><a href="<?php echo base_url(); ?>dashboard/completed_applications"><span>Complete Requirements</span><span class="label label-important" style="float:right; margin-right:20px"><?= $complete>0 ? $complete : ""?></span></a></li>
+            <li><a href="<?php echo base_url(); ?>dashboard/completed_applications"><span>Complete Requirements</span><span class="label label-info" style="float:right; margin-right:20px"><?= $complete>0 ? $complete : ""?></span></a></li>
 
-            <li><a href="<?php echo base_url(); ?>dashboard/issued_applications"><span>Issued</span><span class="label label-important" style="float:right; margin-right:20px"><?= $issued>0 ? $issued : ""?></span></a></li>
+            <li><a href="<?php echo base_url(); ?>dashboard/finalize_applications"><span>Finalization</span><span class="label label-warning" style="float:right; margin-right:20px"><?= $finalization>0 ? $finalization : ""?></span></a></li>
+
+            <li><a href="<?php echo base_url(); ?>dashboard/issued_applications"><span>Issued</span><span class="label label-success" style="float:right; margin-right:20px"><?= $issued>0 ? $issued : ""?></span></a></li>
+
+            <li><a href="<?php echo base_url(); ?>dashboard/retirements"><span>Retirements</span><span class="label label-info" style="float:right; margin-right:20px"><?= $retirements>0 ? $retirements : ""?></span></a></li>
 
           <?php else: ?>
 
             <li><a href="<?php echo base_url(); ?>dashboard/incoming_applications"><span>Incoming Applications</span><span class="label label-important" style="float:right; margin-right:20px"><?= $incoming>0 ? $incoming : ""?></span></a></li>
 
-            <li><a href="<?php echo base_url(); ?>dashboard/on_process_applications"><span>On Process</span><span class="label label-important" style="float:right; margin-right:20px"><?= $process>0 ? $process : "" ?></span></a></li>
+            <li><a href="<?php echo base_url(); ?>dashboard/on_process_applications"><span>On Process</span><span class="label label-warning" style="float:right; margin-right:20px"><?= $process>0 ? $process : "" ?></span></a></li>
 
-            <li><a href="<?php echo base_url(); ?>dashboard/issued_applications"><span>Issued</span><span class="label label-important" style="float:right; margin-right:20px"><?= $issued>0 ? $issued : ""?></span></a></li>
+            <li><a href="<?php echo base_url(); ?>dashboard/issued_applications"><span>Issued</span><span class="label label-success" style="float:right; margin-right:20px"><?= $issued>0 ? $issued : ""?></span></a></li>
 
           <?php endif ?>
         </ul>
       </li>
+<!-- <<<<<<< HEAD
+      <?php if ($this->encryption->decrypt($this->session->userdata['userdata']['role']) == "BPLO"): ?>
+        <li class="<?= $active=="Reports" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>reports"><i class="icon icon-signal"></i> <span>View Reports</span></a> </li>
+      <?php endif ?>
+======= -->
+      <li class=" <?= $active=="Alerts" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>Alerts"><i class="icon icon-bell"></i> <span>Create Alerts</span></a></li>
       <li class="<?= $active=="Reports" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>reports"><i class="icon icon-signal"></i> <span>View Reports</span></a> </li>
+<!-- >>>>>>> 816d1db6c45111631b272ce5099ef665713e059a -->
       <!-- <li class="<?= $active=="Settings" ? "active" : '' ?>"> <a href=""><i class="icon icon-wrench"></i> <span>Settings</span></a> </li> -->
     <?php else: ?>
       <li class="<?= $active=="Dashboard" ? "active" : '' ?>"><a href="<?php echo base_url() ?>bposys_admin/dashboard"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>

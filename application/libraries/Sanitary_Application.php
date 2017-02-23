@@ -10,7 +10,10 @@ class Sanitary_Application extends Business {
     private $annualEmployeePhysicalExam = null;
     private $typeLevelOfWaterSource = null;
 	private $status = null;
+    private $applicationDate = null;
     private $applicationType = null;
+    private $lineOfBusiness = null;
+    private $requirements = null;
 	
 	public function __construct($reference_num = null){
 		$this->CI =& get_instance();
@@ -18,6 +21,8 @@ class Sanitary_Application extends Business {
 		$this->CI->load->model('Application_m');
 		$this->CI->load->model('Notification_m');
         $this->CI->load->model('Renewal_m');
+        $this->CI->load->model('Business_Activity_m');
+        $this->CI->load->model('Requirement_m');
 
         $isExisting = $this->CI->Renewal_m->check_application($reference_num);
 
@@ -102,6 +107,9 @@ class Sanitary_Application extends Business {
 
 	public function set_application_all($param = null)
 	{
+        $line_of_business = $this->CI->Business_Activity_m->get_all_business_activity_by_reference_num($param->referenceNum);
+        if(count($line_of_business) > 0)
+        $line_of_business = $line_of_business[0]->lineOfBusiness;
 		if(!isset($this->CI))
 			$this->CI =& get_instance();
         $this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
@@ -110,7 +118,10 @@ class Sanitary_Application extends Business {
         $this->userId = $this->CI->encryption->encrypt($param->userId);
         $this->annualEmployeePhysicalExam = $param->annualEmployeePhysicalExam;
         $this->typeLevelOfWaterSource = $param->typeLevelOfWaterSource;
+        $this->applicationDate = $param->applicationDate;
         $this->status = $param->status;
+        $this->lineOfBusiness = $line_of_business;
+        $this->requirements = $this->CI->Requirement_m->get_requirements(10);
 		$this->unset_CI();
 		return $this;
 	}
@@ -305,6 +316,78 @@ class Sanitary_Application extends Business {
     public function set_tApplicationType($applicationType)
     {
         $this->applicationType = $applicationType;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of applicationDate.
+     *
+     * @return mixed
+     */
+    public function get_ApplicationDate()
+    {
+        return $this->applicationDate;
+    }
+
+    /**
+     * Sets the value of applicationDate.
+     *
+     * @param mixed $applicationDate the application date
+     *
+     * @return self
+     */
+    public function set_ApplicationDate($applicationDate)
+    {
+        $this->applicationDate = $applicationDate;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of lineOfBusiness.
+     *
+     * @return mixed
+     */
+    public function get_LineOfBusiness()
+    {
+        return $this->lineOfBusiness;
+    }
+
+    /**
+     * Sets the value of lineOfBusiness.
+     *
+     * @param mixed $lineOfBusiness the line of business
+     *
+     * @return self
+     */
+    public function set_LineOfBusiness($lineOfBusiness)
+    {
+        $this->lineOfBusiness = $lineOfBusiness;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of requirements.
+     *
+     * @return mixed
+     */
+    public function get_Requirements()
+    {
+        return $this->requirements;
+    }
+
+    /**
+     * Sets the value of requirements.
+     *
+     * @param mixed $requirements the requirements
+     *
+     * @return self
+     */
+    private function set_Requirements($requirements)
+    {
+        $this->requirements = $requirements;
 
         return $this;
     }

@@ -3,16 +3,21 @@
  * Copyright 2013-2016 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
-body {
-  background-color: #f8f8f8;
+body, html {
+  background-color: #2e363f;
+  height: 100%;
 }
+
 #wrapper {
   width: 100%;
 }
+nav {
+  background-color: green;
+}
 #page-wrapper {
   padding: 0 15px;
-  min-height: 568px;
-  background-color: white;
+  min-height: 100vh;
+  background-color: #eeeeee;
 }
 @media (min-width: 768px) {
   #page-wrapper {
@@ -21,6 +26,23 @@ body {
     padding: 0 30px;
     border-left: 1px solid #e7e7e7;
   }
+  .sidebar .sidebar-nav.navbar-collapse {
+    padding-left: 0;
+    padding-right: 0;
+    height: inherit;
+  }
+}
+
+.nav > li > a:focus, .nav > li > a:hover {
+  background-color: #353f4a;
+  outline: 0;
+}
+
+.navbar {
+  background-color: #2e363f;
+}
+.navbar-logo {
+  padding-left: 0px; height: 35px; margin-top: -8px;
 }
 .navbar-top-links {
   margin-right: 0;
@@ -30,6 +52,9 @@ body {
 }
 .navbar-top-links li:last-child {
   margin-right: 15px;
+}
+.navbar-top-links a {
+  color: #fff;
 }
 .navbar-top-links li a {
   padding: 15px;
@@ -70,15 +95,17 @@ body {
 .sidebar .sidebar-nav.navbar-collapse {
   padding-left: 0;
   padding-right: 0;
+  background-color: #2e363f;
+  border-top: 0;
 }
 .sidebar .sidebar-search {
   padding: 15px;
 }
-.sidebar ul li {
-  border-bottom: 1px solid #e7e7e7;
+.sidebar ul li a {
+  color: #fff;
 }
 .sidebar ul li a.active {
-  background-color: #eeeeee;
+  background-color: #262e38;
 }
 .sidebar .arrow {
   float: right;
@@ -104,7 +131,7 @@ body {
     z-index: 1;
     position: absolute;
     width: 250px;
-    margin-top: 51px;
+    margin-top: 50px;
   }
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,

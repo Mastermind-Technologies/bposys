@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<?php echo base_url(); ?>dashboard">BPOSys</a>
+        <a class="navbar-brand" href="<?php echo base_url(); ?>dashboard"><img class="navbar-logo" src="<?php echo base_url(); ?>assets\landing-page\img\bposys-logo-white-solo.png" alt=""></a>
     </div>
     <!-- /.navbar-header -->
 
@@ -65,6 +65,18 @@
                     </ul>
                     <!-- /.nav-second-level -->
                 <!-- </li> -->
+                <li>
+                  <a href="#" class="<?= $title == 'none' ? 'active' : '' ?>"><i class="fa fa-money" aria-hidden="true"></i>  &nbsp;Bills and Payments</a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="<?php echo base_url(); ?>profile/payment_history" class="<?= $title == 'payment_history' ? 'active' : '' ?>"><i class="fa fa-history" aria-hidden="true"></i> Payment History</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url(); ?>profile/unsettled_charges" class="<?= $title == 'billings' ? 'active' : '' ?>"><i class="fa fa-table" aria-hidden="true"></i> Unsettled Charges</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
                 <li>
                     <a href="<?php echo base_url(); ?>profile/owners" class="<?= $title == 'owner' ? 'active' : '' ?>"><i class="fa fa-users fa-fw"></i> Manage Owners</a>
                 </li>

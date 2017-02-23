@@ -18,7 +18,7 @@ class Gross_m extends CI_Model {
   {
     if($query != null)
       $this->db->where($query);
-    $this->db->select('*')->from($this->table);
+    $this->db->select('*')->from($this->table)->order_by('createdAt','desc');
     $result = $this->db->get();
 
     return $result->result();
