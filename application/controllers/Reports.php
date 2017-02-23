@@ -35,24 +35,31 @@ class Reports extends CI_Controller {
 
 	public function _init_matrix($data = null)
 	{
-		$query['status'] = 'On process';
-		$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
+		if($this->encryption->decrypt($this->session->userdata['userdata']['role']) == "Applicant")
+		{
+			redirect('dashboard');
+		}
+		else
+		{
+			$query['status'] = 'On process';
+			$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
 
-		$query['status'] = 'Completed';
-		$data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
+			$query['status'] = 'Completed';
+			$data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
 
-		$query['status'] = 'For finalization';
-		$data['finalization'] = count($this->Application_m->get_all_bplo_applications($query));
+			$query['status'] = 'For finalization';
+			$data['finalization'] = count($this->Application_m->get_all_bplo_applications($query));
 
-		$query['status'] = 'Active';
-		$data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
+			$query['status'] = 'Active';
+			$data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
 
-		$query['status'] = "For approval";
-		$data['retirements'] = count($this->Retirement_m->get_all($query));
+			$query['status'] = "For approval";
+			$data['retirements'] = count($this->Retirement_m->get_all($query));
 
-		$data['total'] = $data['process'];
-		$this->load->view('templates/matrix/matrix_includes');
-		$this->load->view('templates/matrix/matrix_navbar', $data);
+			$data['total'] = $data['process'];
+			$this->load->view('templates/matrix/matrix_includes');
+			$this->load->view('templates/matrix/matrix_navbar', $data);
+		}
 	}
 
 	public function index()

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2017 at 06:23 AM
+-- Generation Time: Feb 23, 2017 at 03:09 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -19,6 +19,19 @@ SET time_zone = "+00:00";
 --
 -- Database: `bplsys`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `amusement_devices`
+--
+
+CREATE TABLE IF NOT EXISTS `amusement_devices` (
+  `amusementDeviceId` int(10) NOT NULL,
+  `activityId` int(10) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -538,6 +551,191 @@ INSERT INTO `charges` (`chargeId`, `assessmentId`, `period`, `due`, `surcharge`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `fee_amusement_devices`
+--
+
+CREATE TABLE IF NOT EXISTS `fee_amusement_devices` (
+  `amusementDeviceId` int(10) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `ratePerUnit` double NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fee_amusement_devices`
+--
+
+INSERT INTO `fee_amusement_devices` (`amusementDeviceId`, `name`, `ratePerUnit`, `createdAt`, `updatedAt`) VALUES
+(1, 'Test Device', 600, '2017-02-23 12:19:39', '2017-02-23 12:19:39');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fee_bowling_alley`
+--
+
+CREATE TABLE IF NOT EXISTS `fee_bowling_alley` (
+  `automaticLaneFee` double NOT NULL,
+  `nonAutomaticLaneFee` double NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fee_bowling_alley`
+--
+
+INSERT INTO `fee_bowling_alley` (`automaticLaneFee`, `nonAutomaticLaneFee`, `createdAt`, `updatedAt`) VALUES
+(250, 150, '2017-02-23 12:29:18', '2017-02-23 12:36:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fee_common_enterprise`
+--
+
+CREATE TABLE IF NOT EXISTS `fee_common_enterprise` (
+  `commonEnterpriseFeeId` int(10) NOT NULL,
+  `lineOfBusinessId` int(10) NOT NULL,
+  `cottageFee` double NOT NULL,
+  `smallScaleFee` double NOT NULL,
+  `mediumScaleFee` double NOT NULL,
+  `largeScaleFee` double NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fee_common_enterprise`
+--
+
+INSERT INTO `fee_common_enterprise` (`commonEnterpriseFeeId`, `lineOfBusinessId`, `cottageFee`, `smallScaleFee`, `mediumScaleFee`, `largeScaleFee`, `createdAt`, `updatedAt`) VALUES
+(1, 1, 1000, 2000, 3000, 4000, '2017-02-23 11:56:52', '2017-02-23 11:56:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fee_environmental_clearance_conditions`
+--
+
+CREATE TABLE IF NOT EXISTS `fee_environmental_clearance_conditions` (
+  `feeEnvironmentalClearanceConditionId` int(10) NOT NULL,
+  `above` int(60) NOT NULL,
+  `below` int(60) NOT NULL,
+  `fee` double NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fee_environmental_clearance_conditions`
+--
+
+INSERT INTO `fee_environmental_clearance_conditions` (`feeEnvironmentalClearanceConditionId`, `above`, `below`, `fee`, `createdAt`, `updatedAt`) VALUES
+(1, 0, 350000, 500, '2017-02-23 13:33:58', '2017-02-23 13:33:58'),
+(2, 350000, 1000000, 750, '2017-02-23 13:41:40', '2017-02-23 13:41:40'),
+(3, 1000000, 5000000, 1000, '2017-02-23 13:42:00', '2017-02-23 13:42:00'),
+(4, 5000000, 0, 1500, '2017-02-23 13:43:11', '2017-02-23 13:43:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fee_financial_institution`
+--
+
+CREATE TABLE IF NOT EXISTS `fee_financial_institution` (
+  `financialInstitutionId` int(10) NOT NULL,
+  `scale` varchar(60) NOT NULL,
+  `description` text NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fee_financial_institution`
+--
+
+INSERT INTO `fee_financial_institution` (`financialInstitutionId`, `scale`, `description`, `createdAt`, `updatedAt`) VALUES
+(1, 'Small', 'Pawnshops, Lending investors, Moneyshops and other financial institutions of same kind', '2017-02-23 12:45:31', '2017-02-23 12:45:31'),
+(2, 'Medium', 'Rural, Thrift, and Savings Banks and other financial institutions of same kind', '2017-02-23 12:51:34', '2017-02-23 12:51:34'),
+(3, 'Large', 'Commercial, Development and Universal Banks and other financial Institutions of similar scale', '2017-02-23 12:52:06', '2017-02-23 12:52:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fee_fixed`
+--
+
+CREATE TABLE IF NOT EXISTS `fee_fixed` (
+  `feeFixedId` int(10) NOT NULL,
+  `particular` varchar(255) NOT NULL,
+  `fee` double NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fee_fixed`
+--
+
+INSERT INTO `fee_fixed` (`feeFixedId`, `particular`, `fee`, `createdAt`, `updatedAt`) VALUES
+(1, 'Business Inspection Fee', 200, '2017-02-23 14:02:54', '2017-02-23 14:02:54'),
+(2, 'Zoning/Location Clearance Fee', 200, '2017-02-23 14:03:55', '2017-02-23 14:03:55');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fee_golf_link`
+--
+
+CREATE TABLE IF NOT EXISTS `fee_golf_link` (
+  `feeGoldLinkId` int(10) NOT NULL,
+  `above` int(5) NOT NULL,
+  `below` int(5) NOT NULL,
+  `fee` double NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fee_sanitary_permit`
+--
+
+CREATE TABLE IF NOT EXISTS `fee_sanitary_permit` (
+  `firstUnits` int(60) NOT NULL,
+  `firstFee` double NOT NULL,
+  `succeedingFee` double NOT NULL,
+  `healthCardFee` double NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fee_sanitary_permit`
+--
+
+INSERT INTO `fee_sanitary_permit` (`firstUnits`, `firstFee`, `succeedingFee`, `healthCardFee`, `createdAt`, `updatedAt`) VALUES
+(25, 100, 4, 100, '2017-02-23 13:44:04', '2017-02-23 13:56:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `financial_institution`
+--
+
+CREATE TABLE IF NOT EXISTS `financial_institution` (
+  `financialInstitutionId` int(10) NOT NULL,
+  `activityId` int(10) NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `grosses`
 --
 
@@ -644,6 +842,31 @@ CREATE TABLE IF NOT EXISTS `lessors` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `line_of_businesses`
+--
+
+CREATE TABLE IF NOT EXISTS `line_of_businesses` (
+  `lineOfBusinessId` int(10) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `taxRate` double NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `impositionOfTaxCategory` varchar(60) NOT NULL,
+  `garbageServiceFee` double NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `line_of_businesses`
+--
+
+INSERT INTO `line_of_businesses` (`lineOfBusinessId`, `name`, `taxRate`, `type`, `description`, `impositionOfTaxCategory`, `garbageServiceFee`, `createdAt`, `updatedAt`) VALUES
+(1, 'Retailer', 10, 'Common Enterprise', 'test', '', 600, '2017-02-23 11:40:40', '2017-02-23 11:40:40');
 
 -- --------------------------------------------------------
 
@@ -989,6 +1212,13 @@ INSERT INTO `verifications` (`verificationId`, `userId`, `code`, `status`, `crea
 --
 
 --
+-- Indexes for table `amusement_devices`
+--
+ALTER TABLE `amusement_devices`
+  ADD KEY `amusementDeviceId` (`amusementDeviceId`),
+  ADD KEY `activityId` (`activityId`);
+
+--
 -- Indexes for table `application_bfp`
 --
 ALTER TABLE `application_bfp`
@@ -1104,6 +1334,56 @@ ALTER TABLE `charges`
   ADD KEY `assessmentId` (`assessmentId`);
 
 --
+-- Indexes for table `fee_amusement_devices`
+--
+ALTER TABLE `fee_amusement_devices`
+  ADD PRIMARY KEY (`amusementDeviceId`);
+
+--
+-- Indexes for table `fee_common_enterprise`
+--
+ALTER TABLE `fee_common_enterprise`
+  ADD PRIMARY KEY (`commonEnterpriseFeeId`),
+  ADD KEY `lineOfBusinessId` (`lineOfBusinessId`);
+
+--
+-- Indexes for table `fee_environmental_clearance_conditions`
+--
+ALTER TABLE `fee_environmental_clearance_conditions`
+  ADD PRIMARY KEY (`feeEnvironmentalClearanceConditionId`);
+
+--
+-- Indexes for table `fee_financial_institution`
+--
+ALTER TABLE `fee_financial_institution`
+  ADD PRIMARY KEY (`financialInstitutionId`);
+
+--
+-- Indexes for table `fee_fixed`
+--
+ALTER TABLE `fee_fixed`
+  ADD PRIMARY KEY (`feeFixedId`);
+
+--
+-- Indexes for table `fee_golf_link`
+--
+ALTER TABLE `fee_golf_link`
+  ADD PRIMARY KEY (`feeGoldLinkId`);
+
+--
+-- Indexes for table `fee_sanitary_permit`
+--
+ALTER TABLE `fee_sanitary_permit`
+  ADD PRIMARY KEY (`firstUnits`);
+
+--
+-- Indexes for table `financial_institution`
+--
+ALTER TABLE `financial_institution`
+  ADD KEY `activityId` (`activityId`),
+  ADD KEY `financialInstitutionId` (`financialInstitutionId`);
+
+--
 -- Indexes for table `grosses`
 --
 ALTER TABLE `grosses`
@@ -1129,6 +1409,12 @@ ALTER TABLE `items`
 ALTER TABLE `lessors`
   ADD PRIMARY KEY (`lessorId`),
   ADD KEY `referenceNum` (`bploId`);
+
+--
+-- Indexes for table `line_of_businesses`
+--
+ALTER TABLE `line_of_businesses`
+  ADD PRIMARY KEY (`lineOfBusinessId`);
 
 --
 -- Indexes for table `notifications`
@@ -1286,6 +1572,41 @@ ALTER TABLE `business_activities`
 ALTER TABLE `charges`
   MODIFY `chargeId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=87;
 --
+-- AUTO_INCREMENT for table `fee_amusement_devices`
+--
+ALTER TABLE `fee_amusement_devices`
+  MODIFY `amusementDeviceId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `fee_common_enterprise`
+--
+ALTER TABLE `fee_common_enterprise`
+  MODIFY `commonEnterpriseFeeId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `fee_environmental_clearance_conditions`
+--
+ALTER TABLE `fee_environmental_clearance_conditions`
+  MODIFY `feeEnvironmentalClearanceConditionId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `fee_financial_institution`
+--
+ALTER TABLE `fee_financial_institution`
+  MODIFY `financialInstitutionId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `fee_fixed`
+--
+ALTER TABLE `fee_fixed`
+  MODIFY `feeFixedId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `fee_golf_link`
+--
+ALTER TABLE `fee_golf_link`
+  MODIFY `feeGoldLinkId` int(10) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `fee_sanitary_permit`
+--
+ALTER TABLE `fee_sanitary_permit`
+  MODIFY `firstUnits` int(60) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+--
 -- AUTO_INCREMENT for table `grosses`
 --
 ALTER TABLE `grosses`
@@ -1305,6 +1626,11 @@ ALTER TABLE `items`
 --
 ALTER TABLE `lessors`
   MODIFY `lessorId` int(255) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `line_of_businesses`
+--
+ALTER TABLE `line_of_businesses`
+  MODIFY `lineOfBusinessId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `notifications`
 --
@@ -1461,6 +1787,12 @@ ALTER TABLE `business_activities`
 --
 ALTER TABLE `charges`
   ADD CONSTRAINT `charges_ibfk_1` FOREIGN KEY (`assessmentId`) REFERENCES `assessments` (`assessmentId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `fee_common_enterprise`
+--
+ALTER TABLE `fee_common_enterprise`
+  ADD CONSTRAINT `fee_common_enterprise_ibfk_1` FOREIGN KEY (`lineOfBusinessId`) REFERENCES `line_of_businesses` (`lineOfBusinessId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `grosses`

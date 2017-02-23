@@ -3,7 +3,7 @@
   <div id="content-header">
     <div id="breadcrumb"> 
       <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
-      <a href="<?php echo base_url(); ?>dashboard/reports" class="current">View Reports</a>
+      <a href="#" class="current">View Reports</a>
     </div>
     <h1>BPLO Application Reports</h1>
     <hr style="margin:10">
