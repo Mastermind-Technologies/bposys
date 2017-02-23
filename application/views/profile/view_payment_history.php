@@ -23,53 +23,53 @@
 						<h3>Payment History</h3>
 					</div>
           <div class="panel-body">
-              <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                  <thead>
-                      <tr>
-                          <th>OR Number</th>
-                          <th>Reference Number</th>
-                          <th>Business Name</th>
-                          <th>Amount</th>
-                          <th>Quarter</th>
-                          <th>Payment Date</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <?php if (isset($payments)): ?>
-                        <?php foreach ($payments as $key => $payment): ?>
-                          <tr>
-                                                      <td><?= $payment->orNumber ?></td>
-                          <td><?= $payment->referenceNum ?></td>
-                          <td><?= $payment->businessName ?></td>
-                          <td><?= $payment->amountPaid ?></td>
-                          <td><?= $payment->quarterPaid ?></td>
-                          <td><?= $payment->createdAt ?></td>
-                          </tr>
-                        <?php endforeach ?>
-                      <?php endif ?>
-                  </tbody>
-              </table>
-              <!-- /.table-responsive -->
+            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+              <thead>
+                <tr>
+                  <th>OR Number</th>
+                  <th>Reference Number</th>
+                  <th>Business Name</th>
+                  <th>Amount</th>
+                  <th>Quarter</th>
+                  <th>Payment Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php if (isset($payments)): ?>
+                  <?php foreach ($payments as $key => $payment): ?>
+                    <tr>
+                      <td><?= $payment->orNumber ?></td>
+                      <td><?= $payment->referenceNum ?></td>
+                      <td><?= $payment->businessName ?></td>
+                      <td><?= number_format($payment->amountPaid,2) ?></td>
+                      <td><?= $payment->quarterPaid ?></td>
+                      <td><?= date('F j, o', strtotime($payment->createdAt)) ?></td>
+                    </tr>
+                  <?php endforeach ?>
+                <?php endif ?>
+              </tbody>
+            </table>
+            <!-- /.table-responsive -->
           </div>
           <!-- /.panel-body -->
-				</div>
-			</div>
-			<!-- /.col-lg-12 -->
-		</div>
-		<!-- /.row -->
-	</div>
-	<!-- /.container-fluid -->
+        </div>
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
 </div>
 <!-- </body> -->
 <!-- jQuery -->
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
-$(document).ready(function() {
+  $(document).ready(function() {
     $('#dataTables-example').DataTable({
-        responsive: true
+      responsive: true
     });
-});
+  });
 </script>
 
 <!-- <tr>

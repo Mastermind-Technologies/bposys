@@ -5,6 +5,7 @@ class Assessment_m extends CI_Model {
 
   var $table = 'assessments';
   var $table_charge = 'charges';
+  var $table_payments = 'payments';
   public function __construct()
   {
     parent::__construct();
@@ -37,11 +38,24 @@ class Assessment_m extends CI_Model {
   {
     //get assessment for specific application
     $assessment = $this->get_assessment($query);
+
+    //get total amount paid [NOT FINISHED]
+    $this->db->select('*')->from($this->table_payments)->where($query);
+    $payments = $this->db->get()->result();
+    $amount_paid = 0;
+    if(count($payments) > 0)
+    {
+      foreach ($payments as $key => $paid) {
+        $amount_paid += $paid->amountPaid;
+      }
+    }
+    //finish total amount paid
+
     unset($query);
 
     //get uncomputed charges for retrieved assessment
     $query['assessmentId'] = $assessment[0]->assessmentId;
-    $query['computed'] = 0;
+    // $query['computed'] = 0;
     $charges = $this->get_charges($query);
 
     //compute total
@@ -50,10 +64,9 @@ class Assessment_m extends CI_Model {
       $total += $charge->due;
       $total += $charge->surcharge;
       $total += $charge->interest;
-
-      $this->db->where(['chargeId' => $charge->chargeId]);
-      $this->db->update($this->table_charge, ['computed' => 1]);
     }
+
+    $total = $total - $amound_paid;
 
     //update amount
     unset($query);
@@ -84,7 +97,7 @@ class Assessment_m extends CI_Model {
       $set['amount'] = $amount - $amount_paid;
     }
 
-    $set['paidUpTo'] = $paid_up_to;
+    $set['paidUpTo'] = $set['amount']==0 ? 'Fourth Quarter' : $paid_up_to;
     
     $this->db->where(['assessmentId' => $assessmentId]);
     $this->db->update($this->table, $set);

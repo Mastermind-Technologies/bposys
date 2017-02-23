@@ -4,7 +4,7 @@
     <div id="breadcrumb"> 
       <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
       <a href="<?php echo base_url(); ?>dashboard/completed_applications" class="tip-bottom">Complete Applications</a>
-      <a href="#" class="tip-bottom">View</a> 
+      <a href="#" class="tip-bottom">View Application</a> 
       <a href="#" class="current">Finalization</a>
     </div>
     <h1>Finalization</h1>
@@ -20,11 +20,12 @@
             <h5>Information</h5>
           </div>
           <div class="widget-content nopadding">
-          <form action="<?php echo base_url(); ?>form/submit_finalization" method="post" class="form-horizontal" data-parsley-validate="">
+            <form action="<?php echo base_url(); ?>form/submit_finalization/<?= str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($application->get_assessment()->assessmentId)) ?>" method="post" class="form-horizontal" data-parsley-validate="">
               <div class="control-group">
                 <label class="control-label">Reference Number:</label>
-                <label class='control-label' style='text-align: left; padding-left:20px'><strong><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></label>
-                <input type="hidden" name="ref" value='<?= str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()) ?>'> 
+                <label class='control-label text-warning' style='text-align: left; padding-left:20px'><strong><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></label>
+                <input type="hidden" name="ref" id='ref' value='<?= str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()) ?>'> 
+                <input type="hidden" id="aid" name="aid" value="<?= str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($application->get_assessment()->assessmentId)) ?>">
               </div>
               <div class="control-group">
                 <label class="control-label">Business Name:</label>
@@ -32,7 +33,7 @@
               </div>
               <div class="control-group">
                 <label class="control-label">Due:</label>
-                <label class='control-label' style='text-align: left; padding-left:20px'><strong><?= $application->get_assessment()->amount ?></strong></label>
+                <label class='control-label' style='text-align: left; padding-left:20px'><strong>PHP <?= number_format($application->get_assessment()->amount - $total_paid, 2) ?></strong></label>
               </div>
               <div class="control-group">
                 <label class="control-label">Paid Up To:</label>
@@ -54,8 +55,10 @@
               </div>
               <div class="control-group">
                 <label class="control-label">Amount Paid:</label>
-                <div class="controls">
-                  <input type="text" name='amount-paid' data-parsley-type="digits" required class="span4" />
+                <div class="controls-group">
+                  <!-- <input type="text" name='amount-paid' id="amount-paid" data-parsley-type="digits" required class="span4" /> -->
+                  <label class='control-label' id='amount-paid' style='text-align: left; padding-left:20px'><strong>PHP <?= number_format($application->get_quarterPayment()[0]-$total_paid, 2) ?></strong></label>
+                  <input type="hidden" name='amount-paid' id='hap' value="<?= number_format($application->get_quarterPayment()[0]-$total_paid, 2) ?>">
                 </div>
               </div>
               <div class="form-actions">

@@ -937,35 +937,54 @@ public function finalize($reference_num)
 	$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $reference_num));
 
 	$data['application'] = new BPLO_Application($reference_num);
+	$payments = $this->Payment_m->get_recent_payments($data['application']->get_assessment()->assessmentId);
+	$data['total_paid'] = 0;
+	if(count($payments) > 0)
+	{
+		$total_recent_payment = 0;
+		foreach ($payments as $key => $payment) {
+			$data['total_paid'] += $payment->amountPaid;
+		}
+	}
 
 	$this->load->view('dashboard/bplo/finalization', $data);
 }
 
-public function submit_finalization()
+// function numeric_wcomma ($str)
+// {
+// 	return preg_match('/^[0-9,]+$/', $str);
+// }
+
+public function submit_finalization($assessment_id)
 {
 	$this->isLogin();
+	$assessment_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $assessment_id));
 
 	$this->form_validation->set_rules('hidden-paid-up-to', 'Paid Up To','required');
 	$this->form_validation->set_rules('or-number', 'OR Number','required');
-	$this->form_validation->set_rules('amount-paid', 'Amount Paid', 'required|numeric');
 
 	if($this->form_validation->run() == false)
 	{
+		// echo "<script> console.log('validation_errors()')</script>";
 		$reference_num = str_replace(['/','+','='], ['-','_','='], $this->input->post('ref'));
-		$this->session->set_flashdata('error', validation_errors());
-		redirect("form/finalize/".$reference_num);
+		$this->session->set_flashdata('message', validation_errors());
+		echo validation_errors();
+
+		// redirect("form/finalize/".$reference_num);
 	}
 	else
 	{
+		$amount_paid = str_replace(',', '', $this->input->post('amount-paid'));
 		$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->post('ref')));
 
 		$query['referenceNum'] = $reference_num;
-		$this->Assessment_m->update_assessment($query, $this->input->post('amount-paid'), $this->input->post('hidden-paid-up-to'));
+		$this->Assessment_m->update_assessment($query, $amount_paid, $this->input->post('hidden-paid-up-to'));
 
 		$payment_field = array(
 			'referenceNum' => $reference_num,
+			'assessmentId' => $assessment_id,
 			'orNumber' =>  $this->input->post('or-number'),
-			'amountPaid' => $this->input->post('amount-paid'),
+			'amountPaid' => $amount_paid,
 			'quarterPaid' => $this->input->post('hidden-paid-up-to'),
 			);
 		$this->Payment_m->insert_payment($payment_field);
@@ -1061,6 +1080,45 @@ public function submit_retirement($reference_num)
 
 		redirect('dashboard');
 	}
+}
+
+public function get_total_payment()
+{
+	$this->isLogin();
+	$paid_up_to = $this->input->post('paid_up_to');
+	$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->post('ref')));
+	$assessment_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->post('aid')));
+
+	$application = new BPLO_Application($reference_num);
+
+	switch($paid_up_to)
+	{
+		case "First Quarter":
+		$amount_paid = $application->get_quarterPayment()[0];
+		break;
+		case "Second Quarter":
+		$amount_paid = $application->get_quarterPayment()[0] + $application->get_quarterPayment()[1];
+		break;
+		case "Third Quarter":
+		$amount_paid = $application->get_quarterPayment()[0] + $application->get_quarterPayment()[1] + $application->get_quarterPayment()[2];
+		break;
+		case "Fourth Quarter":
+		$amount_paid = $application->get_quarterPayment()[0] + $application->get_quarterPayment()[1] + $application->get_quarterPayment()[2] + $application->get_quarterPayment()[3];
+		break;
+	}
+
+	$recent_payments = $this->Payment_m->get_recent_payments($assessment_id);
+
+	if(count($recent_payments) > 0)
+	{
+		$total_recent_payment = 0;
+		foreach ($recent_payments as $key => $payment) {
+			$total_recent_payment += $payment->amountPaid;
+		}
+		$amount_paid -= $total_recent_payment;
+	}
+	echo json_encode(number_format($amount_paid,2));
+	// echo json_encode($assessment_id);
 }
 
 

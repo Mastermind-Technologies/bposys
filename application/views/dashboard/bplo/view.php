@@ -3,10 +3,8 @@
   <div id="content-header">
     <div id="breadcrumb">
       <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
-      <?php if ($application->get_status() == "For validation..."): ?>
+      <?php if ($application->get_status() == "For applicant visit"): ?>
         <a href="<?php echo base_url(); ?>dashboard/incoming_applications">Incoming Applications</a>
-      <?php elseif ($application->get_status() == "For applicant visit"): ?>
-        <a href="<?php echo base_url(); ?>dashboard/pending_applications">Pending Applications</a>
       <?php elseif ($application->get_status() == "On process"): ?>
         <a href="<?php echo base_url(); ?>dashboard/on_process_applications">On Process Applications</a>
       <?php elseif ($application->get_status() == "Completed"): ?>
@@ -33,10 +31,7 @@
     <div class="widget-title">
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#tab1">BPLO Form</a></li>
-        <?php if ($application->get_status() == "Completed" || $application->get_status() == "For finalization" || $application->get_status() == "Active"): ?>
-          <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
-        <?php endif ?>
-        
+        <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
         <li><a data-toggle="tab" onclick="initMap()" href="#tab3">Business Location</a></li>
       </ul>
     </div>
@@ -287,7 +282,7 @@
                   </tr>
                 </tbody>
               </table>
-              <?php if ($application->get_status() == 'Completed'): ?>
+              <?php if ($application->get_status() == 'For applicant visit'): ?>
                 <form action="<?php echo base_url(); ?>dashboard/approve_capitalization/<?= str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()) ?>" method="post">
                 <?php endif ?>
 
@@ -308,7 +303,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <?php if ($application->get_status() == "Completed"): ?>
+                    <?php if ($application->get_status() == "For applicant visit"): ?>
 
                       <?php foreach ($application->get_businessActivities() as $activity): ?>
                         <tr>
@@ -340,240 +335,229 @@
                   </tbody>
                 </table>
 
-                <?php if ($application->get_status() == 'Completed'): ?>
-                <!-- <div class="row-fluid text-center">
-                  <div class="span4 offset4">
-                    <h4>Requirements</h4>
-                    <div class="controls">
-                      <?php foreach ($application->get_requirements() as $key => $requirements): ?>
-                        <label>
-                          <input type="checkbox" value="<?= $this->encryption->encrypt($requirements->requirementId) ?>" class='requirements-checkbox' name="requirements[]" />
-                          <?= $requirements->name ?>
-                        </label>
-                      <?php endforeach ?>
+                <?php if ($application->get_status() == 'For applicant visit'): ?>
+                  <div class="row-fluid text-center">
+                    <div class="span4 offset4">
+                      <div class="control-group">
+                        <button type="submit" class="btn btn-success">Approve Capitalization</button>
+                      </div>
                     </div>
                   </div>
-                </div> -->
-                <div class="row-fluid text-center">
-                  <div class="span4 offset4">
-                    <div class="control-group">
-                      <button type="submit" class="btn btn-success btn-large">Approve</button>
-                    </div>
+                </form>
+              <?php endif ?>
+              <?php if ($application->get_status() == "Completed" || $application->get_status() == "Active" || $application->get_status() == "On process"): ?>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <td colspan="3">
+                        <h4 class='text-center'>Verification of Documents</h4>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Description</th>
+                      <th>Office/Agency</th>
+                      <th>Date Issued</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Barangay Clearance</td>
+                      <td>Barangay</td>
+                      <td><?= date('F j, o',strtotime($application->get_BrgyClearanceDateIssued())) ?></td>
+                    </tr>
+                    <tr>
+                      <td>Zoning Clearance</td>
+                      <td>City Planning and Development Office</td>
+                      <td><?= isset($zoning[0]->createdAt) ? date('F j, o',strtotime($zoning[0]->createdAt)) : '' ?></td>
+                    </tr>
+                    <tr>
+                      <td>Sanitary Permit / Health Clearance</td>
+                      <td>City Health Office</td>
+                      <td><?= isset($sanitary[0]->createdAt) ? date('F j, o',strtotime($sanitary[0]->createdAt)) : '' ?></td>
+                    </tr>
+                    <tr>
+                      <td>City Environmental Certificate</td>
+                      <td>City Environment and Natural Resources Office</td>
+                      <td><?= isset($cenro[0]->createdAt) ? date('F j, o',strtotime($cenro[0]->createdAt)) : '' ?></td>
+                    </tr>
+                    <tr>
+                      <td>Engineering Clearance</td>
+                      <td>Office of the Building Official</td>
+                      <td><?= isset($engineering[0]->createdAt) ? date('F j, o',strtotime($engineering[0]->createdAt)) : '' ?></td>
+                    </tr>
+                    <tr>
+                      <td>Valid Fire Safety Inspection Certificate</td>
+                      <td>Bureau of Fire Protection</td>
+                      <td><?= isset($bfp[0]->createdAt) ? date('F j, o',strtotime($bfp[0]->createdAt)) : '' ?></td>
+                    </tr>
+                  </tbody>
+                </table>
+              <?php endif ?>
+              <div class="form-actions">
+                <div class="row text-center">
+                  <?php if ($application->get_status() == "Completed"): ?>
+                    <a href="<?php echo base_url(); ?>form/finalize/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Proceed to Finalization</a>
+                    <!-- <a href="<?php echo base_url(); ?>dashboard/issue_permit/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Issue Business Permit</a> -->
+                  <?php elseif ($application->get_status() == "Active"): ?>
+                    <a href="<?php echo base_url(); ?>dashboard/get_bplo_certificate_info" class="btn btn-success btn-large">Print BPLO Certificate</a>
+                  <?php endif ?>
+                </div>
+              </div>
+            </div>
+            <div id="tab2" class="tab-pane">
+              <h3 class='text-center'>Tax Order of Payment</h3>
+              <div class="control-group">
+                <div class="row">
+                  <div class="span2">
+                    <label for=""><strong>Name of Business</strong></label>
+                    <span><?= $application->get_BusinessName() ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Line of Business</strong></label>
+                    <span><?= $application->get_LineOfBusiness() ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Status</strong></label>
+                    <span><?= $application->get_ApplicationType() ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Bill No.</strong></label>
+                    <span><?= $application->get_Assessment()->assessmentId ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Year</strong></label>
+                    <span><?= date('Y', strtotime($application->get_Assessment()->createdAt)) ?></span>
                   </div>
                 </div>
-              </form>
-            <?php endif ?>
-            <?php if ($application->get_status() == "Completed" || $application->get_status() == "Active" || $application->get_status() == "On process"): ?>
+              </div>
+              <div class="control-group">
+                <div class="row">
+                  <div class="span2">
+                    <label for=""><strong>Owner/Taxpayer</strong></label>
+                    <span><?= $application->get_FirstName()." ".strtoupper(substr($application->get_MiddleName(),0,1)).". ".$application->get_LastName() ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Business Address</strong></label>
+                    <span><?= $application->get_barangay().", Biñan City, Laguna" ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Capital</strong></label>
+                    <span><?= "PHP ".number_format($application->get_capital(), 2) ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Date Issued</strong></label>
+                    <span><?= date('F j, o',strtotime($application->get_Assessment()->createdAt)) ?></span>
+                  </div>
+                  <div class="span2">
+                    <label for=""><strong>Mode of Payment</strong></label>
+                    <span><?= $application->get_modeOfPayment() ?></span>
+                  </div>
+                </div>
+              </div>
               <table class="table table-bordered">
                 <thead>
-                  <tr>
-                    <td colspan="3">
-                      <h4 class='text-center'>Verification of Documents</h4>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>Description</th>
-                    <th>Office/Agency</th>
-                    <th>Date Issued</th>
-                  </tr>
+                  <th>Year</th>
+                  <th>Period</th>
+                  <th>Particulars</th>
+                  <th>Due</th>
+                  <th>Surcharge</th>
+                  <th>Interest</th>
+                  <th>Total</th>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Barangay Clearance</td>
-                    <td>Barangay</td>
-                    <td><?= date('F j, o',strtotime($application->get_BrgyClearanceDateIssued())) ?></td>
-                  </tr>
-                  <tr>
-                    <td>Zoning Clearance</td>
-                    <td>City Planning and Development Office</td>
-                    <td><?= isset($zoning[0]->createdAt) ? date('F j, o',strtotime($zoning[0]->createdAt)) : '' ?></td>
-                  </tr>
-                  <tr>
-                    <td>Sanitary Permit / Health Clearance</td>
-                    <td>City Health Office</td>
-                    <td><?= isset($sanitary[0]->createdAt) ? date('F j, o',strtotime($sanitary[0]->createdAt)) : '' ?></td>
-                  </tr>
-                  <tr>
-                    <td>City Environmental Certificate</td>
-                    <td>City Environment and Natural Resources Office</td>
-                    <td><?= isset($cenro[0]->createdAt) ? date('F j, o',strtotime($cenro[0]->createdAt)) : '' ?></td>
-                  </tr>
-                  <tr>
-                    <td>Engineering Clearance</td>
-                    <td>Office of the Building Official</td>
-                    <td><?= isset($engineering[0]->createdAt) ? date('F j, o',strtotime($engineering[0]->createdAt)) : '' ?></td>
-                  </tr>
-                  <tr>
-                    <td>Valid Fire Safety Inspection Certificate</td>
-                    <td>Bureau of Fire Protection</td>
-                    <td><?= isset($bfp[0]->createdAt) ? date('F j, o',strtotime($bfp[0]->createdAt)) : '' ?></td>
-                  </tr>
+                  <?php 
+                  $total = 0; 
+                  $total_due = 0;
+                  $total_surcharge = 0;
+                  $total_interest = 0;
+                  ?>
+                  <?php foreach ($application->get_Charges() as $key => $charge): ?>
+                    <tr>
+                      <td><?= date('Y', strtotime($charge->createdAt)) ?></td>
+                      <td><?= $charge->period ?></td>
+                      <td><?= $charge->particulars ?></td>
+                      <td><?= number_format($charge->due, 2) ?></td>
+                      <td><?= number_format($charge->surcharge, 2) ?></td>
+                      <td><?= number_format($charge->interest, 2) ?></td>
+                      <td>
+                        <?php 
+                        $t = $charge->due + $charge->surcharge + $charge->interest;
+                        echo number_format($t, 2);
+                        $total += $t; 
+                        $total_due += $charge->due;
+                        $total_surcharge += $charge->surcharge;
+                        $total_interest += $charge->interest;
+                        ?>
+                      </td>
+                    </tr>
+                  <?php endforeach ?>
                 </tbody>
               </table>
-            <?php endif ?>
-            <div class="form-actions">
-              <div class="row text-center">
-                <?php if ($application->get_status() == "For finalization"): ?>
-                  <a href="<?php echo base_url(); ?>form/finalize/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Proceed to Finalization</a>
-                  <!-- <a href="<?php echo base_url(); ?>dashboard/issue_permit/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Issue Business Permit</a> -->
-                <?php elseif ($application->get_status() == "Active"): ?>
-                  <a href="<?php echo base_url(); ?>dashboard/get_bplo_certificate_info" class="btn btn-success btn-large">Print BPLO Certificate</a>
-                <?php endif ?>
-              </div>
-            </div>
-          </div>
-          <div id="tab2" class="tab-pane">
-            <h3 class='text-center'>Tax Order of Payment</h3>
-            <div class="control-group">
               <div class="row">
-                <div class="span2">
-                  <label for=""><strong>Name of Business</strong></label>
-                  <span><?= $application->get_BusinessName() ?></span>
+                <div class="span1 offset5">
+                  <label for="" class='pull-right'>Total:</label>
                 </div>
-                <div class="span2">
-                  <label for=""><strong>Line of Business</strong></label>
-                  <span><?= $application->get_LineOfBusiness() ?></span>
-                </div>
-                <div class="span2">
-                  <label for=""><strong>Status</strong></label>
-                  <span><?= $application->get_ApplicationType() ?></span>
-                </div>
-                <div class="span2">
-                  <label for=""><strong>Bill No.</strong></label>
-                  <span><?= $application->get_Assessment()->assessmentId ?></span>
-                </div>
-                <div class="span2">
-                  <label for=""><strong>Year</strong></label>
-                  <span><?= date('Y', strtotime($application->get_Assessment()->createdAt)) ?></span>
-                </div>
+                <div class="span1"><?= number_format($total_due, 2) ?></div>
+                <div class="span1"><?= number_format($total_surcharge, 2) ?></div>
+                <div class="span1" style="padding-left:50px"><?= number_format($total_interest, 2) ?></div>
+                <div class="span1" style="padding-left:20px"><?= number_format($application->get_totalAssessment(), 2) ?></div>
               </div>
-            </div>
-            <div class="control-group">
               <div class="row">
-                <div class="span2">
-                  <label for=""><strong>Owner/Taxpayer</strong></label>
-                  <span><?= $application->get_FirstName()." ".strtoupper(substr($application->get_MiddleName(),0,1)).". ".$application->get_LastName() ?></span>
+                <div class="span1 offset5">
+                  <label for="" class="pull-right">Balance:</label>
                 </div>
-                <div class="span2">
-                  <label for=""><strong>Business Address</strong></label>
-                  <span><?= $application->get_barangay().", Biñan City, Laguna" ?></span>
-                </div>
-                <div class="span2">
-                  <label for=""><strong>Capital</strong></label>
-                  <span><?= "PHP ".$application->get_capital() ?></span>
-                </div>
-                <div class="span2">
-                  <label for=""><strong>Date Issued</strong></label>
-                  <span><?= date('F j, o',strtotime($application->get_Assessment()->createdAt)) ?></span>
-                </div>
-                <div class="span2">
-                  <label for=""><strong>Mode of Payment</strong></label>
-                  <span><?= $application->get_modeOfPayment() ?></span>
-                </div>
+                <div class="span1"><?= number_format($application->get_Assessment()->amount, 2) ?></div>
               </div>
+              <table class="table table-bordered">
+                <thead>
+                  <th>Due Date</th>
+                  <th>First Quarter (Jan 20)</th>
+                  <th>Second Quarter (Apr 20)</th>
+                  <th>Third Quarter (Jul 20)</th>
+                  <th>Fourth Quarter (Oct 20)</th>
+                </thead>
+                <tbody>
+                  <th>Amount Due</th>
+                  <td><span class="pull-right"><?= isset($application->get_quarterPayment()[0]) ? number_format($application->get_quarterPayment()[0], 2) : '.00' ?></span></td>
+                  <td><span class="pull-right"><?= isset($application->get_quarterPayment()[1]) ? number_format($application->get_quarterPayment()[1], 2) : '.00' ?></span></td>
+                  <td><span class="pull-right"><?= isset($application->get_quarterPayment()[2]) ? number_format($application->get_quarterPayment()[2], 2) : '.00' ?></span></td>
+                  <td><span class="pull-right"><?= isset($application->get_quarterPayment()[3]) ? number_format($application->get_quarterPayment()[3], 2) : '.00' ?></span></td>
+                </tbody>
+              </table>
+              <span>This Statement is valid until 1/30/<?= date('Y') ?></span><br>
+              <span>Please disregard this statement if payment has been made. Thank you.</span>
             </div>
-            <table class="table table-bordered">
-              <thead>
-                <th>Year</th>
-                <th>Particulars</th>
-                <th>Due</th>
-                <th>Surcharge</th>
-                <th>Interest</th>
-                <th>Total</th>
-              </thead>
-              <tbody>
-                <?php 
-                $total = 0; 
-                $total_due = 0;
-                $total_surcharge = 0;
-                $total_interest = 0;
-                ?>
-                <?php foreach ($application->get_Charges() as $key => $charge): ?>
-                  <tr>
-                    <td><?= date('Y', strtotime($charge->createdAt)) ?></td>
-                    <td><?= $charge->particulars ?></td>
-                    <td><?= number_format($charge->due, 2) ?></td>
-                    <td><?= number_format($charge->surcharge, 2) ?></td>
-                    <td><?= number_format($charge->interest, 2) ?></td>
-                    <td>
-                      <?php 
-                      $t = $charge->due + $charge->surcharge + $charge->interest;
-                      echo number_format($t, 2);
-                      $total += $t; 
-                      $total_due += $charge->due;
-                      $total_surcharge += $charge->surcharge;
-                      $total_interest += $charge->interest;
-                      ?>
-                    </td>
-                  </tr>
-                <?php endforeach ?>
-              </tbody>
-            </table>
-            <div class="row">
-              <div class="span1 offset5">
-                <label for="" class='pull-right'>Total:</label>
+            <div id="tab3" class='tab-pane'>
+              <div id="gmaps" style="width:100%; height:500px; background-color: gray">
               </div>
-              <div class="span1"><?= number_format($total_due, 2) ?></div>
-              <div class="span1"><?= number_format($total_surcharge, 2) ?></div>
-              <div class="span1" style="padding-left:50px"><?= number_format($total_interest, 2) ?></div>
-              <div class="span1" style="padding-left:20px"><?= number_format($application->get_totalAssessment(), 2) ?></div>
-            </div>
-            <div class="row">
-              <div class="span1 offset5">
-                <label for="" class="pull-right">Balance:</label>
-              </div>
-              <div class="span1"><?= number_format($application->get_Assessment()->amount, 2) ?></div>
-            </div>
-            <table class="table table-bordered">
-              <thead>
-                <th>Due Date</th>
-                <th>First Quarter (Jan 20)</th>
-                <th>Second Quarter (Apr 20)</th>
-                <th>Third Quarter (Jul 20)</th>
-                <th>Fourth Quarter (Oct 20)</th>
-              </thead>
-              <tbody>
-                <th>Amount Due</th>
-                <td><span class="pull-right"><?= isset($application->get_quarterPayment()[0]) ? number_format($application->get_quarterPayment()[0], 2) : '.00' ?></span></td>
-                <td><span class="pull-right"><?= isset($application->get_quarterPayment()[1]) ? number_format($application->get_quarterPayment()[1], 2) : '.00' ?></span></td>
-                <td><span class="pull-right"><?= isset($application->get_quarterPayment()[2]) ? number_format($application->get_quarterPayment()[2], 2) : '.00' ?></span></td>
-                <td><span class="pull-right"><?= isset($application->get_quarterPayment()[3]) ? number_format($application->get_quarterPayment()[3], 2) : '.00' ?></span></td>
-              </tbody>
-            </table>
-            <span>This Statement is valid until 1/30/<?= date('Y') ?></span><br>
-            <span>Please disregard this statement if payment has been made. Thank you.</span>
-          </div>
-          <div id="tab3" class='tab-pane'>
-            <div id="gmaps" style="width:100%; height:500px; background-color: gray">
             </div>
           </div>
         </div>
       </div>
+      <!-- End Container Fluid -->
     </div>
-    <!-- End Container Fluid -->
   </div>
-</div>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8"
-async defer></script>
-<script>
-  var map;
-  var loaded = false;
-  function initMap(){
-    if(loaded == false)
-    {
-      loaded = true;
-      latlang = new google.maps.LatLng(<?= $application->get_lat() ?>,<?= $application->get_lng() ?>);
-      map = new google.maps.Map(document.getElementById('gmaps'), {
-        center: latlang,
-        zoom: 15
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8"
+  async defer></script>
+  <script>
+    var map;
+    var loaded = false;
+    function initMap(){
+      if(loaded == false)
+      {
+        loaded = true;
+        latlang = new google.maps.LatLng(<?= $application->get_lat() ?>,<?= $application->get_lng() ?>);
+        map = new google.maps.Map(document.getElementById('gmaps'), {
+          center: latlang,
+          zoom: 15
 
-      });
-      var marker = new google.maps.Marker({
-        position: latlang,
-      });
+        });
+        var marker = new google.maps.Marker({
+          position: latlang,
+        });
 
-      marker.setMap(map);
+        marker.setMap(map);
+      }
     }
-  }
-</script>
+  </script>

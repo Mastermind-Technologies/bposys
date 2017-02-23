@@ -194,37 +194,50 @@ class Tester extends CI_Controller {
 			'annualEmployeePhysicalExam' => $sanitary->get_AnnualEmployeePhysicalExam(), 
 			'typeLevelOfWaterSource' => $sanitary->get_typeLevelOfWaterSource()
 			);
-		$archive_application_id = $this->Archive_m->insert_application($archive_application_field);
+$archive_application_id = $this->Archive_m->insert_application($archive_application_field);
 
-		foreach ($bplo->get_BusinessActivities() as $key => $activity) {
-			$business_activity_field = array(
-				'archiveApplicationId' => $archive_application_id,
-				'lineOfBusiness' => $activity->lineOfBusiness,
-				'capitalization' => $activity->capitalization,
-				);	
-			$this->Archive_m->insert_business_activity($business_activity_field);
-		}
+foreach ($bplo->get_BusinessActivities() as $key => $activity) {
+	$business_activity_field = array(
+		'archiveApplicationId' => $archive_application_id,
+		'lineOfBusiness' => $activity->lineOfBusiness,
+		'capitalization' => $activity->capitalization,
+		);	
+	$this->Archive_m->insert_business_activity($business_activity_field);
+}
 
-		if($bplo->get_lessors() != null)
-		{
-			$lessors_field = array(
-				'archiveApplicationId' => $archive_application_id,
-				'firstName' => $bplo->get_lessors()->firstName,
-				'middleName' => $bplo->get_lessors()->middleName,
-				'lastName' => $bplo->get_lessors()->lastName,
-				'address' => $bplo->get_lessors()->address,
-				'subdivision' => $bplo->get_lessors()->subdivision,
-				'barangay' => $bplo->get_lessors()->barangay,
-				'cityMunicipality' => $bplo->get_lessors()->cityMunicipality,
-				'province' => $bplo->get_lessors()->province,
-				'monthlyRental' => $bplo->get_lessors()->monthlyRental,
-				'telNum' => $bplo->get_lessors()->telNum,
-				'email' => $bplo->get_lessors()->email,
-				);
-			$this->Archive_m->insert_lessor($lessors_field);
-		}
+if($bplo->get_lessors() != null)
+{
+	$lessors_field = array(
+		'archiveApplicationId' => $archive_application_id,
+		'firstName' => $bplo->get_lessors()->firstName,
+		'middleName' => $bplo->get_lessors()->middleName,
+		'lastName' => $bplo->get_lessors()->lastName,
+		'address' => $bplo->get_lessors()->address,
+		'subdivision' => $bplo->get_lessors()->subdivision,
+		'barangay' => $bplo->get_lessors()->barangay,
+		'cityMunicipality' => $bplo->get_lessors()->cityMunicipality,
+		'province' => $bplo->get_lessors()->province,
+		'monthlyRental' => $bplo->get_lessors()->monthlyRental,
+		'telNum' => $bplo->get_lessors()->telNum,
+		'email' => $bplo->get_lessors()->email,
+		);
+	$this->Archive_m->insert_lessor($lessors_field);
+}
 
 
-		}
+}
+
+public function test_concat()
+{
+	$tax[0] = 1;
+	$tax[1] = 1;
+	$tax[2] = 1;
+	$tax[3] = 1;
+	$tax[4] = 1;
+	foreach ($tax as $key => $t) {
+		var_dump("Q".($key+1));
+		echo "<br>";
+	}
+}
 
 }//END OF CLASS,

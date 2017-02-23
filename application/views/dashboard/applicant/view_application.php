@@ -45,6 +45,7 @@
 									<?php endif ?>
 									<div class="mdl-stepper-step <?=
 									//conditions for active-step
+									$application->get_status() == "For applicant visit" ||
 									$application->get_status() == "On process" ||
 									$application->get_status() == "Completed" ||
 									$application->get_status() == "For finalization" ||

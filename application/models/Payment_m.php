@@ -32,6 +32,12 @@ class Payment_m extends CI_Model {
     return $this->db->get()->result();
   }
 
+  public function get_recent_payments($assessment_id)
+  {
+    $this->db->select('referenceNum, amountPaid')->from($this->table)->where('assessmentId', $assessment_id);
+    return $this->db->get()->result();
+  }
+
   // public function insert_business_activity($fields)
   // {
   //   $this->db->insert($this->table_business_activities, $fields);
