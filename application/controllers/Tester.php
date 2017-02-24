@@ -20,14 +20,63 @@ class Tester extends CI_Controller {
 		$this->load->model('Notification_m');
 		$this->load->model('Archive_m');
 		$this->load->library('form_validation');
-
+		$this->load->model('Fee_m');
 		$this->load->model('Business_Address_m');
 	}
 
-	public function test_assessment()
+	public function test_mayor_fee()
 	{
-		$fee = Assessment::compute_renewal_tax("Exporter Kind", 5000000, "essential");
-		var_dump((float)$fee);
+		$business_activity = new stdClass();
+		$business_activity->activityId = 62;
+		$business_activity->lineOfBusiness = "Manufacturing Kind";
+		$business_activity->capitalization = 500000;
+
+		$fee = Assessment::compute_mayors_permit_fee($business_activity, 30);
+		echo "<pre>";
+		print_r($fee);
+		echo "</pre>";
+		exit();
+
+		// $assessment = new Assessment();
+
+		// $assessment->test_load();
+	}
+
+	public function test_environmental()
+	{
+		$fee = Assessment::compute_environmental_clearance_fee(6000000);
+		var_dump($fee);
+		exit();
+	}
+
+	public function test_health_card()
+	{
+		$fee = Assessment::compute_health_card_fee(20);
+		var_dump($fee);
+		exit();
+	}
+
+	public function test_sanitary_permit()
+	{
+		$fee = Assessment::compute_sanitary_permit_fee(30);
+		var_dump($fee);
+		exit();
+	}
+
+	public function test_fixed_fees()
+	{
+		$fees = Assessment::get_fixed_fees();
+		echo "<pre>";
+		print_r($fees);
+		echo "</pre>";
+		exit();
+	}
+
+	public function test_retirement_fee()
+	{
+		$fee = Assessment::get_retirement_fee();
+		var_dump($fee[0]->fee);
+		exit();
 	}
 
 	public function show_details()
@@ -238,6 +287,82 @@ public function test_concat()
 		var_dump("Q".($key+1));
 		echo "<br>";
 	}
+}
+
+public function test_devices()
+{
+	$devices = $this->Business_Activity_m->get_amusement_devices(62);
+
+	$total = 0;
+	foreach ($devices as $key => $device) {
+		$total += $device->ratePerUnit*$device->units;
+	}
+	echo "<pre>";
+	print_r($devices);
+	echo "</pre>";
+	exit();
+
+}
+
+public function test_bowling_alleys()
+{
+	$bowling = $this->Business_Activity_m->get_bowling_alleys(62);
+	$bowling_fee = $this->Fee_m->get_bowling_alley_fee();
+	$total = 0;
+	foreach ($bowling as $key => $b) {
+		$total += $b->nonAutomaticLanes*$bowling_fee->nonAutomaticLaneFee;
+		$total += $b->automaticLanes*$bowling_fee->automaticLaneFee;
+	}
+	echo "<pre>";
+	print_r($total);
+	echo "</pre>";
+	exit();
+}
+
+public function test_financial_institution()
+{
+	$fee = $this->Business_Activity_m->get_financial_institution_fee(62);
+	var_dump($fee);
+	exit();
+}
+
+public function test_golf_links()
+{
+	$holes = $this->Business_Activity_m->get_golf_link_fees(62);
+	$golf_link_fees = $this->Fee_m->get_golf_link_fees();
+
+	// echo "<pre>";
+	// print_r($golf_link_fees);
+	// echo "</pre>";
+	// exit();
+	// 0 - 10
+	// 10 - 15
+	// 15- 18
+	foreach ($golf_link_fees as $key => $golf_link) {
+		if($golf_link->above == 0)
+		{
+			if($holes <= $golf_link->below)
+			{
+				$fee = $golf_link->fee;
+			}
+		}
+		else if($golf_link->below == 0)
+		{
+			if($holes >= $golf_link->above)
+			{
+				$fee = $golf_link->fee;
+			}
+		}
+		else
+		{
+			if($holes > $golf_link->above && $holes <= $golf_link->below)
+			{
+				$fee = $golf_link->fee;
+			}
+		}
+	}
+	var_dump($fee);
+
 }
 
 }//END OF CLASS,

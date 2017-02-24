@@ -180,11 +180,17 @@ class Dashboard extends CI_Controller {
 
 				$query['userId'] = $user_id;
 				$data['applications'] = $this->Application_m->get_all_bplo_applications($query);
+				
 				foreach ($data['applications'] as $key => $value) {
 					$data['applications'][$key] = new BPLO_Application($value->referenceNum);
 					$data['applications'][$key]->set_applicationId($this->encryption->decrypt($data['applications'][$key]->get_applicationId()));
 					$data['applications'][$key]->check_expiry();
 				}
+
+				// echo "<pre>";
+				// print_r($data);
+				// echo "</pre>";
+				// exit();
 
 				//get applicant notifications
 				$nav_data['notifications'] = User::get_notifications();
@@ -201,7 +207,7 @@ class Dashboard extends CI_Controller {
 				// 	$this->_init();
 				// else
 				// echo "<pre>";
-				// print_r($nav_data);
+				// print_r($data);
 				// echo "</pre>";
 				// exit();
 
@@ -2562,6 +2568,8 @@ class Dashboard extends CI_Controller {
 		if($this->input->post('application_object'))
 		{
 			$application = $this->input->post('application_object');
+			echo json_encode($application);
+			exit();
 			$status_array = [];
 			$buttons = [];
 			foreach ($application as $key => $value) {

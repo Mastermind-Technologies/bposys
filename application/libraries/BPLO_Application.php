@@ -207,71 +207,54 @@ if(count($assessment) > 0)
             }
         }
     }
-//     if($param->modeOfPayment == "Anually")
-//     {
-//         $quarter_payment[0] = $totalCharges;
-//     }
-//     else if($param->modeOfPayment == "Semi-Anually")
-//     {
-//         $quarter_payment[0] = $totalCharges/2;
-//         $quarter_payment[1] = $totalCharges/2;
-//     }
-//     else if($param->modeOfPayment == "Quarterly")
-//     {
-//         $quarter_payment[0] = $totalCharges/4;
-//         $quarter_payment[1] = $totalCharges/4;
-//         $quarter_payment[2] = $totalCharges/4;
-//         $quarter_payment[3] = $totalCharges/4;
-//     }
-// }
-
-
-
-    unset($query);
-    foreach ($lessors as $lessor) {
-        $lessor->lessorId = $this->CI->encryption->encrypt($lessor->lessorId);
-
-    }
-
-    $this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
-    $this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
-    $this->userId = $this->CI->encryption->encrypt($param->userId);
-    $this->businessId = $this->CI->encryption->encrypt($param->businessId);
-    $this->taxYear = $param->taxYear;
-    $this->applicationDate = $param->applicationDate;
-    $this->modeOfPayment = $param->modeOfPayment;
-    $this->idPresented = $param->idPresented;
-    $this->DTISECCDA_RegNum = $param->DTISECCDA_RegNum;
-    $this->DTISECCDA_Date = $param->DTISECCDA_Date;
-    $this->brgyClearanceDateIssued = $param->brgyClearanceDateIssued;
-    $this->CTCNum = $param->CTCNum;
-    $this->TIN = $param->TIN;
-    $this->entityName = $param->entityName;
-    $this->status = $param->status;
-    $this->businessActivities = $business_activities;
-    $this->dateStarted = $param->createdAt;
-    if(isset($lineOfBusiness))
-        $this->lineOfBusiness = $lineOfBusiness;
-    $this->capital = $total_capital;
-    $this->lastEdited = $param->updatedAt;
-    $this->requirements = $this->CI->Requirement_m->get_requirements(4);
-    if(isset($quarter_payment))
-        $this->quarterPayment = $quarter_payment;
-    if(isset($totalCharges))
-        $this->totalAssessment = $totalCharges;
-    if(count($assessment) > 0)
-    {
-        $this->assessment = $assessment[0];
-        $this->charges = $charges;
-    }
-
-    if($lessors != null)
-        $this->lessors = $lessors[0];
-
-    $this->unset_CI();
-
-    return $this;
 }
+
+
+unset($query);
+foreach ($lessors as $lessor) {
+    $lessor->lessorId = $this->CI->encryption->encrypt($lessor->lessorId);
+
+}
+
+$this->applicationId = $this->CI->encryption->encrypt($param->applicationId);
+$this->referenceNum = $this->CI->encryption->encrypt($param->referenceNum);
+$this->userId = $this->CI->encryption->encrypt($param->userId);
+$this->businessId = $this->CI->encryption->encrypt($param->businessId);
+$this->taxYear = $param->taxYear;
+$this->applicationDate = $param->applicationDate;
+$this->modeOfPayment = $param->modeOfPayment;
+$this->idPresented = $param->idPresented;
+$this->DTISECCDA_RegNum = $param->DTISECCDA_RegNum;
+$this->DTISECCDA_Date = $param->DTISECCDA_Date;
+$this->brgyClearanceDateIssued = $param->brgyClearanceDateIssued;
+$this->CTCNum = $param->CTCNum;
+$this->TIN = $param->TIN;
+$this->entityName = $param->entityName;
+$this->status = $param->status;
+$this->businessActivities = $business_activities;
+$this->dateStarted = $param->createdAt;
+if(isset($lineOfBusiness))
+    $this->lineOfBusiness = $lineOfBusiness;
+$this->capital = $total_capital;
+$this->lastEdited = $param->updatedAt;
+$this->requirements = $this->CI->Requirement_m->get_requirements(4);
+if(isset($quarter_payment))
+    $this->quarterPayment = $quarter_payment;
+if(isset($totalCharges))
+    $this->totalAssessment = $totalCharges;
+if(count($assessment) > 0)
+{
+    $this->assessment = $assessment[0];
+    $this->charges = $charges;
+}
+
+if($lessors != null)
+    $this->lessors = $lessors[0];
+
+$this->unset_CI();
+
+return $this;
+
 }
 
 

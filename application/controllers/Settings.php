@@ -86,6 +86,7 @@ class Settings extends CI_Controller {
 
 		$data['line_of_business'] = $this->Fee_m->get_all_line_of_businesses();
 		$data['bowling_alley_fees'] = $this->Fee_m->get_bowling_alley_fee();
+		$data['financial_institution_fees'] = $this->Fee_m->get_financial_institution_fees();
 
 		$this->load->view('system_settings/line-of-businesses', $data);
 	}
@@ -180,7 +181,7 @@ class Settings extends CI_Controller {
 
 		if($this->form_validation->run() == false)
 		{
-			$this->session->set_rules('error',validation_errors());
+			$this->session->set_flashdata('error',validation_errors());
 			redirect('settings/line_of_businesses');
 		}
 		else
@@ -228,8 +229,8 @@ class Settings extends CI_Controller {
 	{
 		$this->isLogin();
 
-		$this->form_validation->set_rules('above','required|numeric');
-		$this->form_validation->set_rules('below','required|numeric');
+		$this->form_validation->set_rules('above','Above', 'required|numeric');
+		$this->form_validation->set_rules('below','Below', 'required|numeric');
 		$this->form_validation->set_rules('range-fee','required|numeric');
 
 		if($this->form_validation->run() == false)
@@ -242,9 +243,9 @@ class Settings extends CI_Controller {
 			$golf_link_fields = array(
 				'above' => $this->input->post('above'),
 				'below' => $this->input->post('below'),
-				'range-fee' => $this->input->post('range-fee'),
+				'fee' => $this->input->post('range-fee'),
 				);
-			$this->Fee_m->insert_golf_link($fields);
+			$this->Fee_m->insert_golf_link($golf_link_fields);
 
 			$this->session->set_flashdata('message','Golf Link inserted successfully.');
 			redirect('settings/line_of_businesses');
@@ -277,12 +278,16 @@ class Settings extends CI_Controller {
 		}
 	}
 
-	public function add_financial_institution()
+	public function update_financial_institution_fees()
 	{
 		$this->isLogin();
 
-		$this->form_validation->set_rules('description','Description','required');
-		$this->form_validation->set_rules('scale','Scale','required');
+		$this->form_validation->set_rules('small-scale-desc','Small Scale Description','required');
+		$this->form_validation->set_rules('small-scale-fee','Small Scale Fee','required|numeric');
+		$this->form_validation->set_rules('medium-scale-desc','Medium Scale Description','required');
+		$this->form_validation->set_rules('medium-scale-fee','Medium Scale Fee','required|numeric');
+		$this->form_validation->set_rules('large-scale-desc','Large Scale Description','required');
+		$this->form_validation->set_rules('large-scale-fee','Large Scale Fee','required|numeric');
 
 		if($this->form_validation->run() == false)
 		{
@@ -293,12 +298,24 @@ class Settings extends CI_Controller {
 		else
 		{
 			$financial_institution_field = array(
-				'description' => $this->input->post('description'),
-				'scale' => $this->input->post('scale'),
+				'description' => $this->input->post('small-scale-desc'),
+				'fee' => $this->input->post('small-scale-fee'),
 				);
-			$this->Fee_m->insert_financial_institution($financial_institution_field);
+			$this->Fee_m->update_financial_institution_fee('Small', $financial_institution_field);
 
-			$this->session->set_flashdata('message','Financial Institution inserted successfully');
+			$financial_institution_field = array(
+				'description' => $this->input->post('medium-scale-desc'),
+				'fee' => $this->input->post('medium-scale-fee'),
+				);
+			$this->Fee_m->update_financial_institution_fee('Medium', $financial_institution_field);
+
+			$financial_institution_field = array(
+				'description' => $this->input->post('large-scale-desc'),
+				'fee' => $this->input->post('large-scale-fee'),
+				);
+			$this->Fee_m->update_financial_institution_fee('Large', $financial_institution_field);
+
+			$this->session->set_flashdata('message','Financial Institution Fees updated successfully');
 			redirect('settings/line_of_businesses');
 		}
 	}
