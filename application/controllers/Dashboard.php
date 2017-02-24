@@ -1172,7 +1172,7 @@ class Dashboard extends CI_Controller {
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 		$navdata['title'] = 'Incoming Applications';
 		$navdata['active'] = 'Applications';
-		
+
 
 		if($role == "BPLO")
 		{
@@ -2319,7 +2319,7 @@ class Dashboard extends CI_Controller {
 				);
 			$this->Notification_m->insert($notification_fields);
 
-			
+
 			redirect('dashboard');
 		}
 	}
@@ -2386,8 +2386,10 @@ class Dashboard extends CI_Controller {
 
 	public function get_bplo_certificate_info()
 	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+		$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/bplo/bplo_certificate_printable');
+		$this->load->view('dashboard/bplo/employees_accomplishment_report',$data);
 	}
 
 	public function get_assessment_form_info()
