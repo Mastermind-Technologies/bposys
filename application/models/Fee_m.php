@@ -68,37 +68,6 @@ class Fee_m extends CI_Model {
 		return $result->result();
 	}
 
-	public function get_financial_institution_fees($query = null)
-	{
-		if($query != null)
-			$this->db->where($query);
-		$this->db->select('*')->from($this->financial_institution);
-		$result = $this->db->get();
-
-		return $result->result();
-	}
-
-	public function get_golf_link_fees($query = null)
-	{
-		if($query != null)
-			$this->db->where($query);
-		$this->db->select('*')->from($this->golf_link)->order_by('above','asc');
-		$result = $this->db->get();
-
-		return $result->result();
-	}
-
-	public function get_common_enterprise($query = null)
-	{
-		if($query != null)
-			$this->db->where($query);
-		$this->db->select('*')->from($this->common_enterprise);
-		$this->db->join($this->line_of_business, 'fee_common_enterprise.lineOfBusinessId = line_of_businesses.lineOfBusinessId');
-		$result = $this->db->get();
-
-		return $result->result();
-	}
-
 	public function insert_line_of_business($fields)
 	{
 		$this->db->insert($this->line_of_business, $fields);
@@ -124,15 +93,9 @@ class Fee_m extends CI_Model {
 		$this->db->insert($this->environmental_clearance, $fields);
 	}
 
-	// public function insert_financial_institution($fields)
-	// {
-	// 	$this->db->insert($this->financial_institution, $fields);
-	// }
-
-	public function update_financial_institution_fee($scale, $fields)
+	public function insert_financial_institution($fields)
 	{
-		$this->db->where('scale',$scale);
-		$this->db->update($this->financial_institution, $fields);
+		$this->db->insert($this->financial_institution, $fields);
 	}
 
 	public function insert_fixed_fees($fields)

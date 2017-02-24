@@ -10,276 +10,178 @@ class Assessment{
 	"REVISED REVENUE CODE OF THE CITY OF BIÑAN (2016)"
 	*/
 
-	public function __construct()
-	{
-		$this->CI =& get_instance();
-		$this->CI->load->model('Fee_m');
-		$this->CI->load->model('Business_Activity_m');
-	}
-
-	// public function test_load()
-	// {
-	// 	$result = $this->CI->Fee_m->get_sanitary_fee();
-	// 	echo "<pre>";
-	// 	print_r($result);
-	// 	echo "</pre>";
-	// 	exit();
-	// }
-
 	//MAYORS PERMIT
-	public static function compute_mayors_permit_fee($business_activity, $work_force, $opt_param = null)
+	public static function compute_mayors_permit_fee($capital, $work_force, $line_of_business, $opt_param = null)
 	{
 		//UNIT IS PESOS
 		//cottage: <500k with < 10 workforce
 		//small scale: 500k - 5m with 11 - 99 workforce
 		//medium scale: 5M - 20M with 100 - 199 workforce
 		//large scale: over 20M with over 200 workforce
-		$var = get_instance();
 
-		if($business_activity->capitalization <= 500000 || $work_force <= 10)
+		if($capital <= 500000 || $work_force <= 10)
 			$ent_scale = "Cottage";
-		if(($business_activity->capitalization > 500000 && $business_activity->capitalization <= 5000000) || ($work_force > 11 && $work_force <= 99))
+		if(($capital > 500000 && $capital <= 5000000) || ($work_force > 11 && $work_force <= 99))
 			$ent_scale = "Small Scale";
-		if(($business_activity->capitalization > 5000000 && $business_activity->capitalization <= 20000000) || ($work_force > 100 && $work_force <= 199))
+		if(($capital > 5000000 && $capital <= 20000000) || ($work_force > 100 && $work_force <= 199))
 			$ent_scale = "Medium Scale";
-		if($business_activity->capitalization > 20000000 || $work_force >= 200)
+		if($capital > 20000000 || $work_force >= 200)
 			$ent_scale = "Large Scale";
 
-		$query['name'] = $business_activity->lineOfBusiness;
-		$result = $var->Fee_m->get_all_line_of_businesses($query);
-
-		$fee = 0;
-		switch($result[0]->type)
+		//Manufacturer Kind
+		if($line_of_business == "Manufacturer Kind")
 		{
-			case "Amusement":
-			//$devices = $this->CI->Business_Activity_m->get_amusement_devices($this->encryption->decrypt($business_activity->activityId));
-			$devices = $var->Business_Activity_m->get_amusement_devices($business_activity->activityId);
-			foreach ($devices as $key => $device) {
-				$fee += $device->ratePerUnit*$device->units;
-			}
-			break;
-
-			case "Bowling Alley":
-			$bowling = $this->Business_Activity_m->get_bowling_alleys($business_activity->activityId);
-			//$bowling = $this->Business_Activity_m->get_bowling_alleys($this->encryption->decrypt($business_activity->activityId));
-			$bowling_fee = $this->Fee_m->get_bowling_alley_fee();
-			foreach ($bowling as $key => $b) {
-				$fee += $b->nonAutomaticLanes*$bowling_fee->nonAutomaticLaneFee;
-				$fee += $b->automaticLanes*$bowling_fee->automaticLaneFee;
-			}
-			break;
-
-			case "Common Enterprise":
-			$common_enterprise = $var->Fee_m->get_common_enterprise(['line_of_businesses.name' => $business_activity->lineOfBusiness]);
 			switch($ent_scale)
 			{
-				case "Cottage":
-				$fee = $common_enterprise[0]->cottageFee;
-				break;
-				case "Small Scale":
-				$fee = $common_enterprise[0]->smallScaleFee;
-				break;
-				case "Medium Scale":
-				$fee = $common_enterprise[0]->mediumScaleFee;
-				break;
-				case "Large Scale":
-				$fee = $common_enterprise[0]->largeScaleFee;
-				break;
+				case "Cottage": $fee = 1000; break;
+				case "Small Scale": $fee = 3500; break;
+				case "Medium Scale": $fee = 5000; break;
+				case "Large Scale": $fee = 7000; break;
 			}
-			break;
+		}
 
-			case "Financial Institution":
-			$fee = $this->Business_Activity_m->get_financial_institution_fee($this->encryption->decrypt($business_activity->activityId));
-			break;
-
-			case "Golf Course":
-			$holes = $this->Business_Activity_m->get_golf_link_fees($this->encryption->decrypt($business_activity->activityId));
-			$golf_link_fees = $this->Fee_m->get_golf_link_fees();
-			foreach ($golf_link_fees as $key => $golf_link) {
-				if($golf_link->above == 0)
-				{
-					if($holes <= $golf_link->below)
-					{
-						$fee = $golf_link->fee;
-					}
-				}
-				else if($golf_link->below == 0)
-				{
-					if($holes >= $golf_link->above)
-					{
-						$fee = $golf_link->fee;
-					}
-				}
-				else
-				{
-					if($holes > $golf_link->above && $holes <= $golf_link->below)
-					{
-						$fee = $golf_link->fee;
-					}
-				}
+		//Wholesaler kind
+		if($line_of_business == "Wholesaler Kind")
+		{
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 1000; break;
+				case "Small Scale": $fee = 3500; break;
+				case "Medium Scale": $fee = 5000; break;
+				case "Large Scale": $fee = 7000; break;
 			}
-			break;
+		}
+
+		//Exporter kind
+		if($line_of_business == "Exporter Kind")
+		{
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 800; break;
+				case "Small Scale": $fee = 2500; break;
+				case "Medium Scale": $fee = 4000; break;
+				case "Large Scale": $fee = 6500; break;
+			}
+		}
+
+		//Retailer
+		if($line_of_business == "Retailer")
+		{
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 500; break;
+				case "Small Scale": $fee = 1500; break;
+				case "Medium Scale": $fee = 3000; break;
+				case "Large Scale": $fee = 5000; break;
+			}
+		}
+
+		//Contractor(Restaurants, cafes, cafeterias)
+		if($line_of_business == "Contractor")
+		{
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 500; break;
+				case "Small Scale": $fee = 1500; break;
+				case "Medium Scale": $fee = 3000; break;
+				case "Large Scale": $fee = 5000; break;
+			}
+		}
+
+		//Lessor (Renting)
+		if($line_of_business == "Lessor (Renting)")
+		{
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 3000; break;
+				case "Small Scale": $fee = 3000; break;
+				case "Medium Scale": $fee = 6000; break;
+				case "Large Scale": $fee = 10000; break;
+			}
+		}
+
+		//Peddlers
+		if($line_of_business == "Peddlers")
+		{
+			$fee = 100;
+		}
+
+		//Amusement devices/places
+		if($line_of_business == "Amusement devices/places")
+		{
+			//not based on capital
+			//NOT FINAL
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 500; break;
+				case "Small Scale": $fee = 1500; break;
+				case "Medium Scale": $fee = 3000; break;
+				case "Large Scale": $fee = 5000; break;
+			}
+		}
+
+		//Bank
+		if($line_of_business == "Bank")
+		{
+			//not based capital
+			//NOT FINAL
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 5000; break;
+				case "Small Scale": $fee = 5000; break;
+				case "Medium Scale": $fee = 7000; break;
+				case "Large Scale": $fee = 10000; break;
+			}
+		}
+
+		//Retail Dealers (liquors)
+		if($line_of_business == "Retail Dealers (liquors)")
+		{
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 3000; break;
+				case "Small Scale": $fee = 3000; break;
+				case "Medium Scale": $fee = 5000; break;
+				case "Large Scale": $fee = 7000; break;
+			}
+		}
+
+		//Retail Dealers (tobaccos)
+		if($line_of_business == "Retail Dealers (tobaccos)")
+		{
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 3000; break;
+				case "Small Scale": $fee = 3000; break;
+				case "Medium Scale": $fee = 5000; break;
+				case "Large Scale": $fee = 7000; break;
+			}
+		}
+
+		//Display areas of products
+		if($line_of_business == "Display areas of products")
+		{
+			//50 pesos per square meter of the size of the office or warehouse
+			$fee = $opt_param['business_area'] * 50;
+			return $fee;
+		}
+
+		//Others
+		if($line_of_business == "Others")
+		{
+			switch($ent_scale)
+			{
+				case "Cottage": $fee = 2500; break;
+				case "Small Scale": $fee = 5000; break;
+				case "Medium Scale": $fee = 7500; break;
+				case "Large Scale": $fee = 10000; break;
+			}
 		}
 
 		$data['mayor_fee'] = $fee;
-		$data['tax'] = $fee * $result[0]->taxRate/100;
-		$data['garbage_service_fee'] = $result[0]->garbageServiceFee;
+		$data['tax'] = $fee * .10;
+		$data['line_of_business'] = $line_of_business;
 		return $data;
-
-		//Manufacturer Kind
-		// if($line_of_business == "Manufacturer Kind")
-		// {
-		// 	switch($ent_scale)
-		// 	{
-		// 		case "Cottage": $fee = 1000; break;
-		// 		case "Small Scale": $fee = 3500; break;
-		// 		case "Medium Scale": $fee = 5000; break;
-		// 		case "Large Scale": $fee = 7000; break;
-		// 	}
-		// }
-
-		// //Wholesaler kind
-		// if($line_of_business == "Wholesaler Kind")
-		// {
-		// 	switch($ent_scale)
-		// 	{
-		// 		case "Cottage": $fee = 1000; break;
-		// 		case "Small Scale": $fee = 3500; break;
-		// 		case "Medium Scale": $fee = 5000; break;
-		// 		case "Large Scale": $fee = 7000; break;
-		// 	}
-		// }
-
-		// //Exporter kind
-		// if($line_of_business == "Exporter Kind")
-		// {
-		// 	switch($ent_scale)
-		// 	{
-		// 		case "Cottage": $fee = 800; break;
-		// 		case "Small Scale": $fee = 2500; break;
-		// 		case "Medium Scale": $fee = 4000; break;
-		// 		case "Large Scale": $fee = 6500; break;
-		// 	}
-		// }
-
-		// //Retailer
-		// if($line_of_business == "Retailer")
-		// {
-		// 	switch($ent_scale)
-		// 	{
-		// 		case "Cottage": $fee = 500; break;
-		// 		case "Small Scale": $fee = 1500; break;
-		// 		case "Medium Scale": $fee = 3000; break;
-		// 		case "Large Scale": $fee = 5000; break;
-		// 	}
-		// }
-
-		// //Contractor(Restaurants, cafes, cafeterias)
-		// if($line_of_business == "Contractor")
-		// {
-		// 	switch($ent_scale)
-		// 	{
-		// 		case "Cottage": $fee = 500; break;
-		// 		case "Small Scale": $fee = 1500; break;
-		// 		case "Medium Scale": $fee = 3000; break;
-		// 		case "Large Scale": $fee = 5000; break;
-		// 	}
-		// }
-
-		// //Lessor (Renting)
-		// if($line_of_business == "Lessor (Renting)")
-		// {
-		// 	switch($ent_scale)
-		// 	{
-		// 		case "Cottage": $fee = 3000; break;
-		// 		case "Small Scale": $fee = 3000; break;
-		// 		case "Medium Scale": $fee = 6000; break;
-		// 		case "Large Scale": $fee = 10000; break;
-		// 	}
-		// }
-
-		// //Peddlers
-		// if($line_of_business == "Peddlers")
-		// {
-		// 	$fee = 100;
-		// }
-
-		// //Amusement devices/places
-		// if($line_of_business == "Amusement devices/places")
-		// {
-		// 	//not based on capital
-		// 	//NOT FINAL
-		// 	switch($ent_scale)
-		// 	{
-		// 		case "Cottage": $fee = 500; break;
-		// 		case "Small Scale": $fee = 1500; break;
-		// 		case "Medium Scale": $fee = 3000; break;
-		// 		case "Large Scale": $fee = 5000; break;
-		// 	}
-		// }
-
-		// //Bank
-		// if($line_of_business == "Bank")
-		// {
-		// 	//not based capital
-		// 	//NOT FINAL
-		// 	switch($ent_scale)
-		// 	{
-		// 		case "Cottage": $fee = 5000; break;
-		// 		case "Small Scale": $fee = 5000; break;
-		// 		case "Medium Scale": $fee = 7000; break;
-		// 		case "Large Scale": $fee = 10000; break;
-		// 	}
-		// }
-
-		// //Retail Dealers (liquors)
-		// if($line_of_business == "Retail Dealers (liquors)")
-		// {
-		// 	switch($ent_scale)
-		// 	{
-		// 		case "Cottage": $fee = 3000; break;
-		// 		case "Small Scale": $fee = 3000; break;
-		// 		case "Medium Scale": $fee = 5000; break;
-		// 		case "Large Scale": $fee = 7000; break;
-		// 	}
-		// }
-
-		// //Retail Dealers (tobaccos)
-		// if($line_of_business == "Retail Dealers (tobaccos)")
-		// {
-		// 	switch($ent_scale)
-		// 	{
-		// 		case "Cottage": $fee = 3000; break;
-		// 		case "Small Scale": $fee = 3000; break;
-		// 		case "Medium Scale": $fee = 5000; break;
-		// 		case "Large Scale": $fee = 7000; break;
-		// 	}
-		// }
-
-		// //Display areas of products
-		// if($line_of_business == "Display areas of products")
-		// {
-		// 	//50 pesos per square meter of the size of the office or warehouse
-		// 	$fee = $opt_param['business_area'] * 50;
-		// 	return $fee;
-		// }
-
-		// //Others
-		// if($line_of_business == "Others")
-		// {
-		// 	switch($ent_scale)
-		// 	{
-		// 		case "Cottage": $fee = 2500; break;
-		// 		case "Small Scale": $fee = 5000; break;
-		// 		case "Medium Scale": $fee = 7500; break;
-		// 		case "Large Scale": $fee = 10000; break;
-		// 	}
-		// }
-
-		// $data['mayor_fee'] = $fee;
-		// $data['tax'] = $fee * .10;
-		// $data['line_of_business'] = $line_of_business;
-		// return $data;
 	}
 
 	//ENVIRONMENTAL CLEARANCE
@@ -291,42 +193,14 @@ class Assessment{
 		// 1,000,000 - 5,000,000 : 1000/year
 		// more than 5,000,000 : 1500/year
 
-		$var = get_instance();
-
-		$environmental = $var->Fee_m->get_all_environmental_conditions();
-
-		foreach ($environmental as $key => $env) {
-			if($env->above == 0)
-			{
-				if($capital <= $env->below)
-				{
-					$fee = $env->fee;
-				}
-			}
-			else if($env->below == 0)
-			{
-				if($capital >= $env->above)
-				{
-					$fee = $env->fee;
-				}
-			}
-			else
-			{
-				if($capital > $env->above && $capital <= $env->below)
-				{
-					$fee = $env->fee;
-				}
-			}
-		}
-
-		// if($capital <= 350000)
-		// 	$fee = 500;
-		// if($capital > 350000 && $capital <= 1000000)
-		// 	$fee = 750;
-		// if($capital > 1000000 && $capital <= 5000000)
-		// 	$fee = 1000;
-		// if($capital > 5000000)
-		// 	$fee = 1500;
+		if($capital <= 350000)
+			$fee = 500;
+		if($capital > 350000 && $capital <= 1000000)
+			$fee = 750;
+		if($capital > 1000000 && $capital <= 5000000)
+			$fee = 1000;
+		if($capital > 5000000)
+			$fee = 1500;
 
 		return $fee;
 	}
@@ -432,30 +306,16 @@ class Assessment{
 	//SANITARY PERMIT
 	public static function compute_sanitary_permit_fee($area)
 	{
-		$var = get_instance();
-
-		$sanitary = $var->Fee_m->get_sanitary_fee();
-		if($area <= $sanitary->firstUnits)
+		if($area <= 25)
 		{
-			$fee = $sanitary->firstFee;
+			$fee = 100;
 		}
-		if($area > $sanitary->firstUnits)
+		if($area > 25)
 		{
-			$excess_area = $area - $sanitary->firstUnits;
-			$excess_fee = $excess_area * $sanitary->succeedingFee;
-			$fee = $sanitary->firstFee + $excess_fee;
+			$excess_area = $area - 25;
+			$excess_fee = $excess_area * 4;
+			$fee = 100 + $excess_fee;
 		}
-
-		// if($area <= 25)
-		// {
-		// 	$fee = 100;
-		// }
-		// if($area > 25)
-		// {
-		// 	$excess_area = $area - 25;
-		// 	$excess_fee = $excess_area * 4;
-		// 	$fee = 100 + $excess_fee;
-		// }
 
 		return $fee;
 	}
@@ -474,55 +334,12 @@ class Assessment{
 	Business Plate and Sticker
 	Health Card Fee
 	*/
-
-	public static function compute_health_card_fee($work_force)
+	public static function get_fixed_fees($work_force)
 	{
-		$var = get_instance();
-		$sanitary = $var->Fee_m->get_sanitary_fee();
-		$fee = $sanitary->healthCardFee*$work_force;
-		return $fee;
-	}
-
-	public static function get_retirement_fee()
-	{
-		$var = get_instance();
-		$fee = $var->Fee_m->get_all_fixed_fees(['particular' => 'Retirement Fee']);
-		return $fee;
-	}
-
-	public static function get_change_owner_fee()
-	{
-		$var = get_instance();
-		$fee = $var->Fee_m->get_all_fixed_fees(['particular' => 'Change Owner Fee']);
-		return $fee;
-	}
-
-	public static function get_change_address_fee()
-	{
-		$var = get_instance();
-		$fee = $var->Fee_m->get_all_fixed_fees(['particular' => 'Change Address Fee']);
-		return $fee;
-	}
-
-	// public static function get_change_business_name_fee()
-	// {
-	// 	$var = get_instance();
-	// 	$fee = $var->Fee_m->get_all_fixed_fees(['particular' => 'Retirement Fee']);
-	// 	return $fee;
-	// }
-
-	public static function get_fixed_fees()
-	{
-		$var = get_instance();
-		$fixed_fees = $var->Fee_m->get_all_fixed_fees(['conditional' => 0]);
-		foreach ($fixed_fees as $key => $fee) {
-			$data['particular'][] = $fee->particular;
-			$data['fee'][] = $fee->fee;
-		}
 		// $data['annual_inspection'] = 400;
-		// $data['business_inspection'] = 200;
-		// $data['business_plate_sticker'] = 350;
-		// $data['health_card_fee'] = 100 * $work_force;
+		$data['business_inspection'] = 200;
+		$data['business_plate_sticker'] = 350;
+		$data['health_card_fee'] = 100 * $work_force;
 
 		return $data;
 	}

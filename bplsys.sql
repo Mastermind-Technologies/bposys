@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 24, 2017 at 08:48 AM
+-- Generation Time: Feb 23, 2017 at 03:09 PM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -29,17 +29,9 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `amusement_devices` (
   `amusementDeviceId` int(10) NOT NULL,
   `activityId` int(10) NOT NULL,
-  `units` int(60) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `amusement_devices`
---
-
-INSERT INTO `amusement_devices` (`amusementDeviceId`, `activityId`, `units`, `createdAt`, `updatedAt`) VALUES
-(1, 62, 3, '2017-02-24 03:13:31', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -60,16 +52,14 @@ CREATE TABLE IF NOT EXISTS `application_bfp` (
   `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `application_bfp`
 --
 
 INSERT INTO `application_bfp` (`applicationId`, `userId`, `businessId`, `referenceNum`, `applicationDate`, `storeys`, `occupiedPortion`, `areaPerFloor`, `occupancyPermitNum`, `status`, `createdAt`, `updatedAt`) VALUES
-(25, 1, 17, '1E5E2270C6', 'February 22, 2017', 3, '3', 200, 123456, 'Active', '2017-02-22 14:05:00', '2017-02-23 00:48:14'),
-(26, 1, NULL, '1398C3B040', 'February 24, 2017', 0, '', 0, 0, 'Draft', '2017-02-24 01:26:53', '2017-02-24 01:26:53'),
-(27, 1, 14, '501C403B67', 'February 24, 2017', 123, '123', 123, 123, 'Draft', '2017-02-24 01:27:21', '2017-02-24 01:27:21');
+(25, 1, 17, '1E5E2270C6', 'February 22, 2017', 3, '3', 200, 123456, 'Active', '2017-02-22 14:05:00', '2017-02-23 00:48:14');
 
 -- --------------------------------------------------------
 
@@ -95,16 +85,14 @@ CREATE TABLE IF NOT EXISTS `application_bplo` (
   `status` varchar(255) DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `application_bplo`
 --
 
 INSERT INTO `application_bplo` (`applicationId`, `referenceNum`, `userId`, `businessId`, `taxYear`, `applicationDate`, `idPresented`, `modeOfPayment`, `DTISECCDA_RegNum`, `DTISECCDA_Date`, `brgyClearanceDateIssued`, `CTCNum`, `TIN`, `entityName`, `status`, `createdAt`, `updatedAt`) VALUES
-(37, '1E5E2270C6', 1, 17, 2017, 'February 22, 2017', 'Driver''s License - 000000', 'Quarterly', '123456', '02/22/2017', '02/22/2017', '123456', '123456', 'NA', 'Active', '2017-02-22 14:05:00', '2017-02-23 05:07:17'),
-(38, '1398C3B040', 1, NULL, 2017, 'February 24, 2017', '', NULL, '', '', '', '', '', 'NA', 'Draft', '2017-02-24 01:26:52', '2017-02-24 01:26:52'),
-(39, '501C403B67', 1, 14, 2017, 'February 24, 2017', 'asd', 'Semi-Anually', '123', '02/24/2017', '02/24/2017', '123', '123', 'NA', 'Draft', '2017-02-24 01:27:21', '2017-02-24 01:27:21');
+(37, '1E5E2270C6', 1, 17, 2017, 'February 22, 2017', 'Driver''s License - 000000', 'Quarterly', '123456', '02/22/2017', '02/22/2017', '123456', '123456', 'NA', 'Active', '2017-02-22 14:05:00', '2017-02-23 05:07:17');
 
 -- --------------------------------------------------------
 
@@ -149,16 +137,14 @@ CREATE TABLE IF NOT EXISTS `application_cenro` (
   `status` varchar(255) DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `application_cenro`
 --
 
 INSERT INTO `application_cenro` (`applicationId`, `userId`, `businessId`, `referenceNum`, `CNC`, `LLDAClearance`, `dischargePermit`, `apsci`, `productsAndByProducts`, `smokeEmission`, `volatileCompound`, `fugitiveParticulates`, `steamGenerator`, `APCD`, `stackHeight`, `wastewaterTreatmentFacility`, `wastewaterTreatmentOperationAndProcess`, `pendingCaseWithLLDA`, `typeOfSolidWastesGenerated`, `qtyPerDay`, `garbageCollectionMethod`, `frequencyOfGarbageCollection`, `wasteCollector`, `collectorAddress`, `garbageDisposalMethod`, `wasteMinimizationMethod`, `drainageSystem`, `drainageType`, `drainageDischargeLocation`, `sewerageSystem`, `septicTank`, `sewerageDischargeLocation`, `waterSupply`, `status`, `createdAt`, `updatedAt`) VALUES
-(32, 1, 17, '1E5E2270C6', '02/22/2017', '02/22/2017', '02/22/2017', '02/22/2017', '', 1, 0, 'Gas', 'NA', 'dummy', '30', 'dummy', 1, 'NA', 'Household Wastes', 30, 'Truck Collection', 'Daily', 'dummy', 'dummy', 'Sanitary Landfill', 'Reduction', 1, 'Close/Underground', 'Public Drainage System', 1, 0, 'NA', 'Deep Well', 'Active', '2017-02-22 14:05:00', '2017-02-23 00:48:56'),
-(33, 1, NULL, '1398C3B040', 'NA', 'NA', 'NA', 'NA', '', 0, 0, 'NA', 'NA', '', '', '', 0, 'NA', '', 0, '', 'Daily', '', '', 'Sanitary Landfill', 'NA', 0, 'NA', 'NA', 0, 0, 'NA', 'Deep Well', 'Draft', '2017-02-24 01:26:53', '2017-02-24 01:26:53'),
-(34, 1, 14, '501C403B67', 'NA', 'NA', 'NA', 'NA', '', 0, 0, 'NA', 'NA', '', '', '', 0, 'NA', '', 0, '', 'Daily', '', '', 'Sanitary Landfill', 'NA', 0, 'NA', 'NA', 0, 0, 'NA', 'Deep Well', 'Draft', '2017-02-24 01:27:21', '2017-02-24 01:27:21');
+(32, 1, 17, '1E5E2270C6', '02/22/2017', '02/22/2017', '02/22/2017', '02/22/2017', '', 1, 0, 'Gas', 'NA', 'dummy', '30', 'dummy', 1, 'NA', 'Household Wastes', 30, 'Truck Collection', 'Daily', 'dummy', 'dummy', 'Sanitary Landfill', 'Reduction', 1, 'Close/Underground', 'Public Drainage System', 1, 0, 'NA', 'Deep Well', 'Active', '2017-02-22 14:05:00', '2017-02-23 00:48:56');
 
 -- --------------------------------------------------------
 
@@ -174,16 +160,14 @@ CREATE TABLE IF NOT EXISTS `application_engineering` (
   `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `application_engineering`
 --
 
 INSERT INTO `application_engineering` (`applicationId`, `userId`, `businessId`, `referenceNum`, `status`, `createdAt`, `updatedAt`) VALUES
-(25, 1, 17, '1E5E2270C6', 'Active', '2017-02-22 14:05:00', '2017-02-22 15:04:29'),
-(26, 1, NULL, '1398C3B040', 'Draft', '2017-02-24 01:26:53', '2017-02-24 01:26:53'),
-(27, 1, 14, '501C403B67', 'Draft', '2017-02-24 01:27:21', '2017-02-24 01:27:21');
+(25, 1, 17, '1E5E2270C6', 'Active', '2017-02-22 14:05:00', '2017-02-22 15:04:29');
 
 -- --------------------------------------------------------
 
@@ -202,16 +186,14 @@ CREATE TABLE IF NOT EXISTS `application_sanitary` (
   `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `application_sanitary`
 --
 
 INSERT INTO `application_sanitary` (`applicationId`, `referenceNum`, `userId`, `businessId`, `applicationDate`, `annualEmployeePhysicalExam`, `typeLevelOfWaterSource`, `status`, `createdAt`, `updatedAt`) VALUES
-(31, '1E5E2270C6', 1, 17, 'February 22, 2017', 1, 'dummy', 'Active', '2017-02-22 14:05:00', '2017-02-23 00:47:24'),
-(32, '1398C3B040', 1, NULL, 'February 24, 2017', 1, '', 'Draft', '2017-02-24 01:26:53', '2017-02-24 01:26:53'),
-(33, '501C403B67', 1, 14, 'February 24, 2017', 1, '', 'Draft', '2017-02-24 01:27:21', '2017-02-24 01:27:21');
+(31, '1E5E2270C6', 1, 17, 'February 22, 2017', 1, 'dummy', 'Active', '2017-02-22 14:05:00', '2017-02-23 00:47:24');
 
 -- --------------------------------------------------------
 
@@ -227,16 +209,14 @@ CREATE TABLE IF NOT EXISTS `application_zoning` (
   `status` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `application_zoning`
 --
 
 INSERT INTO `application_zoning` (`applicationId`, `referenceNum`, `userId`, `businessId`, `status`, `createdAt`, `updatedAt`) VALUES
-(32, '1E5E2270C6', 1, 17, 'Active', '2017-02-22 14:05:00', '2017-02-23 00:46:22'),
-(33, '1398C3B040', 1, NULL, 'Draft', '2017-02-24 01:26:52', '2017-02-24 01:26:52'),
-(34, '501C403B67', 1, 14, 'Draft', '2017-02-24 01:27:21', '2017-02-24 01:27:21');
+(32, '1E5E2270C6', 1, 17, 'Active', '2017-02-22 14:05:00', '2017-02-23 00:46:22');
 
 -- --------------------------------------------------------
 
@@ -445,27 +425,6 @@ INSERT INTO `assessments` (`assessmentId`, `referenceNum`, `amount`, `paidUpTo`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bowling_alleys`
---
-
-CREATE TABLE IF NOT EXISTS `bowling_alleys` (
-  `activityId` int(10) NOT NULL,
-  `nonAutomaticLanes` int(60) NOT NULL,
-  `automaticLanes` int(60) NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `bowling_alleys`
---
-
-INSERT INTO `bowling_alleys` (`activityId`, `nonAutomaticLanes`, `automaticLanes`, `createdAt`, `updatedAt`) VALUES
-(62, 5, 4, '2017-02-24 03:39:11', '2017-02-24 03:39:11');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `businesses`
 --
 
@@ -645,18 +604,14 @@ CREATE TABLE IF NOT EXISTS `fee_common_enterprise` (
   `largeScaleFee` double NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `fee_common_enterprise`
 --
 
 INSERT INTO `fee_common_enterprise` (`commonEnterpriseFeeId`, `lineOfBusinessId`, `cottageFee`, `smallScaleFee`, `mediumScaleFee`, `largeScaleFee`, `createdAt`, `updatedAt`) VALUES
-(3, 3, 1000, 3500, 5000, 7500, '2017-02-24 06:25:04', '2017-02-24 06:25:04'),
-(4, 4, 1000, 3500, 5000, 7000, '2017-02-24 06:25:34', '2017-02-24 06:25:34'),
-(5, 5, 800, 2500, 4000, 6500, '2017-02-24 06:25:55', '2017-02-24 06:25:55'),
-(6, 6, 500, 1500, 3000, 5000, '2017-02-24 06:26:13', '2017-02-24 06:26:13'),
-(7, 7, 500, 1500, 3000, 5000, '2017-02-24 06:26:48', '2017-02-24 06:26:48');
+(1, 1, 1000, 2000, 3000, 4000, '2017-02-23 11:56:52', '2017-02-23 11:56:52');
 
 -- --------------------------------------------------------
 
@@ -693,7 +648,6 @@ CREATE TABLE IF NOT EXISTS `fee_financial_institution` (
   `financialInstitutionId` int(10) NOT NULL,
   `scale` varchar(60) NOT NULL,
   `description` text NOT NULL,
-  `fee` decimal(10,0) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -702,10 +656,10 @@ CREATE TABLE IF NOT EXISTS `fee_financial_institution` (
 -- Dumping data for table `fee_financial_institution`
 --
 
-INSERT INTO `fee_financial_institution` (`financialInstitutionId`, `scale`, `description`, `fee`, `createdAt`, `updatedAt`) VALUES
-(1, 'Small', 'Pawnshops, Lending investors, Moneyshops and other financial institutions of same kind', '5500', '2017-02-23 12:45:31', '2017-02-24 02:25:11'),
-(2, 'Medium', 'Rural, Thrift, and Savings Banks and other financial institutions of same kind', '8000', '2017-02-23 12:51:34', '2017-02-24 02:25:11'),
-(3, 'Large', 'Commercial, Development and Universal Banks and other financial Institutions of similar scale', '10500', '2017-02-23 12:52:06', '2017-02-24 02:25:11');
+INSERT INTO `fee_financial_institution` (`financialInstitutionId`, `scale`, `description`, `createdAt`, `updatedAt`) VALUES
+(1, 'Small', 'Pawnshops, Lending investors, Moneyshops and other financial institutions of same kind', '2017-02-23 12:45:31', '2017-02-23 12:45:31'),
+(2, 'Medium', 'Rural, Thrift, and Savings Banks and other financial institutions of same kind', '2017-02-23 12:51:34', '2017-02-23 12:51:34'),
+(3, 'Large', 'Commercial, Development and Universal Banks and other financial Institutions of similar scale', '2017-02-23 12:52:06', '2017-02-23 12:52:06');
 
 -- --------------------------------------------------------
 
@@ -717,19 +671,17 @@ CREATE TABLE IF NOT EXISTS `fee_fixed` (
   `feeFixedId` int(10) NOT NULL,
   `particular` varchar(255) NOT NULL,
   `fee` double NOT NULL,
-  `conditional` tinyint(1) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `fee_fixed`
 --
 
-INSERT INTO `fee_fixed` (`feeFixedId`, `particular`, `fee`, `conditional`, `createdAt`, `updatedAt`) VALUES
-(1, 'Business Inspection Fee', 200, 0, '2017-02-23 14:02:54', '2017-02-23 14:02:54'),
-(2, 'Zoning/Location Clearance Fee', 200, 0, '2017-02-23 14:03:55', '2017-02-23 14:03:55'),
-(3, 'Retirement Fee', 200, 1, '2017-02-24 01:47:07', '2017-02-24 07:30:45');
+INSERT INTO `fee_fixed` (`feeFixedId`, `particular`, `fee`, `createdAt`, `updatedAt`) VALUES
+(1, 'Business Inspection Fee', 200, '2017-02-23 14:02:54', '2017-02-23 14:02:54'),
+(2, 'Zoning/Location Clearance Fee', 200, '2017-02-23 14:03:55', '2017-02-23 14:03:55');
 
 -- --------------------------------------------------------
 
@@ -744,16 +696,7 @@ CREATE TABLE IF NOT EXISTS `fee_golf_link` (
   `fee` double NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `fee_golf_link`
---
-
-INSERT INTO `fee_golf_link` (`feeGoldLinkId`, `above`, `below`, `fee`, `createdAt`, `updatedAt`) VALUES
-(1, 0, 10, 5000, '2017-02-24 05:49:27', '2017-02-24 05:49:27'),
-(2, 10, 15, 10000, '2017-02-24 05:50:04', '2017-02-24 06:01:04'),
-(3, 15, 0, 18000, '2017-02-24 06:01:32', '2017-02-24 06:02:33');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -775,7 +718,7 @@ CREATE TABLE IF NOT EXISTS `fee_sanitary_permit` (
 --
 
 INSERT INTO `fee_sanitary_permit` (`firstUnits`, `firstFee`, `succeedingFee`, `healthCardFee`, `createdAt`, `updatedAt`) VALUES
-(25, 100, 4, 150, '2017-02-23 13:44:04', '2017-02-24 07:17:30');
+(25, 100, 4, 100, '2017-02-23 13:44:04', '2017-02-23 13:56:32');
 
 -- --------------------------------------------------------
 
@@ -789,33 +732,6 @@ CREATE TABLE IF NOT EXISTS `financial_institution` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `financial_institution`
---
-
-INSERT INTO `financial_institution` (`financialInstitutionId`, `activityId`, `createdAt`, `updatedAt`) VALUES
-(3, 62, '2017-02-24 05:02:47', '0000-00-00 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `golf_links`
---
-
-CREATE TABLE IF NOT EXISTS `golf_links` (
-  `activityId` int(10) NOT NULL,
-  `holes` int(60) NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `golf_links`
---
-
-INSERT INTO `golf_links` (`activityId`, `holes`, `createdAt`, `updatedAt`) VALUES
-(62, 18, '2017-02-24 05:31:53', '2017-02-24 05:31:53');
 
 -- --------------------------------------------------------
 
@@ -943,18 +859,14 @@ CREATE TABLE IF NOT EXISTS `line_of_businesses` (
   `garbageServiceFee` double NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `line_of_businesses`
 --
 
 INSERT INTO `line_of_businesses` (`lineOfBusinessId`, `name`, `taxRate`, `type`, `description`, `impositionOfTaxCategory`, `garbageServiceFee`, `createdAt`, `updatedAt`) VALUES
-(3, 'Manufacturing Kind', 10, 'Common Enterprise', 'testing', '', 1200, '2017-02-24 06:22:33', '2017-02-24 06:28:14'),
-(4, 'Wholesaler Kind', 10, 'Common Enterprise', 'testing', '', 600, '2017-02-24 06:23:07', '2017-02-24 06:23:07'),
-(5, 'Exporter', 10, 'Common Enterprise', 'testing', '', 600, '2017-02-24 06:23:23', '2017-02-24 06:23:23'),
-(6, 'Retailer', 10, 'Common Enterprise', 'testing', '', 600, '2017-02-24 06:23:43', '2017-02-24 06:23:43'),
-(7, 'Contractor', 10, 'Common Enterprise', 'testing', '', 600, '2017-02-24 06:24:26', '2017-02-24 06:24:26');
+(1, 'Retailer', 10, 'Common Enterprise', 'test', '', 600, '2017-02-23 11:40:40', '2017-02-23 11:40:40');
 
 -- --------------------------------------------------------
 
@@ -1074,16 +986,14 @@ CREATE TABLE IF NOT EXISTS `reference_numbers` (
   `referenceNum` varchar(255) NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `reference_numbers`
 --
 
 INSERT INTO `reference_numbers` (`referenceId`, `userId`, `referenceNum`, `createdAt`, `updatedAt`) VALUES
-(40, 1, '1E5E2270C6', '2017-02-22 14:05:00', '2017-02-22 14:05:00'),
-(41, 1, '1398C3B040', '2017-02-24 01:26:52', '2017-02-24 01:26:52'),
-(42, 1, '501C403B67', '2017-02-24 01:27:21', '2017-02-24 01:27:21');
+(40, 1, '1E5E2270C6', '2017-02-22 14:05:00', '2017-02-22 14:05:00');
 
 -- --------------------------------------------------------
 
@@ -1402,12 +1312,6 @@ ALTER TABLE `assessments`
   ADD KEY `referenceNum` (`referenceNum`);
 
 --
--- Indexes for table `bowling_alleys`
---
-ALTER TABLE `bowling_alleys`
-  ADD KEY `activityId` (`activityId`);
-
---
 -- Indexes for table `businesses`
 --
 ALTER TABLE `businesses`
@@ -1478,12 +1382,6 @@ ALTER TABLE `fee_sanitary_permit`
 ALTER TABLE `financial_institution`
   ADD KEY `activityId` (`activityId`),
   ADD KEY `financialInstitutionId` (`financialInstitutionId`);
-
---
--- Indexes for table `golf_links`
---
-ALTER TABLE `golf_links`
-  ADD KEY `activityId` (`activityId`);
 
 --
 -- Indexes for table `grosses`
@@ -1607,32 +1505,32 @@ ALTER TABLE `verifications`
 -- AUTO_INCREMENT for table `application_bfp`
 --
 ALTER TABLE `application_bfp`
-  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `application_bplo`
 --
 ALTER TABLE `application_bplo`
-  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
+  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `application_cenro`
 --
 ALTER TABLE `application_cenro`
-  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
+  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `application_engineering`
 --
 ALTER TABLE `application_engineering`
-  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+  MODIFY `applicationId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `application_sanitary`
 --
 ALTER TABLE `application_sanitary`
-  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
+  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `application_zoning`
 --
 ALTER TABLE `application_zoning`
-  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
+  MODIFY `applicationId` int(255) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `approvals`
 --
@@ -1682,7 +1580,7 @@ ALTER TABLE `fee_amusement_devices`
 -- AUTO_INCREMENT for table `fee_common_enterprise`
 --
 ALTER TABLE `fee_common_enterprise`
-  MODIFY `commonEnterpriseFeeId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `commonEnterpriseFeeId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `fee_environmental_clearance_conditions`
 --
@@ -1697,12 +1595,12 @@ ALTER TABLE `fee_financial_institution`
 -- AUTO_INCREMENT for table `fee_fixed`
 --
 ALTER TABLE `fee_fixed`
-  MODIFY `feeFixedId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `feeFixedId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `fee_golf_link`
 --
 ALTER TABLE `fee_golf_link`
-  MODIFY `feeGoldLinkId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `feeGoldLinkId` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `fee_sanitary_permit`
 --
@@ -1732,7 +1630,7 @@ ALTER TABLE `lessors`
 -- AUTO_INCREMENT for table `line_of_businesses`
 --
 ALTER TABLE `line_of_businesses`
-  MODIFY `lineOfBusinessId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `lineOfBusinessId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `notifications`
 --
@@ -1752,7 +1650,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `reference_numbers`
 --
 ALTER TABLE `reference_numbers`
-  MODIFY `referenceId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
+  MODIFY `referenceId` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `renewals`
 --
@@ -1791,13 +1689,6 @@ ALTER TABLE `verifications`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `amusement_devices`
---
-ALTER TABLE `amusement_devices`
-  ADD CONSTRAINT `amusement_devices_ibfk_1` FOREIGN KEY (`amusementDeviceId`) REFERENCES `fee_amusement_devices` (`amusementDeviceId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `amusement_devices_ibfk_2` FOREIGN KEY (`activityId`) REFERENCES `business_activities` (`activityId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `application_bfp`
@@ -1879,12 +1770,6 @@ ALTER TABLE `assessments`
   ADD CONSTRAINT `assessments_ibfk_1` FOREIGN KEY (`referenceNum`) REFERENCES `reference_numbers` (`referenceNum`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `bowling_alleys`
---
-ALTER TABLE `bowling_alleys`
-  ADD CONSTRAINT `bowling_alleys_ibfk_1` FOREIGN KEY (`activityId`) REFERENCES `business_activities` (`activityId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `businesses`
 --
 ALTER TABLE `businesses`
@@ -1908,19 +1793,6 @@ ALTER TABLE `charges`
 --
 ALTER TABLE `fee_common_enterprise`
   ADD CONSTRAINT `fee_common_enterprise_ibfk_1` FOREIGN KEY (`lineOfBusinessId`) REFERENCES `line_of_businesses` (`lineOfBusinessId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `financial_institution`
---
-ALTER TABLE `financial_institution`
-  ADD CONSTRAINT `financial_institution_ibfk_1` FOREIGN KEY (`activityId`) REFERENCES `business_activities` (`activityId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `financial_institution_ibfk_2` FOREIGN KEY (`financialInstitutionId`) REFERENCES `fee_financial_institution` (`financialInstitutionId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `golf_links`
---
-ALTER TABLE `golf_links`
-  ADD CONSTRAINT `golf_links_ibfk_1` FOREIGN KEY (`activityId`) REFERENCES `business_activities` (`activityId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `grosses`

@@ -181,7 +181,7 @@
             <h5>Golf Link Fees</h5>
           </div>
           <div class="widget-content nopadding">
-            <form action="<?php echo base_url(); ?>settings/add_golf_link_fees" method="post" class="form-horizontal">
+            <form action="#" method="get" class="form-horizontal">
               <div class="control-group">
                 <label class="control-label">Above :</label>
                 <div class="controls">
@@ -260,57 +260,26 @@
             <h5>Financial Institutions</h5>
           </div>
           <div class="widget-content nopadding">
-            <form action="<?php echo base_url(); ?>settings/update_financial_institution_fees" method="post" class="form-horizontal">
+            <form action="<?php echo base_url(); ?>settings/add_financial_institution" method="post" class="form-horizontal">
               <div class="control-group">
-                <label class="control-label">Small Scale Description :</label>
+                <label class="control-label">Description :</label>
                 <div class="controls">
-                  <textarea name="small-scale-desc" id="large-scale-desc" cols="30" rows="2" class="span11"><?= $financial_institution_fees[0]->description ?></textarea>
+                  <input type="text" required placeholder="Pawnshops, lending investors, Moneyshops" class="span11" name='description'>
                 </div>
               </div>
-               <div class="control-group">
-                <label class="control-label">Small Scale Fee :</label>
-                <div class="controls">
-                  <div class="input-prepend">
-                    <span class="add-on">PHP</span>
-                    <input class="span4" required placeholder=".00" value="<?= $financial_institution_fees[0]->fee ?>" type="text" value="" name="small-scale-fee">
-                  </div>
-                </div>
-              </div>
-
               <div class="control-group">
-                <label class="control-label">Medium Scale Description :</label>
+                <label class="control-label">Scale :</label>
                 <div class="controls">
-                  <textarea name="medium-scale-desc" id="medium-scale-desc" cols="30" rows="2" class="span11"><?= $financial_institution_fees[1]->description ?></textarea>
-                </div>
-              </div>
-               <div class="control-group">
-                <label class="control-label">Medium Scale Fee :</label>
-                <div class="controls">
-                  <div class="input-prepend">
-                    <span class="add-on">PHP</span>
-                    <input class="span4" value="<?= $financial_institution_fees[1]->fee ?>" required placeholder=".00" type="text" value="" name="medium-scale-fee">
-                  </div>
-                </div>
-              </div>
-
-              <div class="control-group">
-                <label class="control-label">Large Scale Description :</label>
-                <div class="controls">
-                <textarea name="large-scale-desc" id="large-scale-desc" cols="30" rows="2" class="span11"><?= $financial_institution_fees[2]->description ?></textarea>
-                  <!-- <input type="text" required value="<?= $financial_institution_fees[2]->description ?>" placeholder="Commercial, Development and Universal Banks" class="span11" name='large-scale-desc'> -->
-                </div>
-              </div>
-               <div class="control-group">
-                <label class="control-label">Large Scale Fee :</label>
-                <div class="controls">
-                  <div class="input-prepend">
-                    <span class="add-on">PHP</span>
-                    <input class="span4" required placeholder=".00" value="<?= $financial_institution_fees[2]->fee ?>" type="text" value="" name="large-scale-fee">
-                  </div>
+                  <select name="scale" required class='span4' id="scale">
+                  <option disabled selected>Select Scale</option>
+                    <option value="Small">Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Large">Large</option>
+                  </select>
                 </div>
               </div>
               <div class="form-actions">
-                <button class="btn btn-success pull-right">Save</button>
+                <button class="btn btn-success pull-right">Financial Institution</button>
               </div>
             </form>
           </div>
