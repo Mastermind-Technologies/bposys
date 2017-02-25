@@ -3,7 +3,7 @@
 <nav class="navbar-default topnav" role="navigation"  style="background-color: #212121">
   <div class="container topnav">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header" >
+    <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>

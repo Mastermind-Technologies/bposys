@@ -10,8 +10,15 @@ footer,
 }
 
 
+li .step-circle
+{
+	font-size: 18px;
+}
 
-
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+    background-color: #353f4a;
+    color: #555;
+}
 /*TIMELINE STEPS*/
 
 
@@ -48,6 +55,7 @@ img
 {
 	border-radius: 50%;
 }
+
 .timeline-centered {
     position: relative;
     margin-bottom: 30px;

@@ -1172,7 +1172,7 @@ class Dashboard extends CI_Controller {
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 		$navdata['title'] = 'Incoming Applications';
 		$navdata['active'] = 'Applications';
-		
+
 
 		if($role == "BPLO")
 		{
@@ -2319,7 +2319,7 @@ class Dashboard extends CI_Controller {
 				);
 			$this->Notification_m->insert($notification_fields);
 
-			
+
 			redirect('dashboard');
 		}
 	}
@@ -2424,7 +2424,7 @@ class Dashboard extends CI_Controller {
 			{
 				$today = strtotime(date('Y-m-d H:i:s'));
 				$createdAt = strtotime($latest[$i]->createdAt);
-				$seconds = $createdAt - $today;
+				$seconds = $today - $createdAt;
 				$latest[$i]->createdAt = $seconds;
 				$minutes = 0;
 				$hours = 0;
@@ -2434,23 +2434,60 @@ class Dashboard extends CI_Controller {
 				if($seconds/60 >= 1)
 				{
 					$minutes = $seconds/60;
-					$latest[$i]->createdAt = floor($minutes) . " minutes ago";;
+					if(floor($minutes) == 1)
+					{
+						$latest[$i]->createdAt = floor($minutes) . " minute ago";;
+					}
+					else
+					{
+						$latest[$i]->createdAt = floor($minutes) . " minute ago";;
+					}
 					if($minutes/60 >= 1)
 					{
 						$hours = $minutes/60;
-						$latest[$i]->createdAt = floor($hours) . " hours ago";;
+						if(floor($hours) == 1)
+						{
+							$latest[$i]->createdAt = floor($hours) . " hour ago";;
+						}
+						else
+						{
+							$latest[$i]->createdAt = floor($hours) . " hours ago";;
+						}
+
 						if($hours/24 >= 1)
 						{
 							$days = $hours/24;
-							$latest[$i]->createdAt = floor($days) . " days ago";;
+							if(floor($days) == 1)
+							{
+								$latest[$i]->createdAt = floor($days) . " day ago";;
+							}
+							else
+							{
+								$latest[$i]->createdAt = floor($days) . " days ago";;
+							}
 							if($days/30 >= 1)
 							{
 								$months/30 > 1;
-								$latest[$i]->createdAt = floor($months)  . " months ago";;
+								if( floor($months) == 1)
+								{
+									$latest[$i]->createdAt = floor($months)  . " month ago";;
+								}
+								else
+								{
+									$latest[$i]->createdAt = floor($months)  . " months ago";;
+								}
 								if($months/12 >= 1)
 								{
 									$years = $months/12;
-									$latest[$i]->createdAt = floor($years) . " years ago";
+									if(floor($years) == 1)
+									{
+										$latest[$i]->createdAt = floor($years) . " year ago";
+									}
+									else
+									{
+										$latest[$i]->createdAt = floor($years) . " years ago";
+									}
+
 								}
 							}
 						}

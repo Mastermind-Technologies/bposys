@@ -18,12 +18,9 @@
 				<div class="panel-body" style="background-color: #f9f9f9">
 
 					<h2>Reference Number: <strong class="text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></h2>
-					<h3>Status: <?= $application->get_status()=="Expired" 
-						? '<strong style="color:red">'.$application->get_status().'</strong>' 
+					<h3>Status: <?= $application->get_status()=="Expired"
+						? '<strong style="color:red">'.$application->get_status().'</strong>'
 						: '<strong>'.$application->get_status().'</strong>' ?></h3>
-						<?php if ($application->get_status() == "Active" || $application->get_status() == "Expired" || $application->get_applicationType() == "Renew" && $application->get_status() != "For Retirement"): ?>
-							<input type="button" data-toggle="modal" data-target="#model-retire" class="btn btn-danger" value="Retire Business">
-						<?php endif ?>
 						<hr>
 						<div class="mdl-card mdl-shadow--2dp">
 							<div class="mdl-card__supporting-text">
@@ -170,6 +167,11 @@
 				</div>
 
 			</table>
+		</div>
+		<div style="text-align: center">
+			<?php if ($application->get_status() == "Active" || $application->get_status() == "Expired" || $application->get_applicationType() == "Renew" && $application->get_status() != "For Retirement"): ?>
+				<input type="button" data-toggle="modal" data-target="#model-retire" class="btn btn-danger" value="Retire Business">
+			<?php endif ?>
 		</div>
 	</div>
 </div>
@@ -918,7 +920,7 @@
 								<tr>
 									<td>
 										<?= $activity->lineOfBusiness ?>
-										<input type="hidden" name="activity-id[]" required value="<?= $activity->activityId ?>">	
+										<input type="hidden" name="activity-id[]" required value="<?= $activity->activityId ?>">
 									</td>
 									<td>
 										<span class="pull-right"><?= number_format($application->get_applicationType() == "New" ? $activity->capitalization : $activity->previousGross[0]->essentials + $activity->previousGross[0]->nonEssentials, 2) ?></span>

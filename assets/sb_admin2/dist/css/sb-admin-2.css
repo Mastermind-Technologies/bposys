@@ -31,7 +31,18 @@ nav {
     padding-right: 0;
     height: inherit;
   }
+
+  .navbar-top-links .dropdown-alerts {
+    margin-left: -123px;
+  }
+
+  .navbar-top-links .dropdown-user {
+    left: 1px;
+    right: 0;
+  }
+
 }
+
 
 .nav > li > a:focus, .nav > li > a:hover {
   background-color: #353f4a;
@@ -47,6 +58,11 @@ nav {
 .navbar-top-links {
   margin-right: 0;
 }
+
+.navbar-top-links .dropdown-alerts {
+  margin-left: -0px;
+}
+
 .navbar-top-links li {
   display: inline-block;
 }
@@ -85,12 +101,9 @@ nav {
 .navbar-top-links .dropdown-tasks {
   margin-left: -59px;
 }
-.navbar-top-links .dropdown-alerts {
-  margin-left: -123px;
-}
+
 .navbar-top-links .dropdown-user {
-  right: 0;
-  left: auto;
+  margin-left: auto;
 }
 .sidebar .sidebar-nav.navbar-collapse {
   padding-left: 0;

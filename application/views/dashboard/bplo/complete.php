@@ -1,8 +1,8 @@
 <div id="content">
   <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> 
-      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
+    <div id="breadcrumb">
+      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
       <a href="#" class="current">Complete Applications</a>
     </div>
     <h1>Applications with Complete Requirements</h1>
@@ -17,7 +17,7 @@
         <h5>Data table</h5>
       </div>
       <div class="widget-content nopadding">
-        <table class="table table-bordered data-table">
+        <table class="table table-bordered data-table table-responsive">
           <thead>
             <tr>
               <th>Reference Number</th>
