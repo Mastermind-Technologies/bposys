@@ -367,4 +367,10 @@ public function test_golf_links()
 
 }
 
+public function test_get_req()
+{
+	//select items.name, submitted_requirements.submittedRequirementsId from items join requirements on items.itemId = requirements.itemId join submitted_requirements on requirements.requirementId = submitted_requirements.requirementId where submitted_requirements.referenceNum = '1E5E2270C6';
+	
+}
+
 }//END OF CLASS,

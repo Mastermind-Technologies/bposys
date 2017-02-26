@@ -34,4 +34,10 @@ class Gross_m extends CI_Model {
     return $result->result();
   }
 
+  public function update_gross($id, $fields)
+  {
+    $this->db->where('grossId', $id);
+    $this->db->update($this->table, $fields);
+  }
+
 }//END OF CLASS

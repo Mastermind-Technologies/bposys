@@ -145,6 +145,7 @@ class Settings extends CI_Controller {
 		$this->form_validation->set_rules('description','Description','required');
 		$this->form_validation->set_rules('type','Type','required');
 		$this->form_validation->set_rules('tax-rate','Tax Rate','required|numeric');
+		$this->form_validation->set_rules('imposition-of-tax','Imposition of Tax','required');
 		$this->form_validation->set_rules('garbage-service-fee','Garbage Service Fee','required|numeric');
 
 		if($this->form_validation->run() == false)
@@ -158,6 +159,7 @@ class Settings extends CI_Controller {
 			$line_of_business_field = array(
 				'name' => $this->input->post('line-of-business-name'),
 				'description' => $this->input->post('description'),
+				'impositionOfTaxCategory' => $this->input->post('imposition-of-tax'),
 				'type' => $this->input->post('type'),
 				'taxRate' => $this->input->post('tax-rate'),
 				'garbageServiceFee' => $this->input->post('garbage-service-fee'),

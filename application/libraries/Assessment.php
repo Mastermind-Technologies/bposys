@@ -545,9 +545,9 @@ class Assessment{
 		return $data;
 	}
 
-	public static function compute_renewal_tax($line_of_business, $gross, $gross_type = null)
+	public static function compute_renewal_tax($imposition_of_tax, $gross, $gross_type = null)
 	{
-		if($line_of_business == "Manufacturer Kind" || $line_of_business == "Retail Dealers (liquors)" || $line_of_business == "Exporter Kind" )
+		if($imposition_of_tax == "A")
 		{
 			if($gross < 20000)
 			{
@@ -632,7 +632,7 @@ class Assessment{
 			}
 		}//end of if 1
 
-		else if($line_of_business == "Wholesaler Kind" || $line_of_business == "Retail Dealers (tobaccos)")
+		else if($imposition_of_tax == "B")
 		{
 			if($gross < 20000)
 			{
@@ -701,7 +701,7 @@ class Assessment{
 			}
 		}//end of if 2
 
-		else if($line_of_business == "Retailer")
+		else if($imposition_of_tax == "D")
 		{
 			if($gross >= 50000 && $gross < 400000)
 			{
@@ -729,7 +729,7 @@ class Assessment{
 			}
 		}//end of if 3
 
-		else if($line_of_business == "Contractor" || $line_of_business == "Others" || $line_of_business == "Display areas of products")
+		else if($imposition_of_tax == "E")
 		{
 			if($gross < 20000)
 			{
@@ -799,19 +799,19 @@ class Assessment{
 			return fee;
 		}//end of if 4
 
-		else if($line_of_business == "Bank")
+		else if($imposition_of_tax == "F")
 		{
 			$fee = ($gross * 0.01) * 0.75;
 			return $fee;
 		}
 
-		else if($line_of_business == "Peddlers")
+		else if($imposition_of_tax == "G")
 		{
 			//75 pesos per peddler per annum
 			return 75;
 		}
 
-		else if($line_of_business == "Amusement devices/places")
+		else if($imposition_of_tax == "H")
 		{
 			if($gross < 20000)
 			{
@@ -885,7 +885,7 @@ class Assessment{
 			return $fee;
 		}//end of if 5
 
-		else if ($line_of_business == "Lessor (Renting)")
+		else if ($imposition_of_tax == "I")
 		{
 			if($gross < 10000)
 			{

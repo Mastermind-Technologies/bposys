@@ -14,6 +14,7 @@ class Dashboard extends CI_Controller {
 		$this->load->model('Reference_Number_m');
 		$this->load->model('Application_m');
 		$this->load->model('Lessor_m');
+		$this->load->model('Gross_m');
 		$this->load->model('Business_Activity_m');
 		$this->load->model('Issued_Application_m');
 		$this->load->model('Business_m');
@@ -918,7 +919,7 @@ class Dashboard extends CI_Controller {
 				'CTCNum' => $this->input->post('ctc-number'),
 				'TIN' => $this->input->post('tin'),
 				'entityName' => $entity,
-				'status' => 'standby'
+				'status' => 'Visit the Office of the Building Official'
 				);
 			//END BPLO FORM
 
@@ -1149,6 +1150,10 @@ class Dashboard extends CI_Controller {
 			$capitalization = $this->input->post('capitalization');
 			$isExisting = $this->Business_Activity_m->check_business_activity($bplo_id, $line_of_business);
 
+			$query['applicationId'] = $bplo_id;
+			$application = $this->Application_m->get_all_bplo_applications($query);
+			$bplo = new BPLO_Application($application[0]->referenceNum);
+
 			//check if line of business is existing on specific user.
 			//if not, insert new business activity
 			//if is existing, get business activity and add current capitalization to new user input capitalization then update business activity
@@ -1158,15 +1163,19 @@ class Dashboard extends CI_Controller {
 					'bploId' => $bplo_id,
 					'lineOfBusiness' => $line_of_business,
 					'capitalization' => $capitalization,
+					'activityStatus' => $bplo->get_applicationType()=='New' ? 'active' : 'new',
 					);
 				$this->Business_Activity_m->insert_business_activity($fields);
 			}
 			else
 			{
-				$total_capitalization = $isExisting[0]->capitalization + $capitalization;
-				$activity_id = $isExisting[0]->activityId;
-				$set['capitalization'] = $total_capitalization;
-				$this->Business_Activity_m->update_business_activity($activity_id, $set);
+				if($bplo->get_applicationType() == "New")
+				{
+					$total_capitalization = $isExisting[0]->capitalization + $capitalization;
+					$activity_id = $isExisting[0]->activityId;
+					$set['capitalization'] = $total_capitalization;
+					$this->Business_Activity_m->update_business_activity($activity_id, $set);
+				}
 			}
 
 		}
@@ -2097,7 +2106,7 @@ class Dashboard extends CI_Controller {
 			//instantiate Owner of this application
 			// $data['owner'] = new Owner($this->encryption->decrypt($data['application']->get_userId()));
 			// echo "<pre>";
-			// print_r($data['amusement_devices']);
+			// print_r($data['application']);
 			// echo "</pre>";
 			// exit();
 
@@ -2305,6 +2314,10 @@ class Dashboard extends CI_Controller {
 		{
 			$activity_id = $this->input->post('activityId');
 			$capitalization = $this->input->post('capitalization');
+			// echo "<pre>";
+			// print_r($capitalization);
+			// echo "</pre>";
+			// exit();
 
 			foreach ($activity_id as $key => $id) {
 				$id = $this->encryption->decrypt($id);
@@ -2329,13 +2342,68 @@ class Dashboard extends CI_Controller {
 			}
 			else
 			{
+				$bplo = new BPLO_Application($reference_num);
+				if($bplo->get_applicationType() == "Renew")
+				{
+					$previous_gross = $this->input->post('previous-gross');
+					$essentials = $this->input->post('essentials');
+					$non_essentials = $this->input->post('non-essential');
+					$gross_id = $this->input->post('gross-id');
+				}
+
+				$gross_index = 0;
 				foreach ($activity_id as $key => $id) {
-					$business_activity_fields = array(
-						'capitalization' => $capitalization[$key],
-						);
-					$this->Business_Activity_m->update_business_activity($this->encryption->decrypt($id), $business_activity_fields);
+					$activity = $this->Business_Activity_m->get_business_activity($this->encryption->decrypt($id));
+					// echo "<pre>";
+					// print_r($activity);
+					// echo "</pre>";
+
+
+					if($bplo->get_applicationType() == "New")
+					{
+						$business_activity_fields = array(
+							'capitalization' => $capitalization[$key],
+							);
+						$this->Business_Activity_m->update_business_activity($this->encryption->decrypt($id), $business_activity_fields);
+					}
+					else
+					{
+						// echo "<pre>";
+						// print_r($previous_gross);
+						// print_r($essentials);
+						// print_r($non_essentials);
+						// foreach ($gross_id as $key => $value) {
+						// 	print_r($this->encryption->decrypt($value));
+						// }
+						// echo "</pre>";
+						// exit();
+						if($activity[0]->activityStatus == "new")
+						{
+							$business_activity_fields = array(
+								'capitalization' => $capitalization[$key],
+								// 'activityStatus' => "active",
+								);
+							$this->Business_Activity_m->update_business_activity($this->encryption->decrypt($id), $business_activity_fields);
+						}
+						else
+						{
+							$gross_fields = array(
+								'previousGross' => $previous_gross[$gross_index],
+								'essentials' => $essentials[$gross_index],
+								'nonEssentials' => $non_essentials[$gross_index],
+								);
+							$this->Gross_m->update_gross($this->encryption->decrypt($gross_id[$gross_index]),$gross_fields);
+							// echo "<pre>";
+							// print_r($gross_fields);
+							// print_r($this->encryption->decrypt($gross_id[$gross_index]));
+							// print_r($gross_index);
+							// echo "<pre>";
+							$gross_index++;
+						}
+					}
+
 					$id = $this->encryption->decrypt($id);
-					$activity = $this->Business_Activity_m->get_all_business_activity(['activityId' => $id]);
+					// $activity = $this->Business_Activity_m->get_all_business_activity(['activityId' => $id]);
 					if($activity[0]->type == "Financial Institution")
 					{
 						if($this->input->post('financial-institution'))
@@ -2399,467 +2467,467 @@ class Dashboard extends CI_Controller {
 				$this->session->set_flashdata('message', 'Capital approved!');
 			// var_dump("test update");
 
-				$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-				$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
-				$role_Id = $this->Role_m->get_roleId($role);
-				BPLO_Application::update_status($reference_num, 'On process');
+			// 	$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+			// 	$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+			// 	$role_Id = $this->Role_m->get_roleId($role);
+			// 	BPLO_Application::update_status($reference_num, 'On process');
 
-				$query = array(
-					'referenceNum' => $reference_num,
-					'role' => $role_Id->roleId,
-					'type' => "Approve Capital",
-					'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
-					);
-				$this->Approval_m->insert($query);
+			// 	$query = array(
+			// 		'referenceNum' => $reference_num,
+			// 		'role' => $role_Id->roleId,
+			// 		'type' => "Approve Capital",
+			// 		'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
+			// 		);
+			// 	$this->Approval_m->insert($query);
 
-				$this->process_assessments($reference_num);
+			// 	$this->process_assessments($reference_num);
 
-			// notify all departments
-				for ($i=5; $i <= 10 ; $i++)
-				{
-				if($i != 6 && $i != 9) //6 == assessors, 9 == engineering, 5 == BFP
-				{
-					$query = array(
-						'referenceNum' => $reference_num,
-						'status' => 'Unread',
-						'role' => $i,
-						'notifMessage' => 'Incoming',
-						);
-					$this->Notification_m->insert($query);
-				}
+			// // notify all departments
+			// 	for ($i=5; $i <= 10 ; $i++)
+			// 	{
+			// 	if($i != 6 && $i != 9) //6 == assessors, 9 == engineering, 5 == BFP
+			// 	{
+			// 		$query = array(
+			// 			'referenceNum' => $reference_num,
+			// 			'status' => 'Unread',
+			// 			'role' => $i,
+			// 			'notifMessage' => 'Incoming',
+			// 			);
+			// 		$this->Notification_m->insert($query);
+			// 	}
+			// }
+
+			// Zoning_Application::update_status($reference_num, 'For applicant visit');
+			// Sanitary_Application::update_status($reference_num, 'For applicant visit');
+			// CENRO_Application::update_status($reference_num, 'For applicant visit');
+			// BFP_Application::update_status($reference_num, 'For applicant visit');
+
+			// $notification_fields = array(
+			// 	'referenceNum' => $reference_num,
+			// 	'status' => 'Unread',
+			// 	'role' => 3,
+			// 	'notifMessage' => "<strong>Capitalization</strong> for <strong>Dacudao Apartment</strong> has been <strong>approved!</strong> You can now proceed to other offices to process your remaining requirements."
+			// 	);
+			// $this->Notification_m->insert($notification_fields);
+
+
+				redirect('dashboard');
 			}
-
-			Zoning_Application::update_status($reference_num, 'For applicant visit');
-			Sanitary_Application::update_status($reference_num, 'For applicant visit');
-			CENRO_Application::update_status($reference_num, 'For applicant visit');
-			BFP_Application::update_status($reference_num, 'For applicant visit');
-
-			$notification_fields = array(
-				'referenceNum' => $reference_num,
-				'status' => 'Unread',
-				'role' => 3,
-				'notifMessage' => "<strong>Capitalization</strong> for <strong>Dacudao Apartment</strong> has been <strong>approved!</strong> You can now proceed to other offices to process your remaining requirements."
-				);
-			$this->Notification_m->insert($notification_fields);
-
-			
-			redirect('dashboard');
 		}
 	}
-}
 
-public function get_bplo_info()
-{
-	$data['application'] = $this->Application_m->get_all_bplo_applications();
-	$data['application'] = new BPLO_Application('9E9E1D64A2');
+	public function get_bplo_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+		$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-	$this->load->view('dashboard/bplo/bplo_printable',$data);
-}
+		$this->load->view('dashboard/bplo/bplo_printable',$data);
+	}
 
-public function get_sanitary_info()
-{
-	$data['application'] = $this->Application_m->get_all_bplo_applications();
-	$data['application'] = new BPLO_Application('9E9E1D64A2');
+	public function get_sanitary_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+		$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-	$this->load->view('dashboard/cho/sanitary_printable',$data);
-}
+		$this->load->view('dashboard/cho/sanitary_printable',$data);
+	}
 
-public function get_bfp_info()
-{
-	$data['application'] = $this->Application_m->get_all_bplo_applications();
-	$data['application'] = new BPLO_Application('9E9E1D64A2');
+	public function get_bfp_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+		$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-	$this->load->view('dashboard/bfp/bfp_printable',$data);
-}
+		$this->load->view('dashboard/bfp/bfp_printable',$data);
+	}
 
 
-public function get_bplo_renewal_info()
-{
-	$data['application'] = $this->Application_m->get_all_bplo_applications();
-	$data['application'] = new BPLO_Application('9E9E1D64A2');
+	public function get_bplo_renewal_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+		$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-	$this->load->view('dashboard/bplo/bpaf_renewal_printable',$data);
-}
+		$this->load->view('dashboard/bplo/bpaf_renewal_printable',$data);
+	}
 
-public function get_zoning_info()
-{
-	$data['application'] = $this->Application_m->get_all_bplo_applications();
-	$data['application'] = new BPLO_Application('9E9E1D64A2');
+	public function get_zoning_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+		$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-	$this->load->view('dashboard/zoning/zoning_printable',$data);
-}
+		$this->load->view('dashboard/zoning/zoning_printable',$data);
+	}
 
-public function get_cenro_info()
-{
-	$data['application'] = $this->Application_m->get_all_bplo_applications();
-	$data['application'] = new BPLO_Application('9E9E1D64A2');
+	public function get_cenro_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+		$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-	$this->load->view('dashboard/cenro/cenro_printable',$data);
-}
+		$this->load->view('dashboard/cenro/cenro_printable',$data);
+	}
 
-public function get_bplo_form_info()
-{
-	$this->_init_matrix();
-	$this->load->view('dashboard/bplo/bplo_form_printable');
-}
+	public function get_bplo_form_info()
+	{
+		$this->_init_matrix();
+		$this->load->view('dashboard/bplo/bplo_form_printable');
+	}
 
-public function get_cert_closure_info()
-{
-	$this->load->view('dashboard/bplo/cert_closure_printable');
-}
+	public function get_cert_closure_info()
+	{
+		$this->load->view('dashboard/bplo/cert_closure_printable');
+	}
 
-public function get_bplo_certificate_info()
-{
-
-	$this->load->view('dashboard/bplo/bplo_certificate_printable');
-}
-
-public function get_assessment_form_info()
-{
-
-	$this->load->view('dashboard/bplo/assessment_form_printable');
-}
-
-	//FOR AJAX PURPOSES
-public function update_notif($type = null)
-{
-	$this->isLogin();
-	$role_id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
-	$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-
-	if($role_id->roleId == '3')
+	public function get_bplo_certificate_info()
 	{
 
-		$notifications = $this->Notification_m->get_applicant_unread($role_id->roleId, $user_id);
+		$this->load->view('dashboard/bplo/bplo_certificate_printable');
+	}
 
-		foreach ($notifications as $notification) {
-			$query = array(
-				'role' => $role_id->roleId,
-				'referenceNum' => $notification->referenceNum
-				);
-			$set['status'] = "Read";
-			$this->Notification_m->update($query,$set);
-		}
+	public function get_assessment_form_info()
+	{
 
+		$this->load->view('dashboard/bplo/assessment_form_printable');
+	}
 
-		$latest = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);
+	//FOR AJAX PURPOSES
+	public function update_notif($type = null)
+	{
+		$this->isLogin();
+		$role_id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		for($i=0;$i<count($latest);$i=$i+1)
+		if($role_id->roleId == '3')
 		{
-			$today = strtotime(date('Y-m-d H:i:s'));
-			$createdAt = strtotime($latest[$i]->createdAt);
-			$seconds = $createdAt - $today;
-			$latest[$i]->createdAt = $seconds;
-			$minutes = 0;
-			$hours = 0;
-			$days = 0;
-			$months = 0;
-			$years = 0;
-			if($seconds/60 >= 1)
+
+			$notifications = $this->Notification_m->get_applicant_unread($role_id->roleId, $user_id);
+
+			foreach ($notifications as $notification) {
+				$query = array(
+					'role' => $role_id->roleId,
+					'referenceNum' => $notification->referenceNum
+					);
+				$set['status'] = "Read";
+				$this->Notification_m->update($query,$set);
+			}
+
+
+			$latest = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);
+
+			for($i=0;$i<count($latest);$i=$i+1)
 			{
-				$minutes = $seconds/60;
-				$latest[$i]->createdAt = floor($minutes) . " minutes ago";;
-				if($minutes/60 >= 1)
+				$today = strtotime(date('Y-m-d H:i:s'));
+				$createdAt = strtotime($latest[$i]->createdAt);
+				$seconds = $createdAt - $today;
+				$latest[$i]->createdAt = $seconds;
+				$minutes = 0;
+				$hours = 0;
+				$days = 0;
+				$months = 0;
+				$years = 0;
+				if($seconds/60 >= 1)
 				{
-					$hours = $minutes/60;
-					$latest[$i]->createdAt = floor($hours) . " hours ago";;
-					if($hours/24 >= 1)
+					$minutes = $seconds/60;
+					$latest[$i]->createdAt = floor($minutes) . " minutes ago";;
+					if($minutes/60 >= 1)
 					{
-						$days = $hours/24;
-						$latest[$i]->createdAt = floor($days) . " days ago";;
-						if($days/30 >= 1)
+						$hours = $minutes/60;
+						$latest[$i]->createdAt = floor($hours) . " hours ago";;
+						if($hours/24 >= 1)
 						{
-							$months/30 > 1;
-							$latest[$i]->createdAt = floor($months)  . " months ago";;
-							if($months/12 >= 1)
+							$days = $hours/24;
+							$latest[$i]->createdAt = floor($days) . " days ago";;
+							if($days/30 >= 1)
 							{
-								$years = $months/12;
-								$latest[$i]->createdAt = floor($years) . " years ago";
+								$months/30 > 1;
+								$latest[$i]->createdAt = floor($months)  . " months ago";;
+								if($months/12 >= 1)
+								{
+									$years = $months/12;
+									$latest[$i]->createdAt = floor($years) . " years ago";
+								}
 							}
 						}
 					}
 				}
 			}
+
+			$data['notifications'] = $latest;
+
+			$this->load->view('dashboard/applicant/notif-view', $data);
 		}
-
-		$data['notifications'] = $latest;
-
-		$this->load->view('dashboard/applicant/notif-view', $data);
-	}
-	else
-	{
-		$query = array(
-			'role' => $role_id->roleId,
-			'status' => 'Unread',
-			'notifMessage' => $type
-			);
-		$notifications = $this->Notification_m->get_all($query);
-
-		if(count($notifications) > 0)
+		else
 		{
-			$set['status'] = "Read";
-			$this->Notification_m->update($query, $set);
+			$query = array(
+				'role' => $role_id->roleId,
+				'status' => 'Unread',
+				'notifMessage' => $type
+				);
+			$notifications = $this->Notification_m->get_all($query);
+
+			if(count($notifications) > 0)
+			{
+				$set['status'] = "Read";
+				$this->Notification_m->update($query, $set);
+			}
 		}
+
 	}
 
-}
-
-public function check_notif()
-{
-	$this->isLogin();
-	$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
-	$role_id = $this->Role_m->get_roleId($role);
-
-	if($role_id->roleId == 4)
+	public function check_notif()
 	{
-		$data['new'] = count(User::get_notifications());
-		$data['complete'] = count(User::get_complete_notifications());
+		$this->isLogin();
+		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+		$role_id = $this->Role_m->get_roleId($role);
 
-		$query['status'] = 'For applicant visit';
-		$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
+		if($role_id->roleId == 4)
+		{
+			$data['new'] = count(User::get_notifications());
+			$data['complete'] = count(User::get_complete_notifications());
 
-		$query['status'] = 'On process';
-		$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
+			$query['status'] = 'For applicant visit';
+			$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
 
-		$query['status'] = 'Completed';
-		$data['completed'] = count($this->Application_m->get_all_bplo_applications($query));
+			$query['status'] = 'On process';
+			$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
+
+			$query['status'] = 'Completed';
+			$data['completed'] = count($this->Application_m->get_all_bplo_applications($query));
+		}
+		else
+		{
+			$data['notifications'] = count(User::get_notifications());
+			$query['status'] = 'For applicant visit';
+
+			if($role=="Zoning")
+				$data['incoming'] = count($this->Application_m->get_all_zoning_applications($query));
+			else if($role == "BFP")
+				$data['incoming'] = count($this->Application_m->get_all_bfp_applications($query));
+			else if($role == "CHO")
+				$data['incoming'] = count($this->Application_m->get_all_sanitary_applications($query));
+			else if($role == "CENRO")
+				$data['incoming'] = count($this->Application_m->get_all_cenro_applications($query));
+			else if($role == "Engineering")
+				$data['incoming'] = count($this->Application_m->get_all_engineering_applications($query));
+		}
+
+		echo json_encode($data);
 	}
-	else
+
+	public function check_application_status()
 	{
-		$data['notifications'] = count(User::get_notifications());
-		$query['status'] = 'For applicant visit';
-
-		if($role=="Zoning")
-			$data['incoming'] = count($this->Application_m->get_all_zoning_applications($query));
-		else if($role == "BFP")
-			$data['incoming'] = count($this->Application_m->get_all_bfp_applications($query));
-		else if($role == "CHO")
-			$data['incoming'] = count($this->Application_m->get_all_sanitary_applications($query));
-		else if($role == "CENRO")
-			$data['incoming'] = count($this->Application_m->get_all_cenro_applications($query));
-		else if($role == "Engineering")
-			$data['incoming'] = count($this->Application_m->get_all_engineering_applications($query));
-	}
-
-	echo json_encode($data);
-}
-
-public function check_application_status()
-{
-	$this->isLogin();
-	$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-	$query['userId'] = $user_id;
-	$applications = $this->Application_m->get_all_bplo_applications($query);
-	foreach ($applications as $key => $value) {
-		$data['applications'][$key] = new BPLO_Application($value->referenceNum);
-		$data['applications'][$key]->set_applicationId($this->encryption->decrypt($data['applications'][$key]->get_applicationId()));
-	}
+		$this->isLogin();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$query['userId'] = $user_id;
+		$applications = $this->Application_m->get_all_bplo_applications($query);
+		foreach ($applications as $key => $value) {
+			$data['applications'][$key] = new BPLO_Application($value->referenceNum);
+			$data['applications'][$key]->set_applicationId($this->encryption->decrypt($data['applications'][$key]->get_applicationId()));
+		}
 
 		//get notifications
-	$data['notifications'] = User::get_notifications();
+		$data['notifications'] = User::get_notifications();
 
 
-	if($data['notifications'] == "")
-		unset($data['notifications']);
-	else
-		$data['notifications'] = count($data['notifications']);
+		if($data['notifications'] == "")
+			unset($data['notifications']);
+		else
+			$data['notifications'] = count($data['notifications']);
 
 
-	$data['custom_encrypt'] = array(
-		'cipher' => 'blowfish',
-		'mode' => 'ecb',
-		'key' => $this->config->item('encryption_key'),
-		'hmac' => false
-		);
+		$data['custom_encrypt'] = array(
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
 
-	$this->load->view('dashboard/applicant/application-table-body',$data);
-}
+		$this->load->view('dashboard/applicant/application-table-body',$data);
+	}
 
-public function check_app_status()
-{
-	$custom_encrypt = array(
-		'cipher' => 'blowfish',
-		'mode' => 'ecb',
-		'key' => $this->config->item('encryption_key'),
-		'hmac' => false
-		);
-	if($this->input->post('application_object'))
+	public function check_app_status()
 	{
-		$application = $this->input->post('application_object');
-		echo json_encode($application);
-		exit();
-		$status_array = [];
-		$buttons = [];
-		foreach ($application as $key => $value) {
-			$query['applicationId'] = $this->encryption->decrypt($value['id']);
-			$app = $this->Application_m->get_all_bplo_applications($query);
-			$isExisting = $this->Renewal_m->check_application($app[0]->referenceNum);
-			$status_array[$key] = $app[0]->status;
-			switch($status_array[$key])
-			{
-				case "Draft":
-				$buttons[$key] = "
-				<a
-				href='".base_url()."dashboard/draft_application/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'
-				class='btn btn-success'><i class='fa fa-pencil-square-o' aria-hidden='true'></a>
-				<button
-				class='btn btn-danger btn-delete'
-				id='".base_url()."dashboard/delete_draft/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'><i class='fa fa-trash' aria-hidden='true'></button>";
-				break;
-				case "Expired":
-				$buttons[$key] = "
-				<a
-				href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
-				id='btn-view-details'
-				class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>
-				<a
-				type='button'
-				class='btn btn-warning'
-				href='".base_url('form/renew/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'><i class='fa fa-plus' aria-hidden='true'></i></a>";
-				break;
-				case "Active":
-				$buttons[$key] = "<a
-				href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
-				id='btn-view-details'
-				class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
-				break;
-				case "On process":
-				if($isExisting)
+		$custom_encrypt = array(
+			'cipher' => 'blowfish',
+			'mode' => 'ecb',
+			'key' => $this->config->item('encryption_key'),
+			'hmac' => false
+			);
+		if($this->input->post('application_object'))
+		{
+			$application = $this->input->post('application_object');
+		// echo json_encode($application);
+		// exit();
+			$status_array = [];
+			$buttons = [];
+			foreach ($application as $key => $value) {
+				$query['applicationId'] = $this->encryption->decrypt($value['id']);
+				$app = $this->Application_m->get_all_bplo_applications($query);
+				$isExisting = $this->Renewal_m->check_application($app[0]->referenceNum);
+				$status_array[$key] = $app[0]->status;
+				switch($status_array[$key])
 				{
+					case "Draft":
+					$buttons[$key] = "
+					<a
+					href='".base_url()."dashboard/draft_application/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'
+					class='btn btn-success'><i class='fa fa-pencil-square-o' aria-hidden='true'></a>
+					<button
+					class='btn btn-danger btn-delete'
+					id='".base_url()."dashboard/delete_draft/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'><i class='fa fa-trash' aria-hidden='true'></button>";
+					break;
+					case "Expired":
+					$buttons[$key] = "
+					<a
+					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+					id='btn-view-details'
+					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>
+					<a
+					type='button'
+					class='btn btn-warning'
+					href='".base_url('form/renew/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'><i class='fa fa-plus' aria-hidden='true'></i></a>";
+					break;
+					case "Active":
 					$buttons[$key] = "<a
 					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
 					id='btn-view-details'
 					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
-				}
-				else
-				{
+					break;
+					case "On process":
+					if($isExisting)
+					{
+						$buttons[$key] = "<a
+						href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+						id='btn-view-details'
+						class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
+					}
+					else
+					{
+						$buttons[$key] = "<a
+						href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+						id='btn-view-details'
+						class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>
+						<button
+						id='".base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($app[0]->referenceNum,$custom_encrypt)))."'
+						value='Cancel'
+						class='btn btn-danger btn-cancel'><i class='fa fa-ban' aria-hidden='true'></button>";
+					}
+					break;
+					case "For finalization":
 					$buttons[$key] = "<a
 					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
 					id='btn-view-details'
-					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>
-					<button
-					id='".base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($app[0]->referenceNum,$custom_encrypt)))."'
-					value='Cancel'
-					class='btn btn-danger btn-cancel'><i class='fa fa-ban' aria-hidden='true'></button>";
+					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
+					break;
+					case "For Retirement":
+					$buttons[$key] = "<a
+					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+					id='btn-view-details'
+					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
+					break;
 				}
-				break;
-				case "For finalization":
-				$buttons[$key] = "<a
-				href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
-				id='btn-view-details'
-				class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
-				break;
-				case "For Retirement":
-				$buttons[$key] = "<a
-				href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
-				id='btn-view-details'
-				class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
-				break;
 			}
-		}
 			// echo "<pre>";
 			// print_r($status_array);
 			// echo "</pre>";
 			// exit();
 
 
-		$data['buttons'] = $buttons;
-		$data['status_array'] = $status_array;
+			$data['buttons'] = $buttons;
+			$data['status_array'] = $status_array;
+		}
+
+		$data['notifications'] = User::get_notifications();
+
+		echo json_encode($data);
 	}
 
-	$data['notifications'] = User::get_notifications();
+	public function get_business_profile()
+	{
+		$this->isLogin();
+		$business_id = $this->encryption->decrypt($this->input->get('id'));
+		$query['businessId'] = $business_id;
+		$data['business'] = $this->Business_m->get_all_businesses($query);
+		$data['owner_name'] = $this->Owner_m->get_owner_name($data['business'][0]->ownerId);
 
-	echo json_encode($data);
-}
+		$result = (object) array_merge((array) $data['business'][0], (array) $data['owner_name'][0]);
 
-public function get_business_profile()
-{
-	$this->isLogin();
-	$business_id = $this->encryption->decrypt($this->input->get('id'));
-	$query['businessId'] = $business_id;
-	$data['business'] = $this->Business_m->get_all_businesses($query);
-	$data['owner_name'] = $this->Owner_m->get_owner_name($data['business'][0]->ownerId);
+		echo json_encode($result);
+	}
 
-	$result = (object) array_merge((array) $data['business'][0], (array) $data['owner_name'][0]);
+	public function process_assessments($reference_number)
+	{
+		$this->isLogin();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-	echo json_encode($result);
-}
+		$bplo = new BPLO_Application($reference_number);
+		$business_activity = $bplo->get_BusinessActivities();
+		$query['referenceNum'] = $reference_number;
+		$assessment = $this->Assessment_m->get_assessment($query);
+		$assessmentId = $assessment[0]->assessmentId;
+		$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
 
-public function process_assessments($reference_number)
-{
-	$this->isLogin();
-	$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$total = 0;
+		$environmental_total = 0;
+		foreach ($business_activity as $key => $activity) {
+			$fees = Assessment::compute_mayors_permit_fee($activity, $work_force);
+			$environmental_total += Assessment::compute_environmental_clearance_fee($activity->capitalization);
+			$garbage_service_fee[] = $fees['garbage_service_fee'];
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $fees['mayor_fee'],
+				'period' => 'F1',
+				'surcharge' => 0,
+				'interest' => 0,
+				'computed' => 0,
+				'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($activity->lineOfBusiness).')'
+				);
+			$this->Assessment_m->add_charge($charge_field);
+			$total += $fees['mayor_fee'];
 
-	$bplo = new BPLO_Application($reference_number);
-	$business_activity = $bplo->get_BusinessActivities();
-	$query['referenceNum'] = $reference_number;
-	$assessment = $this->Assessment_m->get_assessment($query);
-	$assessmentId = $assessment[0]->assessmentId;
-	$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
-
-	$total = 0;
-	$environmental_total = 0;
-	foreach ($business_activity as $key => $activity) {
-		$fees = Assessment::compute_mayors_permit_fee($activity, $work_force);
-		$environmental_total += Assessment::compute_environmental_clearance_fee($activity->capitalization);
-		$garbage_service_fee[] = $fees['garbage_service_fee'];
-		$charge_field = array(
-			'assessmentId' => $assessmentId,
-			'due' => $fees['mayor_fee'],
-			'period' => 'F1',
-			'surcharge' => 0,
-			'interest' => 0,
-			'computed' => 0,
-			'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($activity->lineOfBusiness).')'
-			);
-		$this->Assessment_m->add_charge($charge_field);
-		$total += $fees['mayor_fee'];
-
-		if($fees['tax'] > 1000)
-		{
-			switch($bplo->get_modeOfPayment())
+			if($fees['tax'] > 1000)
 			{
-				case "Anually":
-				$tax[0] = $fees['tax'];
-				break;
-				case "Semi-Anually":
-				$tax[0] = $fees['tax']/2;
-				$tax[1] = $fees['tax']/2;
-				break;
-				case "Quarterly":
-				$tax[0] = $fees['tax']/4;
-				$tax[1] = $fees['tax']/4;
-				$tax[2] = $fees['tax']/4;
-				$tax[3] = $fees['tax']/4;
-				break;
-			}
+				switch($bplo->get_modeOfPayment())
+				{
+					case "Anually":
+					$tax[0] = $fees['tax'];
+					break;
+					case "Semi-Anually":
+					$tax[0] = $fees['tax']/2;
+					$tax[1] = $fees['tax']/2;
+					break;
+					case "Quarterly":
+					$tax[0] = $fees['tax']/4;
+					$tax[1] = $fees['tax']/4;
+					$tax[2] = $fees['tax']/4;
+					$tax[3] = $fees['tax']/4;
+					break;
+				}
 
-			foreach ($tax as $key => $t) {
+				foreach ($tax as $key => $t) {
+					$charge_field = array(
+						'assessmentId' => $assessmentId,
+						'period' => "Q" . ($key+1),
+						'due' => $t,
+						'surcharge' => 0,
+						'interest' => 0,
+						'particulars' => 'TAX ON '.strtoupper($activity->lineOfBusiness)
+						);
+					$this->Assessment_m->add_charge($charge_field);
+					$total += $t;
+				}
+			}
+			else
+			{
 				$charge_field = array(
 					'assessmentId' => $assessmentId,
-					'period' => "Q" . ($key+1),
-					'due' => $t,
+					'period' => "F1",
+					'due' => $fees['tax'],
 					'surcharge' => 0,
 					'interest' => 0,
 					'particulars' => 'TAX ON '.strtoupper($activity->lineOfBusiness)
 					);
 				$this->Assessment_m->add_charge($charge_field);
-				$total += $t;
+				$total += $fees['tax'];
 			}
-		}
-		else
-		{
-			$charge_field = array(
-				'assessmentId' => $assessmentId,
-				'period' => "F1",
-				'due' => $fees['tax'],
-				'surcharge' => 0,
-				'interest' => 0,
-				'particulars' => 'TAX ON '.strtoupper($activity->lineOfBusiness)
-				);
-			$this->Assessment_m->add_charge($charge_field);
-			$total += $fees['tax'];
-		}
 	}//END OF FOREACH
 
 	$charge_field = array(

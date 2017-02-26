@@ -56,11 +56,11 @@ class Form extends CI_Controller {
 
 			if($role == "BPLO")
 			{
-			// $query['status'] = 'For validation...';
-			// $data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
+// $query['status'] = 'For validation...';
+// $data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
 
-			// $query['status'] = 'For applicant visit';
-			// $data['pending'] = count($this->Application_m->get_all_bplo_applications($query));
+// $query['status'] = 'For applicant visit';
+// $data['pending'] = count($this->Application_m->get_all_bplo_applications($query));
 
 				unset($query);
 
@@ -87,8 +87,8 @@ class Form extends CI_Controller {
 				$query['status'] = 'On process';
 				$data['process'] = count($this->Application_m->get_all_zoning_applications($query));
 
-			// $query['status'] = 'Active';
-			// $data['issued'] = count($this->Application_m->get_all_zoning_applications($query));
+// $query['status'] = 'Active';
+// $data['issued'] = count($this->Application_m->get_all_zoning_applications($query));
 
 				$data['total'] = $data['incoming'];
 			}
@@ -101,8 +101,8 @@ class Form extends CI_Controller {
 				$query['status'] = 'On process';
 				$data['process'] = count($this->Application_m->get_all_bfp_applications($query));
 
-			// $query['status'] = 'Active';
-			// $data['issued'] = count($this->Application_m->get_all_bfp_applications($query));
+// $query['status'] = 'Active';
+// $data['issued'] = count($this->Application_m->get_all_bfp_applications($query));
 
 				$data['total'] = $data['incoming'];
 			}
@@ -115,8 +115,8 @@ class Form extends CI_Controller {
 				$query['status'] = 'On process';
 				$data['process'] = count($this->Application_m->get_all_cenro_applications($query));
 
-			// $query['status'] = 'Active';
-			// $data['issued'] = count($this->Application_m->get_all_cenro_applications($query));
+// $query['status'] = 'Active';
+// $data['issued'] = count($this->Application_m->get_all_cenro_applications($query));
 
 				$data['total'] = $data['incoming'];
 			}
@@ -129,8 +129,8 @@ class Form extends CI_Controller {
 				$query['status'] = 'On process';
 				$data['process'] = count($this->Application_m->get_all_sanitary_applications($query));
 
-			// $query['status'] = 'Active';
-			// $data['issued'] = count($this->Application_m->get_all_sanitary_applications($query));
+// $query['status'] = 'Active';
+// $data['issued'] = count($this->Application_m->get_all_sanitary_applications($query));
 
 				$data['total'] = $data['incoming'];
 			}
@@ -144,8 +144,8 @@ class Form extends CI_Controller {
 				$query['status'] = 'On process';
 				$data['process'] = count($this->Application_m->get_all_engineering_applications($query));
 
-			// $query['status'] = 'Active';
-			// $data['issued'] = count($this->Application_m->get_all_engineering_applications($query));
+// $query['status'] = 'Active';
+// $data['issued'] = count($this->Application_m->get_all_engineering_applications($query));
 
 				$data['total'] = $data['incoming'];
 			}
@@ -211,10 +211,10 @@ class Form extends CI_Controller {
 
 		$query['dept'] = 'Engineering';
 		$data['engineering'] = $this->Issued_Application_m->get_current_issued($query);
-		// echo "<pre>";
-		// print_r($data);
-		// echo "</pre>";
-		// exit();
+// echo "<pre>";
+// print_r($data);
+// echo "</pre>";
+// exit();
 
 		$this->load->view('dashboard/applicant/view_application', $data);
 	}
@@ -438,7 +438,7 @@ class Form extends CI_Controller {
 				'CTCNum' => $this->input->post('ctc-number'),
 				'TIN' => $this->input->post('tin'),
 				'entityName' => $entity,
-				'status' => 'On process'
+				'status' => 'Visit the Office of the Building Official'
 				);
 
 			$bplo_id = $this->Application_m->update_bplo($bplo_fields);
@@ -477,7 +477,7 @@ class Form extends CI_Controller {
 					);
 				$this->Gross_m->insert($gross_field);
 			}
-			$this->process_renewal_tax($activities, $previousGross, $essential, $non_essential, $reference_num);
+			// $this->process_renewal_tax($activities, $previousGross, $essential, $non_essential, $reference_num);
 //END BPLO
 
 //START ZONING
@@ -485,7 +485,7 @@ class Form extends CI_Controller {
 				'userId' => $user_id,
 				'referenceNum' => $reference_num,
 				'businessId' =>$business_id,
-				'status' => 'For applicant visit',
+				'status' => 'standby',
 				);
 			$this->Application_m->update_zoning($zoning_fields);
 //END ZONING
@@ -566,7 +566,7 @@ class Form extends CI_Controller {
 				'septicTank' => $this->input->post('septic-tank') ? 1 : 0,
 				'sewerageDischargeLocation' => $this->input->post('septic-tank') ? $this->input->post('sewerage-where-discharged') : "NA",
 				'waterSupply' => $this->input->post('water-supply'),
-				'status' => 'For applicant visit',
+				'status' => 'standby',
 				);
 			$this->Application_m->update_cenro($cenro_fields);
 //END CENRO
@@ -579,7 +579,7 @@ class Form extends CI_Controller {
 				'applicationDate' => $this->input->post('application-date'),
 				'annualEmployeePhysicalExam' => $this->input->post('annual-exams')=="Yes" ? 1 : 0,
 				'typeLevelOfWaterSource' => $this->input->post('water-supply-type'),
-				'status' => 'For applicant visit',
+				'status' => 'standby',
 				);
 			$this->Application_m->update_sanitary($sanitary_fields);
 //END OF SANITARY
@@ -594,7 +594,7 @@ class Form extends CI_Controller {
 				'occupiedPortion' => $this->input->post('portion-occupied'),
 				'areaPerFloor' => $this->input->post('area-per-floor'),
 				'occupancyPermitNum' => $this->input->post('occupancy-permit-number'),
-				'status' => 'For applicant visit',
+				'status' => 'standby',
 				);
 			$this->Application_m->update_bfp($bfp_fields);
 //END OF BFP
@@ -611,20 +611,39 @@ class Form extends CI_Controller {
 
 //SEND NOTIFICATION TO ALL OFFICES
 //4,5,7,8,9,10
-			for($i = 4; $i <= 10 ; $i++)
-			{
-				if($i != 6)
-				{
-					$query = array(
-						'referenceNum' => $reference_num,
-						'status' => "Unread",
-						'role' => $i,
-						'notifMessage' => "Incoming",
-						);
+			// for($i = 4; $i <= 10 ; $i++)
+			// {
+			// 	if($i != 6)
+			// 	{
+			// 		$query = array(
+			// 			'referenceNum' => $reference_num,
+			// 			'status' => "Unread",
+			// 			'role' => $i,
+			// 			'notifMessage' => "Incoming",
+			// 			);
 
-					$this->Notification_m->insert($query);
-				}
-			}
+			// 		$this->Notification_m->insert($query);
+			// 	}
+			// }
+
+			//SEND NOTIFICATION TO ENGINEERING
+			$query = array(
+				'referenceNum' => $reference_num,
+				'status' => "Unread",
+				'role' => 9,
+				'notifMessage' => "Incoming",
+				);
+			$this->Notification_m->insert($query);
+
+			//prepare new assessment assessment
+			$assessment_fields = array(
+				'referenceNum' => $reference_num,
+				'amount' => 0,
+				'paidUpTo' => "None",
+				'status' => "New",
+				);
+			$assessmentId = $this->Assessment_m->insert_assessment($assessment_fields);
+
 			$renewal_field = array(
 				'referenceNum' => $reference_num,
 				'year' => date('Y'),
@@ -655,128 +674,169 @@ private function process_renewal_tax($activities, $previous_gross, $essential, $
 	$garbage_service = 0;
 	$zoning_fee = 0;
 
-	foreach ($activities as $key => $activity) {
+	foreach ($activities as $key => $activity) 
+	{
 		$total_gross = $essential[$key] + $non_essential[$key];
 		$query['activityId'] = $this->encryption->decrypt($activity);
 		$lineOfBusiness = $this->Business_Activity_m->get_all_business_activity($query);
-		$line_of_business = $lineOfBusiness[0]->lineOfBusiness;
-		if($line_of_business == "Manufacturer Kind" || $line_of_business == "Retail Dealers (liquors)" || $line_of_business == "Exporter Kind" || $line_of_business == "Wholesaler Kind" || $line_of_business == "Retail Dealers (tobaccos)" || $line_of_business == "Retailer")
+		$lineOfBusiness[0]->capitalization = $total_gross;
+		$imposition_of_tax = $lineOfBusiness[0]->impositionOfTaxCategory;
+		if($imposition_of_tax == "A" && $imposition_of_tax == "B" && $imposition_of_tax == "D")
 		{
-			$fee = Assessment::compute_renewal_tax($line_of_business, $essential[$key], "essential");
+			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $essential[$key], "essential");
 			$charge_field = array(
 				'assessmentId' => $assessment_id,
 				'due' => $fee,
 				'surcharge' => 0,
 				'interest' => 0,
-				'particulars' => "TAX ON ".strtoupper($line_of_business)." (ESSENTIAL)",
+				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness)." (ESSENTIAL)",
 				'computed' => 0,
 				);
 			$this->Assessment_m->add_charge($charge_field);
 
-			$fee = Assessment::compute_renewal_tax($line_of_business, $non_essential[$key], "non-essential");
+			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $non_essential[$key], "non-essential");
 			$charge_field = array(
 				'assessmentId' => $assessment_id,
 				'due' => $fee,
 				'surcharge' => 0,
 				'interest' => 0,
-				'particulars' => "TAX ON ".strtoupper($line_of_business)." (NON-ESSENTIAL)",
+				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness)." (NON-ESSENTIAL)",
 				'computed' => 0,
 				);
 			$this->Assessment_m->add_charge($charge_field);
 		}
 		else
 		{
-			$fee = Assessment::compute_renewal_tax($line_of_business, $total_gross);
+			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $total_gross);
 			$charge_field = array(
 				'assessmentId' => $assessment_id,
 				'due' => $fee,
 				'surcharge' => 0,
 				'interest' => 0,
-				'particulars' => "TAX ON ".strtoupper($line_of_business),
+				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness),
 				'computed' => 0,
 				);
 			$this->Assessment_m->add_charge($charge_field);
 		}
-		if($line_of_business == "Display areas of products")
-			$mayor_permit_fee = Assessment::compute_mayors_permit_fee($total_gross, $work_force, $line_of_business, $bplo->get_BusinessArea());
-		else
-			$mayor_permit_fee = Assessment::compute_mayors_permit_fee($total_gross, $work_force, $line_of_business);
+
+		$fees = Assessment::compute_mayors_permit_fee($line_of_business[0], $work_force);
+		$environmental_total += Assessment::compute_environmental_clearance_fee($line_of_business[0]->capitalization);
+		$garbage_service_fee[] = $fees['garbage_service_fee'];
 		$charge_field = array(
 			'assessmentId' => $assessment_id,
-			'due' => $mayor_permit_fee['mayor_fee'],
+			'due' => $fees['mayor_fee'],
 			'surcharge' => 0,
 			'interest' => 0,
-			'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($line_of_business).')',
+			'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($line_of_business[0]->lineOfBusiness).')',
 			'computed' => 0,
 			);
 		$this->Assessment_m->add_charge($charge_field);
+		if($fees['tax'] > 1000)
+		{
+			switch($bplo->get_modeOfPayment())
+			{
+				case "Anually":
+				$tax[0] = $fees['tax'];
+				break;
+				case "Semi-Anually":
+				$tax[0] = $fees['tax']/2;
+				$tax[1] = $fees['tax']/2;
+				break;
+				case "Quarterly":
+				$tax[0] = $fees['tax']/4;
+				$tax[1] = $fees['tax']/4;
+				$tax[2] = $fees['tax']/4;
+				$tax[3] = $fees['tax']/4;
+				break;
+			}
 
-		$environmental += Assessment::compute_environmental_clearance_fee($total_gross, $bplo->get_ZoneType());
+			foreach ($tax as $key => $t) {
+				$charge_field = array(
+					'assessmentId' => $assessment_id,
+					'period' => "Q" . ($key+1),
+					'due' => $t,
+					'surcharge' => 0,
+					'interest' => 0,
+					'particulars' => 'TAX ON '.strtoupper($line_of_business[0]->lineOfBusiness)
+					);
+				$this->Assessment_m->add_charge($charge_field);
+			}
+		}
+		else
+		{
+			$charge_field = array(
+				'assessmentId' => $assessment_id,
+				'period' => "F1",
+				'due' => $fees['tax'],
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => 'TAX ON '.strtoupper($line_of_business[0]->lineOfBusiness)
+				);
+			$this->Assessment_m->add_charge($charge_field);
+		}
+	}
 
-		$garbage_service += Assessment::compute_garbage_service_fee($line_of_business);
+	$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
+	$fixed_fees = Assessment::get_fixed_fees($work_force);
 
-		$zoning_fee += Assessment::compute_zoning_clearance_fee($total_gross, $bplo->get_zoneType());
-}//END OF FOREACH
+	$charge_field = array(
+		'assessmentId' => $assessment_id,
+		'due' => $environmental_total,
+		'surcharge' => 0,
+		'interest' => 0,
+		'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
+		'computed' => 0,
+		);
+	$this->Assessment_m->add_charge($charge_field);
+	$charge_field = array(
+		'assessmentId' => $assessment_id,
+		'due' => $garbage_service_fee[0],
+		'surcharge' => 0,
+		'interest' => 0,
+		'particulars' => 'GARBAGE SERVICE FEE',
+		'computed' => 0,
+		);
+	$this->Assessment_m->add_charge($charge_field);
 
-$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
-$fixed_fees = Assessment::get_fixed_fees($work_force);
+	$health_card_fee = Assessment::compute_health_card_fee($work_force);
+	$charge_field = array(
+		'assessmentId' => $assessment_id,
+		'due' => $health_card_fee,
+		'period' => 'F1',
+		'surcharge' => 0,
+		'interest' => 0,
+		'computed' => 0,
+		'particulars' => 'HEALTH CARD FEE',
+		);
+	$this->Assessment_m->add_charge($charge_field);
 
-$charge_field = array(
-	'assessmentId' => $assessment_id,
-	'due' => $environmental,
-	'surcharge' => 0,
-	'interest' => 0,
-	'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
-	'computed' => 0,
-	);
-$this->Assessment_m->add_charge($charge_field);
-$charge_field = array(
-	'assessmentId' => $assessment_id,
-	'due' => $garbage_service,
-	'surcharge' => 0,
-	'interest' => 0,
-	'particulars' => 'GARBAGE SERVICE FEE',
-	'computed' => 0,
-	);
-$this->Assessment_m->add_charge($charge_field);
-$charge_field = array(
-	'assessmentId' => $assessment_id,
-	'due' => $zoning_fee,
-	'surcharge' => 0,
-	'interest' => 0,
-	'particulars' => 'ZONING/LOCATIONAL CLEARANCE FEE',
-	'computed' => 0,
-	);
-$this->Assessment_m->add_charge($charge_field);
+	$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
+	$charge_field = array(
+		'assessmentId' => $assessment_id,
+		'due' => $sanitary_fee,
+		'period' => 'F1',
+		'surcharge' => 0,
+		'interest' => 0,
+		'computed' => 0,
+		'particulars' => 'SANITARY PERMIT FEE',
+		);
+	$this->Assessment_m->add_charge($charge_field);
 
-$charge_field = array(
-	'assessmentId' => $assessment_id,
-	'due' => $fixed_fees['business_inspection'],
-	'surcharge' => 0,
-	'interest' => 0,
-	'computed' => 0,
-	'particulars' => 'BUSINESS INSPECTION FEE',
-	);
-$this->Assessment_m->add_charge($charge_field);
-$charge_field = array(
-	'assessmentId' => $assessment_id,
-	'due' => $sanitary_fee,
-	'surcharge' => 0,
-	'interest' => 0,
-	'computed' => 0,
-	'particulars' => 'SANITARY PERMIT FEE',
-	);
-$this->Assessment_m->add_charge($charge_field);
-$charge_field = array(
-	'assessmentId' => $assessment_id,
-	'due' => $fixed_fees['health_card_fee'],
-	'surcharge' => 0,
-	'interest' => 0,
-	'computed' => 0,
-	'particulars' => 'HEALTH CARD FEE',
-	);
-$this->Assessment_m->add_charge($charge_field);
-$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_num]);
+	$fixed_fees = Assessment::get_fixed_fees();
+	foreach ($fixed_fees['fee'] as $key => $fee) {
+		$charge_field = array(
+			'assessmentId' => $assessment_id,
+			'due' => $fee,
+			'period' => 'F1',
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => strtoupper($fixed_fees['particular'][$key]),
+			);
+		$this->Assessment_m->add_charge($charge_field);
+	}
+
+	$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_num]);
 }
 
 private function archive_record($reference_num)
@@ -995,12 +1055,12 @@ public function submit_finalization($assessment_id)
 
 	if($this->form_validation->run() == false)
 	{
-		// echo "<script> console.log('validation_errors()')</script>";
+// echo "<script> console.log('validation_errors()')</script>";
 		$reference_num = str_replace(['/','+','='], ['-','_','='], $this->input->post('ref'));
 		$this->session->set_flashdata('message', validation_errors());
 		echo validation_errors();
 
-		// redirect("form/finalize/".$reference_num);
+// redirect("form/finalize/".$reference_num);
 	}
 	else
 	{
@@ -1058,7 +1118,7 @@ public function submit_retirement($reference_num)
 	{
 		$this->session->set_flashdata('error', validation_errors());
 		$application = new BPLO_Application($reference_num);
-		//bin2hex($this->encryption->encrypt($application->get_applicationId().'|'.$this->encryption->decrypt($application->get_reference_num()), $custom_encrypt))
+//bin2hex($this->encryption->encrypt($application->get_applicationId().'|'.$this->encryption->decrypt($application->get_reference_num()), $custom_encrypt))
 		$custom_encrypt = array(
 			'cipher' => 'blowfish',
 			'mode' => 'ecb',
@@ -1071,7 +1131,7 @@ public function submit_retirement($reference_num)
 	else
 	{
 		$application = new BPLO_Application($reference_num);
-		//$previous_gross = $application->get_applicationType() == "New" ? $activity->capitalization : $activity->previousGross[0]->essentials + $activity->previousGross[0]->nonEssentials;
+//$previous_gross = $application->get_applicationType() == "New" ? $activity->capitalization : $activity->previousGross[0]->essentials + $activity->previousGross[0]->nonEssentials;
 		$activity_id = $this->input->post('activity-id');
 		$essentials = $this->input->post('essentials');
 		$non_essentials = $this->input->post('non-essentials');
@@ -1099,7 +1159,7 @@ public function submit_retirement($reference_num)
 
 		BPLO_Application::update_status($reference_num, 'For Retirement');
 
-		//send notification to BPLO for retirement
+//send notification to BPLO for retirement
 		$notification_fields = array(
 			'referenceNum' => $reference_num,
 			'status' => 'Unread',
@@ -1148,7 +1208,7 @@ public function get_total_payment()
 		$amount_paid -= $total_recent_payment;
 	}
 	echo json_encode(number_format($amount_paid,2));
-	// echo json_encode($assessment_id);
+// echo json_encode($assessment_id);
 }
 
 
