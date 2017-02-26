@@ -11,6 +11,7 @@ class Business_Activity_m extends CI_Model {
   private $financial_institution = 'financial_institution';
   private $fee_financial_institution = 'fee_financial_institution';
   private $golf_links = 'golf_links';
+  private $line_of_businesses = 'line_of_businesses';
 
   public function __construct()
   {
@@ -32,7 +33,7 @@ class Business_Activity_m extends CI_Model {
       $query = array_merge($query, $active);
       $this->db->where($query);
     }
-    $this->db->select('*')->from($this->table);
+    $this->db->select('*')->from($this->table)->join($this->line_of_businesses, 'line_of_businesses.name = business_activities.lineOfBusiness');
     $result = $this->db->get();
 
     return $result->result();
@@ -49,10 +50,45 @@ class Business_Activity_m extends CI_Model {
     return $this->db->get()->result();
   }
 
+  public function check_business_activity($bplo_id, $line_of_business)
+  {
+    $this->db->where(['bploId' => $bplo_id, 'lineOfBusiness' => $line_of_business, 'activityStatus' => 'active' ])->limit(1);
+    $this->db->select('*')->from($this->table);
+    $result = $this->db->get()->result();
+    if(count($result) == 1)
+    {
+      return $result;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
   public function update_business_activity($activity_id, $fields)
   {
     $this->db->where(['activityId' => $activity_id]);
     $this->db->update($this->table, $fields);
+  }
+
+  public function insert_amusement_device($fields)
+  {
+    $this->db->insert($this->amusement_devices, $fields);
+  }
+
+  public function insert_financial_institution($fields)
+  {
+    $this->db->insert($this->financial_institution, $fields);
+  }
+
+  public function insert_golf_link($fields)
+  {
+    $this->db->insert($this->golf_links, $fields);
+  }
+
+  public function insert_bowling_alley($fields)
+  {
+    $this->db->insert($this->bowling_alleys, $fields);
   }
 
   public function get_amusement_devices($activity_id)
@@ -96,6 +132,6 @@ class Business_Activity_m extends CI_Model {
     $this->db->from($this->golf_links);
     $this->db->join($this->table, 'business_activities.activityId = golf_links.activityId');
     $this->db->where($this->table.'.activityId', $activity_id);
-    return $this->db->get()->result()[0];
+    return $this->db->get()->result();
   }
 }

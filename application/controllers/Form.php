@@ -44,20 +44,25 @@ class Form extends CI_Controller {
 	public function _init_matrix($data = null)
 	{
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
-
 		if($role == "Applicant")
 		{
 			redirect('dashboard');
 		}
 		else
 		{
+			$query['YEAR(createdAt)'] = date('Y');
+			$query['dept'] = $role;
+			$data['issued'] = count($this->Issued_Application_m->get_all($query));
+
 			if($role == "BPLO")
 			{
-				$query['status'] = 'For validation...';
-				$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
+			// $query['status'] = 'For validation...';
+			// $data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
 
-				$query['status'] = 'For applicant visit';
-				$data['pending'] = count($this->Application_m->get_all_bplo_applications($query));
+			// $query['status'] = 'For applicant visit';
+			// $data['pending'] = count($this->Application_m->get_all_bplo_applications($query));
+
+				unset($query);
 
 				$query['status'] = 'On process';
 				$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
@@ -65,76 +70,84 @@ class Form extends CI_Controller {
 				$query['status'] = 'Completed';
 				$data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
 
-				$query['status'] = 'Active';
-				$data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
+				$query['status'] = 'For finalization';
+				$data['finalization'] = count($this->Application_m->get_all_bplo_applications($query));
 
-				$data['total'] = $data['incoming']+$data['pending']+$data['process']+$data['complete']+$data['issued'];
+				$query['status'] = "For approval";
+				$data['retirements'] = count($this->Retirement_m->get_all($query));
+
+				$data['total'] = $data['process'];
 			}
 			else if($role == 'Zoning')
 			{
+				unset($query);
 				$query['status'] = 'For applicant visit';
 				$data['incoming'] = count($this->Application_m->get_all_zoning_applications($query));
 
 				$query['status'] = 'On process';
 				$data['process'] = count($this->Application_m->get_all_zoning_applications($query));
 
-				$query['status'] = 'Active';
-				$data['issued'] = count($this->Application_m->get_all_zoning_applications($query));
+			// $query['status'] = 'Active';
+			// $data['issued'] = count($this->Application_m->get_all_zoning_applications($query));
 
-				$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+				$data['total'] = $data['incoming'];
 			}
 			else if($role == 'BFP')
 			{
+				unset($query);
 				$query['status'] = 'For applicant visit';
 				$data['incoming'] = count($this->Application_m->get_all_bfp_applications($query));
 
 				$query['status'] = 'On process';
 				$data['process'] = count($this->Application_m->get_all_bfp_applications($query));
 
-				$query['status'] = 'Active';
-				$data['issued'] = count($this->Application_m->get_all_bfp_applications($query));
+			// $query['status'] = 'Active';
+			// $data['issued'] = count($this->Application_m->get_all_bfp_applications($query));
 
-				$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+				$data['total'] = $data['incoming'];
 			}
 			else if($role == 'CENRO')
 			{
+				unset($query);
 				$query['status'] = 'For applicant visit';
 				$data['incoming'] = count($this->Application_m->get_all_cenro_applications($query));
 
 				$query['status'] = 'On process';
 				$data['process'] = count($this->Application_m->get_all_cenro_applications($query));
 
-				$query['status'] = 'Active';
-				$data['issued'] = count($this->Application_m->get_all_cenro_applications($query));
+			// $query['status'] = 'Active';
+			// $data['issued'] = count($this->Application_m->get_all_cenro_applications($query));
 
-				$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+				$data['total'] = $data['incoming'];
 			}
 			else if($role == "CHO")
 			{
+				unset($query);
 				$query['status'] = 'For applicant visit';
 				$data['incoming'] = count($this->Application_m->get_all_sanitary_applications($query));
 
 				$query['status'] = 'On process';
 				$data['process'] = count($this->Application_m->get_all_sanitary_applications($query));
 
-				$query['status'] = 'Active';
-				$data['issued'] = count($this->Application_m->get_all_sanitary_applications($query));
+			// $query['status'] = 'Active';
+			// $data['issued'] = count($this->Application_m->get_all_sanitary_applications($query));
 
-				$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+				$data['total'] = $data['incoming'];
 			}
 
 			else if($role == "Engineering")
 			{
+				unset($query);
 				$query['status'] = 'For applicant visit';
 				$data['incoming'] = count($this->Application_m->get_all_engineering_applications($query));
 
 				$query['status'] = 'On process';
 				$data['process'] = count($this->Application_m->get_all_engineering_applications($query));
 
-				$query['status'] = 'Active';
-				$data['issued'] = count($this->Application_m->get_all_engineering_applications($query));
+			// $query['status'] = 'Active';
+			// $data['issued'] = count($this->Application_m->get_all_engineering_applications($query));
 
-				$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+				$data['total'] = $data['incoming'];
 			}
 
 			$this->load->view('templates/matrix/matrix_includes');
@@ -231,6 +244,8 @@ class Form extends CI_Controller {
 			$this->session->set_flashdata('message','Invalid URL');
 			redirect('dashboard');
 		}
+
+		$data['line_of_business'] = $this->Fee_m->get_all_line_of_businesses();
 
 		$data['application'] = new BPLO_Application($referenceNum);
 		$data['bfp'] = new BFP_Application($referenceNum);

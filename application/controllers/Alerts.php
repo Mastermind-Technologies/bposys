@@ -41,6 +41,9 @@ class Alerts extends CI_Controller {
 		}
 		else
 		{
+			$query['status'] = 'For applicant visit';
+			$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
+
 			$query['status'] = 'On process';
 			$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
 

@@ -28,7 +28,7 @@ class Tester extends CI_Controller {
 	{
 		$business_activity = new stdClass();
 		$business_activity->activityId = 62;
-		$business_activity->lineOfBusiness = "Manufacturing Kind";
+		$business_activity->lineOfBusiness = "Amusement Places";
 		$business_activity->capitalization = 500000;
 
 		$fee = Assessment::compute_mayors_permit_fee($business_activity, 30);
@@ -36,10 +36,12 @@ class Tester extends CI_Controller {
 		print_r($fee);
 		echo "</pre>";
 		exit();
-
-		// $assessment = new Assessment();
-
-		// $assessment->test_load();
+		/*
+		returns:
+		mayor_fee
+		tax
+		garbage service fee
+		*/
 	}
 
 	public function test_environmental()

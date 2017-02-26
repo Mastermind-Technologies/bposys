@@ -48,25 +48,63 @@ class Assessment{
 		$query['name'] = $business_activity->lineOfBusiness;
 		$result = $var->Fee_m->get_all_line_of_businesses($query);
 
+		$business_activity->activityId = $var->encryption->decrypt($business_activity->activityId);
+
 		$fee = 0;
 		switch($result[0]->type)
 		{
 			case "Amusement":
 			//$devices = $this->CI->Business_Activity_m->get_amusement_devices($this->encryption->decrypt($business_activity->activityId));
+			//amusement devices
 			$devices = $var->Business_Activity_m->get_amusement_devices($business_activity->activityId);
 			foreach ($devices as $key => $device) {
 				$fee += $device->ratePerUnit*$device->units;
 			}
+
+			$bowling = $var->Business_Activity_m->get_bowling_alleys($business_activity->activityId);
+			if(count($bowling) > 0)
+			{
+				$bowling_fee = $var->Fee_m->get_bowling_alley_fee();
+				foreach ($bowling as $key => $b) {
+					$fee += $b->nonAutomaticLanes*$bowling_fee->nonAutomaticLaneFee;
+					$fee += $b->automaticLanes*$bowling_fee->automaticLaneFee;
+				}
+			}
+
+			$holes = $var->Business_Activity_m->get_golf_link_fees($business_activity->activityId);
+			if(count($holes) > 0)
+			{
+				$golf_link_fees = $var->Fee_m->get_golf_link_fees();
+				foreach ($golf_link_fees as $key => $golf_link) {
+					if($golf_link->above == 0)
+					{
+						if($holes <= $golf_link->below)
+						{
+							$golf_fee = $golf_link->fee;
+						}
+					}
+					else if($golf_link->below == 0)
+					{
+						if($holes >= $golf_link->above)
+						{
+							$golf_fee = $golf_link->fee;
+						}
+					}
+					else
+					{
+						if($holes > $golf_link->above && $holes <= $golf_link->below)
+						{
+							$golf_fee = $golf_link->fee;
+						}
+					}
+				}
+				$fee += $golf_fee;
+			}
+
 			break;
 
 			case "Bowling Alley":
-			$bowling = $this->Business_Activity_m->get_bowling_alleys($business_activity->activityId);
-			//$bowling = $this->Business_Activity_m->get_bowling_alleys($this->encryption->decrypt($business_activity->activityId));
-			$bowling_fee = $this->Fee_m->get_bowling_alley_fee();
-			foreach ($bowling as $key => $b) {
-				$fee += $b->nonAutomaticLanes*$bowling_fee->nonAutomaticLaneFee;
-				$fee += $b->automaticLanes*$bowling_fee->automaticLaneFee;
-			}
+
 			break;
 
 			case "Common Enterprise":
@@ -89,40 +127,20 @@ class Assessment{
 			break;
 
 			case "Financial Institution":
-			$fee = $this->Business_Activity_m->get_financial_institution_fee($this->encryption->decrypt($business_activity->activityId));
+			$financial_institution_fee = $var->Business_Activity_m->get_financial_institution_fee($business_activity->activityId);
+			$fee = $financial_institution_fee->fee;
 			break;
 
 			case "Golf Course":
-			$holes = $this->Business_Activity_m->get_golf_link_fees($this->encryption->decrypt($business_activity->activityId));
-			$golf_link_fees = $this->Fee_m->get_golf_link_fees();
-			foreach ($golf_link_fees as $key => $golf_link) {
-				if($golf_link->above == 0)
-				{
-					if($holes <= $golf_link->below)
-					{
-						$fee = $golf_link->fee;
-					}
-				}
-				else if($golf_link->below == 0)
-				{
-					if($holes >= $golf_link->above)
-					{
-						$fee = $golf_link->fee;
-					}
-				}
-				else
-				{
-					if($holes > $golf_link->above && $holes <= $golf_link->below)
-					{
-						$fee = $golf_link->fee;
-					}
-				}
-			}
+			
+			break;
+			case "Area Based":
+			//to follow
 			break;
 		}
 
 		$data['mayor_fee'] = $fee;
-		$data['tax'] = $fee * $result[0]->taxRate/100;
+		$data['tax'] = $fee * ($result[0]->taxRate/100);
 		$data['garbage_service_fee'] = $result[0]->garbageServiceFee;
 		return $data;
 

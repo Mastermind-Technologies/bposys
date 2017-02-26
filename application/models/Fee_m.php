@@ -22,7 +22,7 @@ class Fee_m extends CI_Model {
 	{
 		if($query != null)
 			$this->db->where($query);
-		$this->db->select('*')->from($this->line_of_business);
+		$this->db->select('*')->from($this->line_of_business)->order_by('name','asc');
 		$result = $this->db->get();
 
 		return $result->result();
@@ -94,6 +94,16 @@ class Fee_m extends CI_Model {
 			$this->db->where($query);
 		$this->db->select('*')->from($this->common_enterprise);
 		$this->db->join($this->line_of_business, 'fee_common_enterprise.lineOfBusinessId = line_of_businesses.lineOfBusinessId');
+		$result = $this->db->get();
+
+		return $result->result();
+	}
+
+	public function get_all_amusement_devices($query = null)
+	{
+		if($query != null)
+			$this->db->where($query);
+		$this->db->select('*')->from($this->amusement_devices);
 		$result = $this->db->get();
 
 		return $result->result();
