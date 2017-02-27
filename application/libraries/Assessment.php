@@ -109,6 +109,12 @@ class Assessment{
 
 			case "Common Enterprise":
 			$common_enterprise = $var->Fee_m->get_common_enterprise(['line_of_businesses.name' => $business_activity->lineOfBusiness]);
+			// echo "<pre>";
+			// print_r($business_activity->lineOfBusiness);
+			// echo "</pre>";
+			// exit();
+			// var_dump($ent_scale);
+			// exit();
 			switch($ent_scale)
 			{
 				case "Cottage":
@@ -795,8 +801,7 @@ class Assessment{
 			{
 				$fee = ($fee * 0.01) * 0.715;
 			}
-
-			return fee;
+			return $fee;
 		}//end of if 4
 
 		else if($imposition_of_tax == "F")

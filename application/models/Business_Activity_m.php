@@ -30,7 +30,7 @@ class Business_Activity_m extends CI_Model {
     if($query != null)
     {
       $query = array_merge($query, $active);
-      $this->db->where($query)->or_where('activityStatus', 'new');
+      $this->db->where($query);
     }
     $this->db->select('*')->from($this->table)->join($this->line_of_businesses, 'line_of_businesses.name = business_activities.lineOfBusiness');
     $result = $this->db->get();
@@ -106,18 +106,17 @@ class Business_Activity_m extends CI_Model {
     $this->db->from($this->fee_amusement_devices);
     $this->db->join($this->amusement_devices, 'amusement_devices.amusementDeviceId = fee_amusement_devices.amusementDeviceId');
     $this->db->join($this->table, 'amusement_devices.activityId = business_activities.activityId');
-    $this->db->where([$this->table.'.activityId' => $activity_id, 'YEAR(createdAt)' => date('Y')]);
+    $this->db->where([$this->table.'.activityId' => $activity_id, 'YEAR(amusement_devices.createdAt)' => date('Y')]);
     return $this->db->get()->result();
   }
 
   public function get_bowling_alleys($activity_id)
   {
     //SELECT bowling_alleys.nonAutomaticLanes, bowling_alleys.automaticLanes FROM `bowling_alleys` join business_activities on bowling_alleys.activityId = business_activities.activityId where business_activities.activityId = 62 
-
     $this->db->select('bowling_alleys.nonAutomaticLanes, bowling_alleys.automaticLanes');
     $this->db->from($this->bowling_alleys);
     $this->db->join($this->table, 'business_activities.activityId = bowling_alleys.activityId');
-    $this->db->where([$this->table.".activityId" => $activity_id, 'YEAR(createdAt)' => date('Y')])->limit(1);
+    $this->db->where([$this->table.".activityId" => $activity_id, 'YEAR(bowling_alleys.createdAt)' => date('Y')])->limit(1);
     return $this->db->get()->result();
   }
 
@@ -129,7 +128,7 @@ class Business_Activity_m extends CI_Model {
     $this->db->from($this->fee_financial_institution);
     $this->db->join($this->financial_institution, 'financial_institution.financialInstitutionId = fee_financial_institution.financialInstitutionId');
     $this->db->join($this->table, 'business_activities.activityId = financial_institution.activityId');
-    $this->db->where([$this->table.".activityId" => $activity_id, 'YEAR(createdAt)' => date('Y')])->limit(1);
+    $this->db->where([$this->table.".activityId" => $activity_id, 'YEAR(financial_institution.createdAt)' => date('Y')])->limit(1);
     return $this->db->get()->result()[0];
   }
 
@@ -139,7 +138,7 @@ class Business_Activity_m extends CI_Model {
     $this->db->select('golf_links.activityId, golf_links.holes');
     $this->db->from($this->golf_links);
     $this->db->join($this->table, 'business_activities.activityId = golf_links.activityId');
-    $this->db->where([$this->table.'.activityId' => $activity_id, 'YEAR(createdAt)' => date('Y')])->limit(1);
+    $this->db->where([$this->table.'.activityId' => $activity_id, 'YEAR(golf_links.createdAt)' => date('Y')])->limit(1);
     return $this->db->get()->result();
   }
 }

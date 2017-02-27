@@ -2299,8 +2299,6 @@ class Dashboard extends CI_Controller {
 	public function approve_capitalization($reference_num)
 	{
 		$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $reference_num));
-		// var_dump($reference_num);
-		// exit();
 
 		$this->form_validation->set_rules('capitalization[]', 'Capitalization', 'required');
 		$this->form_validation->set_rules('activityId[]', 'activity ID', 'required');
@@ -2314,11 +2312,6 @@ class Dashboard extends CI_Controller {
 		{
 			$activity_id = $this->input->post('activityId');
 			$capitalization = $this->input->post('capitalization');
-			// echo "<pre>";
-			// print_r($capitalization);
-			// echo "</pre>";
-			// exit();
-
 			foreach ($activity_id as $key => $id) {
 				$id = $this->encryption->decrypt($id);
 				$activity = $this->Business_Activity_m->get_all_business_activity(['activityId' => $id]);
@@ -2354,10 +2347,6 @@ class Dashboard extends CI_Controller {
 				$gross_index = 0;
 				foreach ($activity_id as $key => $id) {
 					$activity = $this->Business_Activity_m->get_business_activity($this->encryption->decrypt($id));
-					// echo "<pre>";
-					// print_r($activity);
-					// echo "</pre>";
-
 
 					if($bplo->get_applicationType() == "New")
 					{
@@ -2368,15 +2357,6 @@ class Dashboard extends CI_Controller {
 					}
 					else
 					{
-						// echo "<pre>";
-						// print_r($previous_gross);
-						// print_r($essentials);
-						// print_r($non_essentials);
-						// foreach ($gross_id as $key => $value) {
-						// 	print_r($this->encryption->decrypt($value));
-						// }
-						// echo "</pre>";
-						// exit();
 						if($activity[0]->activityStatus == "new")
 						{
 							$business_activity_fields = array(
@@ -2393,11 +2373,6 @@ class Dashboard extends CI_Controller {
 								'nonEssentials' => $non_essentials[$gross_index],
 								);
 							$this->Gross_m->update_gross($this->encryption->decrypt($gross_id[$gross_index]),$gross_fields);
-							// echo "<pre>";
-							// print_r($gross_fields);
-							// print_r($this->encryption->decrypt($gross_id[$gross_index]));
-							// print_r($gross_index);
-							// echo "<pre>";
 							$gross_index++;
 						}
 					}
@@ -2467,404 +2442,411 @@ class Dashboard extends CI_Controller {
 				$this->session->set_flashdata('message', 'Capital approved!');
 			// var_dump("test update");
 
-			// 	$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-			// 	$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
-			// 	$role_Id = $this->Role_m->get_roleId($role);
-			// 	BPLO_Application::update_status($reference_num, 'On process');
+				$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+				$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+				$role_Id = $this->Role_m->get_roleId($role);
+				BPLO_Application::update_status($reference_num, 'On process');
 
-			// 	$query = array(
-			// 		'referenceNum' => $reference_num,
-			// 		'role' => $role_Id->roleId,
-			// 		'type' => "Approve Capital",
-			// 		'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
-			// 		);
-			// 	$this->Approval_m->insert($query);
+				$query = array(
+					'referenceNum' => $reference_num,
+					'role' => $role_Id->roleId,
+					'type' => "Approve Capital",
+					'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
+					);
+				$this->Approval_m->insert($query);
 
-			// 	$this->process_assessments($reference_num);
+				$this->process_assessments($reference_num);
 
-			// // notify all departments
-			// 	for ($i=5; $i <= 10 ; $i++)
-			// 	{
-			// 	if($i != 6 && $i != 9) //6 == assessors, 9 == engineering, 5 == BFP
-			// 	{
-			// 		$query = array(
-			// 			'referenceNum' => $reference_num,
-			// 			'status' => 'Unread',
-			// 			'role' => $i,
-			// 			'notifMessage' => 'Incoming',
-			// 			);
-			// 		$this->Notification_m->insert($query);
-			// 	}
-			// }
+				
 
-			// Zoning_Application::update_status($reference_num, 'For applicant visit');
-			// Sanitary_Application::update_status($reference_num, 'For applicant visit');
-			// CENRO_Application::update_status($reference_num, 'For applicant visit');
-			// BFP_Application::update_status($reference_num, 'For applicant visit');
-
-			// $notification_fields = array(
-			// 	'referenceNum' => $reference_num,
-			// 	'status' => 'Unread',
-			// 	'role' => 3,
-			// 	'notifMessage' => "<strong>Capitalization</strong> for <strong>Dacudao Apartment</strong> has been <strong>approved!</strong> You can now proceed to other offices to process your remaining requirements."
-			// 	);
-			// $this->Notification_m->insert($notification_fields);
-
-
-				redirect('dashboard');
+			// notify all departments
+				for ($i=5; $i <= 10 ; $i++)
+				{
+				if($i != 6 && $i != 9) //6 == assessors, 9 == engineering, 5 == BFP
+				{
+					$query = array(
+						'referenceNum' => $reference_num,
+						'status' => 'Unread',
+						'role' => $i,
+						'notifMessage' => 'Incoming',
+						);
+					$this->Notification_m->insert($query);
+				}
 			}
+
+			Zoning_Application::update_status($reference_num, 'For applicant visit');
+			Sanitary_Application::update_status($reference_num, 'For applicant visit');
+			CENRO_Application::update_status($reference_num, 'For applicant visit');
+			BFP_Application::update_status($reference_num, 'For applicant visit');
+
+			$notification_fields = array(
+				'referenceNum' => $reference_num,
+				'status' => 'Unread',
+				'role' => 3,
+				'notifMessage' => "<strong>Capitalization</strong> for <strong>Dacudao Apartment</strong> has been <strong>approved!</strong> You can now proceed to other offices to process your remaining requirements."
+				);
+			$this->Notification_m->insert($notification_fields);
+
+
+			redirect('dashboard');
 		}
 	}
+}
 
-	public function get_bplo_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
+public function get_bplo_info()
+{
+	$data['application'] = $this->Application_m->get_all_bplo_applications();
+	$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/bplo/bplo_printable',$data);
-	}
+	$this->load->view('dashboard/bplo/bplo_printable',$data);
+}
 
-	public function get_sanitary_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
+public function get_sanitary_info()
+{
+	$data['application'] = $this->Application_m->get_all_bplo_applications();
+	$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/cho/sanitary_printable',$data);
-	}
+	$this->load->view('dashboard/cho/sanitary_printable',$data);
+}
 
-	public function get_bfp_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
+public function get_bfp_info()
+{
+	$data['application'] = $this->Application_m->get_all_bplo_applications();
+	$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/bfp/bfp_printable',$data);
-	}
+	$this->load->view('dashboard/bfp/bfp_printable',$data);
+}
 
 
-	public function get_bplo_renewal_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
+public function get_bplo_renewal_info()
+{
+	$data['application'] = $this->Application_m->get_all_bplo_applications();
+	$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/bplo/bpaf_renewal_printable',$data);
-	}
+	$this->load->view('dashboard/bplo/bpaf_renewal_printable',$data);
+}
 
-	public function get_zoning_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
+public function get_zoning_info()
+{
+	$data['application'] = $this->Application_m->get_all_bplo_applications();
+	$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/zoning/zoning_printable',$data);
-	}
+	$this->load->view('dashboard/zoning/zoning_printable',$data);
+}
 
-	public function get_cenro_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
+public function get_cenro_info()
+{
+	$data['application'] = $this->Application_m->get_all_bplo_applications();
+	$data['application'] = new BPLO_Application('9E9E1D64A2');
 
-		$this->load->view('dashboard/cenro/cenro_printable',$data);
-	}
+	$this->load->view('dashboard/cenro/cenro_printable',$data);
+}
 
-	public function get_bplo_form_info()
-	{
-		$this->_init_matrix();
-		$this->load->view('dashboard/bplo/bplo_form_printable');
-	}
+public function get_bplo_form_info()
+{
+	$this->_init_matrix();
+	$this->load->view('dashboard/bplo/bplo_form_printable');
+}
 
-	public function get_cert_closure_info()
-	{
-		$this->load->view('dashboard/bplo/cert_closure_printable');
-	}
+public function get_cert_closure_info()
+{
+	$this->load->view('dashboard/bplo/cert_closure_printable');
+}
 
-	public function get_bplo_certificate_info()
-	{
+public function get_bplo_certificate_info()
+{
 
-		$this->load->view('dashboard/bplo/bplo_certificate_printable');
-	}
+	$this->load->view('dashboard/bplo/bplo_certificate_printable');
+}
 
-	public function get_assessment_form_info()
-	{
+public function get_assessment_form_info()
+{
 
-		$this->load->view('dashboard/bplo/assessment_form_printable');
-	}
+	$this->load->view('dashboard/bplo/assessment_form_printable');
+}
 
 	//FOR AJAX PURPOSES
-	public function update_notif($type = null)
+public function update_notif($type = null)
+{
+	$this->isLogin();
+	$role_id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+	$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+	if($role_id->roleId == '3')
 	{
-		$this->isLogin();
-		$role_id = $this->Role_m->get_roleId($this->encryption->decrypt($this->session->userdata['userdata']['role']));
-		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		if($role_id->roleId == '3')
+		$notifications = $this->Notification_m->get_applicant_unread($role_id->roleId, $user_id);
+
+		foreach ($notifications as $notification) {
+			$query = array(
+				'role' => $role_id->roleId,
+				'referenceNum' => $notification->referenceNum
+				);
+			$set['status'] = "Read";
+			$this->Notification_m->update($query,$set);
+		}
+
+
+		$latest = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);
+
+		for($i=0;$i<count($latest);$i=$i+1)
 		{
-
-			$notifications = $this->Notification_m->get_applicant_unread($role_id->roleId, $user_id);
-
-			foreach ($notifications as $notification) {
-				$query = array(
-					'role' => $role_id->roleId,
-					'referenceNum' => $notification->referenceNum
-					);
-				$set['status'] = "Read";
-				$this->Notification_m->update($query,$set);
-			}
-
-
-			$latest = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);
-
-			for($i=0;$i<count($latest);$i=$i+1)
+			$today = strtotime(date('Y-m-d H:i:s'));
+			$createdAt = strtotime($latest[$i]->createdAt);
+			$seconds = $createdAt - $today;
+			$latest[$i]->createdAt = $seconds;
+			$minutes = 0;
+			$hours = 0;
+			$days = 0;
+			$months = 0;
+			$years = 0;
+			if($seconds/60 >= 1)
 			{
-				$today = strtotime(date('Y-m-d H:i:s'));
-				$createdAt = strtotime($latest[$i]->createdAt);
-				$seconds = $createdAt - $today;
-				$latest[$i]->createdAt = $seconds;
-				$minutes = 0;
-				$hours = 0;
-				$days = 0;
-				$months = 0;
-				$years = 0;
-				if($seconds/60 >= 1)
+				$minutes = $seconds/60;
+				$latest[$i]->createdAt = floor($minutes) . " minutes ago";;
+				if($minutes/60 >= 1)
 				{
-					$minutes = $seconds/60;
-					$latest[$i]->createdAt = floor($minutes) . " minutes ago";;
-					if($minutes/60 >= 1)
+					$hours = $minutes/60;
+					$latest[$i]->createdAt = floor($hours) . " hours ago";;
+					if($hours/24 >= 1)
 					{
-						$hours = $minutes/60;
-						$latest[$i]->createdAt = floor($hours) . " hours ago";;
-						if($hours/24 >= 1)
+						$days = $hours/24;
+						$latest[$i]->createdAt = floor($days) . " days ago";;
+						if($days/30 >= 1)
 						{
-							$days = $hours/24;
-							$latest[$i]->createdAt = floor($days) . " days ago";;
-							if($days/30 >= 1)
+							$months/30 > 1;
+							$latest[$i]->createdAt = floor($months)  . " months ago";;
+							if($months/12 >= 1)
 							{
-								$months/30 > 1;
-								$latest[$i]->createdAt = floor($months)  . " months ago";;
-								if($months/12 >= 1)
-								{
-									$years = $months/12;
-									$latest[$i]->createdAt = floor($years) . " years ago";
-								}
+								$years = $months/12;
+								$latest[$i]->createdAt = floor($years) . " years ago";
 							}
 						}
 					}
 				}
 			}
-
-			$data['notifications'] = $latest;
-
-			$this->load->view('dashboard/applicant/notif-view', $data);
 		}
-		else
+
+		$data['notifications'] = $latest;
+
+		$this->load->view('dashboard/applicant/notif-view', $data);
+	}
+	else
+	{
+		$query = array(
+			'role' => $role_id->roleId,
+			'status' => 'Unread',
+			'notifMessage' => $type
+			);
+		$notifications = $this->Notification_m->get_all($query);
+
+		if(count($notifications) > 0)
 		{
-			$query = array(
-				'role' => $role_id->roleId,
-				'status' => 'Unread',
-				'notifMessage' => $type
-				);
-			$notifications = $this->Notification_m->get_all($query);
-
-			if(count($notifications) > 0)
-			{
-				$set['status'] = "Read";
-				$this->Notification_m->update($query, $set);
-			}
+			$set['status'] = "Read";
+			$this->Notification_m->update($query, $set);
 		}
-
 	}
 
-	public function check_notif()
+}
+
+public function check_notif()
+{
+	$this->isLogin();
+	$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+	$role_id = $this->Role_m->get_roleId($role);
+
+	if($role_id->roleId == 4)
 	{
-		$this->isLogin();
-		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
-		$role_id = $this->Role_m->get_roleId($role);
+		$data['new'] = count(User::get_notifications());
+		$data['complete'] = count(User::get_complete_notifications());
 
-		if($role_id->roleId == 4)
-		{
-			$data['new'] = count(User::get_notifications());
-			$data['complete'] = count(User::get_complete_notifications());
+		$query['status'] = 'For applicant visit';
+		$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
 
-			$query['status'] = 'For applicant visit';
-			$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
+		$query['status'] = 'On process';
+		$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
 
-			$query['status'] = 'On process';
-			$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
+		$query['status'] = 'Completed';
+		$data['completed'] = count($this->Application_m->get_all_bplo_applications($query));
+	}
+	else
+	{
+		$data['notifications'] = count(User::get_notifications());
+		$query['status'] = 'For applicant visit';
 
-			$query['status'] = 'Completed';
-			$data['completed'] = count($this->Application_m->get_all_bplo_applications($query));
-		}
-		else
-		{
-			$data['notifications'] = count(User::get_notifications());
-			$query['status'] = 'For applicant visit';
-
-			if($role=="Zoning")
-				$data['incoming'] = count($this->Application_m->get_all_zoning_applications($query));
-			else if($role == "BFP")
-				$data['incoming'] = count($this->Application_m->get_all_bfp_applications($query));
-			else if($role == "CHO")
-				$data['incoming'] = count($this->Application_m->get_all_sanitary_applications($query));
-			else if($role == "CENRO")
-				$data['incoming'] = count($this->Application_m->get_all_cenro_applications($query));
-			else if($role == "Engineering")
-				$data['incoming'] = count($this->Application_m->get_all_engineering_applications($query));
-		}
-
-		echo json_encode($data);
+		if($role=="Zoning")
+			$data['incoming'] = count($this->Application_m->get_all_zoning_applications($query));
+		else if($role == "BFP")
+			$data['incoming'] = count($this->Application_m->get_all_bfp_applications($query));
+		else if($role == "CHO")
+			$data['incoming'] = count($this->Application_m->get_all_sanitary_applications($query));
+		else if($role == "CENRO")
+			$data['incoming'] = count($this->Application_m->get_all_cenro_applications($query));
+		else if($role == "Engineering")
+			$data['incoming'] = count($this->Application_m->get_all_engineering_applications($query));
 	}
 
-	public function check_application_status()
-	{
-		$this->isLogin();
-		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
-		$query['userId'] = $user_id;
-		$applications = $this->Application_m->get_all_bplo_applications($query);
-		foreach ($applications as $key => $value) {
-			$data['applications'][$key] = new BPLO_Application($value->referenceNum);
-			$data['applications'][$key]->set_applicationId($this->encryption->decrypt($data['applications'][$key]->get_applicationId()));
-		}
+	echo json_encode($data);
+}
+
+public function check_application_status()
+{
+	$this->isLogin();
+	$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+	$query['userId'] = $user_id;
+	$applications = $this->Application_m->get_all_bplo_applications($query);
+	foreach ($applications as $key => $value) {
+		$data['applications'][$key] = new BPLO_Application($value->referenceNum);
+		$data['applications'][$key]->set_applicationId($this->encryption->decrypt($data['applications'][$key]->get_applicationId()));
+	}
 
 		//get notifications
-		$data['notifications'] = User::get_notifications();
+	$data['notifications'] = User::get_notifications();
 
 
-		if($data['notifications'] == "")
-			unset($data['notifications']);
-		else
-			$data['notifications'] = count($data['notifications']);
+	if($data['notifications'] == "")
+		unset($data['notifications']);
+	else
+		$data['notifications'] = count($data['notifications']);
 
 
-		$data['custom_encrypt'] = array(
-			'cipher' => 'blowfish',
-			'mode' => 'ecb',
-			'key' => $this->config->item('encryption_key'),
-			'hmac' => false
-			);
+	$data['custom_encrypt'] = array(
+		'cipher' => 'blowfish',
+		'mode' => 'ecb',
+		'key' => $this->config->item('encryption_key'),
+		'hmac' => false
+		);
 
-		$this->load->view('dashboard/applicant/application-table-body',$data);
-	}
+	$this->load->view('dashboard/applicant/application-table-body',$data);
+}
 
-	public function check_app_status()
+public function check_app_status()
+{
+	$custom_encrypt = array(
+		'cipher' => 'blowfish',
+		'mode' => 'ecb',
+		'key' => $this->config->item('encryption_key'),
+		'hmac' => false
+		);
+	if($this->input->post('application_object'))
 	{
-		$custom_encrypt = array(
-			'cipher' => 'blowfish',
-			'mode' => 'ecb',
-			'key' => $this->config->item('encryption_key'),
-			'hmac' => false
-			);
-		if($this->input->post('application_object'))
-		{
-			$application = $this->input->post('application_object');
+		$application = $this->input->post('application_object');
 		// echo json_encode($application);
 		// exit();
-			$status_array = [];
-			$buttons = [];
-			foreach ($application as $key => $value) {
-				$query['applicationId'] = $this->encryption->decrypt($value['id']);
-				$app = $this->Application_m->get_all_bplo_applications($query);
-				$isExisting = $this->Renewal_m->check_application($app[0]->referenceNum);
-				$status_array[$key] = $app[0]->status;
-				switch($status_array[$key])
+		$status_array = [];
+		$buttons = [];
+		foreach ($application as $key => $value) {
+			$query['applicationId'] = $this->encryption->decrypt($value['id']);
+			$app = $this->Application_m->get_all_bplo_applications($query);
+			$isExisting = $this->Renewal_m->check_application($app[0]->referenceNum);
+			$status_array[$key] = $app[0]->status;
+			switch($status_array[$key])
+			{
+				case "Draft":
+				$buttons[$key] = "
+				<a
+				href='".base_url()."dashboard/draft_application/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'
+				class='btn btn-success'><i class='fa fa-pencil-square-o' aria-hidden='true'></a>
+				<button
+				class='btn btn-danger btn-delete'
+				id='".base_url()."dashboard/delete_draft/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'><i class='fa fa-trash' aria-hidden='true'></button>";
+				break;
+				case "Expired":
+				$buttons[$key] = "
+				<a
+				href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+				id='btn-view-details'
+				class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>
+				<a
+				type='button'
+				class='btn btn-warning'
+				href='".base_url('form/renew/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'><i class='fa fa-plus' aria-hidden='true'></i></a>";
+				break;
+				case "Active":
+				$buttons[$key] = "<a
+				href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+				id='btn-view-details'
+				class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
+				break;
+				case "On process":
+				if($isExisting)
 				{
-					case "Draft":
-					$buttons[$key] = "
-					<a
-					href='".base_url()."dashboard/draft_application/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'
-					class='btn btn-success'><i class='fa fa-pencil-square-o' aria-hidden='true'></a>
-					<button
-					class='btn btn-danger btn-delete'
-					id='".base_url()."dashboard/delete_draft/".str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($app[0]->referenceNum))."'><i class='fa fa-trash' aria-hidden='true'></button>";
-					break;
-					case "Expired":
-					$buttons[$key] = "
-					<a
+					$buttons[$key] = "<a
+					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+					id='btn-view-details'
+					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
+				}
+				else
+				{
+					$buttons[$key] = "<a
 					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
 					id='btn-view-details'
 					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>
-					<a
-					type='button'
-					class='btn btn-warning'
-					href='".base_url('form/renew/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'><i class='fa fa-plus' aria-hidden='true'></i></a>";
-					break;
-					case "Active":
-					$buttons[$key] = "<a
-					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
-					id='btn-view-details'
-					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
-					break;
-					case "On process":
-					if($isExisting)
-					{
-						$buttons[$key] = "<a
-						href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
-						id='btn-view-details'
-						class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
-					}
-					else
-					{
-						$buttons[$key] = "<a
-						href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
-						id='btn-view-details'
-						class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>
-						<button
-						id='".base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($app[0]->referenceNum,$custom_encrypt)))."'
-						value='Cancel'
-						class='btn btn-danger btn-cancel'><i class='fa fa-ban' aria-hidden='true'></button>";
-					}
-					break;
-					case "For finalization":
-					$buttons[$key] = "<a
-					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
-					id='btn-view-details'
-					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
-					break;
-					case "For Retirement":
-					$buttons[$key] = "<a
-					href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
-					id='btn-view-details'
-					class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
-					break;
+					<button
+					id='".base_url('dashboard/cancel_application/'.bin2hex($this->encryption->encrypt($app[0]->referenceNum,$custom_encrypt)))."'
+					value='Cancel'
+					class='btn btn-danger btn-cancel'><i class='fa fa-ban' aria-hidden='true'></button>";
 				}
+				break;
+				case "For finalization":
+				$buttons[$key] = "<a
+				href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+				id='btn-view-details'
+				class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
+				break;
+				case "For Retirement":
+				$buttons[$key] = "<a
+				href='".base_url('form/view/'.bin2hex($this->encryption->encrypt($value['id'].'|'.$app[0]->referenceNum, $custom_encrypt)))."'
+				id='btn-view-details'
+				class='btn btn-primary'><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
+				break;
 			}
+		}
 			// echo "<pre>";
 			// print_r($status_array);
 			// echo "</pre>";
 			// exit();
 
 
-			$data['buttons'] = $buttons;
-			$data['status_array'] = $status_array;
-		}
-
-		$data['notifications'] = User::get_notifications();
-
-		echo json_encode($data);
+		$data['buttons'] = $buttons;
+		$data['status_array'] = $status_array;
 	}
 
-	public function get_business_profile()
-	{
-		$this->isLogin();
-		$business_id = $this->encryption->decrypt($this->input->get('id'));
-		$query['businessId'] = $business_id;
-		$data['business'] = $this->Business_m->get_all_businesses($query);
-		$data['owner_name'] = $this->Owner_m->get_owner_name($data['business'][0]->ownerId);
+	$data['notifications'] = User::get_notifications();
 
-		$result = (object) array_merge((array) $data['business'][0], (array) $data['owner_name'][0]);
+	echo json_encode($data);
+}
 
-		echo json_encode($result);
-	}
+public function get_business_profile()
+{
+	$this->isLogin();
+	$business_id = $this->encryption->decrypt($this->input->get('id'));
+	$query['businessId'] = $business_id;
+	$data['business'] = $this->Business_m->get_all_businesses($query);
+	$data['owner_name'] = $this->Owner_m->get_owner_name($data['business'][0]->ownerId);
 
-	public function process_assessments($reference_number)
-	{
-		$this->isLogin();
-		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+	$result = (object) array_merge((array) $data['business'][0], (array) $data['owner_name'][0]);
 
-		$bplo = new BPLO_Application($reference_number);
-		$business_activity = $bplo->get_BusinessActivities();
-		$query['referenceNum'] = $reference_number;
-		$assessment = $this->Assessment_m->get_assessment($query);
-		$assessmentId = $assessment[0]->assessmentId;
-		$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
+	echo json_encode($result);
+}
 
+public function process_assessments($reference_number)
+{
+	$this->isLogin();
+	$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+	$bplo = new BPLO_Application($reference_number);
+	$business_activity = $bplo->get_BusinessActivities();
+		// echo "<pre>";
+		// print_r($business_activity);
+		// echo "</pre>";
+		// exit();
+	$query['referenceNum'] = $reference_number;
+	$assessment = $this->Assessment_m->get_assessment($query);
+	$assessmentId = $assessment[0]->assessmentId;
+	$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
+
+	if ($bplo->get_applicationType() == "New") {
 		$total = 0;
 		$environmental_total = 0;
 		foreach ($business_activity as $key => $activity) {
@@ -2928,35 +2910,371 @@ class Dashboard extends CI_Controller {
 				$this->Assessment_m->add_charge($charge_field);
 				$total += $fees['tax'];
 			}
-	}//END OF FOREACH
+		}
+			//END OF FOREACH
 
-	$charge_field = array(
-		'assessmentId' => $assessmentId,
-		'due' => $garbage_service_fee[0],
-		'period' => 'F1',
-		'surcharge' => 0,
-		'interest' => 0,
-		'computed' => 0,
-		'particulars' => 'GARBAGE SERVICE FEE',
+		$charge_field = array(
+			'assessmentId' => $assessmentId,
+			'due' => $garbage_service_fee[0],
+			'period' => 'F1',
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => 'GARBAGE SERVICE FEE',
+			);
+		$this->Assessment_m->add_charge($charge_field);
+		$total += $garbage_service_fee[0];
+
+		$charge_field = array(
+			'assessmentId' => $assessmentId,
+			'due' => $environmental_total,
+			'period' => 'F1',
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
+			);
+		$this->Assessment_m->add_charge($charge_field);
+		$total += $environmental_total;
+
+		$health_card_fee = Assessment::compute_health_card_fee($work_force);
+		$charge_field = array(
+			'assessmentId' => $assessmentId,
+			'due' => $health_card_fee,
+			'period' => 'F1',
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => 'HEALTH CARD FEE',
+			);
+		$this->Assessment_m->add_charge($charge_field);
+		$total += $health_card_fee;
+
+		$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
+		$charge_field = array(
+			'assessmentId' => $assessmentId,
+			'due' => $sanitary_fee,
+			'period' => 'F1',
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => 'SANITARY PERMIT FEE',
+			);
+		$this->Assessment_m->add_charge($charge_field);
+		$total += $sanitary_fee;
+
+		$fixed_fees = Assessment::get_fixed_fees();
+		foreach ($fixed_fees['fee'] as $key => $fee) {
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $fee,
+				'period' => 'F1',
+				'surcharge' => 0,
+				'interest' => 0,
+				'computed' => 0,
+				'particulars' => strtoupper($fixed_fees['particular'][$key]),
+				);
+			$this->Assessment_m->add_charge($charge_field);
+			$total += $fee;
+		}
+	}
+	else
+	{
+		$environmental_total = 0;
+		foreach ($business_activity as $key => $activity) {
+			$fees = Assessment::compute_mayors_permit_fee($activity, $work_force);
+			$environmental_total += Assessment::compute_environmental_clearance_fee($activity->capitalization);
+			$garbage_service_fee[] = $fees['garbage_service_fee'];
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $fees['mayor_fee'],
+				'period' => 'F1',
+				'surcharge' => 0,
+				'interest' => 0,
+				'computed' => 0,
+				'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($activity->lineOfBusiness).')'
+				);
+			$this->Assessment_m->add_charge($charge_field);
+
+			if($activity->activityStatus == "active")
+			{
+				$renewal_tax = 0;
+				$total_gross = $activity->previousGross[0]->essentials + $activity->previousGross[0]->nonEssentials;
+				$activity->capitalization = $total_gross;
+
+				$imposition_of_tax = $activity->impositionOfTaxCategory;
+				if($imposition_of_tax == "A" && $imposition_of_tax == "B" && $imposition_of_tax == "D")
+				{
+					$fee = Assessment::compute_renewal_tax($imposition_of_tax, $essential[$key], "essential");
+					$renewal_tax += $fee;
+
+					$fee = Assessment::compute_renewal_tax($imposition_of_tax, $non_essential[$key], "non-essential");
+					$renewal_tax += $fee;
+				}
+				else
+				{
+					$fee = Assessment::compute_renewal_tax($imposition_of_tax, $total_gross);
+					$renewal_tax += $fee;
+				}
+				$fees['tax'] += $renewal_tax;
+			}
+
+			if($fees['tax'] > 1000)
+			{
+				switch($bplo->get_modeOfPayment())
+				{
+					case "Anually":
+					$tax[0] = $fees['tax'];
+					break;
+					case "Semi-Anually":
+					$tax[0] = $fees['tax']/2;
+					$tax[1] = $fees['tax']/2;
+					break;
+					case "Quarterly":
+					$tax[0] = $fees['tax']/4;
+					$tax[1] = $fees['tax']/4;
+					$tax[2] = $fees['tax']/4;
+					$tax[3] = $fees['tax']/4;
+					break;
+				}
+
+				foreach ($tax as $key => $t) {
+					$charge_field = array(
+						'assessmentId' => $assessmentId,
+						'period' => "Q" . ($key+1),
+						'due' => $t,
+						'surcharge' => 0,
+						'interest' => 0,
+						'particulars' => 'TAX ON '.strtoupper($activity->lineOfBusiness)
+						);
+					$this->Assessment_m->add_charge($charge_field);
+				}
+			}
+			else
+			{
+				$charge_field = array(
+					'assessmentId' => $assessmentId,
+					'period' => "F1",
+					'due' => $fees['tax'],
+					'surcharge' => 0,
+					'interest' => 0,
+					'particulars' => 'TAX ON '.strtoupper($activity->lineOfBusiness)
+					);
+				$this->Assessment_m->add_charge($charge_field);
+			}
+		}
+			//END OF FOREACH
+
+		$charge_field = array(
+			'assessmentId' => $assessmentId,
+			'due' => $garbage_service_fee[0],
+			'period' => 'F1',
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => 'GARBAGE SERVICE FEE',
+			);
+		$this->Assessment_m->add_charge($charge_field);
+
+		$charge_field = array(
+			'assessmentId' => $assessmentId,
+			'due' => $environmental_total,
+			'period' => 'F1',
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
+			);
+		$this->Assessment_m->add_charge($charge_field);
+
+		$health_card_fee = Assessment::compute_health_card_fee($work_force);
+		$charge_field = array(
+			'assessmentId' => $assessmentId,
+			'due' => $health_card_fee,
+			'period' => 'F1',
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => 'HEALTH CARD FEE',
+			);
+		$this->Assessment_m->add_charge($charge_field);
+
+		$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
+		$charge_field = array(
+			'assessmentId' => $assessmentId,
+			'due' => $sanitary_fee,
+			'period' => 'F1',
+			'surcharge' => 0,
+			'interest' => 0,
+			'computed' => 0,
+			'particulars' => 'SANITARY PERMIT FEE',
+			);
+		$this->Assessment_m->add_charge($charge_field);
+
+		$fixed_fees = Assessment::get_fixed_fees();
+		foreach ($fixed_fees['fee'] as $key => $fee) {
+			$charge_field = array(
+				'assessmentId' => $assessmentId,
+				'due' => $fee,
+				'period' => 'F1',
+				'surcharge' => 0,
+				'interest' => 0,
+				'computed' => 0,
+				'particulars' => strtoupper($fixed_fees['particular'][$key]),
+				);
+			$this->Assessment_m->add_charge($charge_field);
+		}
+	}
+
+	$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_number]);
+
+}
+	//END AJAX FUNCTIONS
+
+private function process_renewal_tax($activities, $previous_gross, $essential, $non_essential, $reference_num)
+{
+	$assessment_field = array(
+		'referenceNum' => $reference_num,
+		'amount' => 0,
+		'paidUpTo' => 'None',
+		'status' => "Renew",
 		);
-	$this->Assessment_m->add_charge($charge_field);
-	$total += $garbage_service_fee[0];
+	$assessment_id = $this->Assessment_m->insert_assessment($assessment_field);
+
+	$bplo = new BPLO_Application($reference_num);
+	$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
+
+	$environmental = 0;
+	$garbage_service = 0;
+	$zoning_fee = 0;
+
+	foreach ($activities as $key => $activity) 
+	{
+		$total_gross = $essential[$key] + $non_essential[$key];
+		$query['activityId'] = $this->encryption->decrypt($activity);
+		$lineOfBusiness = $this->Business_Activity_m->get_all_business_activity($query);
+		$lineOfBusiness[0]->capitalization = $total_gross;
+		$imposition_of_tax = $lineOfBusiness[0]->impositionOfTaxCategory;
+		if($imposition_of_tax == "A" && $imposition_of_tax == "B" && $imposition_of_tax == "D")
+		{
+			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $essential[$key], "essential");
+			$charge_field = array(
+				'assessmentId' => $assessment_id,
+				'due' => $fee,
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness)." (ESSENTIAL)",
+				'computed' => 0,
+				);
+			$this->Assessment_m->add_charge($charge_field);
+
+			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $non_essential[$key], "non-essential");
+			$charge_field = array(
+				'assessmentId' => $assessment_id,
+				'due' => $fee,
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness)." (NON-ESSENTIAL)",
+				'computed' => 0,
+				);
+			$this->Assessment_m->add_charge($charge_field);
+		}
+		else
+		{
+			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $total_gross);
+			$charge_field = array(
+				'assessmentId' => $assessment_id,
+				'due' => $fee,
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness),
+				'computed' => 0,
+				);
+			$this->Assessment_m->add_charge($charge_field);
+		}
+
+		$fees = Assessment::compute_mayors_permit_fee($line_of_business[0], $work_force);
+		$environmental_total += Assessment::compute_environmental_clearance_fee($line_of_business[0]->capitalization);
+		$garbage_service_fee[] = $fees['garbage_service_fee'];
+		$charge_field = array(
+			'assessmentId' => $assessment_id,
+			'due' => $fees['mayor_fee'],
+			'surcharge' => 0,
+			'interest' => 0,
+			'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($line_of_business[0]->lineOfBusiness).')',
+			'computed' => 0,
+			);
+		$this->Assessment_m->add_charge($charge_field);
+		if($fees['tax'] > 1000)
+		{
+			switch($bplo->get_modeOfPayment())
+			{
+				case "Anually":
+				$tax[0] = $fees['tax'];
+				break;
+				case "Semi-Anually":
+				$tax[0] = $fees['tax']/2;
+				$tax[1] = $fees['tax']/2;
+				break;
+				case "Quarterly":
+				$tax[0] = $fees['tax']/4;
+				$tax[1] = $fees['tax']/4;
+				$tax[2] = $fees['tax']/4;
+				$tax[3] = $fees['tax']/4;
+				break;
+			}
+
+			foreach ($tax as $key => $t) {
+				$charge_field = array(
+					'assessmentId' => $assessment_id,
+					'period' => "Q" . ($key+1),
+					'due' => $t,
+					'surcharge' => 0,
+					'interest' => 0,
+					'particulars' => 'TAX ON '.strtoupper($line_of_business[0]->lineOfBusiness)
+					);
+				$this->Assessment_m->add_charge($charge_field);
+			}
+		}
+		else
+		{
+			$charge_field = array(
+				'assessmentId' => $assessment_id,
+				'period' => "F1",
+				'due' => $fees['tax'],
+				'surcharge' => 0,
+				'interest' => 0,
+				'particulars' => 'TAX ON '.strtoupper($line_of_business[0]->lineOfBusiness)
+				);
+			$this->Assessment_m->add_charge($charge_field);
+		}
+	}
+
+	$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
+	$fixed_fees = Assessment::get_fixed_fees($work_force);
 
 	$charge_field = array(
-		'assessmentId' => $assessmentId,
+		'assessmentId' => $assessment_id,
 		'due' => $environmental_total,
-		'period' => 'F1',
 		'surcharge' => 0,
 		'interest' => 0,
-		'computed' => 0,
 		'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
+		'computed' => 0,
 		);
 	$this->Assessment_m->add_charge($charge_field);
-	$total += $environmental_total;
+	$charge_field = array(
+		'assessmentId' => $assessment_id,
+		'due' => $garbage_service_fee[0],
+		'surcharge' => 0,
+		'interest' => 0,
+		'particulars' => 'GARBAGE SERVICE FEE',
+		'computed' => 0,
+		);
+	$this->Assessment_m->add_charge($charge_field);
 
 	$health_card_fee = Assessment::compute_health_card_fee($work_force);
 	$charge_field = array(
-		'assessmentId' => $assessmentId,
+		'assessmentId' => $assessment_id,
 		'due' => $health_card_fee,
 		'period' => 'F1',
 		'surcharge' => 0,
@@ -2965,11 +3283,10 @@ class Dashboard extends CI_Controller {
 		'particulars' => 'HEALTH CARD FEE',
 		);
 	$this->Assessment_m->add_charge($charge_field);
-	$total += $health_card_fee;
 
 	$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
 	$charge_field = array(
-		'assessmentId' => $assessmentId,
+		'assessmentId' => $assessment_id,
 		'due' => $sanitary_fee,
 		'period' => 'F1',
 		'surcharge' => 0,
@@ -2978,12 +3295,11 @@ class Dashboard extends CI_Controller {
 		'particulars' => 'SANITARY PERMIT FEE',
 		);
 	$this->Assessment_m->add_charge($charge_field);
-	$total += $sanitary_fee;
 
 	$fixed_fees = Assessment::get_fixed_fees();
 	foreach ($fixed_fees['fee'] as $key => $fee) {
 		$charge_field = array(
-			'assessmentId' => $assessmentId,
+			'assessmentId' => $assessment_id,
 			'due' => $fee,
 			'period' => 'F1',
 			'surcharge' => 0,
@@ -2992,228 +3308,10 @@ class Dashboard extends CI_Controller {
 			'particulars' => strtoupper($fixed_fees['particular'][$key]),
 			);
 		$this->Assessment_m->add_charge($charge_field);
-		$total += $fee;
 	}
 
-	$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_number]);
+	$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_num]);
+}
 
-
-
-	//=======================================================================================
-
-	// foreach ($business_activity as $key => $activity) {
-	// 	if($activity->lineOfBusiness == "Display areas of products")
-	// 		$mayor_permit_fee[$key] = Assessment::compute_mayors_permit_fee($activity->capitalization, $work_force, $activity->lineOfBusiness, $bplo->get_BusinessArea());
-	// 	else
-	// 		$mayor_permit_fee[$key] = Assessment::compute_mayors_permit_fee($activity->capitalization, $work_force, $activity->lineOfBusiness);
-	// 			// echo "Mayor's Permit Fee: ".$activity->lineOfBusiness;
-	// 			// echo "<br>";
-	// 			// var_dump($mayor_permit_fee[$key]);
-	// 			// echo "<br>";
-	// 	$environmental[$key] = Assessment::compute_environmental_clearance_fee($activity->capitalization, $bplo->get_ZoneType());
-	// 			// var_dump($environmental[$key]);
-	// 			// echo "<br>";
-	// 	$garbage_service[$key] = Assessment::compute_garbage_service_fee($activity->lineOfBusiness);
-	// 			// var_dump($garbage_service[$key]);
-	// 			// echo "<br>";
-
-	// 	$zoning_fee[$key] = Assessment::compute_zoning_clearance_fee($activity->capitalization, $bplo->get_zoneType());
-	// 			// var_dump($zoning_fee[$key]);
-	// 			// echo "<br>";
-	// }
-	// $sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
-	// 		// var_dump($sanitary_fee);
-	// 		// echo "<br>";
-
-	// $fixed_fees = Assessment::get_fixed_fees($work_force);
-	// 		// var_dump($fixed_fees);
-	// 		// echo "<br>";
-
-	// $total = 0;
-	// $env_total = 0;
-	// $gs_total = 0;
-	// $zoning_total = 0;
-	// foreach ($mayor_permit_fee as $key => $mayor_fee) {
-	// 	$total += $mayor_fee['mayor_fee'];
-	// 	$total += $mayor_fee['tax'];
-	// }
-	// foreach ($environmental as $key => $e) {
-	// 	$total += $e;
-	// 	$total += $garbage_service[$key];
-	// 	$total += $zoning_fee[$key];
-
-	// 	$env_total += $e;
-	// 	$gs_total += $garbage_service[$key];
-	// 	$zoning_total += $zoning_fee[$key];
-	// }
-	// foreach ($fixed_fees as $key => $value) {
-	// 	$total += $value;
-	// }
-	// $total += (float)$sanitary_fee;
-
-	// 		// echo $total;
-
-	// 	// $assessment_fields = array(
-	// 	// 	'referenceNum' => $reference_number,
-	// 	// 	'amount' => $total,
-	// 	// 	'paidUpTo' => "None",
-	// 	// 	'status' => $bplo->get_ApplicationType(),
-	// 	// 	);
-	// 	// $assessmentId = $this->Assessment_m->insert_assessment($assessment_fields);
-
-	// $query['referenceNum'] = $reference_number;
-	// $assessment = $this->Assessment_m->get_assessment($query);
-
-	// $assessmentId = $assessment[0]->assessmentId;
-
-	// foreach ($mayor_permit_fee as $key => $mayor_fee) {
-	// 	$charge_field = array(
-	// 		'assessmentId' => $assessmentId,
-	// 		'due' => $mayor_fee['mayor_fee'],
-	// 		'period' => 'F1',
-	// 		'surcharge' => 0,
-	// 		'interest' => 0,
-	// 		'computed' => 0,
-	// 		'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($mayor_fee['line_of_business']).')'
-	// 		);
-	// 	$this->Assessment_m->add_charge($charge_field);
-
-	// 	if($mayor_fee['tax'] > 1000)
-	// 	{
-	// 		switch($bplo->get_modeOfPayment())
-	// 		{
-	// 			case "Anually":
-	// 			$tax[0] = $mayor_fee['tax'];
-	// 			break;
-	// 			case "Semi-Anually":
-	// 			$tax[0] = $mayor_fee['tax']/2;
-	// 			$tax[1] = $mayor_fee['tax']/2;
-	// 			break;
-	// 			case "Quarterly":
-	// 			$tax[0] = $mayor_fee['tax']/4;
-	// 			$tax[1] = $mayor_fee['tax']/4;
-	// 			$tax[2] = $mayor_fee['tax']/4;
-	// 			$tax[3] = $mayor_fee['tax']/4;
-	// 			break;
-	// 		}
-
-	// 		foreach ($tax as $key => $t) {
-	// 			$charge_field = array(
-	// 				'assessmentId' => $assessmentId,
-	// 				'period' => "Q" . ($key+1),
-	// 				'due' => $t,
-	// 				'surcharge' => 0,
-	// 				'interest' => 0,
-	// 				'particulars' => 'TAX ON '.strtoupper($mayor_fee['line_of_business'])
-	// 				);
-	// 			$this->Assessment_m->add_charge($charge_field);
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		$charge_field = array(
-	// 			'assessmentId' => $assessmentId,
-	// 			'period' => "F1",
-	// 			'due' => $mayor_fee['tax'],
-	// 			'surcharge' => 0,
-	// 			'interest' => 0,
-	// 			'particulars' => 'TAX ON '.strtoupper($mayor_fee['line_of_business'])
-	// 			);
-	// 		$this->Assessment_m->add_charge($charge_field);
-	// 	}
-
-	// 	}//end of foreach [mayor's permit]
-
-	// 	$charge_field = array(
-	// 		'assessmentId' => $assessmentId,
-	// 		'due' => $env_total,
-	// 		'period' => 'F1',
-	// 		'surcharge' => 0,
-	// 		'interest' => 0,
-	// 		'computed' => 0,
-	// 		'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
-	// 		);
-	// 	$this->Assessment_m->add_charge($charge_field);
-
-	// 	$charge_field = array(
-	// 		'assessmentId' => $assessmentId,
-	// 		'due' => $zoning_total,
-	// 		'period' => 'F1',
-	// 		'surcharge' => 0,
-	// 		'interest' => 0,
-	// 		'computed' => 0,
-	// 		'particulars' => 'ZONING/LOCATIONAL CLEARANCE FEE',
-	// 		);
-	// 	$this->Assessment_m->add_charge($charge_field);
-
-	// 	$charge_field = array(
-	// 		'assessmentId' => $assessmentId,
-	// 		'due' => $gs_total,
-	// 		'period' => 'F1',
-	// 		'surcharge' => 0,
-	// 		'interest' => 0,
-	// 		'computed' => 0,
-	// 		'particulars' => 'GARBAGE SERVICE FEE',
-	// 		);
-	// 	$this->Assessment_m->add_charge($charge_field);
-
-	// 	// $charge_field = array(
-	// 	// 	'assessmentId' => $assessmentId,
-	// 	// 	'due' => $fixed_fees['annual_inspection'],
-	// 	// 	'surcharge' => 0,
-	// 	// 	'interest' => 0,
-	// 	// 	'computed' => 0,
-	// 	// 	'particulars' => 'ANNUAL INSPECTION FEE',
-	// 	// 	);
-	// 	// $this->Assessment_m->add_charge($charge_field);
-
-	// 	$charge_field = array(
-	// 		'assessmentId' => $assessmentId,
-	// 		'due' => $fixed_fees['business_inspection'],
-	// 		'period' => 'F1',
-	// 		'surcharge' => 0,
-	// 		'interest' => 0,
-	// 		'computed' => 0,
-	// 		'particulars' => 'BUSINESS INSPECTION FEE',
-	// 		);
-	// 	$this->Assessment_m->add_charge($charge_field);
-
-	// 	$charge_field = array(
-	// 		'assessmentId' => $assessmentId,
-	// 		'due' => $fixed_fees['business_plate_sticker'],
-	// 		'period' => 'F1',
-	// 		'surcharge' => 0,
-	// 		'interest' => 0,
-	// 		'computed' => 0,
-	// 		'particulars' => 'BUSINESS PLATE & STICKER',
-	// 		);
-	// 	$this->Assessment_m->add_charge($charge_field);
-
-	// 	$charge_field = array(
-	// 		'assessmentId' => $assessmentId,
-	// 		'due' => $sanitary_fee,
-	// 		'period' => 'F1',
-	// 		'surcharge' => 0,
-	// 		'interest' => 0,
-	// 		'computed' => 0,
-	// 		'particulars' => 'SANITARY PERMIT FEE',
-	// 		);
-	// 	$this->Assessment_m->add_charge($charge_field);
-
-	// 	$charge_field = array(
-	// 		'assessmentId' => $assessmentId,
-	// 		'due' => $fixed_fees['health_card_fee'],
-	// 		'period' => 'F1',
-	// 		'surcharge' => 0,
-	// 		'interest' => 0,
-	// 		'computed' => 0,
-	// 		'particulars' => 'HEALTH CARD FEE',
-	// 		);
-	// 	$this->Assessment_m->add_charge($charge_field);
-
-
-
-		// echo json_encode("success");
-	}//END AJAX FUNCTIONS
-
-}//END OF CLASS,
+}
+//END OF CLASS,
