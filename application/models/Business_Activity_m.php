@@ -26,7 +26,7 @@ class Business_Activity_m extends CI_Model {
 
   public function get_all_business_activity($query = null)
   {
-    $active = ['activityStatus' => 'active'];
+    $active = ['activityStatus !=' => 'cancelled'];
     if($query != null)
     {
       $query = array_merge($query, $active);

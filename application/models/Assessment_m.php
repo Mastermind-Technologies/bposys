@@ -66,7 +66,7 @@ class Assessment_m extends CI_Model {
       $total += $charge->interest;
     }
 
-    $total = $total - $amound_paid;
+    $total = $total - $amount_paid;
 
     //update amount
     unset($query);
@@ -110,11 +110,8 @@ class Assessment_m extends CI_Model {
 
   public function get_charges($query = null)
   {
-
-    $add_year = ['YEAR(createdAt)' => date('Y')];
     if($query != null)
     {
-      $query = array_merge($query, $add_year);
       $this->db->where($query);
     }
 
@@ -122,6 +119,23 @@ class Assessment_m extends CI_Model {
     $result = $this->db->get();
 
     return $result->result();
+  }
+
+  public function update_charge($charge_id, $fields)
+  {
+    $this->db->where('chargeId', $charge_id);
+    $this->db->update($this->table_charge, $fields);
+  }
+
+  public function get_delinquencies($reference_num)
+  {
+    //select charges.* from charges join assessments on assessments.assessmentId = charges.assessmentId where assessments.referenceNum = 'D283D76BE0' and charges.status = 'not paid' 
+    $this->db->select('charges.*');
+    $this->db->from($this->table_charge);
+    $this->db->join($this->table, 'assessments.assessmentId = charges.assessmentId');
+    $this->db->where(['assessments.referenceNum' => $reference_num, 'charges.status' => 'not paid']);
+
+    return $this->db->get()->result();
   }
 }
 

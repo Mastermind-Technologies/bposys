@@ -657,187 +657,187 @@ class Form extends CI_Controller {
 		}
 }//END OF SUBMIT RENEWAL APPLICATION
 
-private function process_renewal_tax($activities, $previous_gross, $essential, $non_essential, $reference_num)
-{
-	$assessment_field = array(
-		'referenceNum' => $reference_num,
-		'amount' => 0,
-		'paidUpTo' => 'None',
-		'status' => "Renew",
-		);
-	$assessment_id = $this->Assessment_m->insert_assessment($assessment_field);
+// private function process_renewal_tax($activities, $previous_gross, $essential, $non_essential, $reference_num)
+// {
+// 	$assessment_field = array(
+// 		'referenceNum' => $reference_num,
+// 		'amount' => 0,
+// 		'paidUpTo' => 'None',
+// 		'status' => "Renew",
+// 		);
+// 	$assessment_id = $this->Assessment_m->insert_assessment($assessment_field);
 
-	$bplo = new BPLO_Application($reference_num);
-	$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
+// 	$bplo = new BPLO_Application($reference_num);
+// 	$work_force = $bplo->get_MaleEmployees() + $bplo->get_FemaleEmployees() + $bplo->get_PWDEmployees();
 
-	$environmental = 0;
-	$garbage_service = 0;
-	$zoning_fee = 0;
+// 	$environmental = 0;
+// 	$garbage_service = 0;
+// 	$zoning_fee = 0;
 
-	foreach ($activities as $key => $activity) 
-	{
-		$total_gross = $essential[$key] + $non_essential[$key];
-		$query['activityId'] = $this->encryption->decrypt($activity);
-		$lineOfBusiness = $this->Business_Activity_m->get_all_business_activity($query);
-		$lineOfBusiness[0]->capitalization = $total_gross;
-		$imposition_of_tax = $lineOfBusiness[0]->impositionOfTaxCategory;
-		if($imposition_of_tax == "A" && $imposition_of_tax == "B" && $imposition_of_tax == "D")
-		{
-			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $essential[$key], "essential");
-			$charge_field = array(
-				'assessmentId' => $assessment_id,
-				'due' => $fee,
-				'surcharge' => 0,
-				'interest' => 0,
-				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness)." (ESSENTIAL)",
-				'computed' => 0,
-				);
-			$this->Assessment_m->add_charge($charge_field);
+// 	foreach ($activities as $key => $activity) 
+// 	{
+// 		$total_gross = $essential[$key] + $non_essential[$key];
+// 		$query['activityId'] = $this->encryption->decrypt($activity);
+// 		$lineOfBusiness = $this->Business_Activity_m->get_all_business_activity($query);
+// 		$lineOfBusiness[0]->capitalization = $total_gross;
+// 		$imposition_of_tax = $lineOfBusiness[0]->impositionOfTaxCategory;
+// 		if($imposition_of_tax == "A" && $imposition_of_tax == "B" && $imposition_of_tax == "D")
+// 		{
+// 			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $essential[$key], "essential");
+// 			$charge_field = array(
+// 				'assessmentId' => $assessment_id,
+// 				'due' => $fee,
+// 				'surcharge' => 0,
+// 				'interest' => 0,
+// 				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness)." (ESSENTIAL)",
+// 				'computed' => 0,
+// 				);
+// 			$this->Assessment_m->add_charge($charge_field);
 
-			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $non_essential[$key], "non-essential");
-			$charge_field = array(
-				'assessmentId' => $assessment_id,
-				'due' => $fee,
-				'surcharge' => 0,
-				'interest' => 0,
-				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness)." (NON-ESSENTIAL)",
-				'computed' => 0,
-				);
-			$this->Assessment_m->add_charge($charge_field);
-		}
-		else
-		{
-			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $total_gross);
-			$charge_field = array(
-				'assessmentId' => $assessment_id,
-				'due' => $fee,
-				'surcharge' => 0,
-				'interest' => 0,
-				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness),
-				'computed' => 0,
-				);
-			$this->Assessment_m->add_charge($charge_field);
-		}
+// 			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $non_essential[$key], "non-essential");
+// 			$charge_field = array(
+// 				'assessmentId' => $assessment_id,
+// 				'due' => $fee,
+// 				'surcharge' => 0,
+// 				'interest' => 0,
+// 				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness)." (NON-ESSENTIAL)",
+// 				'computed' => 0,
+// 				);
+// 			$this->Assessment_m->add_charge($charge_field);
+// 		}
+// 		else
+// 		{
+// 			$fee = Assessment::compute_renewal_tax($imposition_of_tax, $total_gross);
+// 			$charge_field = array(
+// 				'assessmentId' => $assessment_id,
+// 				'due' => $fee,
+// 				'surcharge' => 0,
+// 				'interest' => 0,
+// 				'particulars' => "TAX ON ".strtoupper($line_of_business[0]->lineOfBusiness),
+// 				'computed' => 0,
+// 				);
+// 			$this->Assessment_m->add_charge($charge_field);
+// 		}
 
-		$fees = Assessment::compute_mayors_permit_fee($line_of_business[0], $work_force);
-		$environmental_total += Assessment::compute_environmental_clearance_fee($line_of_business[0]->capitalization);
-		$garbage_service_fee[] = $fees['garbage_service_fee'];
-		$charge_field = array(
-			'assessmentId' => $assessment_id,
-			'due' => $fees['mayor_fee'],
-			'surcharge' => 0,
-			'interest' => 0,
-			'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($line_of_business[0]->lineOfBusiness).')',
-			'computed' => 0,
-			);
-		$this->Assessment_m->add_charge($charge_field);
-		if($fees['tax'] > 1000)
-		{
-			switch($bplo->get_modeOfPayment())
-			{
-				case "Anually":
-				$tax[0] = $fees['tax'];
-				break;
-				case "Semi-Anually":
-				$tax[0] = $fees['tax']/2;
-				$tax[1] = $fees['tax']/2;
-				break;
-				case "Quarterly":
-				$tax[0] = $fees['tax']/4;
-				$tax[1] = $fees['tax']/4;
-				$tax[2] = $fees['tax']/4;
-				$tax[3] = $fees['tax']/4;
-				break;
-			}
+// 		$fees = Assessment::compute_mayors_permit_fee($line_of_business[0], $work_force);
+// 		$environmental_total += Assessment::compute_environmental_clearance_fee($line_of_business[0]->capitalization);
+// 		$garbage_service_fee[] = $fees['garbage_service_fee'];
+// 		$charge_field = array(
+// 			'assessmentId' => $assessment_id,
+// 			'due' => $fees['mayor_fee'],
+// 			'surcharge' => 0,
+// 			'interest' => 0,
+// 			'particulars' => 'MAYOR\'S PERMIT FEE ('.strtoupper($line_of_business[0]->lineOfBusiness).')',
+// 			'computed' => 0,
+// 			);
+// 		$this->Assessment_m->add_charge($charge_field);
+// 		if($fees['tax'] > 1000)
+// 		{
+// 			switch($bplo->get_modeOfPayment())
+// 			{
+// 				case "Anually":
+// 				$tax[0] = $fees['tax'];
+// 				break;
+// 				case "Semi-Anually":
+// 				$tax[0] = $fees['tax']/2;
+// 				$tax[1] = $fees['tax']/2;
+// 				break;
+// 				case "Quarterly":
+// 				$tax[0] = $fees['tax']/4;
+// 				$tax[1] = $fees['tax']/4;
+// 				$tax[2] = $fees['tax']/4;
+// 				$tax[3] = $fees['tax']/4;
+// 				break;
+// 			}
 
-			foreach ($tax as $key => $t) {
-				$charge_field = array(
-					'assessmentId' => $assessment_id,
-					'period' => "Q" . ($key+1),
-					'due' => $t,
-					'surcharge' => 0,
-					'interest' => 0,
-					'particulars' => 'TAX ON '.strtoupper($line_of_business[0]->lineOfBusiness)
-					);
-				$this->Assessment_m->add_charge($charge_field);
-			}
-		}
-		else
-		{
-			$charge_field = array(
-				'assessmentId' => $assessment_id,
-				'period' => "F1",
-				'due' => $fees['tax'],
-				'surcharge' => 0,
-				'interest' => 0,
-				'particulars' => 'TAX ON '.strtoupper($line_of_business[0]->lineOfBusiness)
-				);
-			$this->Assessment_m->add_charge($charge_field);
-		}
-	}
+// 			foreach ($tax as $key => $t) {
+// 				$charge_field = array(
+// 					'assessmentId' => $assessment_id,
+// 					'period' => "Q" . ($key+1),
+// 					'due' => $t,
+// 					'surcharge' => 0,
+// 					'interest' => 0,
+// 					'particulars' => 'TAX ON '.strtoupper($line_of_business[0]->lineOfBusiness)
+// 					);
+// 				$this->Assessment_m->add_charge($charge_field);
+// 			}
+// 		}
+// 		else
+// 		{
+// 			$charge_field = array(
+// 				'assessmentId' => $assessment_id,
+// 				'period' => "F1",
+// 				'due' => $fees['tax'],
+// 				'surcharge' => 0,
+// 				'interest' => 0,
+// 				'particulars' => 'TAX ON '.strtoupper($line_of_business[0]->lineOfBusiness)
+// 				);
+// 			$this->Assessment_m->add_charge($charge_field);
+// 		}
+// 	}
 
-	$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
-	$fixed_fees = Assessment::get_fixed_fees($work_force);
+// 	$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
+// 	$fixed_fees = Assessment::get_fixed_fees($work_force);
 
-	$charge_field = array(
-		'assessmentId' => $assessment_id,
-		'due' => $environmental_total,
-		'surcharge' => 0,
-		'interest' => 0,
-		'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
-		'computed' => 0,
-		);
-	$this->Assessment_m->add_charge($charge_field);
-	$charge_field = array(
-		'assessmentId' => $assessment_id,
-		'due' => $garbage_service_fee[0],
-		'surcharge' => 0,
-		'interest' => 0,
-		'particulars' => 'GARBAGE SERVICE FEE',
-		'computed' => 0,
-		);
-	$this->Assessment_m->add_charge($charge_field);
+// 	$charge_field = array(
+// 		'assessmentId' => $assessment_id,
+// 		'due' => $environmental_total,
+// 		'surcharge' => 0,
+// 		'interest' => 0,
+// 		'particulars' => 'ENVIRONMENTAL CLEARANCE FEE',
+// 		'computed' => 0,
+// 		);
+// 	$this->Assessment_m->add_charge($charge_field);
+// 	$charge_field = array(
+// 		'assessmentId' => $assessment_id,
+// 		'due' => $garbage_service_fee[0],
+// 		'surcharge' => 0,
+// 		'interest' => 0,
+// 		'particulars' => 'GARBAGE SERVICE FEE',
+// 		'computed' => 0,
+// 		);
+// 	$this->Assessment_m->add_charge($charge_field);
 
-	$health_card_fee = Assessment::compute_health_card_fee($work_force);
-	$charge_field = array(
-		'assessmentId' => $assessment_id,
-		'due' => $health_card_fee,
-		'period' => 'F1',
-		'surcharge' => 0,
-		'interest' => 0,
-		'computed' => 0,
-		'particulars' => 'HEALTH CARD FEE',
-		);
-	$this->Assessment_m->add_charge($charge_field);
+// 	$health_card_fee = Assessment::compute_health_card_fee($work_force);
+// 	$charge_field = array(
+// 		'assessmentId' => $assessment_id,
+// 		'due' => $health_card_fee,
+// 		'period' => 'F1',
+// 		'surcharge' => 0,
+// 		'interest' => 0,
+// 		'computed' => 0,
+// 		'particulars' => 'HEALTH CARD FEE',
+// 		);
+// 	$this->Assessment_m->add_charge($charge_field);
 
-	$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
-	$charge_field = array(
-		'assessmentId' => $assessment_id,
-		'due' => $sanitary_fee,
-		'period' => 'F1',
-		'surcharge' => 0,
-		'interest' => 0,
-		'computed' => 0,
-		'particulars' => 'SANITARY PERMIT FEE',
-		);
-	$this->Assessment_m->add_charge($charge_field);
+// 	$sanitary_fee = Assessment::compute_sanitary_permit_fee($bplo->get_BusinessArea());
+// 	$charge_field = array(
+// 		'assessmentId' => $assessment_id,
+// 		'due' => $sanitary_fee,
+// 		'period' => 'F1',
+// 		'surcharge' => 0,
+// 		'interest' => 0,
+// 		'computed' => 0,
+// 		'particulars' => 'SANITARY PERMIT FEE',
+// 		);
+// 	$this->Assessment_m->add_charge($charge_field);
 
-	$fixed_fees = Assessment::get_fixed_fees();
-	foreach ($fixed_fees['fee'] as $key => $fee) {
-		$charge_field = array(
-			'assessmentId' => $assessment_id,
-			'due' => $fee,
-			'period' => 'F1',
-			'surcharge' => 0,
-			'interest' => 0,
-			'computed' => 0,
-			'particulars' => strtoupper($fixed_fees['particular'][$key]),
-			);
-		$this->Assessment_m->add_charge($charge_field);
-	}
+// 	$fixed_fees = Assessment::get_fixed_fees();
+// 	foreach ($fixed_fees['fee'] as $key => $fee) {
+// 		$charge_field = array(
+// 			'assessmentId' => $assessment_id,
+// 			'due' => $fee,
+// 			'period' => 'F1',
+// 			'surcharge' => 0,
+// 			'interest' => 0,
+// 			'computed' => 0,
+// 			'particulars' => strtoupper($fixed_fees['particular'][$key]),
+// 			);
+// 		$this->Assessment_m->add_charge($charge_field);
+// 	}
 
-	$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_num]);
-}
+// 	$this->Assessment_m->refresh_assessment_amount(['referenceNum' => $reference_num]);
+// }
 
 private function archive_record($reference_num)
 {

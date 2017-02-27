@@ -22,6 +22,7 @@ class Tester extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->model('Fee_m');
 		$this->load->model('Business_Address_m');
+		$this->load->model('Assessment_m');
 	}
 
 	public function test_mayor_fee()
@@ -367,10 +368,129 @@ public function test_golf_links()
 
 }
 
-public function test_get_req()
+public function test_penalty()
 {
-	//select items.name, submitted_requirements.submittedRequirementsId from items join requirements on items.itemId = requirements.itemId join submitted_requirements on requirements.requirementId = submitted_requirements.requirementId where submitted_requirements.referenceNum = '1E5E2270C6';
-	
+	// $date_now = date('M j, Y', strtotime($charges[0]->updatedAt));
+	// $date_test = date('M j, Y', strtotime('April 20,'.date('Y')));
+	// if(strtotime(date('M j, Y')) > strtotime('January 20,'.date('Y')))
+	// {
+	// 	echo "yes";
+	// }
+	// else
+	// {
+	// 	echo "no";
+	// }
+	// $date_test2 = strtotime(date('M j, Y'));
+	// var_dump($date_test2);
+
+	$query['assessmentId'] = 2;
+	$query['isPaid'] = 0;
+	$charges = $this->Assessment_m->get_charges($query);
+
+	foreach ($charges as $key => $charge) {
+		$surcharge = $charge->surcharge;
+		$interest = $charge->interest;
+		$current_date = date('M j, Y', strtotime('May 1, 2017'));
+		$month = date('M', strtotime($current_date));
+
+		switch($month)
+		{
+			case "Apr":
+			if(strtotime($current_date) >=  strtotime('April 20,'.date('Y')))
+			{
+				if(strtotime($charge->updatedAt) < strtotime('April 20,'.date('Y')))
+				{
+					if($surcharge == 0)
+						$surcharge += $charge->due*.25;
+					$interest += $charge->due*.02;
+				}
+			}
+			break;
+			case "May":
+			if(strtotime($current_date) >=  strtotime('May 1,'.date('Y')))
+			{
+				if(strtotime($charge->updatedAt) < strtotime('May 1,'.date('Y')))
+				{
+					$interest += $charge->due*.02;
+				}
+			}
+			break;
+			case "Jun":
+			if(strtotime($current_date) >=  strtotime('June 1,'.date('Y')))
+			{
+				if(strtotime($charge->updatedAt) < strtotime('June 1,'.date('Y')))
+				{
+					$interest += $charge->due*.02;
+				}
+			}
+			break;
+			case "Jul":
+			if(strtotime($current_date) >=  strtotime('July 20,'.date('Y')))
+			{
+				if(strtotime($charge->updatedAt) < strtotime('July 20,'.date('Y')))
+				{
+					if($surcharge == 0)
+						$surcharge += $charge->due*.25;
+					$interest += $charge->due*.02;
+				}
+			}
+			break;
+			case "Aug":
+			if(strtotime($current_date) >=  strtotime('August 1,'.date('Y')))
+			{
+				if(strtotime($charge->updatedAt) < strtotime('August 1,'.date('Y')))
+				{
+					$interest += $charge->due*.02;
+				}
+			}
+			break;
+			case "Sep":
+			if(strtotime($current_date) >=  strtotime('September 1,'.date('Y')))
+			{
+				if(strtotime($charge->updatedAt) < strtotime('September 1,'.date('Y')))
+				{
+					$interest += $charge->due*.02;
+				}
+			}
+			break;
+			case "Oct":
+			if(strtotime($current_date) >=  strtotime('October 20,'.date('Y')))
+			{
+				if(strtotime($charge->updatedAt) < strtotime('October 20,'.date('Y')))
+				{
+					if($surcharge == 0)
+						$surcharge += $charge->due*.25;
+					$interest += $charge->due*.02;
+				}
+			}
+			break;
+			case "Nov":
+			if(strtotime($current_date) >=  strtotime('November 1,'.date('Y')))
+			{
+				if(strtotime($charge->updatedAt) < strtotime('November 1,'.date('Y')))
+				{
+					$interest += $charge->due*.02;
+				}
+			}
+			break;
+			case "Dec":
+			if(strtotime($current_date) >=  strtotime('December 1,'.date('Y')))
+			{
+				if(strtotime($charge->updatedAt) < strtotime('December 1,'.date('Y')))
+				{
+					$interest += $charge->due*.02;
+				}
+			}
+			break;
+		}
+		$charge_field = array(
+			'surcharge' => $surcharge,
+			'interest' => $interest,
+			);
+
+		$this->Assessment_m->update_charge($charge->chargeId, $charge_field);
+	}
 }
 
-}//END OF CLASS,
+}
+//END OF CLASS,

@@ -28,6 +28,25 @@ class Fee_m extends CI_Model {
 		return $result->result();
 	}
 
+	public function get_unapplied_common_enterprises()
+	{
+		//select line_of_businesses.name from line_of_businesses left join fee_common_enterprise on line_of_businesses.lineOfBusinessId = fee_common_enterprise.lineOfBusinessId where line_of_businesses.type = 'Common Enterprise' and fee_common_enterprise.lineOfBusinessId IS NULL 
+		$this->db->select('line_of_businesses.lineOfBusinessId, line_of_businesses.name');
+		$this->db->from($this->line_of_business);
+		$this->db->join($this->common_enterprise, 'line_of_businesses.lineOfBusinessId = fee_common_enterprise.lineOfBusinessId', 'left');
+		$this->db->where(['line_of_businesses.type' => 'Common Enterprise', 'fee_common_enterprise.lineOfBusinessId' => NULL]);
+		return $this->db->get()->result();
+	}
+
+	public function get_common_enterprises_fees()
+	{
+		//select line_of_businesses.name, fee_common_enterprise.cottageFee, fee_common_enterprise.smallScaleFee, fee_common_enterprise.mediumScaleFee, fee_common_enterprise.largeScaleFee from line_of_businesses join fee_common_enterprise on line_of_businesses.lineOfBusinessId = fee_common_enterprise.lineOfBusinessId 
+		$this->db->select('line_of_businesses.name, fee_common_enterprise.cottageFee, fee_common_enterprise.smallScaleFee, fee_common_enterprise.mediumScaleFee, fee_common_enterprise.largeScaleFee');
+		$this->db->from($this->line_of_business);
+		$this->db->join($this->common_enterprise, 'line_of_businesses.lineOfBusinessId = fee_common_enterprise.lineOfBusinessId');
+		return $this->db->get()->result();
+	}
+
 	public function get_bowling_alley_fee($query = null)
 	{
 		if($query != null)
