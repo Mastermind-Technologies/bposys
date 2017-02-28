@@ -127,6 +127,12 @@ class Assessment_m extends CI_Model {
     $this->db->update($this->table_charge, $fields);
   }
 
+  public function update_charges($query, $fields)
+  {
+    $this->db->where($query);
+    $this->db->update($this->table_charge, $fields);
+  }
+
   public function get_delinquencies($reference_num)
   {
     //select charges.* from charges join assessments on assessments.assessmentId = charges.assessmentId where assessments.referenceNum = 'D283D76BE0' and charges.status = 'not paid' 

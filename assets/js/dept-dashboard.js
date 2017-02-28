@@ -196,6 +196,7 @@ $(document).ready(function(){
 			success: function(data)
 			{
 				$('#amount-paid').html("<strong> PHP "+data+"</strong>");
+				$('#hap').val(data);
 			}
 		})
 	});

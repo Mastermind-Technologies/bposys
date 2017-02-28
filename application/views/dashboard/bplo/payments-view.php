@@ -20,7 +20,7 @@
             <h5>Payment Form</h5>
           </div>
           <div class="widget-content nopadding">
-            <form action="<?php echo base_url(); ?>form/submit_payment/<?= str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($application->get_assessment()->assessmentId)) ?>" method="post" class="form-horizontal" data-parsley-validate="">
+            <form action="<?php echo base_url(); ?>form/accept_payment/<?= str_replace(['/','+','='], ['-','_','='], $this->encryption->encrypt($application->get_assessment()->assessmentId)) ?>" method="post" class="form-horizontal" data-parsley-validate="">
               <div class="control-group">
                 <label class="control-label">Reference Number:</label>
                 <label class='control-label text-warning' style='text-align: left; padding-left:20px'><strong><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></label>

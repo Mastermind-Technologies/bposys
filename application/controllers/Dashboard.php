@@ -1355,6 +1355,26 @@ class Dashboard extends CI_Controller {
 	// 	$this->load->view('dashboard/pending',$data);
 	// }
 
+	public function payments()
+	{
+		$this->isLogin();
+		$navdata['title'] = "Payments";
+		$navdata['active'] = 'Applications';
+		$navdata['notifications'] = User::get_notifications();
+		$this->_init_matrix($navdata);
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+
+		$application = $this->Application_m->get_all_bplo_applications_with_unsettled_charges();
+		$data['payment'] = [];
+		foreach ($application as $key => $app) {
+			$data['payment'][$key] = new BPLO_Application($app->referenceNum);
+			$data['payment'][$key]->set_referenceNum(str_replace(['/','+','='], ['-','_','='], $data['payment'][$key]->get_referenceNum()));
+		}
+
+		$this->load->view('dashboard/bplo/payment-table', $data);
+	}
+
 	public function on_process_applications()
 	{
 		$this->isLogin();
@@ -2587,6 +2607,8 @@ public function update_notif($type = null)
 			$set['status'] = "Read";
 			$this->Notification_m->update($query,$set);
 		}
+
+
 
 
 		$latest = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);

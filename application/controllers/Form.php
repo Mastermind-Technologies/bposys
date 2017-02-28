@@ -70,8 +70,8 @@ class Form extends CI_Controller {
 				$query['status'] = 'Completed';
 				$data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
 
-				$query['status'] = 'For finalization';
-				$data['finalization'] = count($this->Application_m->get_all_bplo_applications($query));
+				// $query['status'] = 'For finalization';
+				// $data['finalization'] = count($this->Application_m->get_all_bplo_applications($query));
 
 				$query['status'] = "For approval";
 				$data['retirements'] = count($this->Retirement_m->get_all($query));
@@ -1011,7 +1011,7 @@ if($bplo->get_lessors() != null)
 }
 }
 
-public function finalize($reference_num)
+public function payment($reference_num)
 {
 	$this->isLogin();
 	echo script_tag('assets/js/jquery.min.js');
@@ -1040,12 +1040,124 @@ public function finalize($reference_num)
 	$this->load->view('dashboard/bplo/finalization', $data);
 }
 
-// function numeric_wcomma ($str)
-// {
-// 	return preg_match('/^[0-9,]+$/', $str);
-// }
+public function pay_unsettled_charges($reference_num)
+{
+	$this->isLogin();
+	echo script_tag('assets/js/jquery.min.js');
+	echo script_tag('assets/js/parsley.min.js');
+	$navdata['title'] = 'BPLO - Finalize';
+	$navdata['active'] = 'Applications';
+//get notifications
+	$navdata['notifications'] = User::get_notifications();
+	$navdata['completed'] = User::get_complete_notifications();
+	$this->_init_matrix($navdata);
+	$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-public function submit_finalization($assessment_id)
+	$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $reference_num));
+
+	$data['application'] = new BPLO_Application($reference_num);
+	$payments = $this->Payment_m->get_recent_payments($data['application']->get_assessment()->assessmentId);
+	$data['total_paid'] = 0;
+	if(count($payments) > 0)
+	{
+		$total_recent_payment = 0;
+		foreach ($payments as $key => $payment) {
+			$data['total_paid'] += $payment->amountPaid;
+		}
+	}
+
+	$this->load->view('dashboard/bplo/payments-view', $data);
+}
+
+public function accept_payment($assessment_id)
+{
+	$this->isLogin();
+	$assessment_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $assessment_id));
+
+	$this->form_validation->set_rules('hidden-paid-up-to', 'Paid Up To','required');
+	$this->form_validation->set_rules('or-number', 'OR Number','required');
+
+	if($this->form_validation->run() == false)
+	{
+		$reference_num = str_replace(['/','+','='], ['-','_','='], $this->input->post('ref'));
+		$this->session->set_flashdata('message', validation_errors());
+		echo validation_errors();
+	}
+	else
+	{
+		$amount_paid = str_replace(',', '', $this->input->post('amount-paid'));
+		$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->post('ref')));
+
+		$query['referenceNum'] = $reference_num;
+		$paid_up_to = $this->input->post('hidden-paid-up-to');
+		$this->Assessment_m->update_assessment($query, $amount_paid, $paid_up_to);
+
+		$payment_field = array(
+			'referenceNum' => $reference_num,
+			'assessmentId' => $assessment_id,
+			'orNumber' =>  $this->input->post('or-number'),
+			'amountPaid' => $amount_paid,
+			'quarterPaid' => $paid_up_to,
+			);
+		$this->Payment_m->insert_payment($payment_field);
+
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+		$role_Id = $this->Role_m->get_roleId($role);
+		// BPLO_Application::update_status($reference_num, 'Active');
+
+		$query = array(
+			'referenceNum' => $reference_num,
+			'role' => $role_Id->roleId,
+			'type' => "Issue",
+			'staff' => $this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['lastName'],
+			);
+		$this->Approval_m->insert($query);
+
+		$bplo = new BPLO_Application($reference_num);
+
+		unset($query);
+		switch($paid_up_to)
+		{
+			case "First Quarter":
+			$query = "assessmentId = '".$assessment_id."' AND (period = 'Q1' OR period = 'F1')";
+			$set['status'] = 'paid';
+			$this->Assessment_m->update_charges($query, $set);
+			break;
+
+			case "Second Quarter": 
+			$query = "assessmentId = '".$assessment_id."' AND (period = 'Q1' OR period = 'F1' OR period = 'Q2')";
+			$set['status'] = 'paid';
+			$this->Assessment_m->update_charges($query, $set);
+			break;
+
+			case "Third Quarter": 
+			$query = "assessmentId = '".$assessment_id."' AND (period = 'Q1' OR period = 'F1' OR period = 'Q2' OR period = 'Q3')";
+			$set['status'] = 'paid';
+			$this->Assessment_m->update_charges($query, $set);
+			break;
+
+			case "Fourth Quarter": 
+			$query = "assessmentId = '".$assessment_id."' AND (period = 'Q1' OR period = 'F1' OR period = 'Q2' OR period = 'Q3' OR period = 'Q4')";
+			$set['status'] = 'paid';
+			$this->Assessment_m->update_charges($query, $set);
+			break;
+		}
+
+		// $fields = array(
+		// 	'referenceNum' => $reference_num,
+		// 	'dept' => $role,
+		// 	'type' => $bplo->get_ApplicationType()=="New" ? 'New' : 'Renew',
+		// 	);
+		// $this->Issued_Application_m->insert($fields);
+
+		$this->session->set_flashdata('message', 'Payment Received');
+
+		redirect('dashboard');
+	}
+}
+
+public function submit_payment($assessment_id)
 {
 	$this->isLogin();
 	$assessment_id = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $assessment_id));
@@ -1060,22 +1172,29 @@ public function submit_finalization($assessment_id)
 		$this->session->set_flashdata('message', validation_errors());
 		echo validation_errors();
 
-// redirect("form/finalize/".$reference_num);
+	// redirect("form/finalize/".$reference_num);
 	}
 	else
 	{
 		$amount_paid = str_replace(',', '', $this->input->post('amount-paid'));
 		$reference_num = $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='], $this->input->post('ref')));
 
+		// $bplo = new BPLO_Application($reference_num);
+		// echo "<pre>";
+		// print_r($bplo);
+		// echo "</pre>";
+		// exit();
+
 		$query['referenceNum'] = $reference_num;
-		$this->Assessment_m->update_assessment($query, $amount_paid, $this->input->post('hidden-paid-up-to'));
+		$paid_up_to = $this->input->post('hidden-paid-up-to');
+		$this->Assessment_m->update_assessment($query, $amount_paid, $paid_up_to);
 
 		$payment_field = array(
 			'referenceNum' => $reference_num,
 			'assessmentId' => $assessment_id,
 			'orNumber' =>  $this->input->post('or-number'),
 			'amountPaid' => $amount_paid,
-			'quarterPaid' => $this->input->post('hidden-paid-up-to'),
+			'quarterPaid' => $paid_up_to,
 			);
 		$this->Payment_m->insert_payment($payment_field);
 
@@ -1093,6 +1212,35 @@ public function submit_finalization($assessment_id)
 		$this->Approval_m->insert($query);
 
 		$bplo = new BPLO_Application($reference_num);
+
+		unset($query);
+		switch($paid_up_to)
+		{
+			case "First Quarter":
+			$query = "assessmentId = '".$assessment_id."' AND (period = 'Q1' OR period = 'F1')";
+			$set['status'] = 'paid';
+			$this->Assessment_m->update_charges($query, $set);
+			break;
+
+			case "Second Quarter": 
+			$query = "assessmentId = '".$assessment_id."' AND (period = 'Q1' OR period = 'F1' OR period = 'Q2')";
+			$set['status'] = 'paid';
+			$this->Assessment_m->update_charges($query, $set);
+			break;
+
+			case "Third Quarter": 
+			$query = "assessmentId = '".$assessment_id."' AND (period = 'Q1' OR period = 'F1' OR period = 'Q2' OR period = 'Q3')";
+			$set['status'] = 'paid';
+			$this->Assessment_m->update_charges($query, $set);
+			break;
+
+			case "Fourth Quarter": 
+			$query = "assessmentId = '".$assessment_id."' AND (period = 'Q1' OR period = 'F1' OR period = 'Q2' OR period = 'Q3' OR period = 'Q4')";
+			$set['status'] = 'paid';
+			$this->Assessment_m->update_charges($query, $set);
+			break;
+		}
+
 		$fields = array(
 			'referenceNum' => $reference_num,
 			'dept' => $role,

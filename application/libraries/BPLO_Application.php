@@ -56,7 +56,9 @@ class BPLO_Application extends Business {
         }
 
         if(isset($reference_num))
+        {
             return $this->get_application($reference_num);
+        }
     }
 
     public function get_application($reference_num = null)

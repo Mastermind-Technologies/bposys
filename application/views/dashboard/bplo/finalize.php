@@ -40,21 +40,11 @@
       </div>
     </div>
   </div>
-<!--     <div class="block center-block">
-    	<label for="">Test Noty</label>
-    	<button class="btn btn-primary" id="btn-test-noty">Noty</button>
-    </div> -->
-  </div>
-  <?php if ($this->session->flashdata('message')): ?>
-    <script>
-      alert('<?= $this->session->flashdata('message') ?>');
-    </script>
-  <?php endif ?>
 
-  <!--Footer-part-->
+</div>
+<?php if ($this->session->flashdata('message')): ?>
+  <script>
+    alert('<?= $this->session->flashdata('message') ?>');
+  </script>
+<?php endif ?>
 
-<!-- <div class="row-fluid">
-  <div id="footer" class="span12"> 2013 &copy; Matrix Admin. Brought to you by <a href="http://themedesigner.in">Themedesigner.in</a> </div>
-</div> -->
-
-<!--end-Footer-part-->

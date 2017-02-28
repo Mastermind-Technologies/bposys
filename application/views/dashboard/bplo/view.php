@@ -512,7 +512,7 @@
               <div class="form-actions">
                 <div class="row text-center">
                   <?php if ($application->get_status() == "Completed"): ?>
-                    <a href="<?php echo base_url(); ?>form/finalize/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Proceed to Finalization</a>
+                    <a href="<?php echo base_url(); ?>form/payment/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Proceed to Payment</a>
                     <!-- <a href="<?php echo base_url(); ?>dashboard/issue_permit/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Issue Business Permit</a> -->
                   <?php elseif ($application->get_status() == "Active"): ?>
                     <a href="<?php echo base_url(); ?>dashboard/get_bplo_certificate_info" class="btn btn-success btn-large">Print BPLO Certificate</a>
