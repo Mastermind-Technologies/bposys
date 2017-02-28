@@ -2346,7 +2346,7 @@ class Dashboard extends CI_Controller {
 	{
 		$data['application'] = $this->Application_m->get_all_bplo_applications();
 		$data['application'] = new BPLO_Application('1E5E2270C6');
-		$data['application2'] = new BFPF_Application('1E5E2270C6');
+		$data['application2'] = new BFP_Application('1E5E2270C6');
 
 		$this->load->view('dashboard/bfp/bfp_printable',$data);
 	}
