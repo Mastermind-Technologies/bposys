@@ -3,14 +3,14 @@
   <div id="content-header">
     <div id="breadcrumb">
       <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
-      <a href="<?php echo base_url(); ?>dashboard/alerts" class="current">Send Alerts</a>
+      <a href="<?php echo base_url(); ?>alerts" class="current">Send Alerts</a>
     </div>
     <h1>Create Alerts</h1>
     <hr style="margin:10">
   </div>
   <!--End-breadcrumbs-->
 
-  <div class="container-fluid container-alert" style="height: 100vh">
+  <div class="container-fluid container-alert" style="min-height: 100vh">
 
     <div class="widget-box">
 			<div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>

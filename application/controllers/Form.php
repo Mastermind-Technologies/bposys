@@ -26,113 +26,126 @@ class Form extends CI_Controller {
 
 	public function _init($data = null)
 	{
-		$this->load->view('templates/sb_admin2/sb_admin2_includes');
-		if($data != null)
-			$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
+		if($this->encryption->decrypt($this->session->userdata['userdata']['role']) != "Applicant")
+		{
+				redirect('error/error403');
+		}
 		else
-			$this->load->view('templates/sb_admin2/sb_admin2_navbar');
+		{
+			$this->load->view('templates/sb_admin2/sb_admin2_includes');
+			if($data != null)
+				$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
+			else
+				$this->load->view('templates/sb_admin2/sb_admin2_navbar');
+		}
 	}
 
 	public function _init_matrix($data = null)
 	{
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
-
-		if($role == "BPLO")
+		if($role == "Applicant")
 		{
-			$query['status'] = 'For validation...';
-			$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
-
-			$query['status'] = 'For applicant visit';
-			$data['pending'] = count($this->Application_m->get_all_bplo_applications($query));
-
-			$query['status'] = 'On process';
-			$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
-
-			$query['status'] = 'Completed';
-			$data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
-
-			$query['status'] = 'Active';
-			$data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
-
-			$data['total'] = $data['incoming']+$data['pending']+$data['process']+$data['complete']+$data['issued'];
+			redirect('error/error403');
 		}
-		else if($role == 'Zoning')
-		{
-			$query['status'] = 'For applicant visit';
-			$data['incoming'] = count($this->Application_m->get_all_zoning_applications($query));
+		else
+			{
+			if($role == "BPLO")
+			{
+				$query['status'] = 'For validation...';
+				$data['incoming'] = count($this->Application_m->get_all_bplo_applications($query));
 
-			$query['status'] = 'On process';
-			$data['process'] = count($this->Application_m->get_all_zoning_applications($query));
+				$query['status'] = 'For applicant visit';
+				$data['pending'] = count($this->Application_m->get_all_bplo_applications($query));
 
-			$query['status'] = 'Active';
-			$data['issued'] = count($this->Application_m->get_all_zoning_applications($query));
+				$query['status'] = 'On process';
+				$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
 
-			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+				$query['status'] = 'Completed';
+				$data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
+
+				$query['status'] = 'Active';
+				$data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
+
+				$data['total'] = $data['incoming']+$data['pending']+$data['process']+$data['complete']+$data['issued'];
+			}
+			else if($role == 'Zoning')
+			{
+				$query['status'] = 'For applicant visit';
+				$data['incoming'] = count($this->Application_m->get_all_zoning_applications($query));
+
+				$query['status'] = 'On process';
+				$data['process'] = count($this->Application_m->get_all_zoning_applications($query));
+
+				$query['status'] = 'Active';
+				$data['issued'] = count($this->Application_m->get_all_zoning_applications($query));
+
+				$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+			}
+			else if($role == 'BFP')
+			{
+				$query['status'] = 'For applicant visit';
+				$data['incoming'] = count($this->Application_m->get_all_bfp_applications($query));
+
+				$query['status'] = 'On process';
+				$data['process'] = count($this->Application_m->get_all_bfp_applications($query));
+
+				$query['status'] = 'Active';
+				$data['issued'] = count($this->Application_m->get_all_bfp_applications($query));
+
+				$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+			}
+			else if($role == 'CENRO')
+			{
+				$query['status'] = 'For applicant visit';
+				$data['incoming'] = count($this->Application_m->get_all_cenro_applications($query));
+
+				$query['status'] = 'On process';
+				$data['process'] = count($this->Application_m->get_all_cenro_applications($query));
+
+				$query['status'] = 'Active';
+				$data['issued'] = count($this->Application_m->get_all_cenro_applications($query));
+
+				$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+			}
+			else if($role == "CHO")
+			{
+				$query['status'] = 'For applicant visit';
+				$data['incoming'] = count($this->Application_m->get_all_sanitary_applications($query));
+
+				$query['status'] = 'On process';
+				$data['process'] = count($this->Application_m->get_all_sanitary_applications($query));
+
+				$query['status'] = 'Active';
+				$data['issued'] = count($this->Application_m->get_all_sanitary_applications($query));
+
+				$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+			}
+
+			else if($role == "Engineering")
+			{
+				$query['status'] = 'For applicant visit';
+				$data['incoming'] = count($this->Application_m->get_all_engineering_applications($query));
+
+				$query['status'] = 'On process';
+				$data['process'] = count($this->Application_m->get_all_engineering_applications($query));
+
+				$query['status'] = 'Active';
+				$data['issued'] = count($this->Application_m->get_all_engineering_applications($query));
+
+				$data['total'] = $data['incoming']+$data['process']+$data['issued'];
+			}
+
+			$this->load->view('templates/matrix/matrix_includes');
+			$this->load->view('templates/matrix/matrix_navbar', $data);
 		}
-		else if($role == 'BFP')
-		{
-			$query['status'] = 'For applicant visit';
-			$data['incoming'] = count($this->Application_m->get_all_bfp_applications($query));
-
-			$query['status'] = 'On process';
-			$data['process'] = count($this->Application_m->get_all_bfp_applications($query));
-
-			$query['status'] = 'Active';
-			$data['issued'] = count($this->Application_m->get_all_bfp_applications($query));
-
-			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
-		}
-		else if($role == 'CENRO')
-		{
-			$query['status'] = 'For applicant visit';
-			$data['incoming'] = count($this->Application_m->get_all_cenro_applications($query));
-
-			$query['status'] = 'On process';
-			$data['process'] = count($this->Application_m->get_all_cenro_applications($query));
-
-			$query['status'] = 'Active';
-			$data['issued'] = count($this->Application_m->get_all_cenro_applications($query));
-
-			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
-		}
-		else if($role == "CHO")
-		{
-			$query['status'] = 'For applicant visit';
-			$data['incoming'] = count($this->Application_m->get_all_sanitary_applications($query));
-
-			$query['status'] = 'On process';
-			$data['process'] = count($this->Application_m->get_all_sanitary_applications($query));
-
-			$query['status'] = 'Active';
-			$data['issued'] = count($this->Application_m->get_all_sanitary_applications($query));
-
-			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
-		}
-
-		else if($role == "Engineering")
-		{
-			$query['status'] = 'For applicant visit';
-			$data['incoming'] = count($this->Application_m->get_all_engineering_applications($query));
-
-			$query['status'] = 'On process';
-			$data['process'] = count($this->Application_m->get_all_engineering_applications($query));
-
-			$query['status'] = 'Active';
-			$data['issued'] = count($this->Application_m->get_all_engineering_applications($query));
-
-			$data['total'] = $data['incoming']+$data['process']+$data['issued'];
-		}
-
-		$this->load->view('templates/matrix/matrix_includes');
-		$this->load->view('templates/matrix/matrix_navbar', $data);
 	}
 
 	public function isLogin()
 	{
 		if(!isset($this->session->userdata['userdata']))
 		{
-// $this->session->set_flashdata('failed', 'You are not logged in!');
-			redirect('home');
+			// $this->session->set_flashdata('failed', 'You are not logged in!');
+			redirect('error/error403b');
 		}
 	}
 
@@ -183,10 +196,21 @@ class Form extends CI_Controller {
 
 		$query['dept'] = 'Engineering';
 		$data['engineering'] = $this->Issued_Application_m->get_current_issued($query);
-		// echo "<pre>";
-		// print_r($data);
-		// echo "</pre>";
-		// exit();
+
+		$submitted_requirements = $this->Requirement_m->get_submitted_requirements($referenceNum);
+
+		for($i = 0 ; $i < count($submitted_requirements); $i = $i +1)
+		{
+				$checklist['requirement'.$submitted_requirements[$i]->requirementId] = true;
+		}
+
+		$data['checklist'] = $checklist;
+
+
+		// echo '<pre>';
+		// print_r(array($data));
+		// echo '</pre>';
+		//exit();
 
 		$this->load->view('dashboard/applicant/view_application', $data);
 	}
@@ -350,7 +374,7 @@ class Form extends CI_Controller {
 // exit();
 
 
-			redirect("form/renew/".$param);	
+			redirect("form/renew/".$param);
 		}
 		else
 		{
@@ -793,100 +817,100 @@ private function archive_record($reference_num)
 
 
 	$archive_application_field = array(
-		'referenceNum' => $reference_num, 
-		'userId' => $this->encryption->decrypt($bplo->get_UserId()), 
-		'taxYear' => $bplo->get_taxyear(), 
-		'applicationDate' => $bplo->get_ApplicationDate(), 
-		'modeOfPayment' => $bplo->get_ModeOfPayment(), 
-		'idPresented' => $bplo->get_IdPresented(), 
-		'DTISECCDA_RegNum' => $bplo->get_DTISECCDARegNum(), 
-		'DTISECCDA_Date' => $bplo->get_DTISECCDADate(), 
-		'brgyClearanceDateIssued' => $bplo->get_BrgyClearanceDateIssued(), 
-		'CTCNum' => $bplo->get_CTCNum(), 
-		'TIN' => $bplo->get_TIN(), 
-		'entityName' => $bplo->get_EntityName(), 
-		'dateStarted' => $bplo->get_DateStarted(), 
-		'presidentTreasurerName' => $bplo->get_PresidentTreasurerName(), 
-		'businessName' => $bplo->get_BusinessName(), 
-		'companyName' => $bplo->get_CompanyName(), 
-		'tradeName' => $bplo->get_TradeName(), 
-		'signageName' => $bplo->get_SignageName(), 
-		'organizationType' => $bplo->get_OrganizationType(), 
-		'corporationName' => $bplo->get_CorporationName(), 
-		'dateOfOperation' => $bplo->get_DateOfOperation(), 
-		'businessDesc' => $bplo->get_BusinessDesc(), 
-		'PIN' => $bplo->get_PIN(), 
-		'bldgName' => $bplo->get_BldgName(), 
-		'houseBldgNum' => $bplo->get_HouseBldgNum(), 
-		'unitNum' => $bplo->get_UnitNum(), 
-		'street' => $bplo->get_Street(), 
-		'subdivision' => $bplo->get_Subdivision(), 
-		'barangay' => $bplo->get_Barangay(), 
-		'cityMunicipality' => $bplo->get_CityMunicipality(), 
-		'province' => $bplo->get_province(), 
-		'telNum' => $bplo->get_TelNum(), 
-		'email' => $bplo->get_Email(), 
-		'pollutionControlOfficer' => $bplo->get_PollutionControlOfficer(), 
-		'maleEmployees' => $bplo->get_MaleEmployees(), 
-		'femaleEmployees' => $bplo->get_FemaleEmployees(), 
-		'PWDEmployees' => $bplo->get_PWDEmployees(), 
-		'LGUEMployees' => $bplo->get_LGUEmployees(), 
-		'businessArea' => $bplo->get_BusinessArea(), 
-		'emergencyContactPerson' => $bplo->get_EmergencyContactPerson(), 
-		'emergencyTelNum' => $bplo->get_EmergencyTelNum(), 
-		'emergencyEmail' => $bplo->get_EmergencyEmail(), 
-		'zoneType' => $bplo->get_ZoneType(), 
-		'lat' => $bplo->get_lat(), 
-		'lng' => $bplo->get_lng(), 
-		'gmapAddress' => $bplo->get_GmapAddress(), 
-		'ownerFirstName' => $bplo->get_FirstName(), 
-		'ownerMiddleName' => $bplo->get_MiddleName(), 
-		'ownerLastName' => $bplo->get_LastName(), 
-		'ownerHouseBldgNum' => $bplo->get_OwnerHouseBldgNo(), 
-		'ownerBldgName' => $bplo->get_OwnerBldgName(), 
-		'ownerUnitNum' => $bplo->get_OwnerUnitNum(), 
-		'ownerStreet' => $bplo->get_OwnerStreet(), 
-		'ownerBarangay' => $bplo->get_OwnerBarangay(), 
-		'ownerSubdivision' => $bplo->get_OwnerSubdivision(), 
-		'ownerCityMunicipality' => $bplo->get_OwnerCityMunicipality(), 
-		'ownerProvince' => $bplo->get_OwnerProvince(), 
-		'ownerContactNum' => $bplo->get_OwnerContactNum(), 
-		'ownerTelNum' => $bplo->get_OwnerTelnum(), 
-		'ownerEmail' => $bplo->get_OwnerEmail(), 
-		'ownerPIN' => $bplo->get_OwnerPIN(), 
-		'CNC' => $cenro->get_CNC(), 
-		'LLDAClearance' => $cenro->get_LLDAClearance(), 
-		'dischargePermit' => $cenro->get_DischargePermit(), 
-		'apsci' => $cenro->get_APSCI(), 
-		'productsAndByProducts' => $cenro->get_productsAndByProducts(), 
-		'smokeEmission' => $cenro->get_SmokeEmission(), 
-		'volatileCompound' => $cenro->get_VolatileCompound(), 
+		'referenceNum' => $reference_num,
+		'userId' => $this->encryption->decrypt($bplo->get_UserId()),
+		'taxYear' => $bplo->get_taxyear(),
+		'applicationDate' => $bplo->get_ApplicationDate(),
+		'modeOfPayment' => $bplo->get_ModeOfPayment(),
+		'idPresented' => $bplo->get_IdPresented(),
+		'DTISECCDA_RegNum' => $bplo->get_DTISECCDARegNum(),
+		'DTISECCDA_Date' => $bplo->get_DTISECCDADate(),
+		'brgyClearanceDateIssued' => $bplo->get_BrgyClearanceDateIssued(),
+		'CTCNum' => $bplo->get_CTCNum(),
+		'TIN' => $bplo->get_TIN(),
+		'entityName' => $bplo->get_EntityName(),
+		'dateStarted' => $bplo->get_DateStarted(),
+		'presidentTreasurerName' => $bplo->get_PresidentTreasurerName(),
+		'businessName' => $bplo->get_BusinessName(),
+		'companyName' => $bplo->get_CompanyName(),
+		'tradeName' => $bplo->get_TradeName(),
+		'signageName' => $bplo->get_SignageName(),
+		'organizationType' => $bplo->get_OrganizationType(),
+		'corporationName' => $bplo->get_CorporationName(),
+		'dateOfOperation' => $bplo->get_DateOfOperation(),
+		'businessDesc' => $bplo->get_BusinessDesc(),
+		'PIN' => $bplo->get_PIN(),
+		'bldgName' => $bplo->get_BldgName(),
+		'houseBldgNum' => $bplo->get_HouseBldgNum(),
+		'unitNum' => $bplo->get_UnitNum(),
+		'street' => $bplo->get_Street(),
+		'subdivision' => $bplo->get_Subdivision(),
+		'barangay' => $bplo->get_Barangay(),
+		'cityMunicipality' => $bplo->get_CityMunicipality(),
+		'province' => $bplo->get_province(),
+		'telNum' => $bplo->get_TelNum(),
+		'email' => $bplo->get_Email(),
+		'pollutionControlOfficer' => $bplo->get_PollutionControlOfficer(),
+		'maleEmployees' => $bplo->get_MaleEmployees(),
+		'femaleEmployees' => $bplo->get_FemaleEmployees(),
+		'PWDEmployees' => $bplo->get_PWDEmployees(),
+		'LGUEMployees' => $bplo->get_LGUEmployees(),
+		'businessArea' => $bplo->get_BusinessArea(),
+		'emergencyContactPerson' => $bplo->get_EmergencyContactPerson(),
+		'emergencyTelNum' => $bplo->get_EmergencyTelNum(),
+		'emergencyEmail' => $bplo->get_EmergencyEmail(),
+		'zoneType' => $bplo->get_ZoneType(),
+		'lat' => $bplo->get_lat(),
+		'lng' => $bplo->get_lng(),
+		'gmapAddress' => $bplo->get_GmapAddress(),
+		'ownerFirstName' => $bplo->get_FirstName(),
+		'ownerMiddleName' => $bplo->get_MiddleName(),
+		'ownerLastName' => $bplo->get_LastName(),
+		'ownerHouseBldgNum' => $bplo->get_OwnerHouseBldgNo(),
+		'ownerBldgName' => $bplo->get_OwnerBldgName(),
+		'ownerUnitNum' => $bplo->get_OwnerUnitNum(),
+		'ownerStreet' => $bplo->get_OwnerStreet(),
+		'ownerBarangay' => $bplo->get_OwnerBarangay(),
+		'ownerSubdivision' => $bplo->get_OwnerSubdivision(),
+		'ownerCityMunicipality' => $bplo->get_OwnerCityMunicipality(),
+		'ownerProvince' => $bplo->get_OwnerProvince(),
+		'ownerContactNum' => $bplo->get_OwnerContactNum(),
+		'ownerTelNum' => $bplo->get_OwnerTelnum(),
+		'ownerEmail' => $bplo->get_OwnerEmail(),
+		'ownerPIN' => $bplo->get_OwnerPIN(),
+		'CNC' => $cenro->get_CNC(),
+		'LLDAClearance' => $cenro->get_LLDAClearance(),
+		'dischargePermit' => $cenro->get_DischargePermit(),
+		'apsci' => $cenro->get_APSCI(),
+		'productsAndByProducts' => $cenro->get_productsAndByProducts(),
+		'smokeEmission' => $cenro->get_SmokeEmission(),
+		'volatileCompound' => $cenro->get_VolatileCompound(),
 		'fugitiveParticulates' => $fugitive_particulates,
 		'steamGenerator' => $steam_generator,
-		'APCD' => $cenro->get_APCD(), 
-		'stackHeight' => $cenro->get_StackHeight(), 
-		'wastewaterTreatmentFacility' => $cenro->get_WasteWaterTreatmentFacility(), 
-		'wastewaterTreatmentOperationAndProcess' => $cenro->get_WasteWaterTreatmentOperationAndProcess(), 
-		'pendingCaseWithLLDA' => $cenro->get_pendingCaseWithLLDA(), 
-		'typeOfSolidWastesGenerated' => $cenro->get_TypeOfSolidWastesGenerated(), 
-		'qtyPerDay' => $cenro->get_QtyPerDay(), 
-		'garbageCollectionMethod' => $cenro->get_GarbageCollectionMethod(), 
-		'frequencyOfGarbageCollection' => $cenro->get_FrequencyOfGarbageCollection(), 
-		'wasteCollector' => $cenro->get_WasteCollector(), 
-		'collectorAddress' => $cenro->get_CollectorAddress(), 
-		'garbageDisposalMethod' => $cenro->get_GarbageDisposalMethod(), 
+		'APCD' => $cenro->get_APCD(),
+		'stackHeight' => $cenro->get_StackHeight(),
+		'wastewaterTreatmentFacility' => $cenro->get_WasteWaterTreatmentFacility(),
+		'wastewaterTreatmentOperationAndProcess' => $cenro->get_WasteWaterTreatmentOperationAndProcess(),
+		'pendingCaseWithLLDA' => $cenro->get_pendingCaseWithLLDA(),
+		'typeOfSolidWastesGenerated' => $cenro->get_TypeOfSolidWastesGenerated(),
+		'qtyPerDay' => $cenro->get_QtyPerDay(),
+		'garbageCollectionMethod' => $cenro->get_GarbageCollectionMethod(),
+		'frequencyOfGarbageCollection' => $cenro->get_FrequencyOfGarbageCollection(),
+		'wasteCollector' => $cenro->get_WasteCollector(),
+		'collectorAddress' => $cenro->get_CollectorAddress(),
+		'garbageDisposalMethod' => $cenro->get_GarbageDisposalMethod(),
 		'wasteMinimizationMethod' => $waste_minimization_method,
-		'drainageSystem' => $cenro->get_DrainageSystem(), 
-		'drainageType' => $cenro->get_DrainageType(), 
-		'drainageDischargeLocation' => $cenro->get_DrainageDischargeLocation(), 
-		'sewerageSystem' => $cenro->get_SewerageSystem(), 
-		'septicTank' => $cenro->get_SepticTank(), 
-		'sewerageDischargeLocation' => $cenro->get_SewerageDischargeLocation(), 
-		'waterSupply' => $cenro->get_WaterSupply(), 
-		'storeys' => $bfp->get_Storeys(), 
-		'occupiedPortion' => $bfp->get_OccupiedPortion(), 
-		'areaPerFloor' => $bfp->get_AreaPerFloor(), 
-		'occupancyPermitNum' => $bfp->get_OccupancyPermitNum(), 
+		'drainageSystem' => $cenro->get_DrainageSystem(),
+		'drainageType' => $cenro->get_DrainageType(),
+		'drainageDischargeLocation' => $cenro->get_DrainageDischargeLocation(),
+		'sewerageSystem' => $cenro->get_SewerageSystem(),
+		'septicTank' => $cenro->get_SepticTank(),
+		'sewerageDischargeLocation' => $cenro->get_SewerageDischargeLocation(),
+		'waterSupply' => $cenro->get_WaterSupply(),
+		'storeys' => $bfp->get_Storeys(),
+		'occupiedPortion' => $bfp->get_OccupiedPortion(),
+		'areaPerFloor' => $bfp->get_AreaPerFloor(),
+		'occupancyPermitNum' => $bfp->get_OccupancyPermitNum(),
 		'annualEmployeePhysicalExam' => $sanitary->get_AnnualEmployeePhysicalExam(),
 		'typeLevelOfWaterSource' => $sanitary->get_typeLevelOfWaterSource()
 		);
@@ -897,7 +921,7 @@ foreach ($bplo->get_BusinessActivities() as $key => $activity) {
 		'archiveApplicationId' => $archive_application_id,
 		'lineOfBusiness' => $activity->lineOfBusiness,
 		'capitalization' => $activity->capitalization,
-		);	
+		);
 	$this->Archive_m->insert_business_activity($business_activity_field);
 }
 

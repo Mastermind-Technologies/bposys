@@ -16,11 +16,11 @@
 
 				<!-- class "colored-tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom" -->
 				<div class="panel-body" style="background-color: #f9f9f9">
-
-					<h2>Reference Number: <strong class="text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></h2>
+					<h3>Business: <?= $application->get_businessName() ?> </h3>
+					<h3>Reference Number: <strong class="text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></h3>
 					<h3>Status: <?= $application->get_status()=="Expired"
-						? '<strong style="color:red">'.$application->get_status().'</strong>'
-						: '<strong>'.$application->get_status().'</strong>' ?></h3>
+						? '<span class="label label-danger">'.$application->get_status().'</span>'
+						: '<span class="label label-primary">'.$application->get_status().'</span>' ?></h3>
 						<hr>
 						<div class="mdl-card mdl-shadow--2dp">
 							<div class="mdl-card__supporting-text">
@@ -42,37 +42,40 @@
 									<?php endif ?>
 									<div class="mdl-stepper-step <?=
 									//conditions for active-step
+									$application->get_status() == "Visit the Office of the Building Official" ||
 									$application->get_status() == "For applicant visit" ||
 									$application->get_status() == "On process" ||
 									$application->get_status() == "Completed" ||
-									$application->get_status() == "For finalization" ||
 									$application->get_status() == "Active"
 									? 'active-step' : '' ?>
 									<?=
 									//conditions for step-done
+									$application->get_status() == "For applicant visit" ||
+									$application->get_status() == "On process" ||
 									$application->get_status() == "Completed" ||
-									$application->get_status() == "For finalization" ||
 									$application->get_status() == "Active"
 									? 'step-done' : '' ?>">
 									<div class="mdl-stepper-circle"><span>2</span></div>
-									<div class="mdl-stepper-title">Submit Requirements</div>
+									<div class="mdl-stepper-title">Visit the Office of the Building Offiial</div>
 									<div class="mdl-stepper-optional"></div>
 									<div class="mdl-stepper-bar-left"></div>
 									<div class="mdl-stepper-bar-right"></div>
 								</div>
 								<div class="mdl-stepper-step <?=
 									//conditions for active-step
-								$application->get_status() == "Completed" ||
-								$application->get_status() == "For finalization" ||
-								$application->get_status() == "Active"
+									$application->get_status() == "For applicant visit" ||
+									$application->get_status() == "On process" ||
+									$application->get_status() == "Completed" ||
+									$application->get_status() == "Active"
 								? 'active-step' : '' ?>
 								<?=
 									//conditions for step-done
-								$application->get_status() == "For finalization" ||
-								$application->get_status() == "Active"
+									$application->get_status() == "On process" ||
+									$application->get_status() == "Completed" ||
+									$application->get_status() == "Active"
 								? 'step-done' : '' ?>"> <!-- <div class="mdl-stepper-step active-step"> -->
 								<div class="mdl-stepper-circle"><span>3</span></div>
-								<div class="mdl-stepper-title">Interview and Assessment</div>
+								<div class="mdl-stepper-title">Interview and Assessment of Fees</div>
 								<div class="mdl-stepper-optional"></div>
 								<div class="mdl-stepper-bar-left"></div>
 								<div class="mdl-stepper-bar-right"></div>
@@ -86,7 +89,7 @@
 							$application->get_status() == "Active"
 							? 'step-done' : '' ?>">
 							<div class="mdl-stepper-circle"><span>4</span></div>
-							<div class="mdl-stepper-title">Payment of Taxes</div>
+							<div class="mdl-stepper-title">Complete Requirements</div>
 							<div class="mdl-stepper-optional"></div>
 							<div class="mdl-stepper-bar-left"></div>
 							<div class="mdl-stepper-bar-right"></div>
@@ -110,7 +113,7 @@
 			</div>
 		</div>
 
-	</div>
+
 
 	<div class="row" style="padding: 15px">
 		<div class="col-sm-12">
@@ -138,31 +141,31 @@
 						<td>Engineering Clearance</td>
 						<td>Office of the Building Official</td>
 						<td style="text-align:center"><span style="text-align:center" class="glyphicon <?= isset($engineering[0]->createdAt) ? 'glyphicon-ok' : 'glyphicon-remove' ?>" aria-hidden="true"></span></td>
-						<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
+						<td style="text-align:center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEngineering">View Details</button></td>
 					</tr>
 					<tr class="<?= isset($sanitary[0]->createdAt) ? 'success' : 'danger' ?>">
 						<td>Sanitary Permit/Health Clearance</td>
 						<td>City Health Office</td>
 						<td style="text-align:center"><span class="glyphicon <?= isset($sanitary[0]->createdAt) ? 'glyphicon-ok' : 'glyphicon-remove' ?>" aria-hidden="true"></span></td>
-						<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
+						<td style="text-align:center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCHO">View Details</button></td>
 					</tr>
 					<tr class="<?= isset($cenro[0]->createdAt) ? 'success' : 'danger' ?>">
 						<td>City Environmental Certificate</td>
 						<td>City Environmental and Natural Resources Office</td>
 						<td style="text-align:center"><span class="glyphicon <?= isset($cenro[0]->createdAt) ? 'glyphicon-ok' : 'glyphicon-remove' ?>" aria-hidden="true"></span></td>
-						<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
+						<td style="text-align:center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCenro">View Details</button></td>
 					</tr>
 					<tr class="<?= isset($bfp[0]->createdAt) ? 'success' : 'danger' ?>">
 						<td>Fire Safety Inspection Certificate</td>
 						<td>Bureau of Fire Protection</td>
 						<td style="text-align:center"><span class="glyphicon <?= isset($bfp[0]->createdAt) ? 'glyphicon-ok' : 'glyphicon-remove' ?>" aria-hidden="true"></span></td>
-						<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
+						<td style="text-align:center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalBFP">View Details</button></td>
 					</tr>
 					<tr class="<?= isset($zoning[0]->createdAt) ? 'success' : 'danger' ?>">
 						<td>Zoning Clearance</td>
 						<td>City Planning & Development Office</td>
 						<td style="text-align:center"><span class="glyphicon <?= isset($zoning[0]->createdAt) ? 'glyphicon-ok' : 'glyphicon-remove' ?>" aria-hidden="true"></span></td>
-						<td style="text-align:center"><button type="button" class="btn btn-primary">View Details</button></td>
+						<td style="text-align:center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalZoning">View Details</button></td>
 					</tr>
 				</div>
 
@@ -170,14 +173,261 @@
 		</div>
 		<div style="text-align: center">
 			<?php if ($application->get_status() == "Active" || $application->get_status() == "Expired" || $application->get_applicationType() == "Renew" && $application->get_status() != "For Retirement"): ?>
-				<input type="button" data-toggle="modal" data-target="#model-retire" class="btn btn-danger" value="Retire Business">
+				<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#model-retire"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Retire Business</button>
 			<?php endif ?>
+				<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalReference"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</button>
 		</div>
+
+
+
+		</div>
+
+
+
 	</div>
+</div>
 </div>
 
 <!-- /.panel-body -->
 </div>
+
+
+<!-- Modal -->
+<div id="modalReference" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Reference Number</h4>
+			</div>
+			<div class="modal-body">
+				<h3>Reference Number: <strong class="text-danger"><?= $this->encryption->decrypt($application->get_referenceNum()) ?></strong></h3>
+				<div class="alert alert-info">
+					<label style="font-size: 11px;font-weight: lighter"><i>Note: Printing of reference number is optional. You can either write it on a clean piece of paper or take a picture of it.</i></label>
+	      </div>
+
+				<div>
+					<button type="button" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Reference</button>&nbsp;<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</button><label style="font-size: 11px;font-weight: lighter"><i>&nbsp; Note: Printing of application form is not required.</i></label>
+				</div>
+		  </div>
+	  </div>
+  </div>
+</div>
+
+<div id="modalEngineering" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Engineering Clearance</h4>
+			</div>
+			<div class="modal-body">
+				<p>Status: <span class="badge"><?= isset($engineering[0]->createdAt) ? 'Issued' : 'Incomplete' ?></span></p>
+				<p>Date of Completion: <?= isset($engineering[0]->createdAt) ? $engineering[0]->createdAt : 'Incomplete' ?></p>
+			</div>
+
+
+
+	</div>
+</div>
+</div>
+
+<div id="modalCHO" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Sanitary Permit</h4>
+			</div>
+			<div class="modal-body">
+				<p>Status: <span class="badge"><?= isset($sanitary[0]->createdAt) ? 'Issued' : 'Incomplete' ?></span></p>
+				<p>Date of Completion: <?= isset($sanitary[0]->createdAt) ? $sanitary[0]->createdAt : 'Incomplete' ?></p>
+
+				<table class="table table-bordered">
+					<tr>
+						<th style="text-align:center">Requirement</th>
+						<th style="text-align:center">Status</th>
+					</tr>
+					<tr class="<?= isset($checklist['requirement17']) ? 'success' : 'danger' ?>">
+						<td>Health Card per Employee</td>
+						<td style="text-align:center"><span style="text-align:center" class="glyphicon <?= isset($checklist['requirement17']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement18']) ? 'success' : 'danger' ?>">
+						<td>Water Analysis</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement18']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement19']) ? 'success' : 'danger' ?>">
+						<td>Vermin and Rodent Control</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement19']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+
+			</table>
+			<div>
+				<button type="button" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</button><label style="font-size: 11px;font-weight: lighter"><i>&nbsp;Note: Printing of application form is not required.</i></label>
+			</div>
+		</div>
+		</div>
+
+	</div>
+</div>
+
+<div id="modalCenro" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Environmental Clearance</h4>
+			</div>
+			<div class="modal-body">
+				<p>Status: <span class="badge"><?= isset($cenro[0]->createdAt) ? 'Issued' : 'Incomplete' ?></span></p>
+				<p>Date of Completion: <?= isset($cenro[0]->createdAt) ? $cenro[0]->createdAt : 'Incomplete' ?></p>
+
+				<table class="table table-bordered">
+					<tr>
+						<th style="text-align:center">Requirement</th>
+						<th style="text-align:center">Status</th>
+					</tr>
+					<tr class="<?= isset($checklist['requirement12']) ? 'success' : 'danger' ?>">
+						<td>Certificate of Non-Coverage</td>
+						<td style="text-align:center"><span style="text-align:center" class="glyphicon <?= isset($checklist['requirement12']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement13']) ? 'success' : 'danger' ?>">
+						<td>Environmental Compliance Certificate</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement13']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement14']) ? 'success' : 'danger' ?>">
+						<td> 	Laguna Lake Development Authority Certificate (LLDA)</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement14']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement15']) ? 'success' : 'danger' ?>">
+						<td>DTI/SEC/CDA Permit</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement15']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement16']) ? 'success' : 'danger' ?>">
+						<td>Barangay Clearance</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement16']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+
+			</table>
+			<div>
+				<button type="button" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</button><label style="font-size: 11px;font-weight: lighter"><i>&nbsp;Note: Printing of application form is not required.</i></label>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="modalBFP" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Fire Safety Inspection Certificate</h4>
+			</div>
+			<div class="modal-body">
+				<p>Status: <span class="badge"><?= isset($bfp[0]->createdAt) ? 'Issued' : 'Incomplete' ?></span></p>
+				<p>Date of Completion: <?= isset($bfp[0]->createdAt) ? $bfp[0]->createdAt : 'Incomplete' ?></p>
+
+				<table class="table table-bordered">
+					<tr>
+						<th style="text-align:center">Requirement</th>
+						<th style="text-align:center">Status</th>
+					</tr>
+					<tr class="<?= isset($checklist['requirement20']) ? 'success' : 'danger' ?>">
+						<td>Fire Safety Evaluation Clearance</td>
+						<td style="text-align:center"><span style="text-align:center" class="glyphicon <?= isset($checklist['requirement20']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement21']) ? 'success' : 'danger' ?>">
+						<td>Building Permit</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement21']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement22']) ? 'success' : 'danger' ?>">
+						<td>FSIC for Occupancy</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement22']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement23']) ? 'success' : 'danger' ?>">
+						<td>Fire Insurance Policy</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement23']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement24']) ? 'success' : 'danger' ?>">
+						<td>Copy of Contract List (If renting)</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement24']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement25']) ? 'success' : 'danger' ?>">
+						<td>Receipt of Realty Tax (If own)</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement25']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement26']) ? 'success' : 'danger' ?>">
+						<td>Proof of Service and Maintenance of Fire Fighting Equipment</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement26']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement27']) ? 'success' : 'danger' ?>">
+						<td>Picture of Establishment (Exterior/Interior)</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement27']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+			</table>
+			<div>
+				<button type="button" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</button><label style="font-size: 11px;font-weight: lighter"><i>&nbsp;Note: Printing of application form is not required.</i></label>
+			</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div id="modalZoning" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Zoning Application</h4>
+			</div>
+			<div class="modal-body">
+				<p>Status: <span class="badge"><?= isset($zoning[0]->createdAt) ? 'Issued' : 'Incomplete' ?></span></p>
+				<p>Date of Completion: <?= isset($zoning[0]->createdAt) ? $zoning[0]->createdAt : 'Incomplete' ?></p>
+
+				<table class="table table-bordered">
+					<tr>
+						<th style="text-align:center">Requirement</th>
+						<th style="text-align:center">Status</th>
+					</tr>
+					<tr class="<?= isset($checklist['requirement8']) ? 'success' : 'danger' ?>">
+						<td>Building Plan</td>
+						<td style="text-align:center"><span style="text-align:center" class="glyphicon <?= isset($checklist['requirement8']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement9']) ? 'success' : 'danger' ?>">
+						<td>Barangay Clearance</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement9']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement10']) ? 'success' : 'danger' ?>">
+						<td>Realty Tax Receipt</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement10']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+					<tr class="<?= isset($checklist['requirement11']) ? 'success' : 'danger' ?>">
+						<td>Certificate of Land Title</td>
+						<td style="text-align:center"><span class="glyphicon <?= isset($checklist['requirement11']) ? 'glyphicon-ok' : 'glyphicon-remove'  ?>" aria-hidden="true"></span></td>
+					</tr>
+
+			</table>
+			<div>
+				<button type="button" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</button><label style="font-size: 11px;font-weight: lighter"><i>&nbsp;Note: Printing of application form is not required.</i></label>
+			</div>
+		</div>
+		</div>
+
+	</div>
+
+	</div>
 
 
 				<!-- <div class="boxes">

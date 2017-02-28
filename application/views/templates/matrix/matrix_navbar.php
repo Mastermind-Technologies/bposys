@@ -77,7 +77,7 @@
 
             <li><a href="<?php echo base_url(); ?>reports/gross_reports"><span>Gross Reports</span></a></li>
 
-            <li><a href="<?php echo base_url(); ?>reports/master_list"><span>Master List</span></a></li>
+            <li><a href="<?php echo base_url(); ?>reports/masterlist"><span>Master List</span></a></li>
 
             <li><a href="<?php echo base_url(); ?>reports/top_businesses"><span>Top Businesses</span></a></li>
         </ul>
@@ -87,6 +87,7 @@
     <?php else: ?>
       <li class="<?= $active=="Dashboard" ? "active" : '' ?>"><a href="<?php echo base_url() ?>bposys_admin/dashboard"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
       <li class="<?= $active=="Users" ? "active" : '' ?>"><a href="<?php echo base_url() ?>bposys_admin/users"><i class="icon icon-home"></i> <span>Users</span></a></li>
+      <li class="<?= $active=="Logs" ? "active" : '' ?>"><a href="<?php echo base_url() ?>bposys_admin/logs"><i class="icon icon-bar-chart"></i> <span>Logs</span></a></li>
     <?php endif ?>
 
     <li><a href="<?php echo base_url(); ?>auth/logout"><i class="icon icon-key"></i> <span>Logout</span></a></li>

@@ -24,4 +24,5 @@ class Home extends CI_Controller {
 		$this->load->view('home/guide');
 		$this->load->view('templates/sb_landing_page/sb-landing-page-footer');
 	}
+
 }

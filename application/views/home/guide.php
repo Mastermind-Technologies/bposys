@@ -18,12 +18,12 @@
   	<div class="row" style="margin-top: 50px">
       <div class="section scrollspy" id="non-linear">
          <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                <div class="card">
                   <div class="card-content">
                      <ul class="stepper" style="list-style: none;">
                         <li class="step active" style="padding-right: 8%">
-                           <div class="step-title waves-effect waves-dark step-circle">Step 1 - Application Form</div>
+                           <div class="step-title waves-effect waves-dark step-circle">Step 1 - Submit an Online Application</div>
                            <div class="step-content">
                               <div class="row">
                                  <div class="col-lg-12">
@@ -129,15 +129,6 @@
                      </ul>
                   </div>
                </div>
-            </div>
-            <div class="col-lg-6" style="padding-right: 8%; padding-left: 8%">
-               <p>
-                  In the Non-Linear Stepper you can navigate freely between steps. You can also use the buttons for validation (if you're using jQuery Validation Plugin), but if the user wants to move arbitrarily around the steps, it's allowed by clicking on the steps instead of the buttons.
-               </p>
-               <p><b>Example:</b></p>
-               <pre class="language-markup"><code class=" language-markup">
-&lt;ul class="stepper"&gt;...&lt;/ul&gt;
-               </code></pre>
             </div>
          </div>
       </div>

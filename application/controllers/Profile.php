@@ -12,6 +12,7 @@ class Profile extends CI_Controller {
 		$this->load->model('Role_m');
 		$this->load->model('Payment_m');
 		$this->load->library('form_validation');
+		$this->load->model('Assessment_m');
 
 		$this->load->model('Business_Address_m');
 	}
@@ -43,7 +44,14 @@ class Profile extends CI_Controller {
 	{
 		if(!isset($this->session->userdata['userdata']))
 		{
-			redirect('home');
+			redirect('error/error403b');
+		}
+		else
+		{
+			if($this->encryption->decrypt($this->session->userdata['userdata']['role']) != "Applicant")
+			{
+					redirect('error/error403');
+			}
 		}
 	}
 
@@ -677,7 +685,114 @@ class Profile extends CI_Controller {
 		$this->_init($nav_data);
 		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
 
-		$this->load->view('profile/view_unsettled_charges');
+		$today = strtotime('October 20 2017');
+		$Q1 = new DateTime('January 21 '. date('Y'));
+		$Q2 = new DateTime('April 21 '. date('Y'));
+		$Q3 = new DateTime('July 21 '. date('Y'));
+		$Q4 = new DateTime('October 21 '. date('Y'));
+		$now = new DateTime('October 20 2017');
+		$test2 = new DateTime('April 2017');
+
+
+		$query = "users.userId = '$user_id' and charges.status = 'not paid' and (charges.period = 'F1' or charges.period = 'Q1' or charges.period = 'Q2' or charges.period = 'Q3' or charges.period = 'Q4')";
+
+		// if($now >= $Q2 && $now < $Q3)
+		// {
+		// 	$currentQuarter = 'Q2';
+		// 	// $query = "users.userId = '$user_id' and charges.status = 'Unpaid' and (charges.period = 'Q1' or charges.period = 'Q2')";
+		// }
+		// else if($now >= $Q3 && $now < $Q4)
+		// {
+		// 	$currentQuarter = 'Q3';
+		// 	// $query = "users.userId = '$user_id' and charges.status = 'Unpaid' and (charges.period = 'Q1' or charges.period = 'Q2' or charges.period = 'Q3')";
+		// }
+		// else if($now >= $Q4)
+		// {
+		// 	$currentQuarter = 'Q4';
+		// 	// $query = "users.userId = '$user_id' and charges.status = 'Unpaid' and (charges.period = 'Q1' or charges.period = 'Q2' or charges.period = 'Q3' or charges.period = 'Q4')";
+		// }
+		// else
+		// {
+		// 	$currentQuarter = 'Q1';
+		// 	// $query = "users.userId = '$user_id' and charges.status = 'Unpaid' and (charges.period = 'F1' or charges.period = 'Q1' or charges.period = 'Q2' or charges.period = 'Q3' or charges.period = 'Q4')";
+		// }
+
+		//if($today >)
+		$data['unsettled_charges'] = $this->Assessment_m->get_unsettled_charges($query);
+
+		// for($i=0;$i<count($data['unsettled_charges']);$i=$i+1)
+		// {
+		// 	$createdAt = new DateTime($data['unsettled_charges'][$i]->createdAt);
+		// 	$updatedAt = new DateTime($data['unsettled_charges'][$i]->updatedAt);
+		// 	$tax = 0;
+		// 	$surcharge = 0;
+		// 	switch($data['unsettled_charges'][$i]->period)
+		// 	{
+		// 		case 'Q1':
+		// 		{
+		// 			if($currentQuarter == 'Q1' || $currentQuarter == 'Q2' || $currentQuarter == 'Q3' || $currentQuarter == 'Q4')
+		// 			{
+		// 				print_r("aw1a");
+		// 			}
+		// 		}break;
+		// 		case 'F1':
+		// 		{
+		// 			if($currentQuarter == 'Q1' || $currentQuarter == 'Q2' || $currentQuarter == 'Q3' || $currentQuarter == 'Q4')
+		// 			{
+		// 				print_r("aw1b");
+		// 			}
+		// 		}break;
+		// 		case 'Q2':
+		// 		{
+		// 			if($currentQuarter == 'Q2' || $currentQuarter == 'Q3' || $currentQuarter == 'Q4')
+		// 			{
+		// 				$difference = $createdAt->diff($now);
+		// 				for($j = $difference->format('%m'); $j != 0; $j = $j - 1)
+		// 				{
+		// 					if($j == $difference->format('%m'))
+		// 					{
+		// 						$surcharge = $data['unsettled_charges'][$i]->due * 0.25;
+		//
+		// 					}
+		// 					else
+		// 					{
+		// 						$tax = $tax +  $data['unsettled_charges'][$i]->due * 0.02;
+		// 					}
+		// 				}
+		// 				print_r("<br />Particular: " . $data['unsettled_charges'][$i]->particulars);
+		// 				print_r("<br />Due: " . $data['unsettled_charges'][$i]->due);
+		// 				print_r("<br />Surcharge: " . $surcharge);
+		// 				print_r("<br />Tax: " . $tax);
+		// 			}
+		// 		}break;
+		// 		case 'Q3':
+		// 		{
+		// 			if($currentQuarter == 'Q3' || $currentQuarter == 'Q4')
+		// 			{
+		// 				print_r("aw3");
+		// 			}
+		// 		}break;
+		// 		case 'Q4':
+		// 		{
+		// 			if($currentQuarter == 'Q4')
+		// 			{
+		//
+		// 			}
+		// 			else
+		// 			{
+		// 				print_r("<br />Particular: " . $data['unsettled_charges'][$i]->particulars);
+		// 				print_r("<br />Due: " . $data['unsettled_charges'][$i]->due);
+		// 				print_r("<br />Surcharge: " . $surcharge);
+		// 				print_r("<br />Tax: " . $tax);
+		// 			}
+		// 		}break;
+		// 	}
+		// }
+
+		// echo '<pre>';
+		// print_r($data['unsettled_charges']);
+		// echo '</pre>';
+		$this->load->view('profile/view_unsettled_charges', $data);
 	}
 
 	// public function manage_business_address()

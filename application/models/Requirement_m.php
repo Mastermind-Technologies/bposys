@@ -14,7 +14,7 @@ class Requirement_m extends CI_Model {
 
   public function get_requirements($roleId)
   {
-    //select items.name from items join requirements on items.itemId = requirements.itemId join roles on roles.roleId = requirements.roleId where roles.roleId = 4 
+    //select items.name from items join requirements on items.itemId = requirements.itemId join roles on roles.roleId = requirements.roleId where roles.roleId = 4
     $this->db->select('requirements.requirementId, items.name')->from($this->table_items)->join($this->table, 'items.itemId = requirements.itemId')->join($this->table_role, 'roles.roleId = requirements.roleId')->where(['roles.roleId' => $roleId]);
 
     return $this->db->get()->result();
@@ -23,6 +23,13 @@ class Requirement_m extends CI_Model {
   public function insert_submitted_requirements($field)
   {
     $this->db->insert($this->table_submitted_requirements, $field);
+  }
+
+  public function get_submitted_requirements($reference_num)
+  {
+    //select requirements.requirementId, items.name, submitted_requirements.submittedRequirementsId, roles.name from items join requirements on items.itemId = requirements.itemId join submitted_requirements on requirements.requirementId = submitted_requirements.requirementId join roles on requirements.roleId = roles.roleId where submitted_requirements.referenceNum = '1E5E2270C6'
+    $this->db->select('requirements.requirementId, items.name, submitted_requirements.submittedRequirementsId, roles.name as role')->from($this->table_items)->join($this->table, 'items.itemId = requirements.itemId')->join($this->table_submitted_requirements, 'requirements.requirementId = submitted_requirements.requirementId')->join($this->table_role, 'requirements.roleId = roles.roleId')->where(['submitted_requirements.referenceNum' => $reference_num]);
+    return $this->db->get()->result();
   }
 
   // public function insert($fields = null)

@@ -29,7 +29,14 @@ class Alerts extends CI_Controller {
 		if(!isset($this->session->userdata['userdata']))
 		{
 			// $this->session->set_flashdata('failed', 'You are not logged in!');
-			redirect('home');
+			redirect('error/error403b');
+		}
+		else
+		{
+			if($this->encryption->decrypt($this->session->userdata['userdata']['role']) == "Applicant")
+			{
+					redirect('error/error403');
+			}
 		}
 	}
 
@@ -65,7 +72,5 @@ class Alerts extends CI_Controller {
 		$this->isLogin();
 
 		$this->load->view('dashboard/bplo/alerts');
-		echo script_tag('assets/js/jquery.min.js');
-		echo script_tag('assets/js/jquery.canvasjs.min.js');
 	}
 }//END OF CLASS

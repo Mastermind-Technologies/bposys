@@ -6,9 +6,25 @@ class Assessment_m extends CI_Model {
   var $table = 'assessments';
   var $table_charge = 'charges';
   var $table_payments = 'payments';
+  var $table_applications = 'application_bplo';
+  var $table_owners = 'owners';
+  var $table_businesses = 'businesses';
+  var $table_users = 'users';
   public function __construct()
   {
     parent::__construct();
+  }
+
+  public function get_unsettled_charges($query)
+  {
+    //SELECT users.userId, application_bplo.referenceNum, charges.particulars, charges.due, charges.status,charges.period from users join application_bplo on users.userId = application_bplo.userId join 	assessments on assessments.referenceNum = application_bplo.referenceNum join charges on charges.assessmentId = assessments.assessmentId where charges.status = 'Paid' and (charges.period = 'Q2' or charges.period = 'Q3' or charges.period = 'Q4')
+    $this->db->select('users.userId, application_bplo.referenceNum, businesses.businessName, charges.particulars, charges.due, charges.surcharge, charges.interest, charges.status,charges.period, charges.createdAt, charges.updatedAt')->from($this->table_users)->join($this->table_applications, 'users.userId = application_bplo.userId')->join($this->table, 'assessments.referenceNum = application_bplo.referenceNum')->join($this->table_charge, 'charges.assessmentId = assessments.assessmentId')->join($this->table_businesses, 'application_bplo.businessId = businesses.businessId')->where($query);
+    return $this->db->get()->result();
+  }
+
+  public function update_charges()
+  {
+
   }
 
   public function insert_assessment($fields)
@@ -85,7 +101,7 @@ class Assessment_m extends CI_Model {
 
     // var_dump($assessmentId);
     // exit();
-    
+
 
     //deduct amountPaid on assessmentAmount and set paidUpTo
     if($amount_paid > $amount)
@@ -98,7 +114,7 @@ class Assessment_m extends CI_Model {
     }
 
     $set['paidUpTo'] = $set['amount']==0 ? 'Fourth Quarter' : $paid_up_to;
-    
+
     $this->db->where(['assessmentId' => $assessmentId]);
     $this->db->update($this->table, $set);
   }
@@ -124,4 +140,3 @@ class Assessment_m extends CI_Model {
     return $result->result();
   }
 }
-

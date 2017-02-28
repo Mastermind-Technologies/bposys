@@ -29,7 +29,14 @@ class Reports extends CI_Controller {
 		if(!isset($this->session->userdata['userdata']))
 		{
 			// $this->session->set_flashdata('failed', 'You are not logged in!');
-			redirect('home');
+			redirect('error/error403b');
+		}
+		else
+		{
+			if($this->encryption->decrypt($this->session->userdata['userdata']['role']) == "Applicant")
+			{
+					redirect('error/error403');
+			}
 		}
 	}
 
@@ -574,6 +581,20 @@ class Reports extends CI_Controller {
 
 
 		$this->load->view('dashboard/bplo/demographics',$data);
+	}
+
+
+
+	public function masterlist()
+	{
+		$navdata['title'] = 'Master List';
+		$navdata['active'] = 'Reports';
+		$navdata['notifications'] = User::get_notifications();
+		$navdata['completed'] = User::get_complete_notifications();
+		$this->_init_matrix($navdata);
+		$this->isLogin();
+
+		$this->load->view('dashboard/bplo/masterlist');
 	}
 
 	public function report_year()
