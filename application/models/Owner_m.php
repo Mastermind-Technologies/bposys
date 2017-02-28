@@ -48,7 +48,7 @@ class Owner_m extends CI_Model {
 
  public function count_male_owners()
  {
-  //select owners.firstName from owners join businesses on owners.ownerId = businesses.ownerId join application_bplo on businesses.businessId = application_bplo.businessId where owners.gender = 'male' and application_bplo.status = 'active' group by owners.firstName 
+  //select owners.firstName from owners join businesses on owners.ownerId = businesses.ownerId join application_bplo on businesses.businessId = application_bplo.businessId where owners.gender = 'male' and application_bplo.status = 'active' group by owners.firstName
   // $this->db->where($query);
   // $this->db->where(['application_bplo.status' => 'Active'])->or_where('application_bplo.status =', 'Expired');
   $this->db->select('owners.firstName, owners.gender')->from($this->table)->join($this->table_business,'owners.ownerId = businesses.ownerId')->join($this->table_bplo, 'businesses.businessId = application_bplo.businessId')->where(['owners.gender' => 'male', 'application_bplo.status' => 'active'])->or_where('application_bplo.status', 'expired');
@@ -60,7 +60,7 @@ class Owner_m extends CI_Model {
 
 public function count_female_owners()
 {
-  //select owners.firstName from owners join businesses on owners.ownerId = businesses.ownerId join application_bplo on businesses.businessId = application_bplo.businessId where owners.gender = 'male' and application_bplo.status = 'active' group by owners.firstName 
+  //select owners.firstName from owners join businesses on owners.ownerId = businesses.ownerId join application_bplo on businesses.businessId = application_bplo.businessId where owners.gender = 'male' and application_bplo.status = 'active' group by owners.firstName
   // $this->db->where($query);
   // $this->db->where(['application_bplo.status' => 'Active'])->or_where('application_bplo.status =', 'Expired');
   $this->db->select('owners.firstName, owners.gender')->from($this->table)->join($this->table_business,'owners.ownerId = businesses.ownerId')->join($this->table_bplo, 'businesses.businessId = application_bplo.businessId')->where(['owners.gender' => 'female', 'application_bplo.status' => 'active'])->or_where('application_bplo.status', 'expired');
@@ -92,6 +92,20 @@ public function get_unapplied_business_owners($user_id)
   $this->db->join($this->table_business, 'owners.ownerId = businesses.ownerId', 'left');
   $this->db->join($this->table_bplo, 'businesses.businessId = application_bplo.businessId', 'left');
   $this->db->where(['owners.userId' => $user_id, 'businesses.businessId' => NULL]);
+
+  return $this->db->get()->result();
+}
+
+public function get_all_applied_businesses()
+{
+  //select * from owners left join businesses on owners.ownerId = businesses.ownerId left join application_bplo on
+  //businesses.businessId = application_bplo.businessId where businesses.businessId IS NOT NULL group by owners.ownerId
+  $this->db->select('*');
+  $this->db->from('owners');
+  $this->db->join($this->table_business, 'owners.ownerId = businesses.ownerId', 'left');
+  $this->db->join($this->table_bplo, 'businesses.businessId = application_bplo.businessId', 'left');
+  $this->db->where('businesses.businessId IS NOT NULL');
+  $this->db->group_by('owners.ownerId');
 
   return $this->db->get()->result();
 }

@@ -195,6 +195,16 @@ class Reports extends CI_Controller {
 		unset($query);
 		$data['male'] = $this->Owner_m->count_male_owners();
 		$data['female'] = $this->Owner_m->count_female_owners();
+		$business = $this->Owner_m->get_all_applied_businesses();
+
+		$data['total_male'] = 0;
+		$data['total_female'] = 0;
+		foreach ($business as $key => $b) {
+			$data['total_male'] += $b->maleEmployees;
+			$data['total_female'] += $b->femaleEmployees;
+		}
+
+
 		// echo "<pre>";
 		// print_r($data);
 		// echo "</pre>";

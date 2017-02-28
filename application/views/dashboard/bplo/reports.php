@@ -1,8 +1,8 @@
 <div id="content">
   <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> 
-      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> 
+    <div id="breadcrumb">
+      <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
       <a href="#" class="current">View Reports</a>
     </div>
     <h1>BPLO Application Reports</h1>
@@ -58,12 +58,12 @@
               <div class="controls">
                 <select class='span3' name="report-year" id="report-year">
                   <option selected disabled value="<?= date('Y') ?>">Select Year</option>
-                  <?php for ($i=date('Y'); $i >= 2012; $i--) { 
+                  <?php for ($i=date('Y'); $i >= 2012; $i--) {
                     echo "<option value=$i>$i</option>";
                   } ?>
                 </select>
               </div>
-              
+
             </div>
             <div class="row-fluid">
               <div class='span12' id='report-container'>
@@ -130,7 +130,7 @@
                     <tr>
                       <td><?= $barangay->barangay ?></td>
                       <td><?= $barangay->count ?></td>
-                      <td><?= isset($barangay->expired) ? $barangay->expired : "0" ?></td>
+                      <td><?= isset($barangay->expired) ? $barangay->expired : "1" ?></td>
                     </tr>
                   <?php endforeach ?>
                 <?php endif ?>
@@ -142,7 +142,7 @@
     </div>
 
 
-    
+
 
   </div>
 <!--     <div class="block center-block">
