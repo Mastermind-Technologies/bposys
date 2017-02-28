@@ -5,7 +5,7 @@
       <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
       <a href="<?php echo base_url(); ?>reports/demographic_reports" class="current">View Reports</a>
     </div>
-    <h1>BPLO Demographic Reports <button class="btn btn-success"><i class="icon-print"></i> Print Numerical</button> <button class="btn btn-primary"><i class="icon-print"></i> Print Graphical</button></h1>
+    <h1>BPLO Demographic Reports <a href="<?php echo base_url(); ?>/dashboard/get_demographic_report_info" class="btn btn-success"><i class="icon-print"></i> Print Numerical</a> <button class="btn btn-primary"><i class="icon-print"></i> Print Graphical</button></h1>
     <hr style="margin:10">
   </div>
   <!--End-breadcrumbs-->

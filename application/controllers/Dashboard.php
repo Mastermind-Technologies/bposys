@@ -2390,6 +2390,67 @@ class Dashboard extends CI_Controller {
 		$data['application'] = $this->Application_m->get_all_bplo_applications();
 		$data['application'] = new BPLO_Application('9E9E1D64A2');
 
+		$this->load->view('dashboard/bplo/bplo_certificate_printable',$data);
+	}
+
+	public function get_demographic_report_info()
+	{
+		//
+		$barangay = $this->Business_m->count_businesses_by_barangay();
+		$expired = $this->Business_m->count_expired_businesses_by_barangay();
+
+		//merge expired applications to barangay
+		foreach($barangay as $key => $b)
+		{
+			if(count($expired) > 0)
+			{
+				foreach ($expired as $e) {
+					if($b->barangay == $e->barangay)
+					{
+						$data['barangay_array'][] = (object) array_merge((array)$b, (array)$e);
+						unset($barangay[$key]);
+						// $reindex = array_values($barangay);
+						// $barangay = $reindex;
+						// array_splice($barangay, $key, 1);
+					}
+				}
+			}
+		}
+
+		if(count($barangay) > 0)
+		{
+			foreach ($barangay as $key => $b) {
+				$data['barangay_array'][] = (object) $b;
+			}
+		}
+
+		unset($query);
+		$query['status'] = 'Expired';
+		$data['expired'] = count($this->Application_m->get_all_bplo_applications($query));
+		//total number of businesses (active + expired)
+		$data['businesses'] = (int)$data['businesses'] + (int)$data['expired'];
+
+		$query['status'] = 'Cancelled';
+		$data['cancelled'] = count($this->Application_m->get_all_bplo_applications($query));
+
+		$query['status'] = 'Closed';
+		$data['closed'] = count($this->Application_m->get_all_bplo_applications($query));
+
+
+
+		$business = $this->Owner_m->get_all_applied_businesses();
+
+		$data['total_male'] = 0;
+		$data['total_female'] = 0;
+		foreach ($business as $key => $b) {
+			$data['total_male'] += $b->maleEmployees;
+			$data['total_female'] += $b->femaleEmployees;
+		}
+
+		$this->load->view('dashboard/bplo/demographic_report',$data);
+	}
+	public function get_employees_accomplishment_report_info()
+	{
 		//New & Renewal
 		$query['YEAR(createdAt)'] = date('Y');
 		$query['dept'] = "BPLO";
@@ -2482,35 +2543,6 @@ class Dashboard extends CI_Controller {
 		}
 
 		//
-		$barangay = $this->Business_m->count_businesses_by_barangay();
-		$expired = $this->Business_m->count_expired_businesses_by_barangay();
-
-		//merge expired applications to barangay
-		foreach($barangay as $key => $b)
-		{
-			if(count($expired) > 0)
-			{
-				foreach ($expired as $e) {
-					if($b->barangay == $e->barangay)
-					{
-						$data['barangay_array'][] = (object) array_merge((array)$b, (array)$e);
-						unset($barangay[$key]);
-						// $reindex = array_values($barangay);
-						// $barangay = $reindex;
-						// array_splice($barangay, $key, 1);
-					}
-				}
-			}
-		}
-
-		if(count($barangay) > 0)
-		{
-			foreach ($barangay as $key => $b) {
-				$data['barangay_array'][] = (object) $b;
-			}
-		}
-
-		//
 		unset($query);
 		$query['status'] = 'Active';
 		$data['businesses'] = count($this->Application_m->get_all_bplo_applications($query));
@@ -2526,32 +2558,9 @@ class Dashboard extends CI_Controller {
 		$data['renew'] = $renew;
 		$data['issued'] = $new + $renew;
 
-		unset($query);
-		$query['status'] = 'Expired';
-		$data['expired'] = count($this->Application_m->get_all_bplo_applications($query));
-		//total number of businesses (active + expired)
-		$data['businesses'] = (int)$data['businesses'] + (int)$data['expired'];
 
-		$query['status'] = 'Cancelled';
-		$data['cancelled'] = count($this->Application_m->get_all_bplo_applications($query));
-
-		$query['status'] = 'Closed';
-		$data['closed'] = count($this->Application_m->get_all_bplo_applications($query));
-
-
-
-		$business = $this->Owner_m->get_all_applied_businesses();
-
-		$data['total_male'] = 0;
-		$data['total_female'] = 0;
-		foreach ($business as $key => $b) {
-			$data['total_male'] += $b->maleEmployees;
-			$data['total_female'] += $b->femaleEmployees;
-		}
-
-		$this->load->view('dashboard/bplo/demographic_report',$data);
+		$this->load->view('dashboard/bplo/employees_accomplishment_report',$data);
 	}
-
 	public function get_assessment_form_info()
 	{
 
@@ -2640,7 +2649,7 @@ class Dashboard extends CI_Controller {
 
 	public function notifications()
 	{
-		
+
 	}
 
 	public function check_notif()

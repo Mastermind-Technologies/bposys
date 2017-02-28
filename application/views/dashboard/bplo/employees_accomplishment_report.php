@@ -9,14 +9,8 @@ require("application/views/FPDF/fpdf.php");
 $pdf = new FPDF();
 
 $pdf->AddPage("L");
-$pdf->SetTitle("Employees Accomplishment Report");
-
 $pdf->SetFont("Times","B","10");
-$pdf->Cell(0,5,"Appendix E",0,0,"C");
-
-$y = $pdf->GetY();
-$pdf->SetY($y+10);
-$pdf->Cell(0,5,"Sample Reports",0,0,"C");
+$pdf->SetTitle("Employees Accomplishment Report");
 
 $y = $pdf->GetY();
 $pdf->SetY($y+10);

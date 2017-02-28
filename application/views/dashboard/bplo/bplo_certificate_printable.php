@@ -23,7 +23,8 @@ $pdf->Cell(70,5,"$businessName",1,0,"C");
   $pdf->SetXY($x-10,$y+19.5);
   // $application->get_bldgName() ." ". $application->get_houseBldgNum() ." ". $application->get_unitNum() ." ".  $application->get_street() ." ". $application->get_Subdivision() ." ".
   $busimessAddress =utf8_decode($application->get_barangay() ." ". $application->get_cityMunicipality() ." ". $application->get_province());
-$pdf->Cell(70,5,"$busimessAddress",1,0,"C");
+  $tempBusiAdd = "Daisy St. South City Homes Binyan, Laguna";
+$pdf->Cell(70,5,"$tempBusiAdd",1,0,"C");
   $y = $pdf->GetY();
   $pdf->SetXY($x-10,$y+19.5);
   $applicantName = utf8_decode($application->get_FirstName() ." ". $application->get_MiddleName() ." ". $application->get_LastName());
