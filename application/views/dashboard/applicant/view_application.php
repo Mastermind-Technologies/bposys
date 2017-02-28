@@ -316,7 +316,7 @@
 
 			</table>
 			<div>
-				<button type="button" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</button><label style="font-size: 11px;font-weight: lighter"><i>&nbsp;Note: Printing of application form is not required.</i></label>
+				<a href="<?php echo base_url(); ?>/dashboard/get_cenro_info" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</a><label style="font-size: 11px;font-weight: lighter"><i>&nbsp;Note: Printing of application form is not required.</i></label>
 			</div>
 			</div>
 		</div>
@@ -375,7 +375,7 @@
 					</tr>
 			</table>
 			<div>
-				<button type="button" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</button><label style="font-size: 11px;font-weight: lighter"><i>&nbsp;Note: Printing of application form is not required.</i></label>
+				<a href="<?php echo base_url(); ?>/dashboard/get_bfp_info" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</a><label style="font-size: 11px;font-weight: lighter"><i>&nbsp;Note: Printing of application form is not required.</i></label>
 			</div>
 			</div>
 		</div>
@@ -420,7 +420,7 @@
 
 			</table>
 			<div>
-				<button type="button" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</button><label style="font-size: 11px;font-weight: lighter"><i>&nbsp;Note: Printing of application form is not required.</i></label>
+				<a href="<?php echo base_url(); ?>/dashboard/get_zoning_info" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</a><label style="font-size: 11px;font-weight: lighter"><i>&nbsp;Note: Printing of application form is not required.</i></label>
 			</div>
 		</div>
 		</div>

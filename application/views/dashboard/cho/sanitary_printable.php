@@ -8,27 +8,27 @@ $pdf->AddPage();
 $pdf->SetTitle("Sanitary Permit Form");
 
 //Variables or data
-$status = $application->get_status();
-// $date = $application->get_
+$date = $application->get_applicationDate();
 // $year = $application->get_
-// $sanitaryPermitNum = $application->get_
-$appBusinessName = $application->get_businessName();
+$sanitaryPermitNum = $this->encryption->decrypt($application->get_applicationId());
+$appBusinessName = utf8_decode($application->get_businessName());
 $unitNum = $application->get_unitNum();
-$street = $application->get_street();
-$bldg = $application->get_bldgName();
-$brgy = $application->get_barangay();
-// $regOwner = $application->get_owner_name();
-// $contactNum = $application->get_
-//$natBusi = $application->get_NatureOfBusiness();
+$street = utf8_decode($application->get_street());
+$bldg = utf8_decode($application->get_bldgName());
+$brgy = utf8_decode($application->get_barangay());
+$regOwner = utf8_decode($application->get_FirstName() . " " . $application->get_MiddleName() . " " . $application->get_LastName());
+$contactNum = $application->get_OwnertelNum();
+$natBusi = $application->get_lineOfBusiness();
 //
 $maleEmp = $application->get_MaleEmployees();
 $femaleEmp = $application->get_FemaleEmployees();
 $pwdEmp = $application->get_PWDEmployees();
 $lguEmp = $application->get_LGUEmployees();
 $totEmp = $maleEmp + $femaleEmp + $pwdEmp + $lguEmp;
+$laguna = utf8_decode("Biñan");
 //
-// $physicalExam = $application->get_AnnualEmployeePhysicalExam();
-
+$physicalExam = $application2->get_AnnualEmployeePhysicalExam();
+$watRes = $application2->get_typeLevelOfWaterSource();
 //
 $pdf->SetFont("Arial","I","7");
 
@@ -56,14 +56,15 @@ $pdf->Cell(115,5,"Renewal)",0,0,"L");
 $pdf->SetFont("Arial","B","10");
 $pdf->Cell(54,5,"EHS Form 110",0,1,"C");
 
-if($status == "Active")
+$status = $application->get_ApplicationType();
+if($status == "New")
 {
 $pdf->SetXY(13.0125,10.70125);
 $check = "4";
 $pdf->SetFont('ZapfDingbats','', 10);
 $pdf->Cell(4, 3, $check,0, 0);
 }
-else if($status == "Inactive")
+else if($status == "Renewal")
 {
   $pdf->SetXY(25.50125,10.70125);
 $check = "4";
@@ -79,21 +80,21 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+27,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(27,5,"val",0,0,"C");
+$pdf->Cell(27,5,"$date",0,0,"C");
 //$pdf->Cell(20,5,"September 27",0,0,"C");
 $x = $pdf->GetX();
 $pdf->SetX($x+2);
 $pdf->SetFont("Arial","IB","10");
 $pdf->SetX($x);
-$pdf->Cell(2,5,",",0,0,"L");
-$pdf->SetFont("Arial","B","7");
-$pdf->Cell(5,5,"201",0,0,"C");
-$x = $pdf->GetX();
-$pdf->SetX($x);
-$pdf->Line($x,$y+3.7,$x+3,$y+3.7);
-$x = $pdf->GetX();
-$pdf->SetXY($x,$y);
-$pdf->Cell(3,5,"val",0,0,"C");
+// $pdf->Cell(2,5,",",0,0,"L");
+// $pdf->SetFont("Arial","B","7");
+// $pdf->Cell(5,5,"201",0,0,"C");
+// $x = $pdf->GetX();
+// $pdf->SetX($x);
+// $pdf->Line($x,$y+3.7,$x+3,$y+3.7);
+// $x = $pdf->GetX();
+// $pdf->SetXY($x,$y);
+// $pdf->Cell(3,5,"val",0,0,"C");
 
 $pdf->SetX(132);
 $pdf->Cell(66,30,"",1,0,"L");
@@ -105,7 +106,7 @@ $y = $pdf->GetY();
 $pdf->Text(137,$y+15,"SANITARY PERMIT NO.");
 $pdf->Line(139,$y+26,190,$y+26);
 $pdf->SetXY(139,$y+21);
-$pdf->Cell(51,5,"QWE",0,0,"C");
+$pdf->Cell(51,5,"$sanitaryPermitNum",0,0,"C");
 // $pdf->SetXY(150,$y+19);
 // $pdf->Text(150,$y+25.5,"09271996");
 
@@ -117,7 +118,7 @@ $pdf->SetFont("Arial","B","9");
 $pdf->Cell(20,7,"DR. MIRABELLE M. BENJAMIN, MPH",0,1,"L");
 $pdf->SetFont("Arial","","7");
 $pdf->Cell(20,4,"City Health Officer",0,1,"L");
-$pdf->Cell(20,4,"City of Biñan, Laguna",0,1,"L");
+$pdf->Cell(20,4,"City of $laguna, Laguna",0,1,"L");
 
 $y = $pdf->GetY();
 $pdf->SetY($y+8);
@@ -208,7 +209,7 @@ $pdf->Line($x,$y+3.3,$x+63,$y+3.3);
 $pdf->SetFont("Arial","","7");
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.3);
-$pdf->Cell(63,5,"val",0,0,"L");
+$pdf->Cell(63,5,"$regOwner",0,0,"L");
 $pdf->SetXY(95,$y);
 $pdf->Cell(16,4,"Contact Nos.",0,0,"L");
 $x = $pdf->GetX();
@@ -217,7 +218,7 @@ $pdf->Line($x,$y+3.3,$x+45.5,$y+3.3);
 $pdf->SetFont("Arial","","7");
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.3);
-$pdf->Cell(45.5,5,"val",0,0,"L");
+$pdf->Cell(45.5,5,"$contactNum",0,0,"L");
 
 $y = $pdf->GetY();
 $pdf->SetY($y+5);
@@ -229,7 +230,7 @@ $pdf->Line($x,$y+3.3,$x+115.5,$y+3.3);
 $pdf->SetFont("Arial","","7");
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.3);
-$pdf->Cell(115.5,5,"val",0,0,"L");
+$pdf->Cell(115.5,5,"$natBusi",0,0,"L");
 
 $y = $pdf->GetY();
 $pdf->SetXY(18,$y+5);
@@ -285,15 +286,14 @@ $pdf->SetXY($x+5,$y-.3);
 $pdf->Cell(19,5,"",0,0,"C");
 
 //Checkbox Temporary
-$ann = "Active";
-if($ann == "Active")
+if($physicalExam == 0)
 {
 $pdf->SetXY(100.00125,113.6);
 $check = "4";
 $pdf->SetFont('ZapfDingbats','', 10);
 $pdf->Cell(4, 3, $check,0, 0);
 }
-else if($ann == "Inctive")
+else if($physicalExam == 1)
 {
   $pdf->SetXY(125,113.6);
 $check = "4";
@@ -310,7 +310,7 @@ $y = $pdf->GetY();
 $pdf->Line($x+5,$y+3.3,$x+45,$y+3.3);
 $x = $pdf->GetX();
 $pdf->SetXY($x+5,$y-.3);
-$pdf->Cell(40,5,"val",0,0,"L");
+$pdf->Cell(40,5,"$watRes",0,0,"L");
 
 $y = $pdf->GetY();
 $pdf->SetXY(18,$y+5);
@@ -326,7 +326,7 @@ $pdf->Line($x+7,$y+3.3,$x+66.5,$y+3.3);
 $pdf->SetFont("Arial","","7");
 $x = $pdf->GetX();
 $pdf->SetXY($x+7,$y-.3);
-$pdf->Cell(59.5,5,"val",0,0,"C");
+$pdf->Cell(59.5,5,"",0,0,"C");
 $pdf->Text($x+7,$y+6.5,"Signature of Owner or Representative (w/authorization)");
 
 $y = $pdf->GetY();
@@ -352,7 +352,7 @@ $pdf->Line($x,$y+3.3,$x+80,$y+3.3);
 $pdf->SetFont("Arial","","7");
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.3);
-$pdf->Cell(80,5,"$appBusinessName",0,0,"L");
+$pdf->Cell(80,5,"",0,0,"L");
 $pdf->SetX(140);
 $pdf->SetFont("Arial","B","8");
 $pdf->Cell(9,4,"Date:",0,0,"L");
@@ -362,7 +362,7 @@ $pdf->Line($x,$y+3.3,$x+27,$y+3.3);
 $pdf->SetFont("Arial","","7");
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.3);
-$pdf->Cell(27,5,"val",0,0,"C");
+$pdf->Cell(27,5,"",0,0,"C");
 $pdf->SetX(176);
 $pdf->SetFont("Arial","B","8");
 $pdf->Cell(9,4,", 2017",0,0,"L");
@@ -421,7 +421,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.3,$x+22,$y+3.3);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.3);
-$pdf->Cell(22,5,"val",0,0,"C");
+$pdf->Cell(22,5,"",0,0,"C");
 $pdf->SetX(46);
 $pdf->SetFont("Arial","","8");
 $pdf->Cell(62.5,5,"lacking in essential requirements embodied in the",0,0,"L");
@@ -439,7 +439,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.3,$x+22,$y+3.3);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.3);
-$pdf->Cell(22,5,"val",0,0,"C");
+$pdf->Cell(22,5,"",0,0,"C");
 $pdf->SetX(46);
 $pdf->SetFont("Arial","B","10");
 $pdf->Cell(32,5,"FOR INSPECTION.",0,0,"L");
@@ -463,12 +463,13 @@ $pdf->SetXY(23,$y+3);
 $pdf->SetFont("Arial","","7");
 $pdf->Cell(32,5,"For inquiries, please contact: ",0,0,"L");
 $pdf->SetFont("Arial","IB","7");
-$pdf->Cell(40.5,5,"chobinan_sanitation@yahoo.com",0,0,"L");
+$ce = utf8_decode("chobiñan_sanitation@yahoo.com");
+$pdf->Cell(40.5,5,"$ce",0,0,"L");
 $pdf->SetFont("Arial","I","7");
 $pdf->Cell(42,5,"/ Smart: 0998-510-7301 /Landline: 049-511-8142",0,1,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(23,$y+3);
-$pdf->Cell(42,5,"*All offices of the City Government of Binan are undergoing ISO Certification, please bear with us: Say no to FIXERS.*",0,0,"L");
+$pdf->Cell(42,5,"*All offices of the City Government of $laguna are undergoing ISO Certification, please bear with us: Say no to FIXERS.*",0,0,"L");
 $pdf->Output();
 
 ?>

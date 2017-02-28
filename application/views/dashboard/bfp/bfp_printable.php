@@ -11,9 +11,11 @@ $pdf->Cell(0,4,"Republic of the Philippines",0,1,"C");
 $pdf->Cell(0,4,"Department of the Interior and Local Government",0,1,"C");
 $pdf->SetFont("Arial","B","8");
 $pdf->Cell(0,4,"BUREAU OF FIRE PROTECTION",0,1,"C");
-$pdf->Cell(0,4,"BINAN CITY FIRE STATION",0,1,"C");
+$bc = utf8_decode("BIÑAN CITY FIRE STATION");
+$pdf->Cell(0,4,"$bc",0,1,"C");
 $pdf->SetFont("Arial","","7");
-$pdf->Cell(0,4,"Brgy. Poblacion, Binan City Laguna",0,1,"C");
+$bcl = utf8_decode("Brgy. Poblacion, Biñan City Laguna");
+$pdf->Cell(0,4,"$bcl",0,1,"C");
 $pdf->Cell(0,4,"Tel Nos: (049) 511-9111",0,1,"C");
 
 //
@@ -26,7 +28,7 @@ $pdf->Line($x+1,$y+3.7,$x+25,$y+3.7);
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+1,$y-.2);
-$pdf->Cell(24,5,"[/]",0,0,"C");
+$pdf->Cell(24,5,"",0,0,"C");
 
 //
 $y = $pdf->GetY();
@@ -41,17 +43,18 @@ $pdf->Line($x+1,$y+3.7,$x+110,$y+3.7);
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+1,$y-.2);
-$pdf->Cell(109,5,"[/]",0,0,"C");
+$pdf->Cell(109,5,"",0,0,"C");
 $y = $pdf->GetY();
 $pdf->SetXY(55,$y+6);
-$pdf->Cell(27,5,"At Binan City, owned by",0,0,"L");
+$at = utf8_decode("At Biñan City, owned by");
+$pdf->Cell(27,5,"$at",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->Line($x+1,$y+3.7,$x+87,$y+3.7);
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+1,$y-.2);
-$pdf->Cell(86,5,"[/]",0,0,"C");
+$pdf->Cell(86,5,"",0,0,"C");
 $y = $pdf->GetY();
 
 //
@@ -83,7 +86,7 @@ $pdf->Line($x+1,$y+3.7,$x+42,$y+3.7);
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+1,$y-.2);
-$pdf->Cell(41,5,"[/]",0,0,"C");
+$pdf->Cell(41,5,"",0,0,"C");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y+.2);
@@ -94,7 +97,7 @@ $pdf->Line($x,$y+3.7,$x+24.5,$y+3.7);
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(25,5,"[/]",0,0,"C");
+$pdf->Cell(25,5,"",0,0,"C");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x-1,$y+.2);
@@ -107,7 +110,7 @@ $pdf->Line($x+1,$y+3.7,$x+25,$y+3.7);
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+1,$y-.2);
-$pdf->Cell(24,5,"[/]",0,0,"C");
+$pdf->Cell(24,5,"",0,0,"C");
 
 //
 // $y = $pdf->GetY();
@@ -121,7 +124,7 @@ $x=$pdf->GetX();
 $y=$pdf->GetY();
 
 //Checkbox
-$cb = array(1,2,3,4,5,6,7);
+$cb = 0;
 $cblength = count($cb);
 for($i=0;$i<$cblength;$i++)
 {
@@ -219,7 +222,7 @@ $pdf->Line($x,$y+2.7,$x+71.5,$y+2.7);
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y-1.4);
-$pdf->Cell(71.5,5,"[/]",0,0,"C");
+$pdf->Cell(71.5,5,"",0,0,"C");
 
 //
 $y = $pdf->GetY();
@@ -246,7 +249,8 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+147,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(147,5,"val",0,0,"L");
+$nb = utf8_decode($application->get_bldgName());
+$pdf->Cell(147,5,"$nb",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -257,7 +261,8 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+149,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(149,5,"val",0,0,"L");
+$bn = utf8_decode($application->get_businessName());
+$pdf->Cell(149,5,"$bn",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -268,18 +273,20 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+158,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(158,5,"val",0,0,"L");
+$add = utf8_decode($application->get_bldgName() . " " . $application->get_houseBldgNum() . " " . $application->get_unitNum() . " " . $application->get_street() . " " . $application->get_Subdivision() . " " . $application->get_barangay() . " " . $application->get_cityMunicipality() . " " . $application->get_province());
+$pdf->Cell(158,5,"$add",0,0,"L");
 
 //
 $y = $pdf->GetY();
 $pdf->SetXY(20,$y+4);
+$nob = $application->get_LineOfBusiness();
 $pdf->Cell(26,5,"Nature of Business",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+144,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(144,5,"val",0,0,"L");
+$pdf->Cell(144,5,"$nob",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -290,7 +297,8 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+72,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(72,5,"val",0,0,"L");
+$no = utf8_decode($application->get_FirstName() . " " . $application->get_MiddleName() . " " . $application->get_LastName());
+$pdf->Cell(72,5,"$no",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -300,7 +308,8 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+45,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(45,5,"val",0,0,"L");
+$co1 = $application->get_OwnertelNum();
+$pdf->Cell(45,5,"$co1",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -311,7 +320,8 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+77,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(77,5,"val",0,0,"L");
+$nor = utf8_decode($this->session->userdata['userdata']['firstName'] . " " . $this->session->userdata['userdata']['middleName'] . " " . $this->session->userdata['userdata']['lastName']);
+$pdf->Cell(77,5,"$nor",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -321,7 +331,8 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+44,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(44,5,"val",0,0,"L");
+// $co2 = $representative->get_contactNum();
+$pdf->Cell(44,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -332,7 +343,8 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+35,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(35,5,"val",0,0,"L");
+$nos = $application2->get_storeys();
+$pdf->Cell(35,5,"$nos",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -342,7 +354,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+33,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(33,5,"val",0,0,"L");
+$pdf->Cell(33,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -352,7 +364,8 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+40,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(40,5,"val",0,0,"L");
+$op = $application2->get_occupiedPortion();
+$pdf->Cell(40,5,"$op",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -363,7 +376,8 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+40,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(40,5,"val",0,0,"L");
+$apf = $application2->get_areaPerFloor();
+$pdf->Cell(40,5,"$apf",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -374,7 +388,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+40,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(40,5,"val",0,0,"L");
+$pdf->Cell(40,5,"",0,0,"L");
 $pdf->Cell(4,5,"sqm",0,0,"L");
 
 //
@@ -386,7 +400,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+25,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(25,5,"val",0,0,"L");
+$pdf->Cell(25,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -396,7 +410,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+19,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(19,5,"val",0,0,"L");
+$pdf->Cell(19,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -406,7 +420,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+20,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(20,5,"val",0,0,"L");
+$pdf->Cell(20,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -416,7 +430,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+15,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(15,5,"val",0,0,"L");
+$pdf->Cell(15,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -427,7 +441,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+48,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(48,5,"val",0,0,"L");
+$pdf->Cell(48,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -437,7 +451,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+29,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(29,5,"val",0,0,"L");
+$pdf->Cell(29,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -447,7 +461,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+25,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(25,5,"val",0,0,"L");
+$pdf->Cell(25,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -458,7 +472,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+57,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(57,5,"val",0,0,"L");
+$pdf->Cell(57,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -468,7 +482,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+29,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(29,5,"val",0,0,"L");
+$pdf->Cell(29,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -478,7 +492,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+27,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(27,5,"val",0,0,"L");
+$pdf->Cell(27,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -489,7 +503,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+53,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(53,5,"val",0,0,"L");
+$pdf->Cell(53,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -499,7 +513,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+41,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(41,5,"val",0,0,"L");
+$pdf->Cell(41,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -510,7 +524,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+40,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(40,5,"val",0,0,"L");
+$pdf->Cell(40,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -520,7 +534,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+22,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(22,5,"val",0,0,"L");
+$pdf->Cell(22,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -530,7 +544,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+26,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(26,5,"val",0,0,"L");
+$pdf->Cell(26,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -541,7 +555,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+15,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(15,5,"val",0,0,"L");
+$pdf->Cell(15,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -551,7 +565,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+26,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(26,5,"val",0,0,"L");
+$pdf->Cell(26,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -561,7 +575,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+14,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(14,5,"val",0,0,"L");
+$pdf->Cell(14,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -571,7 +585,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+22,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(22,5,"val",0,0,"L");
+$pdf->Cell(22,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -582,7 +596,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+58,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(58,5,"val",0,0,"L");
+$pdf->Cell(58,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -592,7 +606,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+38,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(38,5,"val",0,0,"L");
+$pdf->Cell(38,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -613,7 +627,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+45,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(45,5,"val",0,0,"L");
+$pdf->Cell(45,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -623,7 +637,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+39,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(39,5,"val",0,0,"L");
+$pdf->Cell(39,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -634,7 +648,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.7,$x+146,$y+3.7);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y);
-$pdf->Cell(146,5,"val",0,0,"L");
+$pdf->Cell(146,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -652,7 +666,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+36,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(36,5,"val",0,0,"L");
+$pdf->Cell(36,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+5,$y);
@@ -662,7 +676,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+46,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(46,5,"val",0,0,"L");
+$pdf->Cell(46,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+5,$y);
@@ -672,7 +686,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+47,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(47,5,"val",0,0,"L");
+$pdf->Cell(47,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -684,7 +698,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+28,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(28,5,"val",0,0,"L");
+$pdf->Cell(28,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+5,$y);
@@ -694,7 +708,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+40,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(40,5,"val",0,0,"L");
+$pdf->Cell(40,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+5,$y);
@@ -704,7 +718,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+39,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(39,5,"val",0,0,"L");
+$pdf->Cell(39,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -716,7 +730,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+32,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(32,5,"val",0,0,"L");
+$pdf->Cell(32,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+5,$y);
@@ -726,7 +740,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+45,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(45,5,"val",0,0,"L");
+$pdf->Cell(45,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+5,$y);
@@ -736,7 +750,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+49,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(49,5,"val",0,0,"L");
+$pdf->Cell(49,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -748,7 +762,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+32,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(32,5,"val",0,0,"L");
+$pdf->Cell(32,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+5,$y);
@@ -758,7 +772,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+46,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(46,5,"val",0,0,"L");
+$pdf->Cell(46,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+5,$y);
@@ -768,7 +782,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+51,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -785,7 +799,7 @@ $y = $pdf->GetY();
 $pdf->Line($x+1,$y+3.5,$x+170,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(169,5,"val",0,0,"L");
+$pdf->Cell(169,5,"",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(20,$y+4);
 $x = $pdf->GetX();
@@ -793,7 +807,7 @@ $y = $pdf->GetY();
 $pdf->Line($x+1,$y+3.5,$x+170,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(169,5,"val",0,0,"L");
+$pdf->Cell(169,5,"",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(20,$y+4);
 $x = $pdf->GetX();
@@ -801,7 +815,7 @@ $y = $pdf->GetY();
 $pdf->Line($x+1,$y+3.5,$x+170,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(169,5,"val",0,0,"L");
+$pdf->Cell(169,5,"",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(20,$y+4);
 $x = $pdf->GetX();
@@ -809,7 +823,7 @@ $y = $pdf->GetY();
 $pdf->Line($x+1,$y+3.5,$x+170,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(169,5,"val",0,0,"L");
+$pdf->Cell(169,5,"",0,0,"L");
 $y = $pdf->GetY();
 $pdf->SetXY(20,$y+4);
 $x = $pdf->GetX();
@@ -817,7 +831,7 @@ $y = $pdf->GetY();
 $pdf->Line($x+1,$y+3.5,$x+170,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(169,5,"val",0,0,"L");
+$pdf->Cell(169,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -825,6 +839,59 @@ $pdf->SetXY(20,$y+7);
 $pdf->SetFont("Arial","B","8");
 $pdf->Cell(43,5,"III. MEANS OF EGGRESS",0,0,"L");
 
+$y = $pdf->GetY();
+$pdf->SetXY(25,$y+4);
+$pdf->SetFont("Arial","","7");
+$pdf->Cell(19.5,5,"a)     No. of exits",0,0,"L");
+
+$x = $pdf->GetX();
+$y = $pdf->GetY();
+$pdf->Line($x,$y+3.5,$x+39,$y+3.5);
+$x = $pdf->GetX();
+$pdf->SetXY($x,$y-.2);
+$pdf->Cell(39,5,"",0,0,"L");
+
+//
+$x = $pdf->GetX();
+$y = $pdf->GetY();
+$pdf->SetXY($x,$y);
+$pdf->Cell(9.5,5,"Widths",0,0,"L");
+$x = $pdf->GetX();
+$y = $pdf->GetY();
+$pdf->Line($x,$y+3.5,$x+97,$y+3.5);
+$x = $pdf->GetX();
+$pdf->SetXY($x,$y-.2);
+$pdf->Cell(10,5,"",0,0,"L");
+
+$y = $pdf->GetY();
+$pdf->SetXY(30.5,$y+4);
+$pdf->Cell(57,5,"Exits accessible?                            [  ] Yes [  ] No",0,0,"L");
+$x = $pdf->GetX();
+$y = $pdf->GetY();
+$pdf->SetXY($x,$y);
+$pdf->Cell(24,5,"Termination of Exits",0,0,"L");
+$x = $pdf->GetX();
+$y = $pdf->GetY();
+$pdf->Line($x,$y+3.5,$x+78.5,$y+3.5);
+$x = $pdf->GetX();
+$pdf->SetXY($x,$y-.2);
+$pdf->Cell(67,5,"",0,0,"L");
+
+//
+$y = $pdf->GetY();
+$pdf->SetXY(30.5,$y+4);
+$pdf->Cell(57,5,"Enclosure Provided?                      [  ] Yes [  ] No",0,0,"L");
+$x = $pdf->GetX();
+$y = $pdf->GetY();
+$pdf->SetXY($x,$y);
+$pdf->Cell(27.5,5,"Enclosure Construction",0,0,"L");
+$x = $pdf->GetX();
+$y = $pdf->GetY();
+$pdf->Line($x,$y+3.5,$x+75,$y+3.5);
+$x = $pdf->GetX();
+$pdf->SetXY($x,$y-.2);
+$pdf->Cell(68,5,"",0,0,"L");
+//
 $pdf->AddPage();
 $x = $pdf->GetX();
 $pdf->SetX($x+20);
@@ -837,7 +904,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+51,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
@@ -849,7 +916,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+10,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(10,5,"val",0,0,"L");
+$pdf->Cell(10,5,"",0,0,"L");
 
 //
 //
@@ -862,7 +929,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+46,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(46,5,"val",0,0,"L");
+$pdf->Cell(46,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -877,7 +944,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+67,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(67,5,"val",0,0,"L");
+$pdf->Cell(67,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -892,7 +959,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+68,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(68,5,"val",0,0,"L");
+$pdf->Cell(68,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -903,7 +970,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+144,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(144,5,"val",0,0,"L");
+$pdf->Cell(144,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -930,7 +997,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+24,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(24,5,"val",0,0,"L");
+$pdf->Cell(24,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
@@ -942,7 +1009,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+40,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(40,5,"val",0,0,"L");
+$pdf->Cell(40,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
@@ -954,7 +1021,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+30,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(30,5,"val",0,0,"L");
+$pdf->Cell(30,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -980,7 +1047,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+44,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(44,5,"val",0,0,"L");
+$pdf->Cell(44,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x+2,$y);
@@ -1019,28 +1086,28 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+25,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(25,5,"val",0,0,"L");
+$pdf->Cell(25,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
 $pdf->Line($x+4,$y+3.5,$x+47,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x+4,$y-.2);
-$pdf->Cell(43,5,"val",0,0,"L");
+$pdf->Cell(43,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
 $pdf->Line($x+4,$y+3.5,$x+45,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x+4,$y-.2);
-$pdf->Cell(43,5,"val",0,0,"L");
+$pdf->Cell(43,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
 $pdf->Line($x+4,$y+3.5,$x+45,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x+4,$y-.2);
-$pdf->Cell(32,5,"val",0,0,"L");
+$pdf->Cell(32,5,"",0,0,"L");
 
 //
 //
@@ -1052,28 +1119,28 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+25,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(25,5,"val",0,0,"L");
+$pdf->Cell(25,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
 $pdf->Line($x+4,$y+3.5,$x+47,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x+4,$y-.2);
-$pdf->Cell(43,5,"val",0,0,"L");
+$pdf->Cell(43,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
 $pdf->Line($x+4,$y+3.5,$x+45,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x+4,$y-.2);
-$pdf->Cell(43,5,"val",0,0,"L");
+$pdf->Cell(43,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
 $pdf->Line($x+4,$y+3.5,$x+45,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x+4,$y-.2);
-$pdf->Cell(32,5,"val",0,0,"L");
+$pdf->Cell(32,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -1084,28 +1151,28 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+25,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(25,5,"val",0,0,"L");
+$pdf->Cell(25,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
 $pdf->Line($x+4,$y+3.5,$x+47,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x+4,$y-.2);
-$pdf->Cell(43,5,"val",0,0,"L");
+$pdf->Cell(43,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
 $pdf->Line($x+4,$y+3.5,$x+45,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x+4,$y-.2);
-$pdf->Cell(43,5,"val",0,0,"L");
+$pdf->Cell(43,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();
 $pdf->Line($x+4,$y+3.5,$x+45,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x+4,$y-.2);
-$pdf->Cell(32,5,"val",0,0,"L");
+$pdf->Cell(32,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -1116,7 +1183,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+89.5,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(32,5,"val",0,0,"L");
+$pdf->Cell(32,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -1127,7 +1194,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+132.5,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(132.5,5,"val",0,0,"L");
+$pdf->Cell(132.5,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -1148,7 +1215,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+20,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(20,5,"val",0,0,"L");
+$pdf->Cell(20,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -1174,7 +1241,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+35,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(35,5,"val",0,0,"L");
+$pdf->Cell(35,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -1184,7 +1251,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+91,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(91,5,"val",0,0,"L");
+$pdf->Cell(91,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -1195,7 +1262,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+29,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(29,5,"val",0,0,"L");
+$pdf->Cell(29,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -1205,7 +1272,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+22,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(22,5,"val",0,0,"L");
+$pdf->Cell(22,5,"",0,0,"L");
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x,$y);
@@ -1215,7 +1282,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+51,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -1232,7 +1299,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -1242,18 +1309,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
-
-//
-//
-$y = $pdf->GetY();
-$pdf->SetXY(21,$y+4);
-$x = $pdf->GetX();
-$y = $pdf->GetY();
-$pdf->Line($x,$y+3.5,$x+168,$y+3.5);
-$x = $pdf->GetX();
-$pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 //
@@ -1264,7 +1320,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 //
@@ -1275,7 +1331,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 //
@@ -1286,7 +1342,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 //
@@ -1297,7 +1353,18 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
+
+//
+//
+$y = $pdf->GetY();
+$pdf->SetXY(21,$y+4);
+$x = $pdf->GetX();
+$y = $pdf->GetY();
+$pdf->Line($x,$y+3.5,$x+168,$y+3.5);
+$x = $pdf->GetX();
+$pdf->SetXY($x,$y-.2);
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -1314,7 +1381,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -1324,18 +1391,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
-
-//
-//
-$y = $pdf->GetY();
-$pdf->SetXY(21,$y+4);
-$x = $pdf->GetX();
-$y = $pdf->GetY();
-$pdf->Line($x,$y+3.5,$x+168,$y+3.5);
-$x = $pdf->GetX();
-$pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 //
@@ -1346,7 +1402,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 //
@@ -1357,7 +1413,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 //
@@ -1368,7 +1424,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 //
@@ -1379,7 +1435,18 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+168,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
+
+//
+//
+$y = $pdf->GetY();
+$pdf->SetXY(21,$y+4);
+$x = $pdf->GetX();
+$y = $pdf->GetY();
+$pdf->Line($x,$y+3.5,$x+168,$y+3.5);
+$x = $pdf->GetX();
+$pdf->SetXY($x,$y-.2);
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 $y = $pdf->GetY();
@@ -1416,7 +1483,7 @@ $y = $pdf->GetY();
 $pdf->Line($x,$y+3.5,$x+40,$y+3.5);
 $x = $pdf->GetX();
 $pdf->SetXY($x,$y-.2);
-$pdf->Cell(51,5,"val",0,0,"L");
+$pdf->Cell(51,5,"",0,0,"L");
 
 //
 $x = $pdf->GetX();

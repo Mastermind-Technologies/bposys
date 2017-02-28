@@ -2336,7 +2336,8 @@ class Dashboard extends CI_Controller {
 	public function get_sanitary_info()
 	{
 		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
+		$data['application'] = new BPLO_Application('1E5E2270C6');
+		$data['application2'] = new Sanitary_Application('1E5E2270C6');
 
 		$this->load->view('dashboard/cho/sanitary_printable',$data);
 	}
@@ -2344,24 +2345,26 @@ class Dashboard extends CI_Controller {
 	public function get_bfp_info()
 	{
 		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
+		$data['application'] = new BPLO_Application('1E5E2270C6');
+		$data['application2'] = new BFPF_Application('1E5E2270C6');
 
 		$this->load->view('dashboard/bfp/bfp_printable',$data);
 	}
 
 
-	public function get_bplo_renewal_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
-
-		$this->load->view('dashboard/bplo/bpaf_renewal_printable',$data);
-	}
+	// public function get_bplo_renewal_info()
+	// {
+	// 	$data['application'] = $this->Application_m->get_all_bplo_applications();
+	// 	$data['application'] = new BPLO_Application('9E9E1D64A2');
+	//
+	// 	$this->load->view('dashboard/bplo/bpaf_renewal_printable',$data);
+	// }
 
 	public function get_zoning_info()
 	{
 		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
+		$data['application'] = new BPLO_Application('1E5E2270C6');
+		$data['application2'] = new Sanitary_Application('1E5E2270C6');
 
 		$this->load->view('dashboard/zoning/zoning_printable',$data);
 	}
@@ -2369,7 +2372,8 @@ class Dashboard extends CI_Controller {
 	public function get_cenro_info()
 	{
 		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
+		$data['application'] = new BPLO_Application('1E5E2270C6');
+		$data['application2'] = new CENRO_Application('1E5E2270C6');
 
 		$this->load->view('dashboard/cenro/cenro_printable',$data);
 	}
