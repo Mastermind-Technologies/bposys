@@ -22,304 +22,419 @@
 
   </div>
 
-  <!--   <pre>
-  <?php print_r($application); ?>
-</pre> -->
-
-<div class="container-fluid">
-  <div class="widget-box">
-    <div class="widget-title">
-      <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#tab1">BPLO Form</a></li>
-        <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
-        <li><a data-toggle="tab" onclick="initMap()" href="#tab3">Business Location</a></li>
-      </ul>
-    </div>
-    <div class="widget-content tab-content">
-      <div id="tab1" class="tab-pane active">
-        <table class="table table-bordered">
-          <tbody>
-            <tr>
-              <td>
-                <label for="date_of_application">Date of Application</label>
-                <h5><?=$application->get_applicationDate() ?></h5>
-              </td>
-              <td>
-                <label for="dti_registration_number">DTI/SEC/CDA Registration No.</label>
-                <h5><?= $application->get_DTISECCDARegNum() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="reference_no">Reference No.</label>
-                <h5><?= $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='],  $application->get_referenceNum())) ?></h5>
-              </td>
-              <td>
-                <label for="dti_date_of_registration">DTI/SEC/CDA Date of Registration</label>
-                <h5><?= $application->get_DTISECCDADate() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <label for="type_of_organization">Type of Organization</label>
-                <h5><?= $application->get_organizationType() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="ctc_no">CTC No.</label>
-                <h5><?= $application->get_CTCNum() ?></h5>
-              </td>
-              <td>
-                <label for="tin">TIN</label>
-                <h5><?= $application->get_TIN() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="is_enjoying_tax_incentives">Tax incentive from any Government Entity?</label>
-                <h5><?= $application->get_entityName()=="NA" ? "No" : "Yes" ?></h5>
-              </td>
-              <td>
-                <label for="specified_entity">Specified Entity:</label>
-                <h5><?= $application->get_entityName() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <label for="name_of_tax_payer">Name of Tax Payer</label>
-                <h5><?= $application->get_LastName().", ".$application->get_FirstName()." (".$application->get_MiddleName().")" ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <label for="business_name">Business Name</label>
-                <h5><?= $application->get_businessName() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <label for="trade_name_franchise">Trade Name/ Franchise</label>
-                <h5><?= $application->get_tradeName() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <label for="name_of_president_or_treasurer">Name of President/ Treasurer of Corporation</label>
-                <h5><?= $application->get_presidentTreasurerName() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td style="text-align:center">
-                <h4 style="font-weight: bolder">Business Address</h4>
-              </td>
-              <td style="text-align:center">
-                <h4 style="font-weight: bolder">Owner's Address Address</h4>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_house_no">House No. / Bldg. No.</label>
-                <h5><?= $application->get_houseBldgNum() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_house_no">House No. / Bldg. No.</label>
-                <h5><?= $application->get_houseBldgNum() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_building_name">Building Name</label>
-                <h5><?= $application->get_bldgName() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_building_name">Building Name</label>
-                <h5><?= $application->get_OwnerbldgName() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_unit_no">Unit No.</label>
-                <h5><?= $application->get_unitNum() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_unit_no">Unit No.</label>
-                <h5><?= $application->get_OwnerunitNum() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_street">Street</label>
-                <h5><?= $application->get_street() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_street">Street</label>
-                <h5><?= $application->get_Ownerstreet() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_brgy">Barangay</label>
-                <h5><?= $application->get_barangay() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_brgy">Barangay</label>
-                <h5><?= $application->get_Ownerbarangay() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_subdivision">Subdivision</label>
-                <h5><?= $application->get_Subdivision() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_subdivision">Subdivision</label>
-                <h5><?= $application->get_Ownersubdivision() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_city_municipality">City/ Municipality</label>
-                <h5><?= $application->get_cityMunicipality() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_city_municipality">City/ Municipality</label>
-                <h5><?= $application->get_OwnercityMunicipality() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_province">Province</label>
-                <h5><?= $application->get_province() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_city_province">Province</label>
-                <h5><?= $application->get_Ownerprovince() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_tel_no">Tel No.</label>
-                <h5><?= $application->get_telNum() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_tel_no">Tel No.</label>
-                <h5><?= $application->get_OwnertelNum() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_email_address">Email Address</label>
-                <h5><?= $application->get_email() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_email_address">Email Address</label>
-                <h5><?= $application->get_OwnerEmail() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_property_index_no">Property Index Number (PIN)</label>
-                <h5><?= $application->get_PIN() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_business_area">Business Area (in sq. m.)</label>
-                <h5><?= $application->get_businessArea() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="business_address_no_of_employees_in_establishment">Total No. of Employees in Establishment</label>
-                <h5><?= $application->get_MaleEmployees() + $application->get_FemaleEmployees() + $application->get_PWDEmployees() ?></h5>
-              </td>
-              <td>
-                <label for="owners_address_no_of_employees_residing_in_lgu">No. of Employees Residing in LGU</label>
-                <h5><?= $application->get_LGUEmployees() ?></h5>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <label for="lessors_name">Lessor's Name</label>
-                <h5><?= isset($application->lessors) ?
-                  $application->get_lessors()->lastName.", ".
-                  $application->get_lessors()->firstName." (".
-                  $application->get_lessors()->middleName.")" : "NA" ?></h5>
+  <div class="container-fluid">
+    <div class="widget-box">
+      <div class="widget-title">
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#tab1">BPLO Form</a></li>
+          <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
+          <li><a data-toggle="tab" onclick="initMap()" href="#tab3">Business Location</a></li>
+        </ul>
+      </div>
+      <div class="widget-content tab-content">
+        <div id="tab1" class="tab-pane active">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td>
+                  <label for="date_of_application">Date of Application</label>
+                  <h5><?=$application->get_applicationDate() ?></h5>
+                </td>
+                <td>
+                  <label for="dti_registration_number">DTI/SEC/CDA Registration No.</label>
+                  <h5><?= $application->get_DTISECCDARegNum() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="reference_no">Reference No.</label>
+                  <h5><?= $this->encryption->decrypt(str_replace(['-','_','='], ['/','+','='],  $application->get_referenceNum())) ?></h5>
+                </td>
+                <td>
+                  <label for="dti_date_of_registration">DTI/SEC/CDA Date of Registration</label>
+                  <h5><?= $application->get_DTISECCDADate() ?></h5>
                 </td>
               </tr>
               <tr>
                 <td colspan="2">
-                  <label for="lessors_address">Lessor's Address</label>
+                  <label for="type_of_organization">Type of Organization</label>
+                  <h5><?= $application->get_organizationType() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="ctc_no">CTC No.</label>
+                  <h5><?= $application->get_CTCNum() ?></h5>
+                </td>
+                <td>
+                  <label for="tin">TIN</label>
+                  <h5><?= $application->get_TIN() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="is_enjoying_tax_incentives">Tax incentive from any Government Entity?</label>
+                  <h5><?= $application->get_entityName()=="NA" ? "No" : "Yes" ?></h5>
+                </td>
+                <td>
+                  <label for="specified_entity">Specified Entity:</label>
+                  <h5><?= $application->get_entityName() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="name_of_tax_payer">Name of Tax Payer</label>
+                  <h5><?= $application->get_LastName().", ".$application->get_FirstName()." (".$application->get_MiddleName().")" ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="business_name">Business Name</label>
+                  <h5><?= $application->get_businessName() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="trade_name_franchise">Trade Name/ Franchise</label>
+                  <h5><?= $application->get_tradeName() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="name_of_president_or_treasurer">Name of President/ Treasurer of Corporation</label>
+                  <h5><?= $application->get_presidentTreasurerName() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align:center">
+                  <h4 style="font-weight: bolder">Business Address</h4>
+                </td>
+                <td style="text-align:center">
+                  <h4 style="font-weight: bolder">Owner's Address Address</h4>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_house_no">House No. / Bldg. No.</label>
+                  <h5><?= $application->get_houseBldgNum() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_house_no">House No. / Bldg. No.</label>
+                  <h5><?= $application->get_houseBldgNum() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_building_name">Building Name</label>
+                  <h5><?= $application->get_bldgName() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_building_name">Building Name</label>
+                  <h5><?= $application->get_OwnerbldgName() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_unit_no">Unit No.</label>
+                  <h5><?= $application->get_unitNum() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_unit_no">Unit No.</label>
+                  <h5><?= $application->get_OwnerunitNum() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_street">Street</label>
+                  <h5><?= $application->get_street() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_street">Street</label>
+                  <h5><?= $application->get_Ownerstreet() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_brgy">Barangay</label>
+                  <h5><?= $application->get_barangay() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_brgy">Barangay</label>
+                  <h5><?= $application->get_Ownerbarangay() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_subdivision">Subdivision</label>
+                  <h5><?= $application->get_Subdivision() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_subdivision">Subdivision</label>
+                  <h5><?= $application->get_Ownersubdivision() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_city_municipality">City/ Municipality</label>
+                  <h5><?= $application->get_cityMunicipality() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_city_municipality">City/ Municipality</label>
+                  <h5><?= $application->get_OwnercityMunicipality() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_province">Province</label>
+                  <h5><?= $application->get_province() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_city_province">Province</label>
+                  <h5><?= $application->get_Ownerprovince() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_tel_no">Tel No.</label>
+                  <h5><?= $application->get_telNum() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_tel_no">Tel No.</label>
+                  <h5><?= $application->get_OwnertelNum() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_email_address">Email Address</label>
+                  <h5><?= $application->get_email() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_email_address">Email Address</label>
+                  <h5><?= $application->get_OwnerEmail() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_property_index_no">Property Index Number (PIN)</label>
+                  <h5><?= $application->get_PIN() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_business_area">Business Area (in sq. m.)</label>
+                  <h5><?= $application->get_businessArea() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="business_address_no_of_employees_in_establishment">Total No. of Employees in Establishment</label>
+                  <h5><?= $application->get_MaleEmployees() + $application->get_FemaleEmployees() + $application->get_PWDEmployees() ?></h5>
+                </td>
+                <td>
+                  <label for="owners_address_no_of_employees_residing_in_lgu">No. of Employees Residing in LGU</label>
+                  <h5><?= $application->get_LGUEmployees() ?></h5>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <label for="lessors_name">Lessor's Name</label>
                   <h5><?= isset($application->lessors) ?
-                    $application->get_lessors()->address.", "
-                    .$application->get_lessors()->subdivision.", "
-                    .$application->get_lessors()->barangay.", "
-                    .$application->get_lessors()->cityMunicipality.", "
-                    .$application->get_lessors()->province : "NA" ?></h5>
+                    $application->get_lessors()->lastName.", ".
+                    $application->get_lessors()->firstName." (".
+                    $application->get_lessors()->middleName.")" : "NA" ?></h5>
                   </td>
                 </tr>
                 <tr>
-                  <td>
-                    <label for="lessor_monthly_rental">Monthly Rental</label>
-                    <h5><?= isset($application->lessors) ? $application->get_lessors()->monthlyRental : "NA" ?></h5>
-                  </td>
-                  <td>
-                    <label for="lessor_tel_cel_no">Tel No./ Cel.No.</label>
-                    <h5><?= isset($application->lessors) ? $application->get_lessors()->telNum : "NA" ?></h5>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label for="lessor_email_address">Email Address</label>
-                    <h5><?= isset($application->lessors) ? $application->get_lessors()->email : "NA" ?></h5>
-                  </td>
-                  <td>
-                    <label for="lessor_in_case_of_emergency">In case of emergency (Contact Person | Tel No./Cel No. | Email)</label>
-                    <h5><?=
-                      $application->get_emergencyContactPerson()." | ".
-                      $application->get_emergencyTelNum()." | ".
-                      $application->get_emergencyEmail() ?></h5>
+                  <td colspan="2">
+                    <label for="lessors_address">Lessor's Address</label>
+                    <h5><?= isset($application->lessors) ?
+                      $application->get_lessors()->address.", "
+                      .$application->get_lessors()->subdivision.", "
+                      .$application->get_lessors()->barangay.", "
+                      .$application->get_lessors()->cityMunicipality.", "
+                      .$application->get_lessors()->province : "NA" ?></h5>
                     </td>
                   </tr>
-                </tbody>
-              </table>
-              <?php if ($application->get_status() == 'For applicant visit'): ?>
-                <form action="<?php echo base_url(); ?>dashboard/approve_capitalization/<?= str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()) ?>" method="post">
-                <?php endif ?>
-
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <td colspan="5" style="text-align:center">
-                        <h4 class=text-center>Business Activities</h4>
+                  <tr>
+                    <td>
+                      <label for="lessor_monthly_rental">Monthly Rental</label>
+                      <h5><?= isset($application->lessors) ? $application->get_lessors()->monthlyRental : "NA" ?></h5>
+                    </td>
+                    <td>
+                      <label for="lessor_tel_cel_no">Tel No./ Cel.No.</label>
+                      <h5><?= isset($application->lessors) ? $application->get_lessors()->telNum : "NA" ?></h5>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label for="lessor_email_address">Email Address</label>
+                      <h5><?= isset($application->lessors) ? $application->get_lessors()->email : "NA" ?></h5>
+                    </td>
+                    <td>
+                      <label for="lessor_in_case_of_emergency">In case of emergency (Contact Person | Tel No./Cel No. | Email)</label>
+                      <h5><?=
+                        $application->get_emergencyContactPerson()." | ".
+                        $application->get_emergencyTelNum()." | ".
+                        $application->get_emergencyEmail() ?></h5>
                       </td>
                     </tr>
-                    <tr>
-                      <th rowspan="2" style="width: 30%">
-                        <label for="business_activity_line_of_business">Line of Business</label>
-                      </th>
-                      <th rowspan="2" style="width: 20%">
-                        <label for="business_activity_capitalization">Capitalization</label>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php if ($application->get_status() == "For applicant visit"): ?>
+                  </tbody>
+                </table>
+                <?php if ($application->get_status() == 'For applicant visit'): ?>
+                  <form action="<?php echo base_url(); ?>dashboard/approve_capitalization/<?= str_replace(['/','+','='], ['-','_','='], $application->get_referenceNum()) ?>" method="post">
+                  <?php endif ?>
 
-                      <?php foreach ($application->get_businessActivities() as $activity): ?>
-                        <tr>
-                          <!-- <td><?= $activity->code ?></td> -->
-                          <td>
-                            <?= $activity->lineOfBusiness ?>
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <td colspan="5" style="text-align:center">
+                          <h4 class=text-center>Business Activities</h4>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th style="width: 30%">
+                          <label for="business_activity_line_of_business">Line of Business</label>
+                        </th>
+                        <th rowspan="2" style="width: 20%">
+                          <label for="business_activity_capitalization">Capitalization</label>
+                        </th>
+                        <?php if ($application->get_status() == "For applicant visit"): ?>
+                          <th rowspan="2" style="width: 20%">
+                            <label for="">Action</label>
+                          </th>
+                        <?php endif ?>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php if ($application->get_status() == "For applicant visit"): ?>
+                        <?php if ($application->get_applicationType() == "New"): ?>
+                          <?php foreach ($application->get_businessActivities() as $activity): ?>
+                            <tr>
+                              <!-- <td><?= $activity->code ?></td> -->
+                              <td>
+                                <?= $activity->lineOfBusiness ?>
 
-                            <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>">
-                          </td>
-                          <!-- <td><?= $activity->numOfUnits ?></td> -->
-                          <td>
-                            <input type="number" name="capitalization[]" required class="form-control" value="<?= $activity->capitalization ?>">
-                          </td>
-                        </tr>
-                      <?php endforeach ?>
+                                <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>">
+                              </td>
+                              <!-- <td><?= $activity->numOfUnits ?></td> -->
+                              <td>
+                                <input type="number" name="capitalization[]" required class="form-control" value="<?= $activity->capitalization ?>">
+                              </td>
+                              <td>
+                                <input 
+                                type="button" 
+                                data-target="#<?= $activity->type=='Amusement' ? 'modal-amusement' : '' ?><?= $activity->type=='Financial Institution' ? 'modal-financial' : '' ?>" 
+                                data-toggle="modal" 
+                                value="<?= $activity->type=='Financial Institution' ? 'Select Financial Institution Type' : '' ?><?= $activity->type=='Amusement' ? 'Edit Amusement Devices' : '' ?>" <?= $activity->type=="Financial Institution"||$activity->type=="Amusement" ? '' : 'disabled' ?> 
+                                class="btn <?= $activity->type=='Financial Institution'||$activity->type=='Amusement' ? 'btn-danger btn-required' : 'btn-primary' ?> btn-block"
+                                id="<?= $activity->type=='Financial Institution' ? 'btn-select-financial-institution' : '' ?><?= $activity->type=='Amusement' ? 'btn-edit-amusement-devices' : '' ?>">
+                                <?php if ($activity->type=="Amusement"): ?>
+                                  <?php foreach ($amusement_devices as $key => $device): ?>
+                                    <input type="hidden" class="hidden-device" name='device[]'>
+                                  <?php endforeach ?>
+                                  <input type="hidden" id="hidden-holes" name="holes">
+                                  <input type="hidden" id="hidden-non-automatic-lanes" name="non-automatic-lanes">
+                                  <input type="hidden" id="hidden-automatic-lanes" name="automatic-lanes">
+                                <?php elseif ($activity->type == "Financial Institution"): ?>
+                                  <input type="hidden" name="financial-institution" id='financial-institution' class="hidden-financial-institution">
+                                <?php endif ?>
+                              </td>
+                            </tr>
+                          <?php endforeach ?>
+                        <?php else: ?>
+                          <?php foreach ($application->get_businessActivities() as $activity): ?>
+                            <?php if ($activity->activityStatus == "new"): ?>
+                             <tr>
+                              <!-- <td><?= $activity->code ?></td> -->
+                              <td>
+                                <?= $activity->lineOfBusiness ?>
 
+                                <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>">
+                              </td>
+                              <!-- <td><?= $activity->numOfUnits ?></td> -->
+                              <td>
+                                <input type="number" name="capitalization[]" required class="form-control" value="<?= $activity->capitalization ?>">
+                              </td>
+                              <td>
+                                <input 
+                                type="button" 
+                                data-target="#<?= $activity->type=='Amusement' ? 'modal-amusement' : '' ?><?= $activity->type=='Financial Institution' ? 'modal-financial' : '' ?>" 
+                                data-toggle="modal" 
+                                value="<?= $activity->type=='Financial Institution' ? 'Select Financial Institution Type' : '' ?><?= $activity->type=='Amusement' ? 'Edit Amusement Devices' : '' ?>" <?= $activity->type=="Financial Institution"||$activity->type=="Amusement" ? '' : 'disabled' ?> 
+                                class="btn <?= $activity->type=='Financial Institution'||$activity->type=='Amusement' ? 'btn-danger btn-required' : 'btn-primary' ?> btn-block"
+                                id="<?= $activity->type=='Financial Institution' ? 'btn-select-financial-institution' : '' ?><?= $activity->type=='Amusement' ? 'btn-edit-amusement-devices' : '' ?>">
+                                <?php if ($activity->type=="Amusement"): ?>
+                                  <?php foreach ($amusement_devices as $key => $device): ?>
+                                    <input type="hidden" class="hidden-device" name='device[]'>
+                                  <?php endforeach ?>
+                                  <input type="hidden" id="hidden-holes" name="holes">
+                                  <input type="hidden" id="hidden-non-automatic-lanes" name="non-automatic-lanes">
+                                  <input type="hidden" id="hidden-automatic-lanes" name="automatic-lanes">
+                                <?php elseif ($activity->type == "Financial Institution"): ?>
+                                  <input type="hidden" name="financial-institution" id='financial-institution' class="hidden-financial-institution">
+                                <?php endif ?>
+                              </td>
+                            </tr>
+                          <?php endif ?>
+                        <?php endforeach ?>
+                      <?php endif ?>
+                      <?php if ($application->get_applicationType() == "Renew"): ?>
+                        <table class="table table-bordered">
+                          <tr>
+                            <th></th>
+                            <th></th>
+                            <th class='text-center' colspan=2><label>Gross/Sales Receipts</label></th>
+                            <th></th>
+                          </tr>
+                          <tr>
+                            <th style="width:30%"><label>Line of Business</label></th>
+                            <th style="width:10%"><label>Previous Gross</label></th>
+                            <th style="width:10%"><label>Essentials</label></th>
+                            <th style="width:10%"><label>Non-Essential</label></th>
+                            <th style="width:30%"><label>Action</label></th>
+                          </tr>
+                          <tbody>
+                            <?php foreach ($application->get_businessActivities() as $key => $activity): ?>
+                              <?php if ($activity->activityStatus == "active"): ?>
+                                <tr>
+                                  <td>
+                                    <?= $activity->lineOfBusiness ?>
+                                    <input type="hidden" name="activityId[]" value="<?= $activity->activityId ?>">
+                                    <input type="hidden" name="gross-id[]" value="<?= $this->encryption->encrypt($activity->previousGross[0]->grossId) ?>">
+                                    <input type="hidden" name="capitalization[]" value="<?= $activity->capitalization ?>">
+                                  </td>
+                                  <td>
+                                    <input type="number" required name="previous-gross[]" value="<?= $activity->previousGross[0]->previousGross ?>">
+                                  </td>
+                                  <td>
+                                    <input type="number" required name="essentials[]" value="<?= $activity->previousGross[0]->essentials ?>">
+                                  </td>
+                                  <td>
+                                    <input type="number" required name="non-essential[]" value="<?= $activity->previousGross[0]->nonEssentials ?>">
+                                  </td>
+                                  <td>
+                                    <input 
+                                    type="button" 
+                                    data-target="#<?= $activity->type=='Amusement' ? 'modal-amusement' : '' ?><?= $activity->type=='Financial Institution' ? 'modal-financial' : '' ?>" 
+                                    data-toggle="modal" 
+                                    value="<?= $activity->type=='Financial Institution' ? 'Select Financial Institution Type' : '' ?><?= $activity->type=='Amusement' ? 'Edit Amusement Devices' : '' ?>" <?= $activity->type=="Financial Institution"||$activity->type=="Amusement" ? '' : 'disabled' ?> 
+                                    class="btn <?= $activity->type=='Financial Institution'||$activity->type=='Amusement' ? 'btn-danger btn-required' : 'btn-primary' ?> btn-block"
+                                    id="<?= $activity->type=='Financial Institution' ? 'btn-select-financial-institution' : '' ?><?= $activity->type=='Amusement' ? 'btn-edit-amusement-devices' : '' ?>">
+                                    <?php if ($activity->type=="Amusement"): ?>
+                                      <?php foreach ($amusement_devices as $key => $device): ?>
+                                        <input type="hidden" class="hidden-device" name='device[]'>
+                                      <?php endforeach ?>
+                                      <input type="hidden" id="hidden-holes" name="holes">
+                                      <input type="hidden" id="hidden-non-automatic-lanes" name="non-automatic-lanes">
+                                      <input type="hidden" id="hidden-automatic-lanes" name="automatic-lanes">
+                                    <?php elseif ($activity->type == "Financial Institution"): ?>
+                                      <input type="hidden" name="financial-institution" id='financial-institution' class="hidden-financial-institution">
+                                    <?php endif ?>
+                                  </td>
+                                </tr>
+                              <?php endif ?>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
+                      <?php endif ?>
                     <?php else: ?>
                       <?php foreach ($application->get_businessActivities() as $activity): ?>
                         <tr>
@@ -331,6 +446,7 @@
                           </td>
                         </tr>
                       <?php endforeach ?>
+
                     <?php endif ?>
                   </tbody>
                 </table>
@@ -339,7 +455,7 @@
                   <div class="row-fluid text-center">
                     <div class="span4 offset4">
                       <div class="control-group">
-                        <button type="submit" class="btn btn-success">Approve Capitalization</button>
+                        <button type="submit" disabled class="btn btn-success btn-submit">Approve Capitalization/Gross Sales</button>
                       </div>
                     </div>
                   </div>
@@ -396,7 +512,7 @@
               <div class="form-actions">
                 <div class="row text-center">
                   <?php if ($application->get_status() == "Completed"): ?>
-                    <a href="<?php echo base_url(); ?>form/finalize/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Proceed to Finalization</a>
+                    <a href="<?php echo base_url(); ?>form/payment/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Proceed to Payment</a>
                     <!-- <a href="<?php echo base_url(); ?>dashboard/issue_permit/<?= $application->get_referenceNum() ?>" class="btn btn-success btn-large">Issue Business Permit</a> -->
                   <?php elseif ($application->get_status() == "Active"): ?>
                     <a href="<?php echo base_url(); ?>dashboard/get_bplo_certificate_info" class="btn btn-success btn-large">Print BPLO Certificate</a>
@@ -561,3 +677,86 @@
       }
     }
   </script>
+
+  <div id="modal-financial" class="modal hide modal-lg">
+    <div class="modal-header">
+      <button data-dismiss="modal" class="close" type="button">×</button>
+      <h3>Select Financial Institution</h3>
+    </div>
+    <div class="modal-body">
+      <div class="row-fluid">
+        <div class="control-group">
+          <label class="control-label"></label>
+          <div class="controls">
+            <?php foreach ($financial_institutions as $key => $fi): ?>
+              <label>
+                <input type="radio" <?= $key==0 ? 'checked' : '' ?> name="financial_institution" class='financial-institution' value="<?= $this->encryption->encrypt($fi->financialInstitutionId) ?>" />
+                <?= $fi->description ?>
+              </label>
+            <?php endforeach ?>
+          </div>
+        </div>
+      </div>
+      <div class="">
+        <button type="button" id='btn-save-financial' data-dismiss="modal" class="btn btn-success pull-right">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-amusement" class="modal hide">
+    <div class="modal-header">
+      <button data-dismiss="modal" class="close" type="button">×</button>
+      <h4>Edit Amusement Devices</h4>
+    </div>
+    <div class="modal-body">
+      <div class="row-fluid">
+        <h4>Amusement Devices</h4>
+        <?php foreach ($amusement_devices as $key => $device): ?>
+          <div class="control-group">
+            <label class="control-label"><?= $device->name ?></label>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on">Units</span>
+                <input class="span4 device" placeholder="0" required id="<?= $this->encryption->encrypt($device->amusementDeviceId) ?>" type="number" value="0">
+              </div>
+            </div>
+          </div>
+        <?php endforeach ?>
+        <h4>Golf Links</h4>
+        <div class="control-group">
+          <label class="control-label">
+            No. of Holes
+          </label>
+          <div class="controls">
+            <input class="span4" placeholder="0" required id="holes" value="0" type="number">
+          </div>
+        </div>
+        <h4>Bowling Alleys</h4>
+        <div class="control-group">
+          <label class="control-label">
+            No. of Automatic Lanes
+          </label>
+          <div class="controls">
+            <input class="span4" id="automatic-lanes" placeholder="0" value="0" required type="number">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">
+            No. of Non-Automatic Lanes
+          </label>
+          <div class="controls">
+            <input class="span4" id="non-automatic-lanes" placeholder="0" value="0" required type="number">
+          </div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" id='btn-save-amusement' data-dismiss="modal" class="btn btn-success pull-right">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <?php if ($this->session->flashdata('error')): ?>
+    <script>
+      alert(<?= $this->session->flashdata('error') ?>)
+    </script>
+  <?php endif ?>

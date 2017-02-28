@@ -47,19 +47,7 @@
 											<h4 class="text-center"><strong>Tax Year <?= date('Y') ?></strong></h4>
 											<h4 class="text-center"><strong>CITY OF BIÑAN</strong></h4>
 											<input type="hidden" name="tax-year" id="tax-year" value="<?= date('Y') ?>">
-											<!-- <hr> -->
 											<div class="col-sm-12">
-												<!-- <div class="row">
-													<div class="col-sm-4">
-														<div class="col-sm-12 text-center">
-															<label for="application-date">Date of Application</label>
-														</div>
-														<div class="col-sm-12 text-center">
-															<h3 style="margin-top:0"></h3>
-														</div>
-													</div>
-												</div> -->
-												<!-- <hr> -->
 												<br>
 												<h3 class='panel-header'>Basic Information</h3>
 												<div class="row">
@@ -174,131 +162,125 @@
 																</select>
 															</div>
 														</div>
-											<!-- <div class="col-sm-3">
-												<div class="form-group">
-													<label>Capital Invested</label>
-													<input type="text" name="capital-invested" required data-parsley-type="digits" id="capital-invested" class="form-control">
-												</div>
-											</div> -->
-										</div>
-										<div class="row">
-											<div class="col-sm-3">
-												<label>Tax Payer Name</label>
-												<br>
-												<span id="tax-payer-name">N/A</span>
-											</div>
-											<div class="col-sm-5">
-												<label>Name of President/Treasurer of Corporation</label>
-												<br>
-												<span id='president-treasurer-name'>N/A</span>
-											</div>
-										</div>
-										<hr>
-										<div class="row">
-											<div class="col-sm-12">
-												<h4>Employee Details</h4>
-											</div>
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label>Pollution Control Officer</label>
-													<br>
-													<span id="pollution-control-officer">N/A</span>
-												</div>
-											</div>
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label>Number of Male Employees</label>
-													<br>
-													<span id="male-employees">N/A</span>
-												</div>
-											</div>
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label>Number of Female Employees</label>
-													<br>
-													<span id="female-employees">N/A</span>
-												</div>
-											</div>
-											<div class="col-sm-3">
-												<div class="form-group">
-													<label>Number of PWD Employees</label>
-													<br>
-													<span id="pwd-employees">N/A</span>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label>Number of Employees Residing in LGU</label>
-													<br>
-													<span id="lgu-employees">N/A</span>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label for="">Annual Physical Exams for Employees</label>
-													<div class="radio">
-														<label><input type="radio" checked name="annual-exams" value="Yes">Yes</label>
-														<label><input type="radio" name="annual-exams" value="No">No</label>
 													</div>
-												</div>
-											</div>
-										</div>
-										<hr>
-										<div class="row">
-											<div class="col-sm-12">
-												<h4>Business Details</h4>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label>Company Name</label>
-													<br>
-													<span id="company-name">N/A</span>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label>Business Name</label>
-													<br>
-													<span id="business-name">N/A</span>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label>Trade Name/Franchise</label>
-													<br>
-													<span id='trade-name'>N/A</span>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label>Signage Name</label>
-													<br>
-													<span id='signage-name'>N/A</span>
-												</div>
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label>Organization Type</label>
-													<br>
-													<span id='organization-type'>N/A</span>
-												</div>
+													<div class="row">
+														<div class="col-sm-3">
+															<label>Tax Payer Name</label>
+															<br>
+															<span id="tax-payer-name">N/A</span>
+														</div>
+														<div class="col-sm-5">
+															<label>Name of President/Treasurer of Corporation</label>
+															<br>
+															<span id='president-treasurer-name'>N/A</span>
+														</div>
+													</div>
+													<hr>
+													<div class="row">
+														<div class="col-sm-12">
+															<h4>Employee Details</h4>
+														</div>
+														<div class="col-sm-3">
+															<div class="form-group">
+																<label>Pollution Control Officer</label>
+																<br>
+																<span id="pollution-control-officer">N/A</span>
+															</div>
+														</div>
+														<div class="col-sm-3">
+															<div class="form-group">
+																<label>Number of Male Employees</label>
+																<br>
+																<span id="male-employees">N/A</span>
+															</div>
+														</div>
+														<div class="col-sm-3">
+															<div class="form-group">
+																<label>Number of Female Employees</label>
+																<br>
+																<span id="female-employees">N/A</span>
+															</div>
+														</div>
+														<div class="col-sm-3">
+															<div class="form-group">
+																<label>Number of PWD Employees</label>
+																<br>
+																<span id="pwd-employees">N/A</span>
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-4">
+															<div class="form-group">
+																<label>Number of Employees Residing in LGU</label>
+																<br>
+																<span id="lgu-employees">N/A</span>
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-4">
+															<div class="form-group">
+																<label for="">Annual Physical Exams for Employees</label>
+																<div class="radio">
+																	<label><input type="radio" checked name="annual-exams" value="Yes">Yes</label>
+																	<label><input type="radio" name="annual-exams" value="No">No</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<hr>
+													<div class="row">
+														<div class="col-sm-12">
+															<h4>Business Details</h4>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-4">
+															<div class="form-group">
+																<label>Company Name</label>
+																<br>
+																<span id="company-name">N/A</span>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group">
+																<label>Business Name</label>
+																<br>
+																<span id="business-name">N/A</span>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group">
+																<label>Trade Name/Franchise</label>
+																<br>
+																<span id='trade-name'>N/A</span>
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-4">
+															<div class="form-group">
+																<label>Signage Name</label>
+																<br>
+																<span id='signage-name'>N/A</span>
+															</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group">
+																<label>Organization Type</label>
+																<br>
+																<span id='organization-type'>N/A</span>
+															</div>
 
-											</div>
-											<div class="col-sm-4">
-												<div class="form-group">
-													<label>Corporation Name <small>(if corporation)</small></label>
-													<br>
-													<span id='corporation-name'>N/A</span>
-												</div>
-											</div>
+														</div>
+														<div class="col-sm-4">
+															<div class="form-group">
+																<label>Corporation Name <small>(if corporation)</small></label>
+																<br>
+																<span id='corporation-name'>N/A</span>
+															</div>
+														</div>
 	<!-- 										<div class="col-sm-4">
 												<div class="form-group">
 													<label>Nature of Business</label>
@@ -954,7 +936,7 @@
 															<div class="col-sm-3">
 																<div class="form-group">
 																	<label for="water-supply-type">Type of Water Supply/Source</label>
-																	<input type="text" name="water-supply-type" id="water-supply-type" class="form-control">
+																	<input type="text" required name="water-supply-type" id="water-supply-type" class="form-control">
 																</div>
 															</div>
 														</div>
@@ -986,7 +968,10 @@
 												<h3><strong>Information on Line of Businesses</strong></h3>
 												<br>
 												<br>
-												1.) <strong>Manufacturer Kind</strong> - Manufacturers, assemblers, repackers, processors, brewers, distillers, rectifiers and compounders, or whatever kind or nature.
+												<?php foreach ($line_of_business as $key => $line): ?>
+													<?= ($key+1).".) <strong>".$line->name."</strong> - ".$line->description."<br><br>" ?>
+												<?php endforeach ?>
+												<!-- 1.) <strong>Manufacturer Kind</strong> - Manufacturers, assemblers, repackers, processors, brewers, distillers, rectifiers and compounders, or whatever kind or nature.
 												<br>
 												<br>
 												2.) <strong>Wholesaler Kind</strong> - Wholesalers, distributors, or dealers or whatever kind or nature.
@@ -1022,7 +1007,7 @@
 												12.) <strong>Display areas of products</strong> - Offices used as display areas of the products or where no stocks or items are stored for sale but receives orders for the products; and warehouses being utilized as storage of products and which does not accept orders or issue sales invoice.
 												<br>
 												<br>
-												13.) <strong>Others</strong> - Other businesses, trades or commercial undertakings not herein expressly specified.
+												13.) <strong>Others</strong> - Other businesses, trades or commercial undertakings not herein expressly specified. -->
 											</div>
 											<div class="col-sm-8 col-sm-offset-2">
 												<table id='bus-activity' class="table table-bordered">
@@ -1034,9 +1019,12 @@
 															<!-- <td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td> -->
 															<td><select name='line-of-business' id='line-of-business' required class="form-control">
 																<option selected disabled>Select Line of Business</option>
-																<option value='Manufacturer Kind'>Manufacturer Kind</option>
-																<option value='Wholesaler Kind'>Wholesaler Kind</option>
-																<option value='Exporter Kind'>Exporter Kind</option>
+																<?php foreach ($line_of_business as $key => $line): ?>
+																	<option value="<?= $this->encryption->encrypt($line->name) ?>"><?= $line->name ?></option>
+																<?php endforeach ?>
+																<!-- <option value='Manufacturer Kind'>Manufacturer Kind</option>
+																<option value='Wholesaler kind'>Wholesaler kind</option>
+																<option value='Exporter kind'>Exporter kind</option>
 																<option value='Retailer'>Retailer</option>
 																<option value='Contractor'>Contractor</option>
 																<option value='Bank'>Bank</option>
@@ -1046,7 +1034,7 @@
 																<option value='Retail Dealers (liquors)'>Retail Dealers (liquors)</option>
 																<option value='Retail Dealers (tobaccos)'>Retail Dealers (tobaccos)</option>
 																<option value='Display areas of products'>Display areas of products</option>
-																<option value='Others'>Others</option>
+																<option value='Others'>Others</option> -->
 															</select></td>
 															<td><input id='capitalization' name="capitalization" type="text" required data-parsley-type='digits' class=form-control></td>
 															<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
@@ -1089,36 +1077,3 @@
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8" async defer></script>
 
 		<script>
-			
-			// function initMap(){
-				
-			// 	var map;
-			// 	latlang = new google.maps.LatLng(14.315036717630743,121.07954978942871);
-			// 	map = new google.maps.Map(document.getElementById('gmaps'), {
-			// 		center: latlang,
-			// 		zoom: 8
-
-			// 	});
-			// 	var marker = new google.maps.Marker({
-			// 		position: latlang,
-			// 	});
-
-			// 	marker.setMap(map);
-			// }
-		</script>
-
-<!-- <div id="modalLineOfBusiness" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-
-
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Choose Line of Business</h4>
-			</div>
-			<div class="modal-body">
-
-			</div>
-		</div>
-	</div>
-</div> -->

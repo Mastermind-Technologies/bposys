@@ -11,6 +11,9 @@ class Application_m extends CI_Model {
   private $engineering = 'application_engineering';
   private $lessor = 'lessors';
   private $business_activity = 'business_activities';
+  private $assessment = 'assessments';
+  private $charge = 'charges';
+  
   public function __construct()
   {
     parent::__construct();
@@ -96,6 +99,20 @@ class Application_m extends CI_Model {
     $result = $this->db->get();
 
     return $result->result();
+  }
+
+  public function get_all_bplo_applications_with_unsettled_charges()
+  {
+    //select application_bplo.* from application_bplo join assessments on assessments.referenceNum = application_bplo.referenceNum join charges on assessments.assessmentId = charges.assessmentId where charges.status = 'not paid' group by application_bplo.referenceNum 
+    $this->db->select('application_bplo.*');
+    $this->db->from($this->bplo);
+    $this->db->join($this->assessment, 'assessments.referenceNum = application_bplo.referenceNum');
+    $this->db->join($this->charge, 'assessments.assessmentId = charges.assessmentId');
+    $this->db->where('charges.status', 'not paid');
+    $this->db->where('application_bplo.status', 'active');
+    $this->db->group_by('application_bplo.referenceNum');
+
+    return $this->db->get()->result();
   }
 
   public function get_latest_bplo_applications($query = null)

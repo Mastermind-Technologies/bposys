@@ -424,7 +424,7 @@
 												<div class="col-sm-3 pull-right form-navigation">
 													<a data-toggle='tab' class='btn btn-success next pull-right'>Next 2/6</a>
 													<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
-													
+
 												</div>
 											</div>
 
@@ -515,10 +515,10 @@
 												<div class="col-sm-3 pull-right form-navigation">
 													<a data-toggle='tab' class='btn btn-success next pull-right'>Next 3/6</a>
 													<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
-													
+
 												</div>
 											</div>
-											
+
 										</div>
 										<div class="tab-pane" id='step5'>
 											<h2 class="panel-header">Issued Certificates/Permits</h2>
@@ -596,10 +596,10 @@
 												<div class="col-sm-3 pull-right form-navigation">
 													<a data-toggle='tab' class='btn btn-success next pull-right'>Next 4/6</a>
 													<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
-													
+
 												</div>
 											</div>
-											
+
 										</div>
 										<div class="tab-pane" id='step6'>
 											<h2 class="panel-header">Environmental Details</h2>
@@ -995,11 +995,11 @@
 																				<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
 																			</div>
 																		</div>
-																		
+
 																	</div>
 																	<div class="tab-pane" id='step7'>
 																		<h2 class="panel-header">Business Activities</h2>
-																		
+
 																		<div class="col-sm-12 table-existing-business-activities">
 																			<span>Gross/Sales Receipts Declaration</span>
 																			<table id='table-existing-business-activities' class="table table-bordered">
@@ -1044,56 +1044,59 @@
 																				<tbody class="table-body">
 																					<tr class="data">
 																						<!-- <td><input id="line-of-business" name="line-of-business" type="text" required class=form-control></td> -->
-																						<td><select name='line-of-business' id='line-of-business' class="form-control">
+																						<td><select name='line-of-business' id='line-of-business' required class="form-control">
 																							<option selected disabled>Select Line of Business</option>
-																							<option value='Manufacturer Kind'>Manufacturer Kind</option>
-																							<option value='Wholesaler Kind'>Wholesaler Kind</option>
-																							<option value='Exporter Kind'>Exporter Kind</option>
-																							<option value='Retailer'>Retailer</option>
-																							<option value='Contractor'>Contractor</option>
-																							<option value='Bank'>Bank</option>
-																							<option value='Lessor (Renting)'>Lessor (Rentals)</option>
-																							<option value='Peddlers'>Peddlers</option>
-																							<option value='Amusement devices/places'>Amusement devices/places</option>
-																							<option value='Retail Dealers (liquors)'>Retail Dealers (liquors)</option>
-																							<option value='Retail Dealers (tobaccos)'>Retail Dealers (tobaccos)</option>
-																							<option value='Display areas of products'>Display areas of products</option>
-																							<option value='Others'>Others</option>
-																						</select></td>
-																						<td><input id='capitalization' name="capitalization" type="text" data-parsley-type='digits' class=form-control></td>
-																						<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
-																					</tr>
-																				</tbody>
-																			</table>
-																			<div class="row">
-																				<div class="col-sm-4 col-sm-offset-4">
-																					<a id="btn-add-bus-activity" class="btn btn-primary btn-block"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
-																				</div>
+																							<?php foreach ($line_of_business as $key => $line): ?>
+																								<option value="<?= $this->encryption->encrypt($line->name) ?>"><?= $line->name ?></option>
+																							<?php endforeach ?>
+																						<!-- <option value='Manufacturer Kind'>Manufacturer Kind</option>
+																						<option value='Wholesaler kind'>Wholesaler kind</option>
+																						<option value='Exporter kind'>Exporter kind</option>
+																						<option value='Retailer'>Retailer</option>
+																						<option value='Contractor'>Contractor</option>
+																						<option value='Bank'>Bank</option>
+																						<option value='Lessor (Renting)'>Lessor (Rentals)</option>
+																						<option value='Peddlers'>Peddlers</option>
+																						<option value='Amusement devices/places'>Amusement devices/places</option>
+																						<option value='Retail Dealers (liquors)'>Retail Dealers (liquors)</option>
+																						<option value='Retail Dealers (tobaccos)'>Retail Dealers (tobaccos)</option>
+																						<option value='Display areas of products'>Display areas of products</option>
+																						<option value='Others'>Others</option> -->
+																					</select></td>
+																					<td><input id='capitalization' name="capitalization" type="text" data-parsley-type='digits' class=form-control></td>
+																					<!-- <td><button type="button" id="btn-delete" class="btn btn-danger btn-block">Delete</button></td> -->
+																				</tr>
+																			</tbody>
+																		</table>
+																		<div class="row">
+																			<div class="col-sm-4 col-sm-offset-4">
+																				<a id="btn-add-bus-activity" class="btn btn-primary btn-block"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
 																			</div>
 																		</div>
+																	</div>
 
-																		<!--  -->
-																		<hr>
-																		<div class="col-sm-3 pull-left">
-																			<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
-																		</div>
-																		<div class="col-sm-3 pull-right form-navigation">
-																			<button type="submit" class="btn btn-success pull-right"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Submit</button>
-																			<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
-																			
-																		</div>
+																	<!--  -->
+																	<hr>
+																	<div class="col-sm-3 pull-left">
+																		<a href="<?php echo base_url(); ?>dashboard" class='btn btn-danger'>Cancel</a>
+																	</div>
+																	<div class="col-sm-3 pull-right form-navigation">
+																		<button type="submit" class="btn btn-success pull-right"><i id="fa-submit" class="fa fa-check" aria-hidden="true"></i> Submit</button>
+																		<a data-toggle='tab' class='btn btn-success previous pull-right' style="margin-right:10px">Back</a>
+																		
 																	</div>
 																</div>
 															</div>
-														</form>
-													</div>
-													<!-- /.panel-body -->
+														</div>
+													</form>
 												</div>
+												<!-- /.panel-body -->
 											</div>
-											<!-- /.col-lg-12 -->
 										</div>
-										<!-- /.row -->
+										<!-- /.col-lg-12 -->
 									</div>
-									<!-- /.container-fluid -->
+									<!-- /.row -->
 								</div>
+								<!-- /.container-fluid -->
+							</div>
 <!-- </body>

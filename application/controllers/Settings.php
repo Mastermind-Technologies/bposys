@@ -36,28 +36,28 @@ class Settings extends CI_Controller {
 
 	public function _init_matrix($data = null)
 	{
-		if($this->encryption->decrypt($this->session->userdata['userdata']['role']) == "Applicant")
+		if($this->encryption->decrypt($this->session->userdata['userdata']['role']) != "Master Admin")
 		{
 			redirect('dashboard');
 		}
 		else
 		{
-			$query['status'] = 'On process';
-			$data['process'] = count($this->Application_m->get_all_bplo_applications($query));
+			// $query['status'] = 'On process';
+			// $data['process'] = count($this->Application_m->get_all_bplo_applications($query));
 
-			$query['status'] = 'Completed';
-			$data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
+			// $query['status'] = 'Completed';
+			// $data['complete'] = count($this->Application_m->get_all_bplo_applications($query));
 
-			$query['status'] = 'For finalization';
-			$data['finalization'] = count($this->Application_m->get_all_bplo_applications($query));
+			// $query['status'] = 'For finalization';
+			// $data['finalization'] = count($this->Application_m->get_all_bplo_applications($query));
 
-			$query['status'] = 'Active';
-			$data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
+			// $query['status'] = 'Active';
+			// $data['issued'] = count($this->Application_m->get_all_bplo_applications($query));
 
-			$query['status'] = "For approval";
-			$data['retirements'] = count($this->Retirement_m->get_all($query));
+			// $query['status'] = "For approval";
+			// $data['retirements'] = count($this->Retirement_m->get_all($query));
 
-			$data['total'] = $data['process'];
+			// $data['total'] = $data['process'];
 			$this->load->view('templates/matrix/matrix_includes');
 			$this->load->view('templates/matrix/matrix_navbar', $data);
 		}
@@ -86,6 +86,13 @@ class Settings extends CI_Controller {
 
 		$data['line_of_business'] = $this->Fee_m->get_all_line_of_businesses();
 		$data['bowling_alley_fees'] = $this->Fee_m->get_bowling_alley_fee();
+
+		$data['financial_institution_fees'] = $this->Fee_m->get_financial_institution_fees();
+		$data['unapplied_common_enterprise'] = $this->Fee_m->get_unapplied_common_enterprises();
+		$data['fee_common_enterprise'] = $this->Fee_m->get_common_enterprises_fees();
+		$data['amusement_device'] = $this->Fee_m->get_all_amusement_devices();
+		$data['golf_link_fees'] = $this->Fee_m->get_golf_link_fees();
+
 
 		$this->load->view('system_settings/line-of-businesses', $data);
 	}
@@ -144,6 +151,7 @@ class Settings extends CI_Controller {
 		$this->form_validation->set_rules('description','Description','required');
 		$this->form_validation->set_rules('type','Type','required');
 		$this->form_validation->set_rules('tax-rate','Tax Rate','required|numeric');
+		$this->form_validation->set_rules('imposition-of-tax','Imposition of Tax','required');
 		$this->form_validation->set_rules('garbage-service-fee','Garbage Service Fee','required|numeric');
 
 		if($this->form_validation->run() == false)
@@ -157,6 +165,7 @@ class Settings extends CI_Controller {
 			$line_of_business_field = array(
 				'name' => $this->input->post('line-of-business-name'),
 				'description' => $this->input->post('description'),
+				'impositionOfTaxCategory' => $this->input->post('imposition-of-tax'),
 				'type' => $this->input->post('type'),
 				'taxRate' => $this->input->post('tax-rate'),
 				'garbageServiceFee' => $this->input->post('garbage-service-fee'),

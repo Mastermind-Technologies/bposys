@@ -17,8 +17,8 @@ class Bposys_admin extends CI_Controller {
 
 	public function _init_matrix($data = null)
 	{
-
-		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+		// var_dump($this->encryption->decrypt($this->session->userdata['userdata']['role']));
+		// $role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 		$this->load->view('templates/matrix/matrix_includes');
 		$this->load->view('templates/matrix/matrix_navbar', $data);
 	}

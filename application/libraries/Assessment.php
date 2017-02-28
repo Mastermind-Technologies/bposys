@@ -28,159 +28,110 @@ class Assessment{
 		if($capital > 20000000 || $work_force >= 200)
 			$ent_scale = "Large Scale";
 
-		//Manufacturer Kind
-		if($line_of_business == "Manufacturer Kind")
+
+		$query['name'] = $business_activity->lineOfBusiness;
+		$result = $var->Fee_m->get_all_line_of_businesses($query);
+
+		$business_activity->activityId = $var->encryption->decrypt($business_activity->activityId);
+
+		$fee = 0;
+		switch($result[0]->type)
 		{
+			case "Amusement":
+			//$devices = $this->CI->Business_Activity_m->get_amusement_devices($this->encryption->decrypt($business_activity->activityId));
+			//amusement devices
+			$devices = $var->Business_Activity_m->get_amusement_devices($business_activity->activityId);
+			foreach ($devices as $key => $device) {
+				$fee += $device->ratePerUnit*$device->units;
+			}
+
+			$bowling = $var->Business_Activity_m->get_bowling_alleys($business_activity->activityId);
+			if(count($bowling) > 0)
+			{
+				$bowling_fee = $var->Fee_m->get_bowling_alley_fee();
+				foreach ($bowling as $key => $b) {
+					$fee += $b->nonAutomaticLanes*$bowling_fee->nonAutomaticLaneFee;
+					$fee += $b->automaticLanes*$bowling_fee->automaticLaneFee;
+				}
+			}
+
+			$holes = $var->Business_Activity_m->get_golf_link_fees($business_activity->activityId);
+			if(count($holes) > 0)
+			{
+				$golf_link_fees = $var->Fee_m->get_golf_link_fees();
+				foreach ($golf_link_fees as $key => $golf_link) {
+					if($golf_link->above == 0)
+					{
+						if($holes <= $golf_link->below)
+						{
+							$golf_fee = $golf_link->fee;
+						}
+					}
+					else if($golf_link->below == 0)
+					{
+						if($holes >= $golf_link->above)
+						{
+							$golf_fee = $golf_link->fee;
+						}
+					}
+					else
+					{
+						if($holes > $golf_link->above && $holes <= $golf_link->below)
+						{
+							$golf_fee = $golf_link->fee;
+						}
+					}
+				}
+				$fee += $golf_fee;
+			}
+
+			break;
+
+			case "Bowling Alley":
+
+			break;
+
+			case "Common Enterprise":
+			$common_enterprise = $var->Fee_m->get_common_enterprise(['line_of_businesses.name' => $business_activity->lineOfBusiness]);
+			// echo "<pre>";
+			// print_r($business_activity->lineOfBusiness);
+			// echo "</pre>";
+			// exit();
+			// var_dump($ent_scale);
+			// exit();
 			switch($ent_scale)
 			{
-				case "Cottage": $fee = 1000; break;
-				case "Small Scale": $fee = 3500; break;
-				case "Medium Scale": $fee = 5000; break;
-				case "Large Scale": $fee = 7000; break;
+				case "Cottage":
+				$fee = $common_enterprise[0]->cottageFee;
+				break;
+				case "Small Scale":
+				$fee = $common_enterprise[0]->smallScaleFee;
+				break;
+				case "Medium Scale":
+				$fee = $common_enterprise[0]->mediumScaleFee;
+				break;
+				case "Large Scale":
+				$fee = $common_enterprise[0]->largeScaleFee;
+				break;
 			}
-		}
+			break;
 
-		//Wholesaler kind
-		if($line_of_business == "Wholesaler Kind")
-		{
-			switch($ent_scale)
-			{
-				case "Cottage": $fee = 1000; break;
-				case "Small Scale": $fee = 3500; break;
-				case "Medium Scale": $fee = 5000; break;
-				case "Large Scale": $fee = 7000; break;
-			}
-		}
+			case "Financial Institution":
+			$financial_institution_fee = $var->Business_Activity_m->get_financial_institution_fee($business_activity->activityId);
+			$fee = $financial_institution_fee->fee;
+			break;
 
-		//Exporter kind
-		if($line_of_business == "Exporter Kind")
-		{
-			switch($ent_scale)
-			{
-				case "Cottage": $fee = 800; break;
-				case "Small Scale": $fee = 2500; break;
-				case "Medium Scale": $fee = 4000; break;
-				case "Large Scale": $fee = 6500; break;
-			}
-		}
-
-		//Retailer
-		if($line_of_business == "Retailer")
-		{
-			switch($ent_scale)
-			{
-				case "Cottage": $fee = 500; break;
-				case "Small Scale": $fee = 1500; break;
-				case "Medium Scale": $fee = 3000; break;
-				case "Large Scale": $fee = 5000; break;
-			}
-		}
-
-		//Contractor(Restaurants, cafes, cafeterias)
-		if($line_of_business == "Contractor")
-		{
-			switch($ent_scale)
-			{
-				case "Cottage": $fee = 500; break;
-				case "Small Scale": $fee = 1500; break;
-				case "Medium Scale": $fee = 3000; break;
-				case "Large Scale": $fee = 5000; break;
-			}
-		}
-
-		//Lessor (Renting)
-		if($line_of_business == "Lessor (Renting)")
-		{
-			switch($ent_scale)
-			{
-				case "Cottage": $fee = 3000; break;
-				case "Small Scale": $fee = 3000; break;
-				case "Medium Scale": $fee = 6000; break;
-				case "Large Scale": $fee = 10000; break;
-			}
-		}
-
-		//Peddlers
-		if($line_of_business == "Peddlers")
-		{
-			$fee = 100;
-		}
-
-		//Amusement devices/places
-		if($line_of_business == "Amusement devices/places")
-		{
-			//not based on capital
-			//NOT FINAL
-			switch($ent_scale)
-			{
-				case "Cottage": $fee = 500; break;
-				case "Small Scale": $fee = 1500; break;
-				case "Medium Scale": $fee = 3000; break;
-				case "Large Scale": $fee = 5000; break;
-			}
-		}
-
-		//Bank
-		if($line_of_business == "Bank")
-		{
-			//not based capital
-			//NOT FINAL
-			switch($ent_scale)
-			{
-				case "Cottage": $fee = 5000; break;
-				case "Small Scale": $fee = 5000; break;
-				case "Medium Scale": $fee = 7000; break;
-				case "Large Scale": $fee = 10000; break;
-			}
-		}
-
-		//Retail Dealers (liquors)
-		if($line_of_business == "Retail Dealers (liquors)")
-		{
-			switch($ent_scale)
-			{
-				case "Cottage": $fee = 3000; break;
-				case "Small Scale": $fee = 3000; break;
-				case "Medium Scale": $fee = 5000; break;
-				case "Large Scale": $fee = 7000; break;
-			}
-		}
-
-		//Retail Dealers (tobaccos)
-		if($line_of_business == "Retail Dealers (tobaccos)")
-		{
-			switch($ent_scale)
-			{
-				case "Cottage": $fee = 3000; break;
-				case "Small Scale": $fee = 3000; break;
-				case "Medium Scale": $fee = 5000; break;
-				case "Large Scale": $fee = 7000; break;
-			}
-		}
-
-		//Display areas of products
-		if($line_of_business == "Display areas of products")
-		{
-			//50 pesos per square meter of the size of the office or warehouse
-			$fee = $opt_param['business_area'] * 50;
-			return $fee;
-		}
-
-		//Others
-		if($line_of_business == "Others")
-		{
-			switch($ent_scale)
-			{
-				case "Cottage": $fee = 2500; break;
-				case "Small Scale": $fee = 5000; break;
-				case "Medium Scale": $fee = 7500; break;
-				case "Large Scale": $fee = 10000; break;
-			}
+			case "Golf Course":
+			
+			break;
+			case "Area Based":
+			//to follow
+			break;
 		}
 
 		$data['mayor_fee'] = $fee;
-		$data['tax'] = $fee * .10;
-		$data['line_of_business'] = $line_of_business;
+		$data['tax'] = $fee * ($result[0]->taxRate/100);
+		$data['garbage_service_fee'] = $result[0]->garbageServiceFee;
 		return $data;
 	}
 
@@ -344,9 +295,9 @@ class Assessment{
 		return $data;
 	}
 
-	public static function compute_renewal_tax($line_of_business, $gross, $gross_type = null)
+	public static function compute_renewal_tax($imposition_of_tax, $gross, $gross_type = null)
 	{
-		if($line_of_business == "Manufacturer Kind" || $line_of_business == "Retail Dealers (liquors)" || $line_of_business == "Exporter Kind" )
+		if($imposition_of_tax == "A")
 		{
 			if($gross < 20000)
 			{
@@ -431,7 +382,7 @@ class Assessment{
 			}
 		}//end of if 1
 
-		else if($line_of_business == "Wholesaler Kind" || $line_of_business == "Retail Dealers (tobaccos)")
+		else if($imposition_of_tax == "B")
 		{
 			if($gross < 20000)
 			{
@@ -500,7 +451,7 @@ class Assessment{
 			}
 		}//end of if 2
 
-		else if($line_of_business == "Retailer")
+		else if($imposition_of_tax == "D")
 		{
 			if($gross >= 50000 && $gross < 400000)
 			{
@@ -528,7 +479,7 @@ class Assessment{
 			}
 		}//end of if 3
 
-		else if($line_of_business == "Contractor" || $line_of_business == "Others" || $line_of_business == "Display areas of products")
+		else if($imposition_of_tax == "E")
 		{
 			if($gross < 20000)
 			{
@@ -594,23 +545,22 @@ class Assessment{
 			{
 				$fee = ($fee * 0.01) * 0.715;
 			}
-
-			return fee;
+			return $fee;
 		}//end of if 4
 
-		else if($line_of_business == "Bank")
+		else if($imposition_of_tax == "F")
 		{
 			$fee = ($gross * 0.01) * 0.75;
 			return $fee;
 		}
 
-		else if($line_of_business == "Peddlers")
+		else if($imposition_of_tax == "G")
 		{
 			//75 pesos per peddler per annum
 			return 75;
 		}
 
-		else if($line_of_business == "Amusement devices/places")
+		else if($imposition_of_tax == "H")
 		{
 			if($gross < 20000)
 			{
@@ -684,7 +634,7 @@ class Assessment{
 			return $fee;
 		}//end of if 5
 
-		else if ($line_of_business == "Lessor (Renting)")
+		else if ($imposition_of_tax == "I")
 		{
 			if($gross < 10000)
 			{

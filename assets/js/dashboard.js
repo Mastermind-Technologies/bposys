@@ -3,6 +3,32 @@ $(document).ready(function()
   var base_url = 'http://localhost/bposys/';
   var interval = window.setInterval(check_application_status, 3000);
 
+  // $('.line-of-business').change(function(){
+  //   var this_control = this;
+  //   var type = $(this_control).find(':selected').attr('data-type');
+  //   console.log(type);
+  //   if(type == "Amusement")
+  //   {
+  //     $('#modal-amusement').modal('show');
+  //     $(this_control).closest('tr').find('.btn-misc').prop('disabled', false);
+  //     $(this_control).closest('tr').find('.btn-misc').attr('data-target','#modal-amusement');
+  //     $(this_control).closest('tr').find('.btn-misc').html("Edit Amusement Devices");
+  //   }
+  //   else if(type == "Financial Institution")
+  //   {
+  //     $('#modal-financial').modal('show');
+  //     $(this_control).closest('tr').find('.btn-misc').prop('disabled', false);
+  //     $(this_control).closest('tr').find('.btn-misc').attr('data-target','#modal-financial');
+  //     $(this_control).closest('tr').find('.btn-misc').html("Select Financial Institution Type");
+  //   }
+  //   else
+  //   {
+  //     $(this_control).closest('tr').find('.btn-misc').prop('disabled', true);
+  //     $(this_control).closest('tr').find('.btn-misc').removeAttr('data-target');
+  //     $(this_control).closest('tr').find('.btn-misc').html("Edit Misc");
+  //   }
+  // })
+
   $('#btn-notif').click(function(){
     $('.fa-bell').html("");
     $.ajax({
@@ -284,43 +310,39 @@ $(document).ready(function()
   var rowCount = 1;
   $('#btn-add-bus-activity').click(function(){
     rowCount++;
-    // console.log(rowCount);
-    $('#bus-activity > tbody:last-child').append("<tr class='data'><td><select class=form-control>"+
-      "<option selected disabled>Select Line of Business</option>"+
-      "<option value='Manufacturer Kind'>Manufacturer Kind</option>"+
-      "<option value='Wholesaler kind'>Wholesaler kind</option>"+
-      "<option value='Exporter kind'>Exporter kind</option>"+
-      "<option value='Retailer'>Retailer</option>"+
-      "<option value='Contractor'>Contractor</option>"+
-      "<option value='Bank'>Bank</option>"+
-      "<option value='Lessor (Renting)'>Lessor (Rentals)</option>"+
-      "<option value='Peddlers'>Peddlers</option>"+
-      "<option value='Amusement devices/places'>Amusement devices/places</option>"+
-      "<option value='Retail Dealers (liquors)'>Retail Dealers (liquors)</option>"+
-      "<option value='Retail Dealers (tobaccos)'>Retail Dealers (tobaccos)</option>"+
-      "<option value='Display areas of products'>Display areas of products</option>"+
-      "<option value='Others'>Others</option>"+
-      "</select></td><td><input type='text' data-parsley-type='digits' class=form-control></td></tr>");
-  });
-
-  var draft = false;
-
-  $('.btn-draft').click(function(){
-    $sections.each(function(index, section) {
-      $(section).find(':input[type=text], select').removeAttr('data-parsley-group');
-      $(section).find(':input[type=text], select').removeAttr('required');
+    $.ajax({
+      type:'GET',
+      url:base_url+'dashboard/get_business_activities',
+      success: function(data)
+      {
+        $('#bus-activity > tbody:last-child').append(data);
+      },
+      error: function(error)
+      {
+        console.log(error.message);
+      }
     });
-    draft = true;
-  })
+  });
+    // console.log(rowCount);
 
-  $('#new_application_form').submit(function(e){
-    if(draft == true)
-    {
-      var url = base_url+"dashboard/save_draft";
-      $(".btn-draft").prop('disabled', true);
-      $("#btn-add-bus-activity").prop('disabled', true);
-      $('.fa-draft-icon').removeClass('fa-pencil-square-o');
-      $('.fa-draft-icon').addClass('fa-circle-o-notch fa-spin');
+    var draft = false;
+
+    $('.btn-draft').click(function(){
+      $sections.each(function(index, section) {
+        $(section).find(':input[type=text], select').removeAttr('data-parsley-group');
+        $(section).find(':input[type=text], select').removeAttr('required');
+      });
+      draft = true;
+    })
+
+    $('#new_application_form').submit(function(e){
+      if(draft == true)
+      {
+        var url = base_url+"dashboard/save_draft";
+        $(".btn-draft").prop('disabled', true);
+        $("#btn-add-bus-activity").prop('disabled', true);
+        $('.fa-draft-icon').removeClass('fa-pencil-square-o');
+        $('.fa-draft-icon').addClass('fa-circle-o-notch fa-spin');
       // console.log(url);
     }
     else
@@ -375,50 +397,50 @@ $(document).ready(function()
     return false;
   });
 
-  function process_business_activity(reference_number)
-  {
+    function process_business_activity(reference_number)
+    {
 
-    var ctr = 0;
-    var total_rows = count_business_activities();
-    $("#bus-activity tbody .data").each(function() {
-      ctr++;
-      var lineOfBusiness = $(this).find("td:nth-child(1) select").val();
-      var capitalization = $(this).find("td:nth-child(2) input").val();
+      var ctr = 0;
+      var total_rows = count_business_activities();
+      $("#bus-activity tbody .data").each(function() {
+        ctr++;
+        var lineOfBusiness = $(this).find("td:nth-child(1) select").val();
+        var capitalization = $(this).find("td:nth-child(2) input").val();
 
-      $.ajax({
-        type:"POST",
-        url:base_url+"dashboard/store_business_activity",
-        dataType:'json',
-        data:{ctr:ctr, total_rows:total_rows, lineOfBusiness:lineOfBusiness, capitalization:capitalization, referenceNum:reference_number},
-        success: function(o){
-          if(o == "success")
-          {
-            console.log('Waiting for all processes to complete...');
-            $(document).ajaxStop(function(){
-             console.log("Finished!");
-             console.log("Redirecting...");
-             window.setTimeout(function() { 
-              window.location = base_url+"dashboard"; 
-            },2000);
-           })
+        $.ajax({
+          type:"POST",
+          url:base_url+"dashboard/store_business_activity",
+          dataType:'json',
+          data:{ctr:ctr, total_rows:total_rows, lineOfBusiness:lineOfBusiness, capitalization:capitalization, referenceNum:reference_number},
+          success: function(o){
+            if(o == "success")
+            {
+              console.log('Waiting for all processes to complete...');
+              $(document).ajaxStop(function(){
+               console.log("Finished!");
+               console.log("Redirecting...");
+               window.setTimeout(function() { 
+                window.location = base_url+"dashboard"; 
+              },2000);
+             })
+            }
+            else
+            {
+              console.log(o);
+            }
           }
-          else
-          {
-            console.log(o);
-          }
-        }
+        });
       });
-    });
-  }
+    }
 
-  function count_business_activities()
-  {
-    var total_rows = 0;
-    $("#bus-activity tbody .data").each(function() {
-      total_rows++;
-    });
-    return total_rows;
-  }
+    function count_business_activities()
+    {
+      var total_rows = 0;
+      $("#bus-activity tbody .data").each(function() {
+        total_rows++;
+      });
+      return total_rows;
+    }
 
   // function process_order_of_payment(reference_number)
   // {
@@ -540,7 +562,7 @@ $(document).ready(function()
             $(".button-container").eq(index).html(data.buttons[index]);
           });
           }
-          if(data.notifications != "")
+          if(data.notifications)
           {
             $('#notif-container').html("<span class='notif-count'>"+data.notifications.length+"</span>")
           }

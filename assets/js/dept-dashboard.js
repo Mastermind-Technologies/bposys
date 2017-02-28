@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	var base_url = "http://localhost/bposys/";
+	var base_url = 'http://localhost/bposys/';
 	var info_active = false;
 	var success_active = false;
 	var warning_active = false;
@@ -196,6 +196,7 @@ $(document).ready(function(){
 			success: function(data)
 			{
 				$('#amount-paid').html("<strong> PHP "+data+"</strong>");
+				$('#hap').val(data);
 			}
 		})
 	});
@@ -221,5 +222,68 @@ $(document).ready(function(){
 			$('#approve-btn').prop('disabled', true);
 		}
 	});
+
+	if($('.btn-required').length == 0)
+	{
+		$('.btn-submit').prop('disabled', false);
+	}
+
+	$('#btn-save-amusement').click(function(){
+		// console.log('hehe');
+		var device_array = [];
+		var req_count = 0;
+		
+		$(".device").each(function(){
+			if($(this).val() == "" || $(this).val() < 0)
+			{
+				device_array.push(this.id+"|"+0);
+			}
+			else
+			{
+				device_array.push(this.id + "|" +$(this).val());
+			}
+			
+		});
+		// console.log(device_array);
+		$(".hidden-device").each(function(index, result){
+			$(result).val(device_array[index]);
+			// console.log(index);
+		});
+
+		$('#hidden-holes').val($('#holes').val()==""||$('#holes').val()<0?0:$('#holes').val());
+		$('#hidden-non-automatic-lanes').val($('#non-automatic-lanes').val()==""||$('#non-automatic-lanes').val()<0?0:$('#non-automatic-lanes').val());
+		$('#hidden-automatic-lanes').val($('#automatic-lanes').val()==""||$('#automatic-lanes').val()<0?0:$('#automatic-lanes').val());
+
+		$('#btn-edit-amusement-devices').removeClass('btn-danger');
+		$('#btn-edit-amusement-devices').removeClass('btn-required');
+		$('#btn-edit-amusement-devices').addClass('btn-success');
+
+		$('.btn-required').each(function(index, result){
+			req_count++;
+		});
+		if(req_count == 0)
+		{
+			$('.btn-submit').prop('disabled', false);
+		}
+
+	});
+
+	$('#btn-save-financial').click(function(){
+		var req_count = 0;
+		$('#financial-institution').val($('.financial-institution:checked').val());
+
+		$('#btn-select-financial-institution').removeClass('btn-danger');
+		$('#btn-select-financial-institution').removeClass('btn-required');
+		$('#btn-select-financial-institution').addClass('btn-success');
+
+		$('.btn-required').each(function(index, result){
+			req_count++;
+		});
+		if(req_count == 0)
+		{
+			$('.btn-submit').prop('disabled', false);
+		}
+		// console.log($('.financial-institution:checked').val());
+	})
 
 });//End of Jquery

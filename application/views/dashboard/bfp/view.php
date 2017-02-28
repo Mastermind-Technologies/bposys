@@ -26,7 +26,7 @@
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#tab1">BFP Form</a></li>
           <li><a data-toggle="tab" href="#bplo">BPLO Form</a></li>
-          <!-- <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li> -->
+          <li><a data-toggle="tab" href="#tab2">Order of Payment</a></li>
           <li><a data-toggle="tab" onclick="initMap()" href="#tab3">Business Location</a></li>
         </ul>
       </div>
@@ -105,30 +105,30 @@
           </table>
           <?php if ($application->get_status() == "On process"): ?>
             <form action="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" method="POST">
-            <div class="row-fluid text-center">
-              <div class="span4 offset4">
-                <table class="table table-bordered">
-                  <th colspan="2" class='text-center'>Requirements Checklist</th>
-                  <tbody>
-                  <?php foreach ($application->get_requirements() as $key => $requirements): ?>
-                      <tr>
-                        <td style="width:10%"><input type="checkbox" value="<?= $this->encryption->encrypt($requirements->requirementId) ?>" class='requirements-checkbox' name="requirements[]" /></td>
-                        <td> <?= $requirements->name ?></td>
-                      </tr>
-                    <?php endforeach ?>
-                  </tbody>
-                </table>
+              <div class="row-fluid text-center">
+                <div class="span4 offset4">
+                  <table class="table table-bordered">
+                    <th colspan="2" class='text-center'>Requirements Checklist</th>
+                    <tbody>
+                      <?php foreach ($application->get_requirements() as $key => $requirements): ?>
+                        <tr>
+                          <td style="width:10%"><input type="checkbox" value="<?= $this->encryption->encrypt($requirements->requirementId) ?>" class='requirements-checkbox' name="requirements[]" /></td>
+                          <td> <?= $requirements->name ?></td>
+                        </tr>
+                      <?php endforeach ?>
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
-          <?php endif ?>
-          <div class="form-action">
-            <?php if ($application->get_status() != "Active"): ?>
-              <div class="row text-center">
-                <?php if ($application->get_status() == "For applicant visit"): ?>
-                  <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
-                  <!-- <a href="#" class="btn btn-danger btn-lg">Reject</a> -->
-                <?php elseif ($application->get_status() == "On process"): ?>
-                  <button class="btn btn-success" disabled="" id="approve-btn">Issue Fire Safety Insurance Certificate</button>
+            <?php endif ?>
+            <div class="form-action">
+              <?php if ($application->get_status() != "Active"): ?>
+                <div class="row text-center">
+                  <?php if ($application->get_status() == "For applicant visit"): ?>
+                    <a href="<?php echo base_url(); ?>dashboard/validate_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Validate</a>
+                    <!-- <a href="#" class="btn btn-danger btn-lg">Reject</a> -->
+                  <?php elseif ($application->get_status() == "On process"): ?>
+                    <button class="btn btn-success" disabled="" id="approve-btn">Issue Fire Safety Insurance Certificate</button>
                   </form>
                   <!-- <a href="<?php echo base_url(); ?>dashboard/approve_application/<?= $application->get_referenceNum() ?>" class="btn btn-success">Approve</a> -->
                   <!-- <a href="#" class="btn btn-warning btn-lg">Edit information</a> -->
@@ -460,51 +460,60 @@
                   </table>
                 <?php endif ?>
               </div>
-              <!-- <div id="tab2" class="tab-pane">
+              <div id="tab2" class="tab-pane">
                 <h3 class='text-center'>Tax Order of Payment</h3>
-                <div class="row">
-                  <div class="span2">
-                    <label for=""><strong>Name of Business</strong></label>
-                    <span><?= $bplo->get_BusinessName() ?></span>
-                  </div>
-                  <div class="span2">
-                    <label for=""><strong>Line of Business</strong></label>
-                    <span><?= $bplo->get_LineOfBusiness() ?></span>
-                  </div>
-                  <div class="span2">
-                    <label for=""><strong>Status</strong></label>
-                    <span><?= $bplo->get_ApplicationType() ?></span>
-                  </div>
-                  <div class="span2">
-                    <label for=""><strong>Bill No.</strong></label>
-                    <span><?= $bplo->get_Assessment()->assessmentId ?></span>
-                  </div>
-                  <div class="span2">
-                    <label for=""><strong>Year</strong></label>
-                    <span><?= date('Y', strtotime($bplo->get_Assessment()->createdAt)) ?></span>
+                <div class="control-group">
+                  <div class="row">
+                    <div class="span2">
+                      <label for=""><strong>Name of Business</strong></label>
+                      <span><?= $bplo->get_BusinessName() ?></span>
+                    </div>
+                    <div class="span2">
+                      <label for=""><strong>Line of Business</strong></label>
+                      <span><?= $bplo->get_LineOfBusiness() ?></span>
+                    </div>
+                    <div class="span2">
+                      <label for=""><strong>Status</strong></label>
+                      <span><?= $bplo->get_applicationType() ?></span>
+                    </div>
+                    <div class="span2">
+                      <label for=""><strong>Bill No.</strong></label>
+                      <span><?= $bplo->get_Assessment()->assessmentId ?></span>
+                    </div>
+                    <div class="span2">
+                      <label for=""><strong>Year</strong></label>
+                      <span><?= date('Y', strtotime($bplo->get_Assessment()->createdAt)) ?></span>
+                    </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="span2">
-                    <label for=""><strong>Owner/Taxpayer</strong></label>
-                    <span><?= $bplo->get_FirstName()." ".strtoupper(substr($bplo->get_MiddleName(),0,1)).". ".$bplo->get_LastName() ?></span>
-                  </div>
-                  <div class="span2">
-                    <label for=""><strong>Business Address</strong></label>
-                    <span><?= $bplo->get_barangay().", Biñan City, Laguna" ?></span>
-                  </div>
-                  <div class="span2">
-                    <label for=""><strong>Capital</strong></label>
-                    <span><?= "PHP ".$bplo->get_capital() ?></span>
-                  </div>
-                  <div class="span2">
-                    <label for=""><strong>Date Issued</strong></label>
-                    <span><?= date('F j, o',strtotime($bplo->get_Assessment()->createdAt)) ?></span>
+                <div class="control-group">
+                  <div class="row">
+                    <div class="span2">
+                      <label for=""><strong>Owner/Taxpayer</strong></label>
+                      <span><?= $bplo->get_FirstName()." ".strtoupper(substr($bplo->get_MiddleName(),0,1)).". ".$bplo->get_LastName() ?></span>
+                    </div>
+                    <div class="span2">
+                      <label for=""><strong>Business Address</strong></label>
+                      <span><?= $bplo->get_barangay().", Biñan City, Laguna" ?></span>
+                    </div>
+                    <div class="span2">
+                      <label for=""><strong>Capital</strong></label>
+                      <span><?= "PHP ".number_format($bplo->get_capital(), 2) ?></span>
+                    </div>
+                    <div class="span2">
+                      <label for=""><strong>Date Issued</strong></label>
+                      <span><?= date('F j, o',strtotime($bplo->get_Assessment()->createdAt)) ?></span>
+                    </div>
+                    <div class="span2">
+                      <label for=""><strong>Mode of Payment</strong></label>
+                      <span><?= $bplo->get_modeOfPayment() ?></span>
+                    </div>
                   </div>
                 </div>
                 <table class="table table-bordered">
                   <thead>
                     <th>Year</th>
+                    <th>Period</th>
                     <th>Particulars</th>
                     <th>Due</th>
                     <th>Surcharge</th>
@@ -512,56 +521,97 @@
                     <th>Total</th>
                   </thead>
                   <tbody>
-                    <?php $total = 0; ?>
+                    <?php 
+                    $total = 0; 
+                    $total_due = 0;
+                    $total_surcharge = 0;
+                    $total_interest = 0;
+                    ?>
                     <?php foreach ($bplo->get_Charges() as $key => $charge): ?>
                       <tr>
                         <td><?= date('Y', strtotime($charge->createdAt)) ?></td>
+                        <td><?= $charge->period ?></td>
                         <td><?= $charge->particulars ?></td>
-                        <td><?= $charge->due ?></td>
-                        <td><?= $charge->surcharge ?></td>
-                        <td><?= $charge->interest ?></td>
-                        <td><?php $t = $charge->due + $charge->surcharge + $charge->interest;
-                          echo $t;
-                          $total += $t; ?></td>
-                        </tr>
-                      <?php endforeach ?>
-                    </tbody>
-                  </table>
-                  <div class="row">
-                    <div class="span2 offset6">
-                      <label for="">Total: <?= $bplo->get_assessment()->amount ?></label>
-                    </div>
+                        <td><?= number_format($charge->due, 2) ?></td>
+                        <td><?= number_format($charge->surcharge, 2) ?></td>
+                        <td><?= number_format($charge->interest, 2) ?></td>
+                        <td>
+                          <?php 
+                          $t = $charge->due + $charge->surcharge + $charge->interest;
+                          echo number_format($t, 2);
+                          $total += $t; 
+                          $total_due += $charge->due;
+                          $total_surcharge += $charge->surcharge;
+                          $total_interest += $charge->interest;
+                          ?>
+                        </td>
+                      </tr>
+                    <?php endforeach ?>
+                  </tbody>
+                </table>
+                <div class="row">
+                  <div class="span1 offset5">
+                    <label for="" class='pull-right'>Total:</label>
                   </div>
-                </div> -->
-                <div id="tab3" class='tab-pane'>
-                  <div id="gmaps" style="width:100%; height:500px; background-color: gray"></div>
+                  <div class="span1"><?= number_format($total_due, 2) ?></div>
+                  <div class="span1"><?= number_format($total_surcharge, 2) ?></div>
+                  <div class="span1" style="padding-left:50px"><?= number_format($total_interest, 2) ?></div>
+                  <div class="span1" style="padding-left:20px"><?= number_format($bplo->get_totalAssessment(), 2) ?></div>
                 </div>
+                <div class="row">
+                  <div class="span1 offset5">
+                    <label for="" class="pull-right">Balance:</label>
+                  </div>
+                  <div class="span1"><?= number_format($bplo->get_Assessment()->amount, 2) ?></div>
+                </div>
+                <table class="table table-bordered">
+                  <thead>
+                    <th>Due Date</th>
+                    <th>First Quarter (Jan 20)</th>
+                    <th>Second Quarter (Apr 20)</th>
+                    <th>Third Quarter (Jul 20)</th>
+                    <th>Fourth Quarter (Oct 20)</th>
+                  </thead>
+                  <tbody>
+                    <th>Amount Due</th>
+                    <td><span class="pull-right"><?= isset($bplo->get_quarterPayment()[0]) ? number_format($bplo->get_quarterPayment()[0], 2) : '.00' ?></span></td>
+                    <td><span class="pull-right"><?= isset($bplo->get_quarterPayment()[1]) ? number_format($bplo->get_quarterPayment()[1], 2) : '.00' ?></span></td>
+                    <td><span class="pull-right"><?= isset($bplo->get_quarterPayment()[2]) ? number_format($bplo->get_quarterPayment()[2], 2) : '.00' ?></span></td>
+                    <td><span class="pull-right"><?= isset($bplo->get_quarterPayment()[3]) ? number_format($bplo->get_quarterPayment()[3], 2) : '.00' ?></span></td>
+                  </tbody>
+                </table>
+                <span>This Statement is valid until 1/30/<?= date('Y') ?></span><br>
+                <span>Please disregard this statement if payment has been made. Thank you.</span>
+              </div>
+              <div id="tab3" class='tab-pane'>
+                <div id="gmaps" style="width:100%; height:500px; background-color: gray"></div>
               </div>
             </div>
-            <!-- End Container Fluid -->
           </div>
+          <!-- End Container Fluid -->
         </div>
+      </div>
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8"
-        async defer></script>
-        <script>
-          var map;
-          var loaded = false;
-          function initMap(){
-            if(loaded == false)
-            {
-              loaded = true;
-              latlang = new google.maps.LatLng(<?= $application->get_lat() ?>,<?= $application->get_lng() ?>);
-              map = new google.maps.Map(document.getElementById('gmaps'), {
-                center: latlang,
-                zoom: 15
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLMOtCdi62jLDT9JFcUh8vN3WYPakFMY8"
+      async defer></script>
+      <script>
+        var map;
+        var loaded = false;
+        function initMap(){
+          if(loaded == false)
+          {
+            loaded = true;
+            latlang = new google.maps.LatLng(<?= $application->get_lat() ?>,<?= $application->get_lng() ?>);
+            map = new google.maps.Map(document.getElementById('gmaps'), {
+              center: latlang,
+              zoom: 15
 
-              });
-              var marker = new google.maps.Marker({
-                position: latlang,
-              });
+            });
+            var marker = new google.maps.Marker({
+              position: latlang,
+            });
 
-              marker.setMap(map);
-            }
+            marker.setMap(map);
           }
-        </script>
+        }
+      </script>
