@@ -83,7 +83,7 @@ class Tester extends CI_Controller {
 			$steam_generator .= "|".$value;
 		}
 		$steam_generator = substr($steam_generator, 1);
-		
+
 		//wasteMinimizationMethod
 		$waste_minimization_method = null;
 		foreach ($cenro->get_WasteMinimizationMethod() as $key => $value) {
@@ -97,101 +97,101 @@ class Tester extends CI_Controller {
 
 
 		$archive_application_field = array(
-			'referenceNum' => $reference_num, 
-			'userId' => $this->encryption->decrypt($bplo->get_UserId()), 
-			'taxYear' => $bplo->get_taxyear(), 
-			'applicationDate' => $bplo->get_ApplicationDate(), 
-			'modeOfPayment' => $bplo->get_ModeOfPayment(), 
-			'idPresented' => $bplo->get_IdPresented(), 
-			'DTISECCDA_RegNum' => $bplo->get_DTISECCDARegNum(), 
-			'DTISECCDA_Date' => $bplo->get_DTISECCDADate(), 
-			'brgyClearanceDateIssued' => $bplo->get_BrgyClearanceDateIssued(), 
-			'CTCNum' => $bplo->get_CTCNum(), 
-			'TIN' => $bplo->get_TIN(), 
-			'entityName' => $bplo->get_EntityName(), 
-			'dateStarted' => $bplo->get_DateStarted(), 
-			'presidentTreasurerName' => $bplo->get_PresidentTreasurerName(), 
-			'businessName' => $bplo->get_BusinessName(), 
-			'companyName' => $bplo->get_CompanyName(), 
-			'tradeName' => $bplo->get_TradeName(), 
-			'signageName' => $bplo->get_SignageName(), 
-			'organizationType' => $bplo->get_OrganizationType(), 
-			'corporationName' => $bplo->get_CorporationName(), 
-			'dateOfOperation' => $bplo->get_DateOfOperation(), 
-			'businessDesc' => $bplo->get_BusinessDesc(), 
-			'PIN' => $bplo->get_PIN(), 
-			'bldgName' => $bplo->get_BldgName(), 
-			'houseBldgNum' => $bplo->get_HouseBldgNum(), 
-			'unitNum' => $bplo->get_UnitNum(), 
-			'street' => $bplo->get_Street(), 
-			'subdivision' => $bplo->get_Subdivision(), 
-			'barangay' => $bplo->get_Barangay(), 
-			'cityMunicipality' => $bplo->get_CityMunicipality(), 
-			'province' => $bplo->get_province(), 
-			'telNum' => $bplo->get_TelNum(), 
-			'email' => $bplo->get_Email(), 
-			'pollutionControlOfficer' => $bplo->get_PollutionControlOfficer(), 
-			'maleEmployees' => $bplo->get_MaleEmployees(), 
-			'femaleEmployees' => $bplo->get_FemaleEmployees(), 
-			'PWDEmployees' => $bplo->get_PWDEmployees(), 
-			'LGUEMployees' => $bplo->get_LGUEmployees(), 
-			'businessArea' => $bplo->get_BusinessArea(), 
-			'emergencyContactPerson' => $bplo->get_EmergencyContactPerson(), 
-			'emergencyTelNum' => $bplo->get_EmergencyTelNum(), 
-			'emergencyEmail' => $bplo->get_EmergencyEmail(), 
-			'zoneType' => $bplo->get_ZoneType(), 
-			'lat' => $bplo->get_lat(), 
-			'lng' => $bplo->get_lng(), 
-			'gmapAddress' => $bplo->get_GmapAddress(), 
-			'ownerFirstName' => $bplo->get_FirstName(), 
-			'ownerMiddleName' => $bplo->get_MiddleName(), 
-			'ownerLastName' => $bplo->get_LastName(), 
-			'ownerHouseBldgNum' => $bplo->get_OwnerHouseBldgNo(), 
-			'ownerBldgName' => $bplo->get_OwnerBldgName(), 
-			'ownerUnitNum' => $bplo->get_OwnerUnitNum(), 
-			'ownerStreet' => $bplo->get_OwnerStreet(), 
-			'ownerBarangay' => $bplo->get_OwnerBarangay(), 
-			'ownerSubdivision' => $bplo->get_OwnerSubdivision(), 
-			'ownerCityMunicipality' => $bplo->get_OwnerCityMunicipality(), 
-			'ownerProvince' => $bplo->get_OwnerProvince(), 
-			'ownerContactNum' => $bplo->get_OwnerContactNum(), 
-			'ownerTelNum' => $bplo->get_OwnerTelnum(), 
-			'ownerEmail' => $bplo->get_OwnerEmail(), 
-			'ownerPIN' => $bplo->get_OwnerPIN(), 
-			'CNC' => $cenro->get_CNC(), 
-			'LLDAClearance' => $cenro->get_LLDAClearance(), 
-			'dischargePermit' => $cenro->get_DischargePermit(), 
-			'apsci' => $cenro->get_APSCI(), 
-			'productsAndByProducts' => $cenro->get_productsAndByProducts(), 
-			'smokeEmission' => $cenro->get_SmokeEmission(), 
-			'volatileCompound' => $cenro->get_VolatileCompound(), 
+			'referenceNum' => $reference_num,
+			'userId' => $this->encryption->decrypt($bplo->get_UserId()),
+			'taxYear' => $bplo->get_taxyear(),
+			'applicationDate' => $bplo->get_ApplicationDate(),
+			'modeOfPayment' => $bplo->get_ModeOfPayment(),
+			'idPresented' => $bplo->get_IdPresented(),
+			'DTISECCDA_RegNum' => $bplo->get_DTISECCDARegNum(),
+			'DTISECCDA_Date' => $bplo->get_DTISECCDADate(),
+			'brgyClearanceDateIssued' => $bplo->get_BrgyClearanceDateIssued(),
+			'CTCNum' => $bplo->get_CTCNum(),
+			'TIN' => $bplo->get_TIN(),
+			'entityName' => $bplo->get_EntityName(),
+			'dateStarted' => $bplo->get_DateStarted(),
+			'presidentTreasurerName' => $bplo->get_PresidentTreasurerName(),
+			'businessName' => $bplo->get_BusinessName(),
+			'companyName' => $bplo->get_CompanyName(),
+			'tradeName' => $bplo->get_TradeName(),
+			'signageName' => $bplo->get_SignageName(),
+			'organizationType' => $bplo->get_OrganizationType(),
+			'corporationName' => $bplo->get_CorporationName(),
+			'dateOfOperation' => $bplo->get_DateOfOperation(),
+			'businessDesc' => $bplo->get_BusinessDesc(),
+			'PIN' => $bplo->get_PIN(),
+			'bldgName' => $bplo->get_BldgName(),
+			'houseBldgNum' => $bplo->get_HouseBldgNum(),
+			'unitNum' => $bplo->get_UnitNum(),
+			'street' => $bplo->get_Street(),
+			'subdivision' => $bplo->get_Subdivision(),
+			'barangay' => $bplo->get_Barangay(),
+			'cityMunicipality' => $bplo->get_CityMunicipality(),
+			'province' => $bplo->get_province(),
+			'telNum' => $bplo->get_TelNum(),
+			'email' => $bplo->get_Email(),
+			'pollutionControlOfficer' => $bplo->get_PollutionControlOfficer(),
+			'maleEmployees' => $bplo->get_MaleEmployees(),
+			'femaleEmployees' => $bplo->get_FemaleEmployees(),
+			'PWDEmployees' => $bplo->get_PWDEmployees(),
+			'LGUEMployees' => $bplo->get_LGUEmployees(),
+			'businessArea' => $bplo->get_BusinessArea(),
+			'emergencyContactPerson' => $bplo->get_EmergencyContactPerson(),
+			'emergencyTelNum' => $bplo->get_EmergencyTelNum(),
+			'emergencyEmail' => $bplo->get_EmergencyEmail(),
+			'zoneType' => $bplo->get_ZoneType(),
+			'lat' => $bplo->get_lat(),
+			'lng' => $bplo->get_lng(),
+			'gmapAddress' => $bplo->get_GmapAddress(),
+			'ownerFirstName' => $bplo->get_FirstName(),
+			'ownerMiddleName' => $bplo->get_MiddleName(),
+			'ownerLastName' => $bplo->get_LastName(),
+			'ownerHouseBldgNum' => $bplo->get_OwnerHouseBldgNo(),
+			'ownerBldgName' => $bplo->get_OwnerBldgName(),
+			'ownerUnitNum' => $bplo->get_OwnerUnitNum(),
+			'ownerStreet' => $bplo->get_OwnerStreet(),
+			'ownerBarangay' => $bplo->get_OwnerBarangay(),
+			'ownerSubdivision' => $bplo->get_OwnerSubdivision(),
+			'ownerCityMunicipality' => $bplo->get_OwnerCityMunicipality(),
+			'ownerProvince' => $bplo->get_OwnerProvince(),
+			'ownerContactNum' => $bplo->get_OwnerContactNum(),
+			'ownerTelNum' => $bplo->get_OwnerTelnum(),
+			'ownerEmail' => $bplo->get_OwnerEmail(),
+			'ownerPIN' => $bplo->get_OwnerPIN(),
+			'CNC' => $cenro->get_CNC(),
+			'LLDAClearance' => $cenro->get_LLDAClearance(),
+			'dischargePermit' => $cenro->get_DischargePermit(),
+			'apsci' => $cenro->get_APSCI(),
+			'productsAndByProducts' => $cenro->get_productsAndByProducts(),
+			'smokeEmission' => $cenro->get_SmokeEmission(),
+			'volatileCompound' => $cenro->get_VolatileCompound(),
 			'fugitiveParticulates' => $fugitive_particulates,
 			'steamGenerator' => $steam_generator,
-			'APCD' => $cenro->get_APCD(), 
-			'stackHeight' => $cenro->get_StackHeight(), 
-			'wastewaterTreatmentFacility' => $cenro->get_WasteWaterTreatmentFacility(), 
-			'wastewaterTreatmentOperationAndProcess' => $cenro->get_WasteWaterTreatmentOperationAndProcess(), 
-			'pendingCaseWithLLDA' => $cenro->get_pendingCaseWithLLDA(), 
-			'typeOfSolidWastesGenerated' => $cenro->get_TypeOfSolidWastesGenerated(), 
-			'qtyPerDay' => $cenro->get_QtyPerDay(), 
-			'garbageCollectionMethod' => $cenro->get_GarbageCollectionMethod(), 
-			'frequencyOfGarbageCollection' => $cenro->get_FrequencyOfGarbageCollection(), 
-			'wasteCollector' => $cenro->get_WasteCollector(), 
-			'collectorAddress' => $cenro->get_CollectorAddress(), 
-			'garbageDisposalMethod' => $cenro->get_GarbageDisposalMethod(), 
+			'APCD' => $cenro->get_APCD(),
+			'stackHeight' => $cenro->get_StackHeight(),
+			'wastewaterTreatmentFacility' => $cenro->get_WasteWaterTreatmentFacility(),
+			'wastewaterTreatmentOperationAndProcess' => $cenro->get_WasteWaterTreatmentOperationAndProcess(),
+			'pendingCaseWithLLDA' => $cenro->get_pendingCaseWithLLDA(),
+			'typeOfSolidWastesGenerated' => $cenro->get_TypeOfSolidWastesGenerated(),
+			'qtyPerDay' => $cenro->get_QtyPerDay(),
+			'garbageCollectionMethod' => $cenro->get_GarbageCollectionMethod(),
+			'frequencyOfGarbageCollection' => $cenro->get_FrequencyOfGarbageCollection(),
+			'wasteCollector' => $cenro->get_WasteCollector(),
+			'collectorAddress' => $cenro->get_CollectorAddress(),
+			'garbageDisposalMethod' => $cenro->get_GarbageDisposalMethod(),
 			'wasteMinimizationMethod' => $waste_minimization_method,
-			'drainageSystem' => $cenro->get_DrainageSystem(), 
-			'drainageType' => $cenro->get_DrainageType(), 
-			'drainageDischargeLocation' => $cenro->get_DrainageDischargeLocation(), 
-			'sewerageSystem' => $cenro->get_SewerageSystem(), 
-			'septicTank' => $cenro->get_SepticTank(), 
-			'sewerageDischargeLocation' => $cenro->get_SewerageDischargeLocation(), 
-			'waterSupply' => $cenro->get_WaterSupply(), 
-			'storeys' => $bfp->get_Storeys(), 
-			'occupiedPortion' => $bfp->get_OccupiedPortion(), 
-			'areaPerFloor' => $bfp->get_AreaPerFloor(), 
-			'occupancyPermitNum' => $bfp->get_OccupancyPermitNum(), 
-			'annualEmployeePhysicalExam' => $sanitary->get_AnnualEmployeePhysicalExam(), 
+			'drainageSystem' => $cenro->get_DrainageSystem(),
+			'drainageType' => $cenro->get_DrainageType(),
+			'drainageDischargeLocation' => $cenro->get_DrainageDischargeLocation(),
+			'sewerageSystem' => $cenro->get_SewerageSystem(),
+			'septicTank' => $cenro->get_SepticTank(),
+			'sewerageDischargeLocation' => $cenro->get_SewerageDischargeLocation(),
+			'waterSupply' => $cenro->get_WaterSupply(),
+			'storeys' => $bfp->get_Storeys(),
+			'occupiedPortion' => $bfp->get_OccupiedPortion(),
+			'areaPerFloor' => $bfp->get_AreaPerFloor(),
+			'occupancyPermitNum' => $bfp->get_OccupancyPermitNum(),
+			'annualEmployeePhysicalExam' => $sanitary->get_AnnualEmployeePhysicalExam(),
 			'typeLevelOfWaterSource' => $sanitary->get_typeLevelOfWaterSource()
 			);
 $archive_application_id = $this->Archive_m->insert_application($archive_application_field);
@@ -201,7 +201,7 @@ foreach ($bplo->get_BusinessActivities() as $key => $activity) {
 		'archiveApplicationId' => $archive_application_id,
 		'lineOfBusiness' => $activity->lineOfBusiness,
 		'capitalization' => $activity->capitalization,
-		);	
+		);
 	$this->Archive_m->insert_business_activity($business_activity_field);
 }
 
@@ -238,6 +238,129 @@ public function test_concat()
 		var_dump("Q".($key+1));
 		echo "<br>";
 	}
+}
+
+public function unsettled_charges()
+{
+	$this->isLogin();
+	$nav_data['notifications'] = User::get_notifications();
+	$nav_data['title'] = "unsettled_charges";
+	$this->_init($nav_data);
+	$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+
+	$today = strtotime('October 20 2017');
+	$Q1 = new DateTime('January 21 '. date('Y'));
+	$Q2 = new DateTime('April 21 '. date('Y'));
+	$Q3 = new DateTime('July 21 '. date('Y'));
+	$Q4 = new DateTime('October 21 '. date('Y'));
+	$now = new DateTime('October 20 2017');
+	$test2 = new DateTime('April 2017');
+
+
+	$query = "users.userId = '$user_id' and charges.status = 'Unpaid' and (charges.period = 'F1' or charges.period = 'Q1' or charges.period = 'Q2' or charges.period = 'Q3' or charges.period = 'Q4')";
+
+	if($now >= $Q2 && $now < $Q3)
+	{
+		$currentQuarter = 'Q2';
+		// $query = "users.userId = '$user_id' and charges.status = 'Unpaid' and (charges.period = 'Q1' or charges.period = 'Q2')";
+	}
+	else if($now >= $Q3 && $now < $Q4)
+	{
+		$currentQuarter = 'Q3';
+		// $query = "users.userId = '$user_id' and charges.status = 'Unpaid' and (charges.period = 'Q1' or charges.period = 'Q2' or charges.period = 'Q3')";
+	}
+	else if($now >= $Q4)
+	{
+		$currentQuarter = 'Q4';
+		// $query = "users.userId = '$user_id' and charges.status = 'Unpaid' and (charges.period = 'Q1' or charges.period = 'Q2' or charges.period = 'Q3' or charges.period = 'Q4')";
+	}
+	else
+	{
+		$currentQuarter = 'Q1';
+		// $query = "users.userId = '$user_id' and charges.status = 'Unpaid' and (charges.period = 'F1' or charges.period = 'Q1' or charges.period = 'Q2' or charges.period = 'Q3' or charges.period = 'Q4')";
+	}
+
+	//if($today >)
+	$data['unsettled_charges'] = $this->Assessment_m->get_unsettled_charges($query);
+
+	for($i=0;$i<count($data['unsettled_charges']);$i=$i+1)
+	{
+		$createdAt = new DateTime($data['unsettled_charges'][$i]->createdAt);
+		$updatedAt = new DateTime($data['unsettled_charges'][$i]->updatedAt);
+		$tax = 0;
+		$surcharge = 0;
+		switch($data['unsettled_charges'][$i]->period)
+		{
+			case 'Q1':
+			{
+				if($currentQuarter == 'Q1' || $currentQuarter == 'Q2' || $currentQuarter == 'Q3' || $currentQuarter == 'Q4')
+				{
+					print_r("aw1a");
+				}
+			}break;
+			case 'F1':
+			{
+				if($currentQuarter == 'Q1' || $currentQuarter == 'Q2' || $currentQuarter == 'Q3' || $currentQuarter == 'Q4')
+				{
+					print_r("aw1b");
+				}
+			}break;
+			case 'Q2':
+			{
+				if($currentQuarter == 'Q2' || $currentQuarter == 'Q3' || $currentQuarter == 'Q4')
+				{
+					$difference = $createdAt->diff($now);
+					for($j = $difference->format('%m'); $j != 0; $j = $j - 1)
+					{
+						if($j == $difference->format('%m'))
+						{
+							$surcharge = $data['unsettled_charges'][$i]->due * 0.25;
+
+						}
+						else
+						{
+							$tax = $tax +  $data['unsettled_charges'][$i]->due * 0.02;
+						}
+					}
+					print_r("<br />Particular: " . $data['unsettled_charges'][$i]->particulars);
+					print_r("<br />Due: " . $data['unsettled_charges'][$i]->due);
+					print_r("<br />Surcharge: " . $surcharge);
+					print_r("<br />Tax: " . $tax);
+				}
+			}break;
+			case 'Q3':
+			{
+				if($currentQuarter == 'Q3' || $currentQuarter == 'Q4')
+				{
+					print_r("aw3");
+				}
+			}break;
+			case 'Q4':
+			{
+				if($currentQuarter == 'Q4')
+				{
+
+				}
+				else
+				{
+					print_r("<br />Particular: " . $data['unsettled_charges'][$i]->particulars);
+					print_r("<br />Due: " . $data['unsettled_charges'][$i]->due);
+					print_r("<br />Surcharge: " . $surcharge);
+					print_r("<br />Tax: " . $tax);
+				}
+			}break;
+		}
+	}
+
+
+
+	$interval = $now->diff($test2);
+	echo '<pre>';
+	print_r($currentQuarter);
+	print_r($data['unsettled_charges']);
+	echo '</pre>';
+	exit();
+	$this->load->view('profile/view_unsettled_charges');
 }
 
 }//END OF CLASS,

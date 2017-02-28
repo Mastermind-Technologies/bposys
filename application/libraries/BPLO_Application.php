@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class BPLO_Application extends Business {
@@ -151,7 +151,7 @@ class BPLO_Application extends Business {
 
         $total_capital = 0;
         unset($query);
-        foreach ($business_activities as $business_activity) 
+        foreach ($business_activities as $business_activity)
         {
             if($this->applicationType == "Renew")
             {
@@ -207,6 +207,7 @@ if(count($assessment) > 0)
             }
         }
     }
+  }
 //     if($param->modeOfPayment == "Anually")
 //     {
 //         $quarter_payment[0] = $totalCharges;
@@ -271,7 +272,6 @@ if(count($assessment) > 0)
     $this->unset_CI();
 
     return $this;
-}
 }
 
 
@@ -464,7 +464,7 @@ public function get_TIN()
 /**
 * Sets the value of TIN.
 *
-* @param mixed $TIN the 
+* @param mixed $TIN the
 *
 * @return self
 */

@@ -23,514 +23,59 @@
 						<h3>Unsettled Charges</h3>
 					</div>
           <div class="panel-body">
+						<?php
+							$totalBalance = 0;
+							foreach ($unsettled_charges as $key => $value):
+								$totalBalance += $value->due;
+								$totalBalance += $value->surcharge;
+								$totalBalance += $value->interest;
+
+							 endforeach; ?>
+							 <h5>Remaining Balance: <?= $totalBalance ?></h5><br />
+
+
+
               <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                   <thead>
                       <tr>
-                          <th>Reference Number</th>
-                          <th>Business Name</th>
+                          <th>Ref. No.</th>
+                          <th>Business</th>
                           <th>Particular</th>
-                          <th>Amount</th>
+                          <th>Due</th>
+													<th>Surcharge</th>
+													<th>Interest</th>
                           <th>Due Date</th>
                       </tr>
                   </thead>
                   <tbody>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
-                      <tr>
-                          <td>JFAHSFAJZJVZ</td>
-                          <td>Mastermind IT Solutions</td>
-                          <td>Q1 Tax Payment</td>
-                          <td>16,045</td>
-                          <td>February 21, 2017</td>
-                      </tr>
+										<?php foreach ($unsettled_charges as $key => $value): ?>
+
+                      <tr>
+                          <td><?= $value->referenceNum ?></td>
+													<td><?= $value->businessName ?></td>
+                          <td><?= $value->period . " " . $value->particulars ?>	</td>
+                          <td><?= $value->due ?></td>
+													<td><?= $value->surcharge ?></td>
+													<td><?= $value->interest ?></td>
+                          <td><?php
+
+														$createdAt = date($value->createdAt);
+														$convertedCreatedAt = strtotime($createdAt);
+														$year = date('Y', $convertedCreatedAt);
+
+														switch($value->period)
+														{
+															case 'Q1': echo 'January 20, '. $year; break;
+															case 'F1': echo 'January 20, '. $year; break;
+															case 'Q2': echo 'April 20, '. $year; break;
+															case 'Q3': echo 'July 20, '. $year; break;
+															case 'Q4': echo 'October 20, '. $year; break;
+														}
+
+													 ?></td>
+                      </tr>
+
+											<?php endforeach; ?>
                   </tbody>
               </table>
               <!-- /.table-responsive -->

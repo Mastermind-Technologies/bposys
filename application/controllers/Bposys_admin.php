@@ -44,7 +44,14 @@ class Bposys_admin extends CI_Controller {
 		if(!isset($this->session->userdata['userdata']))
 		{
 			// $this->session->set_flashdata('failed', 'You are not logged in!');
-			redirect('home');
+			redirect('error/error403b');
+		}
+		else
+		{
+			if($this->encryption->decrypt($this->session->userdata['userdata']['role']) != "Master Admin")
+			{
+					redirect('error/error403');
+			}
 		}
 	}
 
@@ -97,6 +104,27 @@ class Bposys_admin extends CI_Controller {
 
 	}
 
+	public function view_user()
+	{
+		$this->isLogin();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+		$data['title'] = "User";
+		$data['active'] = "User";
+		$this->_init_matrix($data);
+		$this->load->view('admin/view_user');
+	}
+
+	public function logs()
+	{
+		$this->isLogin();
+		$user_id = $this->encryption->decrypt($this->session->userdata['userdata']['userId']);
+		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
+		$data['title'] = "Logs";
+		$data['active'] = "Logs";
+		$this->_init_matrix($data);
+		$this->load->view('admin/logs');
+	}
 
 
 }//END OF CLASS,

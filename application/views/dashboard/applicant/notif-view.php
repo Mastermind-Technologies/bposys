@@ -1,7 +1,7 @@
 <?php if (count($notifications) > 0): ?>
     <?php foreach ($notifications as $notification): ?>
         <li>
-            <a href="#">
+            <a href="<?= base_url();  ?>form/view/<?= $notification->referenceNum  ?> ">
                 <div>
                     <i class="fa fa-comment fa-fw"></i> <?= $notification->notifMessage ?>
                     <br>

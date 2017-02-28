@@ -30,15 +30,15 @@ class Dashboard extends CI_Controller {
 	{
 		if($this->encryption->decrypt($this->session->userdata['userdata']['role']) != "Applicant")
 		{
-			redirect('dashboard');
+				redirect('error/error403');
 		}
 		else
 		{
-			$this->load->view('templates/sb_admin2/sb_admin2_includes');
-			if($data != null)
-				$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
-			else
-				$this->load->view('templates/sb_admin2/sb_admin2_navbar');
+				$this->load->view('templates/sb_admin2/sb_admin2_includes');
+				if($data != null)
+					$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
+				else
+					$this->load->view('templates/sb_admin2/sb_admin2_navbar');
 		}
 	}
 
@@ -47,7 +47,7 @@ class Dashboard extends CI_Controller {
 		$role = $this->encryption->decrypt($this->session->userdata['userdata']['role']);
 		if($role == "Applicant")
 		{
-			redirect('dashboard');
+			redirect('error/error403');
 		}
 		else
 		{
@@ -153,6 +153,7 @@ class Dashboard extends CI_Controller {
 
 			$this->load->view('templates/matrix/matrix_includes');
 			$this->load->view('templates/matrix/matrix_navbar', $data);
+
 		}
 	}
 
@@ -161,7 +162,7 @@ class Dashboard extends CI_Controller {
 		if(!isset($this->session->userdata['userdata']))
 		{
 			// $this->session->set_flashdata('failed', 'You are not logged in!');
-			redirect('home');
+			redirect('error/error403b');
 		}
 	}
 
@@ -2581,43 +2582,39 @@ class Dashboard extends CI_Controller {
 
 			$latest = $this->Notification_m->get_applicant_notif($role_id->roleId, $user_id);
 
+
+
+
 			for($i=0;$i<count($latest);$i=$i+1)
 			{
-				$today = strtotime(date('Y-m-d H:i:s'));
-				$createdAt = strtotime($latest[$i]->createdAt);
-				$seconds = $createdAt - $today;
-				$latest[$i]->createdAt = $seconds;
-				$minutes = 0;
-				$hours = 0;
-				$days = 0;
-				$months = 0;
-				$years = 0;
-				if($seconds/60 >= 1)
-				{
-					$minutes = $seconds/60;
-					$latest[$i]->createdAt = floor($minutes) . " minutes ago";;
-					if($minutes/60 >= 1)
-					{
-						$hours = $minutes/60;
-						$latest[$i]->createdAt = floor($hours) . " hours ago";;
-						if($hours/24 >= 1)
-						{
-							$days = $hours/24;
-							$latest[$i]->createdAt = floor($days) . " days ago";;
-							if($days/30 >= 1)
-							{
-								$months/30 > 1;
-								$latest[$i]->createdAt = floor($months)  . " months ago";;
-								if($months/12 >= 1)
-								{
-									$years = $months/12;
-									$latest[$i]->createdAt = floor($years) . " years ago";
-								}
-							}
-						}
-					}
-				}
+				$date1 = new DateTime($latest[$i]->createdAt);
+				$date2 = new DateTime("now");
+				$interval = $date1->diff($date2);
+		    $years = $interval->format('%y');
+		    $months = $interval->format('%m');
+		    $days = $interval->format('%d');
+		    if($years!=0){
+		        $latest[$i]->createdAt = $years.' year(s) ago';
+		    }else{
+		        $latest[$i]->createdAt = ($months == 0 ? $days.' day(s) ago' : $months.' month(s) ago');
+		    }
+
+				$custom_encrypt = array(
+					'cipher' => 'blowfish',
+					'mode' => 'ecb',
+					'key' => $this->config->item('encryption_key'),
+					'hmac' => false
+					);
+
+
+				$latest[$i]->referenceNum = bin2hex($this->encryption->encrypt($latest[$i]->applicationId."|".$latest[$i]->referenceNum, $custom_encrypt));
+
 			}
+			//
+			// echo '<pre>';
+			// print_r($latest);
+			// echo '</pre>';
+			// exit();
 
 			$data['notifications'] = $latest;
 
@@ -2639,6 +2636,11 @@ class Dashboard extends CI_Controller {
 			}
 		}
 
+	}
+
+	public function notifications()
+	{
+		
 	}
 
 	public function check_notif()
