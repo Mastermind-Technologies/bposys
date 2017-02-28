@@ -2325,13 +2325,13 @@ class Dashboard extends CI_Controller {
 		}
 	}
 
-	public function get_bplo_info()
-	{
-		$data['application'] = $this->Application_m->get_all_bplo_applications();
-		$data['application'] = new BPLO_Application('9E9E1D64A2');
-
-		$this->load->view('dashboard/bplo/bplo_printable',$data);
-	}
+	// public function get_bplo_info()
+	// {
+	// 	$data['application'] = $this->Application_m->get_all_bplo_applications();
+	// 	$data['application'] = new BPLO_Application('9E9E1D64A2');
+	//
+	// 	$this->load->view('dashboard/bplo/bplo_printable',$data);
+	// }
 
 	public function get_sanitary_info()
 	{
@@ -2378,10 +2378,20 @@ class Dashboard extends CI_Controller {
 		$this->load->view('dashboard/cenro/cenro_printable',$data);
 	}
 
+	public function get_reference_info()
+	{
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+		$data['application'] = new BPLO_Application('1E5E2270C6');
+
+		$this->load->view('dashboard/bplo/reference_info_printable',$data);
+	}
+
 	public function get_bplo_form_info()
 	{
-		$this->_init_matrix();
-		$this->load->view('dashboard/bplo/bplo_form_printable');
+		$data['application'] = $this->Application_m->get_all_bplo_applications();
+		$data['application'] = new BPLO_Application('1E5E2270C6');
+
+		$this->load->view('dashboard/bplo/bplo_form_printable',$data);
 	}
 
 	public function get_cert_closure_info()

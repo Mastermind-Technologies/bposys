@@ -209,7 +209,7 @@
 	      </div>
 
 				<div>
-					<button type="button" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Reference</button>&nbsp;<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</button><label style="font-size: 11px;font-weight: lighter"><i>&nbsp; Note: Printing of application form is not required.</i></label>
+					<a href="<?php echo base_url(); ?>/dashboard/get_reference_info" class="btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Reference</a>&nbsp;<a href="<?php echo base_url(); ?>/dashboard/get_bplo_form_info" class="btn btn-primary"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Form</a><label style="font-size: 11px;font-weight: lighter"><i>&nbsp; Note: Printing of application form is not required.</i></label>
 				</div>
 		  </div>
 	  </div>
