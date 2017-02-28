@@ -136,7 +136,7 @@
 
 
 
-    <div class="row-fluid">
+    <!-- <div class="row-fluid">
           <div class="widget-box">
             <div class="widget-title bg_lg"><span class="icon"><i class="icon-signal"></i></span>
               <h5>Analytics Summary</h5>
@@ -164,8 +164,8 @@
                 <li class="bg_lh"><i class="icon-bar-chart"></i> <strong>9540</strong> <small>Total Applications</small></li>
                 <li class="bg_lh"><i class="icon-plus-sign"></i> <strong>10</strong> <small>New Applications</small></li>
                 <li class="bg_lh"><i class="icon-check"></i> <strong>8540</strong> <small>Renewals</small></li>
-                <li class="bg_lh"><i class="icon-user"></i> <strong>2540</strong> <small>Total Users</small></li> <!-- ALL ROLE 3 -->
-                <li class="bg_lh"><i class="icon-plus"></i> <strong>120</strong> <small>New Users </small></li> <!-- THIS MONTH/ FOR THE LAST FEW WEEKS? -->
+                <li class="bg_lh"><i class="icon-user"></i> <strong>2540</strong> <small>Total Users</small></li>
+                <li class="bg_lh"><i class="icon-plus"></i> <strong>120</strong> <small>New Users </small></li>
               </ul>
             </div>
           </div>
@@ -224,7 +224,7 @@
                        <tr>
                          <th>#</th>
                          <th>Business Name</th>
-                         <!-- <th>Visits</th> -->
+                         
                        </tr>
                      </thead>
                      <tbody class="">
@@ -363,7 +363,7 @@
                   </table>
                 </div>
               </div>
-            </div>
+            </div> -->
 
   </div>
 </div>
