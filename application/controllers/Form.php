@@ -28,7 +28,7 @@ class Form extends CI_Controller {
 	{
 		if($this->encryption->decrypt($this->session->userdata['userdata']['role']) != "Applicant")
 		{
-				redirect('error/error403');
+      redirect('error/error403');
 		}
 		else
 		{

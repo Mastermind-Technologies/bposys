@@ -19,11 +19,18 @@ class Profile extends CI_Controller {
 
 	public function _init($data = null)
 	{
-		$this->load->view('templates/sb_admin2/sb_admin2_includes');
-		if($data != null)
-			$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
+		if($this->encryption->decrypt($this->session->userdata['userdata']['role']) != "Applicant")
+		{
+			redirect('dashboard');
+		}
 		else
-			$this->load->view('templates/sb_admin2/sb_admin2_navbar');
+		{
+			$this->load->view('templates/sb_admin2/sb_admin2_includes');
+			if($data != null)
+				$this->load->view('templates/sb_admin2/sb_admin2_navbar', $data);
+			else
+				$this->load->view('templates/sb_admin2/sb_admin2_navbar');
+		}
 	}
 
 

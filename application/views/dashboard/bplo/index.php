@@ -3,6 +3,7 @@
   <div id="content-header">
     <div id="breadcrumb">
       <a href="<?php echo base_url(); ?>dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a>
+      <a href="#" class="current">View Reports</a>
     </div>
     <!--End-breadcrumbs-->
   </div>

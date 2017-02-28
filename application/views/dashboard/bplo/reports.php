@@ -75,12 +75,6 @@
         </div>
       </div>
     </div>
-
-
-
-
-
-
   </div>
 <!--     <div class="block center-block">
       <label for="">Test Noty</label>
