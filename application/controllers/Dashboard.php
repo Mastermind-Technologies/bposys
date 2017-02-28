@@ -2888,7 +2888,7 @@ public function process_assessments($reference_number)
 			$this->Assessment_m->add_charge($charge_field);
 			$total += $fees['mayor_fee'];
 
-			if($fees['tax'] > 1000)
+			if($fees['tax'] > 200)
 			{
 				switch($bplo->get_modeOfPayment())
 				{
@@ -3054,7 +3054,7 @@ public function process_assessments($reference_number)
 				$fees['tax'] += $renewal_tax;
 			}
 
-			if($fees['tax'] > 1000)
+			if($fees['tax'] > 200)
 			{
 				switch($bplo->get_modeOfPayment())
 				{

@@ -68,7 +68,10 @@
         <li class="<?= $active=="Reports" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>reports"><i class="icon icon-signal"></i> <span>View Reports</span></a> </li>
       <?php endif ?>
       ======= -->
-      <li class=" <?= $active=="Alerts" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>Alerts"><i class="icon icon-bell"></i> <span>Create Alerts</span></a></li>
+      <?php if ($this->encryption->decrypt($this->session->userdata['userdata']['role']) == "BPLO"): ?>
+        <li class=" <?= $active=="Alerts" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>Alerts"><i class="icon icon-bell"></i> <span>Create Alerts</span></a></li>
+      <?php endif ?>
+      
       <li class="<?= $active=="Reports" ? "active" : '' ?>"> <a href="<?php echo base_url(); ?>reports"><i class="icon icon-signal"></i> <span>View Reports</span></a> </li>
       <!-- >>>>>>> 816d1db6c45111631b272ce5099ef665713e059a -->
     <?php else: ?>
